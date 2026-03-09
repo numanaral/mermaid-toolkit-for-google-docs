@@ -68,8 +68,7 @@
 
 ### Other menu options
 
-- **Diagnostic** — Check your Mermaid syntax for errors
-- **Inspector** — View details about diagrams already in your document
+- **Render Selected Text as Mermaid** — Select text in your document and render just that as a diagram
 - **About** — Version info and links
 
 ## Supported Diagram Types
