@@ -1,14 +1,14 @@
-# Terms of Service — Mermaid for Google Docs™
+# Terms of Service — Mermaid Toolkit for Google Docs™
 
 **Last updated:** March 8, 2026
 
 ## Acceptance of Terms
 
-By installing or using Mermaid for Google Docs™ ("the add-on"), you agree to these terms. If you do not agree, please uninstall the add-on.
+By installing or using Mermaid Toolkit for Google Docs™ ("the add-on"), you agree to these terms. If you do not agree, please uninstall the add-on.
 
 ## Description of Service
 
-Mermaid for Google Docs™ is a free Google Docs™ add-on that renders Mermaid diagram syntax as images within your documents. All rendering is performed client-side in your browser.
+Mermaid Toolkit for Google Docs™ is a free Google Docs™ add-on that renders Mermaid diagram syntax as images within your documents. All rendering is performed client-side in your browser.
 
 ## Cost
 
@@ -45,7 +45,7 @@ These terms may be updated from time to time. Continued use of the add-on after 
 
 ## Contact
 
-If you have questions about these terms, please visit our [Support page](https://numanaral.github.io/mermaid-for-google-docs/support).
+If you have questions about these terms, please visit our [Support page](https://numanaral.github.io/mermaid-toolkit-for-google-docs/support).
 
 ---
 

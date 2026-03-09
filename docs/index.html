@@ -3,138 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mermaid for Google Docs™</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5LVQFDZGM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Y5LVQFDZGM');</script>
+  <title>Mermaid Toolkit for Google Docs™</title>
   <meta name="description" content="Render Mermaid diagrams as images directly in Google Docs™. 100% client-side — no data leaves your browser.">
-  <link rel="icon" href="../assets/icon-32.png" type="image/png">
+  <link rel="icon" href="assets/icon-32.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <nav>
     <div class="nav-inner">
-      <a href="index.html" class="nav-brand">
-        <img src="../assets/icon-32.png" alt="" width="28" height="28">
-        Mermaid for Google Docs™
-      </a>
-      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <a href="index.html" class="nav-brand"><img src="assets/icon-32.png" alt=""><span>Mermaid Toolkit<span class="brand-sub">for Google Docs™</span></span></a>
+      <button class="nav-toggle" aria-label="Menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <ul class="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#showcase">Screenshots</a></li>
+        <li><a href="#how">How to Use</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
         <li><a href="support.html">Support</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
       </ul>
+      <!-- TODO: Replace # with actual Marketplace URL once published -->
+      <a href="#" class="nav-cta">INSTALL</a>
     </div>
   </nav>
 
-  <main>
-    <div class="hero">
-      <img src="../assets/icon-128.png" alt="Mermaid for Google Docs™" width="96" height="96">
-      <h1>Mermaid for Google Docs™</h1>
-      <p>Render Mermaid diagrams as images directly in Google Docs™. Client-side rendering — no data leaves your browser.</p>
-      <!-- TODO: Replace # with actual Marketplace URL once published -->
-      <a href="#" class="btn">Install from Google Workspace™ Marketplace</a>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><img src="assets/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
+      <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
+      <p>Write Mermaid syntax in Google Docs™, render it as a polished image. Everything stays in your browser.</p>
+      <div class="hero-actions">
+        <!-- TODO: Replace # with actual Marketplace URL once published -->
+        <a href="#" class="btn-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Install from Marketplace
+        </a>
+        <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs" class="btn-dim">GitHub →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="val">0</div><div class="label">Data collected</div></div>
+        <div class="stat"><div class="val">100%</div><div class="label">Client-side</div></div>
+        <div class="stat"><div class="val">17</div><div class="label">Diagram types</div></div>
+      </div>
     </div>
+  </section>
 
-    <section id="features">
-      <h2>Features</h2>
-      <ul class="features">
-        <li><strong>Auto-detect &amp; render</strong> — Finds Mermaid code snippets in your document and renders them as high-quality images</li>
-        <li><strong>Live editor</strong> — Side-by-side editor with real-time preview, syntax highlighting, and starter templates</li>
-        <li><strong>Insert or replace</strong> — Insert rendered diagrams after code snippets, or replace the code blocks entirely</li>
-        <li><strong>Template library</strong> — Quickly start with flowcharts, sequence diagrams, class diagrams, and more</li>
-        <li><strong>100% client-side</strong> — All rendering happens in your browser via mermaid.js. No data is sent to any server</li>
-      </ul>
-    </section>
-
-    <section id="screenshots">
-      <h2>Screenshots</h2>
-      <div class="screenshots">
-        <figure>
-          <img src="../assets/example-editor.png" alt="Mermaid Editor — side-by-side code and preview" loading="lazy">
-          <figcaption>Live Editor — write Mermaid syntax and see the preview in real time</figcaption>
-        </figure>
-        <figure>
-          <img src="../assets/example-render-all-for-one.png" alt="Render preview for a single diagram" loading="lazy">
-          <figcaption>Render Preview — insert or replace individual diagrams</figcaption>
-        </figure>
-        <figure>
-          <img src="../assets/example-render-all-for-all.png" alt="Render preview for all diagrams" loading="lazy">
-          <figcaption>Bulk Render — process all Mermaid snippets at once</figcaption>
-        </figure>
-        <figure>
-          <img src="../assets/example-menu.png" alt="Extensions menu" loading="lazy">
-          <figcaption>Extensions Menu — access all features from Extensions → Mermaid for Docs</figcaption>
-        </figure>
+  <!-- BENTO FEATURES -->
+  <section class="bento" id="features">
+    <div class="bento-inner">
+      <div class="section-header">
+        <div class="tag">Features</div>
+        <h2>Built for speed and privacy.</h2>
       </div>
-    </section>
+      <div class="bento-grid">
+        <div class="bento-card wide"><div class="card-icon">🔍</div><h3>Auto-detect &amp; Render</h3><p>Scans your entire document for Mermaid code blocks and renders them all as high-quality images in one click. No manual work.</p></div>
+        <div class="bento-card"><div class="card-icon">✏️</div><h3>Live Editor</h3><p>Side-by-side editor with instant preview and syntax highlighting.</p></div>
+        <div class="bento-card"><div class="card-icon">🔄</div><h3>Insert or Replace</h3><p>Add diagram images after your code, or swap out the code block.</p></div>
+        <div class="bento-card wide"><div class="card-icon">⚡</div><h3>One-click for Everything</h3><p>No setup, no config. Install the add-on, open your doc, and render — it just works. Updates to Mermaid syntax are supported automatically.</p></div>
+        <div class="bento-card wide"><div class="card-icon">🔒</div><h3>Zero Data Collection</h3><p>No analytics. No cookies. No telemetry. No servers. Your documents never leave your browser — rendering is 100% client-side via mermaid.js. The only external request is loading the mermaid.js library from <a href="https://www.jsdelivr.com/" style="color:inherit;text-decoration:underline">jsDelivr</a>.</p></div>
+        <div class="bento-card"><div class="card-icon">📋</div><h3>Templates</h3><p>Jump-start with flowcharts, sequences, ER diagrams, and more.</p></div>
+      </div>
+    </div>
+  </section>
 
-    <section id="how-to-use">
-      <h2>How to Use</h2>
+  <!-- SHOWCASE -->
+  <section class="showcase" id="showcase">
+    <div class="showcase-inner">
+      <div class="section-header">
+        <div class="tag">In Action</div>
+        <h2>See it in action.</h2>
+      </div>
+      <div class="showcase-tabs">
+        <button data-img="example-render-all-for-all">Render All</button>
+        <button data-img="example-render-all-for-one">Preview</button>
+        <button data-img="example-editor">Editor</button>
+        <button data-img="example-menu">Menu</button>
+      </div>
+      <div class="showcase-window">
+        <div class="window-bar"><div class="window-dot r"></div><div class="window-dot y"></div><div class="window-dot g"></div></div>
+        <img id="ss" src="assets/example-render-all-for-all.png" alt="Screenshot">
+      </div>
+    </div>
+  </section>
 
-      <h3>Render existing Mermaid code</h3>
-      <ol class="steps">
-        <li>In your Google Doc, insert a code block: <strong>Insert → Building blocks → Code block</strong></li>
-        <li>Write your Mermaid syntax inside the code block</li>
-        <li>Go to <strong>Extensions → Mermaid for Docs → Render All Mermaid Snippets</strong></li>
-        <li>A preview dialog shows each detected diagram — click <strong>Insert</strong> or <strong>Replace</strong></li>
-      </ol>
-
+  <!-- GETTING STARTED -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <div class="section-header">
+        <div class="tag">Getting Started</div>
+        <h2>Two ways to create diagrams.</h2>
+      </div>
+      <div class="how-grid">
+        <div class="how-col">
+          <h3 class="how-subtitle">Auto-render from your doc</h3>
+          <p class="how-subtitle-desc">Already have Mermaid code? Render everything in one click.</p>
+          <div class="timeline">
+            <div class="tl-item"><h4>Have Mermaid syntax</h4><p>Write your diagram code inside a code block in your Google Doc.</p></div>
+            <div class="tl-item"><h4>Run the renderer</h4><p><strong>Extensions → Mermaid Toolkit → Render All Mermaid Snippets.</strong> Every diagram gets rendered.</p></div>
+            <div class="tl-item"><h4>Insert into your document</h4><p>Preview each diagram, then click <strong>Insert</strong> or <strong>Replace</strong>. Done.</p></div>
+          </div>
+        </div>
+        <div class="how-col">
+          <h3 class="how-subtitle">Use the built-in editor</h3>
+          <p class="how-subtitle-desc">Write diagrams from scratch with live preview and templates.</p>
+          <div class="timeline">
+            <div class="tl-item"><h4>Open the editor</h4><p><strong>Extensions → Mermaid Toolkit → Insert Mermaid Diagram.</strong></p></div>
+            <div class="tl-item"><h4>Write and preview</h4><p>Write or paste Mermaid syntax on the left, see the <strong>live preview</strong> update on the right.</p></div>
+            <div class="tl-item"><h4>Insert into your document</h4><p>Pick a <strong>template</strong> to get started quickly, then click <strong>Insert at Cursor</strong>.</p></div>
+          </div>
+        </div>
+      </div>
       <div class="callout">
-        <strong>Important:</strong> The first line of your code block must be a diagram type keyword (e.g. <code>graph TD</code>, <code>sequenceDiagram</code>, <code>erDiagram</code>). Comments (<code>%%</code>) are fine after the first line, but a comment on the very first line will prevent the snippet from being detected.
+        <strong>Heads up:</strong> The first line of your code block must be a diagram type keyword.
+        <div class="callout-compare">
+          <div class="callout-do">
+            <span class="callout-label do">Do</span>
+            <div class="code-block"><div class="code-line">graph TD</div><div class="code-line hl-ok">  %% comments after line 1 are ok!</div><div class="code-line">  A --&gt; B</div><div class="code-line">  B --&gt; C</div><div class="code-line">  C --&gt; D</div></div>
+          </div>
+          <div class="callout-dont">
+            <span class="callout-label dont">Don't</span>
+            <div class="code-block"><div class="code-line hl-bad">%% this breaks detection!</div><div class="code-line">graph TD</div><div class="code-line">  A --&gt; B</div><div class="code-line">  B --&gt; C</div><div class="code-line">  C --&gt; D</div></div>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <h3>Use the built-in editor</h3>
-      <ol class="steps">
-        <li>Go to <strong>Extensions → Mermaid for Docs → Insert Mermaid Diagram</strong></li>
-        <li>Write or paste Mermaid syntax in the left panel</li>
-        <li>See the live preview on the right</li>
-        <li>Pick a template from the dropdown to get started quickly</li>
-        <li>Click <strong>Insert into Document</strong> when you're happy with the result</li>
-      </ol>
-    </section>
+  <!-- DIAGRAMS -->
+  <section class="diagrams" id="diagrams">
+    <div class="diagrams-inner">
+      <div class="tag">Compatibility</div>
+      <h2>Every diagram type you need.</h2>
+      <div class="diagram-cards">
+        <a href="https://mermaid.js.org/syntax/flowchart.html" class="diagram-card" target="_blank" rel="noopener">
+          <img src="assets/diagram-flowchart.png" alt="Flowchart" loading="lazy">
+          <span>Flowchart</span>
+        </a>
+        <a href="https://mermaid.js.org/syntax/sequenceDiagram.html" class="diagram-card" target="_blank" rel="noopener">
+          <img src="assets/diagram-sequence.png" alt="Sequence Diagram" loading="lazy">
+          <span>Sequence</span>
+        </a>
+        <a href="https://mermaid.js.org/syntax/classDiagram.html" class="diagram-card" target="_blank" rel="noopener">
+          <img src="assets/diagram-class.png" alt="Class Diagram" loading="lazy">
+          <span>Class</span>
+        </a>
+        <a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" class="diagram-card" target="_blank" rel="noopener">
+          <img src="assets/diagram-er.png" alt="ER Diagram" loading="lazy">
+          <span>ER Diagram</span>
+        </a>
+        <a href="https://mermaid.js.org/syntax/mindmap.html" class="diagram-card" target="_blank" rel="noopener">
+          <img src="assets/diagram-mindmap.png" alt="Mindmap" loading="lazy">
+          <span>Mindmap</span>
+        </a>
+        <a href="https://mermaid.js.org/syntax/gantt.html" class="diagram-card" target="_blank" rel="noopener">
+          <img src="assets/diagram-gantt.png" alt="Gantt Chart" loading="lazy">
+          <span>Gantt</span>
+        </a>
+      </div>
+      <div class="chip-cloud">
+        <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">flowchart</a><a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">graph</a><a href="https://mermaid.js.org/syntax/sequenceDiagram.html" target="_blank" rel="noopener">sequenceDiagram</a><a href="https://mermaid.js.org/syntax/classDiagram.html" target="_blank" rel="noopener">classDiagram</a><a href="https://mermaid.js.org/syntax/stateDiagram.html" target="_blank" rel="noopener">stateDiagram</a><a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" target="_blank" rel="noopener">erDiagram</a><a href="https://mermaid.js.org/syntax/gantt.html" target="_blank" rel="noopener">gantt</a><a href="https://mermaid.js.org/syntax/pie.html" target="_blank" rel="noopener">pie</a><a href="https://mermaid.js.org/syntax/gitgraph.html" target="_blank" rel="noopener">gitGraph</a><a href="https://mermaid.js.org/syntax/userJourney.html" target="_blank" rel="noopener">journey</a><a href="https://mermaid.js.org/syntax/mindmap.html" target="_blank" rel="noopener">mindmap</a><a href="https://mermaid.js.org/syntax/timeline.html" target="_blank" rel="noopener">timeline</a><a href="https://mermaid.js.org/syntax/sankey.html" target="_blank" rel="noopener">sankey</a><a href="https://mermaid.js.org/syntax/xychart.html" target="_blank" rel="noopener">xychart</a><a href="https://mermaid.js.org/syntax/block.html" target="_blank" rel="noopener">block-beta</a><a href="https://mermaid.js.org/syntax/quadrantChart.html" target="_blank" rel="noopener">quadrantChart</a><a href="https://mermaid.js.org/syntax/requirementDiagram.html" target="_blank" rel="noopener">requirementDiagram</a><a href="https://mermaid.js.org/syntax/c4.html" target="_blank" rel="noopener">c4context</a>
+      </div>
+      <p class="diagrams-footer">
+        <a href="gallery.html" class="btn-dim" style="margin-right:1rem;">View Full Gallery →</a>
+        <span style="font-size:0.88rem; color:var(--text-dim);">Reference at <a href="https://mermaid.js.org/">mermaid.js.org</a></span>
+      </p>
+    </div>
+  </section>
 
-    <section id="diagram-types">
-      <h2>Supported Diagram Types</h2>
-      <p>The add-on detects code blocks that start with any of these keywords:</p>
-      <table class="diagram-table">
-        <thead><tr><th>Diagram</th><th>Keyword</th></tr></thead>
-        <tbody>
-          <tr><td>Flowchart</td><td><code>flowchart</code> / <code>graph</code></td></tr>
-          <tr><td>Sequence Diagram</td><td><code>sequenceDiagram</code></td></tr>
-          <tr><td>Class Diagram</td><td><code>classDiagram</code></td></tr>
-          <tr><td>State Diagram</td><td><code>stateDiagram</code></td></tr>
-          <tr><td>ER Diagram</td><td><code>erDiagram</code></td></tr>
-          <tr><td>Gantt Chart</td><td><code>gantt</code></td></tr>
-          <tr><td>Pie Chart</td><td><code>pie</code></td></tr>
-          <tr><td>Git Graph</td><td><code>gitGraph</code></td></tr>
-          <tr><td>User Journey</td><td><code>journey</code></td></tr>
-          <tr><td>Mindmap</td><td><code>mindmap</code></td></tr>
-          <tr><td>Timeline</td><td><code>timeline</code></td></tr>
-          <tr><td>Sankey</td><td><code>sankey</code></td></tr>
-          <tr><td>XY Chart</td><td><code>xychart</code></td></tr>
-          <tr><td>Block Diagram</td><td><code>block-beta</code></td></tr>
-          <tr><td>Packet Diagram</td><td><code>packet-beta</code></td></tr>
-          <tr><td>Quadrant Chart</td><td><code>quadrantChart</code></td></tr>
-          <tr><td>Requirement Diagram</td><td><code>requirementDiagram</code></td></tr>
-          <tr><td>ZenUML</td><td><code>zenuml</code></td></tr>
-          <tr><td>C4 Diagrams</td><td><code>c4context</code> / <code>c4container</code> / <code>c4component</code> / <code>c4dynamic</code> / <code>c4deployment</code></td></tr>
-        </tbody>
-      </table>
-      <p>See the <a href="https://mermaid.js.org/">mermaid.js docs</a> for syntax details on each type.</p>
-    </section>
-  </main>
-
+  <!-- FOOTER -->
   <footer>
     <ul class="footer-links">
       <li><a href="support.html">Support</a></li>
       <li><a href="privacy.html">Privacy Policy</a></li>
       <li><a href="terms.html">Terms of Service</a></li>
-      <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
+      <li><a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs">GitHub</a></li>
     </ul>
-    <p>Created by <a href="https://numanaral.github.io?ref=mermaid-for-google-docs">Numan Aral</a></p>
-    <p class="trademark">Google Docs™ and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</p>
+    <div class="footer-heart">
+      <span>Created with</span>
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span>by</span>
+      <a href="https://numanaral.github.io/?ref=mermaid-toolkit-for-google-docs" target="_blank" rel="noopener">Numan Aral</a>
+    </div>
+    <p class="trademark">Google Docs™ and Google Workspace™ are trademarks of Google LLC. Not affiliated with or endorsed by Google.</p>
   </footer>
+
+  <script src="main.js"></script>
 </body>
 </html>

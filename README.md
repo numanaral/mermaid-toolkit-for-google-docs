@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/icon-128.png" alt="Mermaid for Google Docs™" width="128" height="128" />
+  <img src="docs/assets/icon-128.png" alt="Mermaid Toolkit for Google Docs™" width="128" height="128" />
 </p>
 
-<h1 align="center">Mermaid for Google Docs™</h1>
+<h1 align="center">Mermaid Toolkit for Google Docs™</h1>
 
 <p align="center">
   Render Mermaid diagrams as images directly in Google Docs™.<br/>
@@ -28,16 +28,16 @@
 ## Screenshots
 
 ### Live Editor
-<img src="assets/example-editor.png" alt="Mermaid Editor — side-by-side code and preview" width="800" />
+<img src="docs/assets/example-editor.png" alt="Mermaid Editor — side-by-side code and preview" width="800" />
 
 ### Render Preview (single diagram)
-<img src="assets/example-render-all-for-one.png" alt="Render preview for a single diagram" width="800" />
+<img src="docs/assets/example-render-all-for-one.png" alt="Render preview for a single diagram" width="800" />
 
 ### Render Preview (all diagrams)
-<img src="assets/example-render-all-for-all.png" alt="Render preview for all diagrams with bulk actions" width="800" />
+<img src="docs/assets/example-render-all-for-all.png" alt="Render preview for all diagrams with bulk actions" width="800" />
 
 ### Extensions Menu
-<img src="assets/example-menu.png" alt="Extensions menu showing Mermaid for Docs options" width="800" />
+<img src="docs/assets/example-menu.png" alt="Extensions menu showing Mermaid Toolkit options" width="800" />
 
 ## Installation
 
@@ -45,7 +45,7 @@
 1. Visit the [Google Workspace Marketplace™ listing](#)
 2. Click **Install**
 3. Grant the required permissions (see [Privacy](#privacy))
-4. Open any Google Doc — the add-on appears under **Extensions → Mermaid for Docs**
+4. Open any Google Doc — the add-on appears under **Extensions → Mermaid Toolkit**
 
 ## How to Use
 
@@ -53,14 +53,14 @@
 
 1. In your Google Doc, insert a code block: **Insert → Building blocks → Code block**
 2. Write your Mermaid syntax inside the code block
-3. Go to **Extensions → Mermaid for Docs → Render All Mermaid Snippets**
+3. Go to **Extensions → Mermaid Toolkit → Render All Mermaid Snippets**
 4. A preview dialog shows each detected diagram — click **Insert** or **Replace**
 
 > **Important:** The first line of your code block must be a diagram type keyword (e.g. `graph TD`, `sequenceDiagram`, `erDiagram`). Comments (`%%`) are fine after the first line, but a comment on the very first line will prevent the snippet from being detected.
 
 ### Use the built-in editor
 
-1. Go to **Extensions → Mermaid for Docs → Insert Mermaid Diagram**
+1. Go to **Extensions → Mermaid Toolkit → Insert Mermaid Diagram**
 2. Write or paste Mermaid syntax in the left panel
 3. See the live preview on the right
 4. Pick a template from the dropdown to get started quickly
@@ -117,10 +117,10 @@ Read the full [Terms of Service](TERMS.md).
 
 ## Support
 
-Need help or have feedback? Visit the [Support page](https://numanaral.github.io/mermaid-for-google-docs/support) for all the ways to reach us.
+Need help or have feedback? Visit the [Support page](https://numanaral.github.io/mermaid-toolkit-for-google-docs/support) for all the ways to reach us.
 
-- **Bug reports:** [Open an issue](https://github.com/numanaral/mermaid-for-google-docs/issues)
-- **Questions & feedback:** [Join the discussion](https://github.com/numanaral/mermaid-for-google-docs/discussions)
+- **Bug reports:** [Open an issue](https://github.com/numanaral/mermaid-toolkit-for-google-docs/issues)
+- **Questions & feedback:** [Join the discussion](https://github.com/numanaral/mermaid-toolkit-for-google-docs/discussions)
 
 ## License
 
@@ -129,7 +129,7 @@ Need help or have feedback? Visit the [Support page](https://numanaral.github.io
 ---
 
 <p align="center">
-  Created by <a href="https://numanaral.github.io?ref=mermaid-for-google-docs">Numan Aral</a>
+  Created by <a href="https://numanaral.github.io?ref=mermaid-toolkit-for-google-docs">Numan Aral</a>
 </p>
 
 <sub>Google Docs™ and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</sub>

@@ -3,28 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — Mermaid for Google Docs™</title>
-  <meta name="description" content="Privacy Policy for Mermaid for Google Docs™. No data collection, 100% client-side rendering.">
-  <link rel="icon" href="../assets/icon-32.png" type="image/png">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5LVQFDZGM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Y5LVQFDZGM');</script>
+  <title>Privacy Policy — Mermaid Toolkit for Google Docs™</title>
+  <meta name="description" content="Privacy Policy for Mermaid Toolkit for Google Docs™. No data collection, 100% client-side rendering.">
+  <link rel="icon" href="assets/icon-32.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <nav>
     <div class="nav-inner">
-      <a href="index.html" class="nav-brand">
-        <img src="../assets/icon-32.png" alt="" width="28" height="28">
-        Mermaid for Google Docs™
-      </a>
-      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <a href="index.html" class="nav-brand"><img src="assets/icon-32.png" alt=""><span>Mermaid Toolkit<span class="brand-sub">for Google Docs™</span></span></a>
+      <button class="nav-toggle" aria-label="Menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#showcase">Screenshots</a></li>
+        <li><a href="index.html#how">How to Use</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
         <li><a href="support.html">Support</a></li>
-        <li><a href="privacy.html" class="active">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
       </ul>
+      <!-- TODO: Replace # with actual Marketplace URL once published -->
+      <a href="#" class="nav-cta">INSTALL</a>
     </div>
   </nav>
 
@@ -33,7 +34,7 @@
     <p class="updated">Last updated: March 8, 2026</p>
 
     <h2>Overview</h2>
-    <p>Mermaid for Google Docs™ is a Google Docs™ add-on that renders Mermaid diagram syntax as images. Your privacy is important — this add-on is designed to work entirely within your browser with no external data transmission.</p>
+    <p>Mermaid Toolkit for Google Docs™ is a Google Docs™ add-on that renders Mermaid diagram syntax as images. Your privacy is important — this add-on is designed to work entirely within your browser with no external data transmission.</p>
 
     <h2>Data Collection</h2>
     <p>This add-on does <strong>not</strong> collect, store, or transmit any user data. Specifically:</p>
@@ -60,6 +61,14 @@
       <thead><tr><th>Scope</th><th>Why It's Needed</th></tr></thead>
       <tbody>
         <tr>
+          <td><code>userinfo.email</code></td>
+          <td>Included by default by Google for all add-ons. Not used by this add-on</td>
+        </tr>
+        <tr>
+          <td><code>userinfo.profile</code></td>
+          <td>Included by default by Google for all add-ons. Not used by this add-on</td>
+        </tr>
+        <tr>
           <td><code>documents.currentonly</code></td>
           <td>Read Mermaid code snippets from the current document and insert rendered diagram images back into it</td>
         </tr>
@@ -72,7 +81,13 @@
     <p>These are the minimum scopes required for the add-on to function. The <code>documents.currentonly</code> scope limits access to only the document you have open — the add-on cannot access any other files in your Google Drive™.</p>
 
     <h2>Third-Party Services</h2>
-    <p>This add-on does <strong>not</strong> use any third-party services, APIs, or servers. The mermaid.js library is loaded from a CDN directly into the browser for rendering purposes only.</p>
+    <p>This add-on loads the <a href="https://mermaid.js.org/">mermaid.js</a> library from <strong>jsDelivr</strong> (<code>cdn.jsdelivr.net</code>), a public open-source CDN. This is the only external network request the add-on makes.</p>
+    <ul>
+      <li>The request fetches the mermaid.js script file — <strong>no user data, document content, or diagram code is sent to jsDelivr</strong>.</li>
+      <li>jsDelivr may log standard HTTP metadata (IP address, user-agent) as part of normal CDN operation. This is outside the add-on's control. See <a href="https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net">jsDelivr's privacy policy</a> for details.</li>
+      <li>All diagram rendering happens locally in your browser after the library is loaded.</li>
+    </ul>
+    <p>No other third-party services, APIs, or servers are used.</p>
 
     <h2>Data Sharing</h2>
     <p>Your data is never shared with anyone. There is no server-side component, no database, and no mechanism to collect or share data.</p>
@@ -89,10 +104,17 @@
       <li><a href="support.html">Support</a></li>
       <li><a href="privacy.html">Privacy Policy</a></li>
       <li><a href="terms.html">Terms of Service</a></li>
-      <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
+      <li><a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs">GitHub</a></li>
     </ul>
-    <p>Created by <a href="https://numanaral.github.io?ref=mermaid-for-google-docs">Numan Aral</a></p>
-    <p class="trademark">Google Docs™, Google Drive™, and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</p>
+    <div class="footer-heart">
+      <span>Created with</span>
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span>by</span>
+      <a href="https://numanaral.github.io/?ref=mermaid-toolkit-for-google-docs" target="_blank" rel="noopener">Numan Aral</a>
+    </div>
+    <p class="trademark">Google Docs™, Google Drive™, and Google Workspace™ are trademarks of Google LLC. Not affiliated with or endorsed by Google.</p>
   </footer>
+
+  <script src="main.js"></script>
 </body>
 </html>

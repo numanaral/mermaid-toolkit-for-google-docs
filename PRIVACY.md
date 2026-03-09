@@ -1,10 +1,10 @@
-# Privacy Policy — Mermaid for Google Docs™
+# Privacy Policy — Mermaid Toolkit for Google Docs™
 
 **Last updated:** March 8, 2026
 
 ## Overview
 
-Mermaid for Google Docs™ is a Google Docs™ add-on that renders Mermaid diagram syntax as images. Your privacy is important — this add-on is designed to work entirely within your browser with no external data transmission.
+Mermaid Toolkit for Google Docs™ is a Google Docs™ add-on that renders Mermaid diagram syntax as images. Your privacy is important — this add-on is designed to work entirely within your browser with no external data transmission.
 
 ## Data Collection
 
@@ -32,6 +32,8 @@ This add-on requests the following Google OAuth scopes:
 
 | Scope | Why It's Needed |
 |---|---|
+| `https://www.googleapis.com/auth/userinfo.email` | Included by default by Google for all add-ons. Not used by this add-on |
+| `https://www.googleapis.com/auth/userinfo.profile` | Included by default by Google for all add-ons. Not used by this add-on |
 | `https://www.googleapis.com/auth/documents.currentonly` | Read Mermaid code snippets from the current document and insert rendered diagram images back into it |
 | `https://www.googleapis.com/auth/script.container.ui` | Display dialog windows (editor, preview) within Google Docs™ |
 
@@ -39,7 +41,13 @@ These are the minimum scopes required for the add-on to function. The `documents
 
 ## Third-Party Services
 
-This add-on does **not** use any third-party services, APIs, or servers. The mermaid.js library is loaded from a CDN directly into the browser for rendering purposes only.
+This add-on loads the [mermaid.js](https://mermaid.js.org/) library from **jsDelivr** (`cdn.jsdelivr.net`), a public open-source CDN. This is the only external network request the add-on makes.
+
+- The request fetches the mermaid.js script file — **no user data, document content, or diagram code is sent to jsDelivr**.
+- jsDelivr may log standard HTTP metadata (IP address, user-agent) as part of normal CDN operation. This is outside the add-on's control. See [jsDelivr's privacy policy](https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net) for details.
+- All diagram rendering happens locally in your browser after the library is loaded.
+
+No other third-party services, APIs, or servers are used.
 
 ## Data Sharing
 
@@ -51,7 +59,7 @@ If this privacy policy changes, the update will be reflected in this document wi
 
 ## Contact
 
-If you have questions about this privacy policy, please visit our [Support page](https://numanaral.github.io/mermaid-for-google-docs/support).
+If you have questions about this privacy policy, please visit our [Support page](https://numanaral.github.io/mermaid-toolkit-for-google-docs/support).
 
 ---
 

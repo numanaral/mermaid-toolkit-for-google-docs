@@ -3,28 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Service — Mermaid for Google Docs™</title>
-  <meta name="description" content="Terms of Service for Mermaid for Google Docs™.">
-  <link rel="icon" href="../assets/icon-32.png" type="image/png">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5LVQFDZGM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Y5LVQFDZGM');</script>
+  <title>Terms of Service — Mermaid Toolkit for Google Docs™</title>
+  <meta name="description" content="Terms of Service for Mermaid Toolkit for Google Docs™.">
+  <link rel="icon" href="assets/icon-32.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <nav>
     <div class="nav-inner">
-      <a href="index.html" class="nav-brand">
-        <img src="../assets/icon-32.png" alt="" width="28" height="28">
-        Mermaid for Google Docs™
-      </a>
-      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <a href="index.html" class="nav-brand"><img src="assets/icon-32.png" alt=""><span>Mermaid Toolkit<span class="brand-sub">for Google Docs™</span></span></a>
+      <button class="nav-toggle" aria-label="Menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#showcase">Screenshots</a></li>
+        <li><a href="index.html#how">How to Use</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
         <li><a href="support.html">Support</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html" class="active">Terms</a></li>
-        <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
       </ul>
+      <!-- TODO: Replace # with actual Marketplace URL once published -->
+      <a href="#" class="nav-cta">INSTALL</a>
     </div>
   </nav>
 
@@ -33,10 +34,10 @@
     <p class="updated">Last updated: March 8, 2026</p>
 
     <h2>Acceptance of Terms</h2>
-    <p>By installing or using Mermaid for Google Docs™ ("the add-on"), you agree to these terms. If you do not agree, please uninstall the add-on.</p>
+    <p>By installing or using Mermaid Toolkit for Google Docs™ ("the add-on"), you agree to these terms. If you do not agree, please uninstall the add-on.</p>
 
     <h2>Description of Service</h2>
-    <p>Mermaid for Google Docs™ is a free Google Docs™ add-on that renders Mermaid diagram syntax as images within your documents. All rendering is performed client-side in your browser.</p>
+    <p>Mermaid Toolkit for Google Docs™ is a free Google Docs™ add-on that renders Mermaid diagram syntax as images within your documents. All rendering is performed client-side in your browser.</p>
 
     <h2>Cost</h2>
     <p>The add-on is <strong>free of charge</strong>. There are no paid tiers, subscriptions, or in-app purchases.</p>
@@ -53,6 +54,13 @@
       <li>You are responsible for maintaining backups of your documents.</li>
       <li>The add-on modifies document content (inserting or replacing images) at your direction — please review changes before saving.</li>
     </ul>
+
+    <h2>Third-Party Components</h2>
+    <p>This add-on uses the following third-party components:</p>
+    <ul>
+      <li><strong><a href="https://mermaid.js.org/">Mermaid.js</a></strong> — An open-source diagramming library, loaded at runtime from <strong>jsDelivr</strong> (<code>cdn.jsdelivr.net</code>). The add-on depends on this CDN to deliver the rendering library to your browser. No user data is transmitted to jsDelivr; only the library script is fetched.</li>
+    </ul>
+    <p>The developer is not responsible for the availability, performance, or policies of third-party services. If jsDelivr becomes unavailable, diagram rendering may be temporarily affected.</p>
 
     <h2>No Affiliation</h2>
     <p>This add-on is an independent project. It is <strong>not</strong> affiliated with, endorsed by, or sponsored by:</p>
@@ -76,10 +84,17 @@
       <li><a href="support.html">Support</a></li>
       <li><a href="privacy.html">Privacy Policy</a></li>
       <li><a href="terms.html">Terms of Service</a></li>
-      <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
+      <li><a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs">GitHub</a></li>
     </ul>
-    <p>Created by <a href="https://numanaral.github.io?ref=mermaid-for-google-docs">Numan Aral</a></p>
-    <p class="trademark">Google Docs™ and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</p>
+    <div class="footer-heart">
+      <span>Created with</span>
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span>by</span>
+      <a href="https://numanaral.github.io/?ref=mermaid-toolkit-for-google-docs" target="_blank" rel="noopener">Numan Aral</a>
+    </div>
+    <p class="trademark">Google Docs™ and Google Workspace™ are trademarks of Google LLC. Not affiliated with or endorsed by Google.</p>
   </footer>
+
+  <script src="main.js"></script>
 </body>
 </html>
