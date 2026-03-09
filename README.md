@@ -27,12 +27,17 @@
 
 ## Screenshots
 
-<!-- TODO: Add screenshots after taking them -->
-<!-- <img src="assets/screenshot-editor.png" alt="Live Editor" width="800" /> -->
-<!-- <img src="assets/screenshot-preview.png" alt="Render Preview" width="800" /> -->
-<!-- <img src="assets/screenshot-menu.png" alt="Extensions Menu" width="800" /> -->
+### Live Editor
+<img src="assets/example-editor.png" alt="Mermaid Editor — side-by-side code and preview" width="800" />
 
-*Screenshots coming soon.*
+### Render Preview (single diagram)
+<img src="assets/example-render-all-for-one.png" alt="Render preview for a single diagram" width="800" />
+
+### Render Preview (all diagrams)
+<img src="assets/example-render-all-for-all.png" alt="Render preview for all diagrams with bulk actions" width="800" />
+
+### Extensions Menu
+<img src="assets/example-menu.png" alt="Extensions menu showing Mermaid for Docs options" width="800" />
 
 ## Installation
 
@@ -51,6 +56,8 @@
 3. Go to **Extensions → Mermaid for Docs → Render All Mermaid Snippets**
 4. A preview dialog shows each detected diagram — click **Insert** or **Replace**
 
+> **Important:** The first line of your code block must be a diagram type keyword (e.g. `graph TD`, `sequenceDiagram`, `erDiagram`). Comments (`%%`) are fine after the first line, but a comment on the very first line will prevent the snippet from being detected.
+
 ### Use the built-in editor
 
 1. Go to **Extensions → Mermaid for Docs → Insert Mermaid Diagram**
@@ -67,21 +74,31 @@
 
 ## Supported Diagram Types
 
-Mermaid for Google Docs supports all diagram types available in [mermaid.js](https://mermaid.js.org/), including:
+The add-on detects code blocks that start with any of the following keywords:
 
-| Diagram | Example Syntax |
+| Diagram | Keyword |
 |---|---|
-| Flowchart | `graph TD; A-->B;` |
-| Sequence Diagram | `sequenceDiagram; Alice->>Bob: Hi` |
-| Class Diagram | `classDiagram; Animal <\|-- Duck` |
-| State Diagram | `stateDiagram-v2; [*] --> Active` |
-| ER Diagram | `erDiagram; CUSTOMER \|\|--o{ ORDER : places` |
-| Gantt Chart | `gantt; title Plan; task1 :a1, 2026-01-01, 30d` |
-| Pie Chart | `pie; "A" : 40; "B" : 60` |
-| Git Graph | `gitGraph; commit; branch dev` |
-| Mindmap | `mindmap; root((Topic))` |
-| Timeline | `timeline; 2026 : Event` |
-| And more... | See [mermaid.js docs](https://mermaid.js.org/) |
+| Flowchart | `flowchart` / `graph` |
+| Sequence Diagram | `sequenceDiagram` |
+| Class Diagram | `classDiagram` |
+| State Diagram | `stateDiagram` |
+| ER Diagram | `erDiagram` |
+| Gantt Chart | `gantt` |
+| Pie Chart | `pie` |
+| Git Graph | `gitGraph` |
+| User Journey | `journey` |
+| Mindmap | `mindmap` |
+| Timeline | `timeline` |
+| Sankey | `sankey` |
+| XY Chart | `xychart` |
+| Block Diagram | `block-beta` |
+| Packet Diagram | `packet-beta` |
+| Quadrant Chart | `quadrantChart` |
+| Requirement Diagram | `requirementDiagram` |
+| ZenUML | `zenuml` |
+| C4 Diagrams | `c4context` / `c4container` / `c4component` / `c4dynamic` / `c4deployment` |
+
+See the [mermaid.js docs](https://mermaid.js.org/) for syntax details on each type.
 
 ## Privacy
 
@@ -111,5 +128,5 @@ Read the full [Terms of Service](TERMS.md).
 ---
 
 <p align="center">
-  Created by <a href="https://numanaral.github.io">Numan Aral</a>
+  Created by <a href="https://numanaral.github.io?ref=mermaid-for-google-docs">Numan Aral</a>
 </p>
