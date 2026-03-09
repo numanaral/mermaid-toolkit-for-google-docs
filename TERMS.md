@@ -1,14 +1,14 @@
-# Terms of Service — Mermaid for Google Docs
+# Terms of Service — Mermaid for Google Docs™
 
 **Last updated:** March 8, 2026
 
 ## Acceptance of Terms
 
-By installing or using Mermaid for Google Docs ("the add-on"), you agree to these terms. If you do not agree, please uninstall the add-on.
+By installing or using Mermaid for Google Docs™ ("the add-on"), you agree to these terms. If you do not agree, please uninstall the add-on.
 
 ## Description of Service
 
-Mermaid for Google Docs is a free Google Docs add-on that renders Mermaid diagram syntax as images within your documents. All rendering is performed client-side in your browser.
+Mermaid for Google Docs™ is a free Google Docs™ add-on that renders Mermaid diagram syntax as images within your documents. All rendering is performed client-side in your browser.
 
 ## Cost
 
@@ -32,7 +32,7 @@ IN NO EVENT SHALL THE DEVELOPER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
 
 This add-on is an independent project. It is **not** affiliated with, endorsed by, or sponsored by:
 
-- **Google** — Google Docs, Google Workspace, and related trademarks are property of Google LLC
+- **Google** — Google Docs™, Google Workspace™, and related trademarks are property of Google LLC
 - **Mermaid.js** — Mermaid is an open-source project maintained by its own contributors
 
 ## Availability
@@ -45,4 +45,8 @@ These terms may be updated from time to time. Continued use of the add-on after 
 
 ## Contact
 
-If you have questions about these terms, please [open an issue](https://github.com/numanaral/mermaid-for-google-docs/issues) on GitHub.
+If you have questions about these terms, please visit our [Support page](https://numanaral.github.io/mermaid-for-google-docs/support).
+
+---
+
+<sub>Google Docs™ and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</sub>

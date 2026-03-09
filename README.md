@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="assets/icon-128.png" alt="Mermaid for Google Docs" width="128" height="128" />
+  <img src="assets/icon-128.png" alt="Mermaid for Google Docs™" width="128" height="128" />
 </p>
 
-<h1 align="center">Mermaid for Google Docs</h1>
+<h1 align="center">Mermaid for Google Docs™</h1>
 
 <p align="center">
-  Render Mermaid diagrams as images directly in Google Docs.<br/>
+  Render Mermaid diagrams as images directly in Google Docs™.<br/>
   Client-side rendering — no data leaves your browser.
 </p>
 
@@ -42,7 +42,7 @@
 ## Installation
 
 <!-- TODO: Replace # with actual Marketplace URL once published -->
-1. Visit the [Google Workspace Marketplace listing](#)
+1. Visit the [Google Workspace Marketplace™ listing](#)
 2. Click **Install**
 3. Grant the required permissions (see [Privacy](#privacy))
 4. Open any Google Doc — the add-on appears under **Extensions → Mermaid for Docs**
@@ -117,6 +117,8 @@ Read the full [Terms of Service](TERMS.md).
 
 ## Support
 
+Need help or have feedback? Visit the [Support page](https://numanaral.github.io/mermaid-for-google-docs/support) for all the ways to reach us.
+
 - **Bug reports:** [Open an issue](https://github.com/numanaral/mermaid-for-google-docs/issues)
 - **Questions & feedback:** [Join the discussion](https://github.com/numanaral/mermaid-for-google-docs/discussions)
 
@@ -129,3 +131,5 @@ Read the full [Terms of Service](TERMS.md).
 <p align="center">
   Created by <a href="https://numanaral.github.io?ref=mermaid-for-google-docs">Numan Aral</a>
 </p>
+
+<sub>Google Docs™ and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</sub>

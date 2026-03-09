@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Mermaid for Google Docs™</title>
+  <meta name="description" content="Privacy Policy for Mermaid for Google Docs™. No data collection, 100% client-side rendering.">
+  <link rel="icon" href="../assets/icon-32.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="../assets/icon-32.png" alt="" width="28" height="28">
+        Mermaid for Google Docs™
+      </a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="privacy.html" class="active">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="legal">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: March 8, 2026</p>
+
+    <h2>Overview</h2>
+    <p>Mermaid for Google Docs™ is a Google Docs™ add-on that renders Mermaid diagram syntax as images. Your privacy is important — this add-on is designed to work entirely within your browser with no external data transmission.</p>
+
+    <h2>Data Collection</h2>
+    <p>This add-on does <strong>not</strong> collect, store, or transmit any user data. Specifically:</p>
+    <ul>
+      <li><strong>No analytics</strong> — No usage tracking of any kind</li>
+      <li><strong>No cookies</strong> — No cookies are set or read</li>
+      <li><strong>No telemetry</strong> — No diagnostic data is sent anywhere</li>
+      <li><strong>No advertising</strong> — No ads, no ad-related tracking</li>
+      <li><strong>No user accounts</strong> — No sign-up or login required beyond Google's own authentication</li>
+    </ul>
+
+    <h2>How Your Data Is Processed</h2>
+    <p>All diagram rendering happens <strong>client-side</strong> in your browser using the <a href="https://mermaid.js.org/">mermaid.js</a> library. When you use this add-on:</p>
+    <ol>
+      <li>Your Mermaid code is read from the Google Docs™ document</li>
+      <li>The diagram is rendered locally in your browser via mermaid.js</li>
+      <li>The rendered image is inserted back into your Google Docs™ document</li>
+    </ol>
+    <p><strong>No diagram content, document text, or any other data is sent to any external server.</strong></p>
+
+    <h2>OAuth Scopes</h2>
+    <p>This add-on requests the following Google OAuth scopes:</p>
+    <table>
+      <thead><tr><th>Scope</th><th>Why It's Needed</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>documents.currentonly</code></td>
+          <td>Read Mermaid code snippets from the current document and insert rendered diagram images back into it</td>
+        </tr>
+        <tr>
+          <td><code>script.container.ui</code></td>
+          <td>Display dialog windows (editor, preview) within Google Docs™</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>These are the minimum scopes required for the add-on to function. The <code>documents.currentonly</code> scope limits access to only the document you have open — the add-on cannot access any other files in your Google Drive™.</p>
+
+    <h2>Third-Party Services</h2>
+    <p>This add-on does <strong>not</strong> use any third-party services, APIs, or servers. The mermaid.js library is loaded from a CDN directly into the browser for rendering purposes only.</p>
+
+    <h2>Data Sharing</h2>
+    <p>Your data is never shared with anyone. There is no server-side component, no database, and no mechanism to collect or share data.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>If this privacy policy changes, the update will be reflected in this document with a new "Last updated" date. Since no data is collected, meaningful changes are unlikely.</p>
+
+    <h2>Contact</h2>
+    <p>If you have questions about this privacy policy, please visit our <a href="support.html">Support page</a>.</p>
+  </main>
+
+  <footer>
+    <ul class="footer-links">
+      <li><a href="support.html">Support</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms of Service</a></li>
+      <li><a href="https://github.com/numanaral/mermaid-for-google-docs">GitHub</a></li>
+    </ul>
+    <p>Created by <a href="https://numanaral.github.io?ref=mermaid-for-google-docs">Numan Aral</a></p>
+    <p class="trademark">Google Docs™, Google Drive™, and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</p>
+  </footer>
+</body>
+</html>
