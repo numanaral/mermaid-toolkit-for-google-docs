@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5LVQFDZGM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Y5LVQFDZGM');</script>
+  <title>Diagram Gallery — Mermaid Toolkit for Google Docs™</title>
+  <meta name="description" content="Live-rendered examples of every Mermaid diagram type supported by Mermaid Toolkit for Google Docs™.">
+  <link rel="icon" href="assets/icon-32.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand"><img src="assets/icon-32.png" alt=""><span>Mermaid Toolkit<span class="brand-sub">for Google Docs™</span></span></a>
+      <button class="nav-toggle" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#showcase">Screenshots</a></li>
+        <li><a href="index.html#how">How to Use</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="support.html">Support</a></li>
+      </ul>
+      <a href="#" class="nav-cta">INSTALL</a>
+    </div>
+  </nav>
+
+  <section class="gallery-hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <h1>Diagram Gallery</h1>
+    <p>Live-rendered examples of every diagram type supported by Mermaid Toolkit for Google Docs™.</p>
+  </section>
+
+  <div class="gallery-grid">
+
+    <div class="gallery-item" data-mermaid="graph TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Process]
+    B -->|No| D[End]
+    C --> D">
+      <div class="gallery-item-header"><h3>Flowchart</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>graph TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Process]
+    B -->|No| D[End]
+    C --> D</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="sequenceDiagram
+    Alice->>Bob: Hello Bob!
+    Bob-->>Alice: Hi Alice!
+    Alice->>Bob: How are you?
+    Bob-->>Alice: Great!">
+      <div class="gallery-item-header"><h3>Sequence Diagram</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/sequenceDiagram.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>sequenceDiagram
+    Alice->>Bob: Hello Bob!
+    Bob-->>Alice: Hi Alice!
+    Alice->>Bob: How are you?
+    Bob-->>Alice: Great!</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Duck: +swim()
+    Fish: +canEat()">
+      <div class="gallery-item-header"><h3>Class Diagram</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/classDiagram.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>classDiagram
+    Animal &lt;|-- Duck
+    Animal &lt;|-- Fish
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Duck: +swim()
+    Fish: +canEat()</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="stateDiagram-v2
+    [*] --> Idle
+    Idle --> Processing : Start
+    Processing --> Done : Complete
+    Processing --> Error : Fail
+    Error --> Idle : Reset
+    Done --> [*]">
+      <div class="gallery-item-header"><h3>State Diagram</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/stateDiagram.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>stateDiagram-v2
+    [*] --> Idle
+    Idle --> Processing : Start
+    Processing --> Done : Complete
+    Processing --> Error : Fail
+    Error --> Idle : Reset
+    Done --> [*]</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses">
+      <div class="gallery-item-header"><h3>Entity Relationship</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="gantt
+    title Project Plan
+    dateFormat YYYY-MM-DD
+    section Design
+      Wireframes :a1, 2024-01-01, 7d
+      Mockups    :a2, after a1, 5d
+    section Dev
+      Frontend   :b1, after a2, 10d
+      Backend    :b2, after a2, 12d">
+      <div class="gallery-item-header"><h3>Gantt Chart</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/gantt.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>gantt
+    title Project Plan
+    dateFormat YYYY-MM-DD
+    section Design
+      Wireframes :a1, 2024-01-01, 7d
+      Mockups    :a2, after a1, 5d
+    section Dev
+      Frontend   :b1, after a2, 10d
+      Backend    :b2, after a2, 12d</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="pie title Favorite Languages
+    &quot;JavaScript&quot; : 35
+    &quot;Python&quot; : 30
+    &quot;TypeScript&quot; : 20
+    &quot;Go&quot; : 15">
+      <div class="gallery-item-header"><h3>Pie Chart</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/pie.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>pie title Favorite Languages
+    "JavaScript" : 35
+    "Python" : 30
+    "TypeScript" : 20
+    "Go" : 15</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="gitGraph
+    commit
+    commit
+    branch develop
+    checkout develop
+    commit
+    commit
+    checkout main
+    merge develop
+    commit">
+      <div class="gallery-item-header"><h3>Git Graph</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/gitgraph.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>gitGraph
+    commit
+    commit
+    branch develop
+    checkout develop
+    commit
+    commit
+    checkout main
+    merge develop
+    commit</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="journey
+    title My Working Day
+    section Go to work
+      Make tea: 5: Me
+      Go upstairs: 3: Me
+      Do work: 1: Me, Cat
+    section Go home
+      Go downstairs: 5: Me
+      Sit down: 5: Me">
+      <div class="gallery-item-header"><h3>User Journey</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/userJourney.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>journey
+    title My Working Day
+    section Go to work
+      Make tea: 5: Me
+      Go upstairs: 3: Me
+      Do work: 1: Me, Cat
+    section Go home
+      Go downstairs: 5: Me
+      Sit down: 5: Me</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="mindmap
+  root((Project))
+    Planning
+      Goals
+      Timeline
+    Development
+      Frontend
+      Backend
+    Testing">
+      <div class="gallery-item-header"><h3>Mindmap</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/mindmap.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>mindmap
+  root((Project))
+    Planning
+      Goals
+      Timeline
+    Development
+      Frontend
+      Backend
+    Testing</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="timeline
+    title History of Social Media
+    2002 : LinkedIn
+    2004 : Facebook : Google
+    2005 : YouTube
+    2006 : Twitter">
+      <div class="gallery-item-header"><h3>Timeline</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/timeline.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>timeline
+    title History of Social Media
+    2002 : LinkedIn
+    2004 : Facebook : Google
+    2005 : YouTube
+    2006 : Twitter</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="sankey-beta
+Agricultural waste,Bio-conversion,124.729
+Bio-conversion,Liquid,0.597
+Bio-conversion,Losses,26.862
+Bio-conversion,Solid,280.322
+Bio-conversion,Gas,81.144">
+      <div class="gallery-item-header"><h3>Sankey</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/sankey.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>sankey-beta
+Agricultural waste,Bio-conversion,124.729
+Bio-conversion,Liquid,0.597
+Bio-conversion,Losses,26.862
+Bio-conversion,Solid,280.322
+Bio-conversion,Gas,81.144</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="xychart-beta
+    title &quot;Sales Revenue&quot;
+    x-axis [jan, feb, mar, apr, may]
+    y-axis &quot;Revenue (k$)&quot; 0 --> 150
+    bar [52, 78, 65, 120, 95]
+    line [52, 78, 65, 120, 95]">
+      <div class="gallery-item-header"><h3>XY Chart</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/xychart.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>xychart-beta
+    title "Sales Revenue"
+    x-axis [jan, feb, mar, apr, may]
+    y-axis "Revenue (k$)" 0 --> 150
+    bar [52, 78, 65, 120, 95]
+    line [52, 78, 65, 120, 95]</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="block-beta
+  columns 3
+  a[&quot;Frontend&quot;]:2 b[&quot;Backend&quot;]
+  c[&quot;Database&quot;] d[&quot;Cache&quot;] e[&quot;Queue&quot;]">
+      <div class="gallery-item-header"><h3>Block Diagram</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/block.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>block-beta
+  columns 3
+  a["Frontend"]:2 b["Backend"]
+  c["Database"] d["Cache"] e["Queue"]</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="quadrantChart
+    title Reach and engagement
+    x-axis Low Reach --> High Reach
+    y-axis Low Engagement --> High Engagement
+    quadrant-1 We should expand
+    quadrant-2 Need to promote
+    quadrant-3 Re-evaluate
+    quadrant-4 May be improved
+    Campaign A: [0.3, 0.6]
+    Campaign B: [0.45, 0.23]
+    Campaign C: [0.57, 0.69]
+    Campaign D: [0.78, 0.34]">
+      <div class="gallery-item-header"><h3>Quadrant Chart</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/quadrantChart.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>quadrantChart
+    title Reach and engagement
+    x-axis Low Reach --> High Reach
+    y-axis Low Engagement --> High Engagement
+    quadrant-1 We should expand
+    quadrant-2 Need to promote
+    quadrant-3 Re-evaluate
+    quadrant-4 May be improved
+    Campaign A: [0.3, 0.6]
+    Campaign B: [0.45, 0.23]
+    Campaign C: [0.57, 0.69]
+    Campaign D: [0.78, 0.34]</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="requirementDiagram
+    requirement test_req {
+      id: 1
+      text: the test text
+      risk: high
+      verifymethod: test
+    }
+    element test_entity {
+      type: simulation
+    }
+    test_entity - satisfies -> test_req">
+      <div class="gallery-item-header"><h3>Requirement Diagram</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/requirementDiagram.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>requirementDiagram
+    requirement test_req {
+      id: 1
+      text: the test text
+      risk: high
+      verifymethod: test
+    }
+    element test_entity {
+      type: simulation
+    }
+    test_entity - satisfies -> test_req</pre></div>
+    </div>
+
+    <div class="gallery-item" data-mermaid="C4Context
+    title System Context diagram for Internet Banking System
+    Person(customerA, &quot;Banking Customer A&quot;, &quot;A customer of the bank&quot;)
+    System(systemAA, &quot;Internet Banking System&quot;, &quot;Allows customers to view information about their bank accounts.&quot;)
+    System_Ext(systemC, &quot;E-mail system&quot;, &quot;The internal e-mail system.&quot;)
+    Rel(customerA, systemAA, &quot;Uses&quot;)
+    Rel(systemAA, systemC, &quot;Sends e-mails&quot;, &quot;SMTP&quot;)">
+      <div class="gallery-item-header"><h3>C4 Context</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="https://mermaid.js.org/syntax/c4.html" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
+      <div class="gallery-item-code"><pre>C4Context
+    title System Context diagram
+    Person(customerA, "Banking Customer A", "A customer of the bank")
+    System(systemAA, "Internet Banking System", "Allows customers to view information about their bank accounts.")
+    System_Ext(systemC, "E-mail system", "The internal e-mail system.")
+    Rel(customerA, systemAA, "Uses")
+    Rel(systemAA, systemC, "Sends e-mails", "SMTP")</pre></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <ul class="footer-links">
+      <li><a href="support.html">Support</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms of Service</a></li>
+      <li><a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs">GitHub</a></li>
+    </ul>
+    <div class="footer-heart">
+      <span>Created with</span>
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span>by</span>
+      <a href="https://numanaral.github.io/?ref=mermaid-toolkit-for-google-docs" target="_blank" rel="noopener">Numan Aral</a>
+    </div>
+    <p class="trademark">Google Docs™ and Google Workspace™ are trademarks of Google LLC. Not affiliated with or endorsed by Google.</p>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+
+    var counter = 0;
+    var items = document.querySelectorAll('.gallery-item[data-mermaid]');
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var item = entry.target;
+        observer.unobserve(item);
+        var code = item.getAttribute('data-mermaid');
+        var container = item.querySelector('.gallery-item-render');
+        var id = 'mermaid-' + (counter++);
+        mermaid.render(id, code).then(function (result) {
+          container.innerHTML = result.svg;
+        }).catch(function () {
+          container.innerHTML = '<span class="mermaid-placeholder">Preview not available — <a href="https://mermaid.js.org/" target="_blank" rel="noopener" style="color:var(--accent)">try on mermaid.js.org</a></span>';
+        });
+      });
+    }, { rootMargin: '200px' });
+
+    items.forEach(function (item) { observer.observe(item); });
+
+    // mermaid v10 appends error SVGs to document.body on render failure — remove them
+    new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        m.addedNodes.forEach(function (node) {
+          if (node.id && node.id.startsWith('d') && node.tagName === 'svg') node.remove();
+        });
+      });
+    }).observe(document.body, { childList: true });
+  </script>
+</body>
+</html>
