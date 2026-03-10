@@ -1,7 +1,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {%- if env == "production" %}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga }}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ site.ga }}');</script>
+  {%- endif %}
   <title>{% if pageTitle %}{{ pageTitle }} — {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ pageDescription or site.description }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">

@@ -4,28 +4,13 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for page in collections.all %}
+{%- if page.data.sitemapPriority %}
   <url>
-    <loc>{{ site.url }}/</loc>
-    <priority>1.0</priority>
+    <loc>{{ site.url }}{{ page.url }}</loc>
+    <lastmod>{{ page.date | toISODate }}</lastmod>
+    <priority>{{ page.data.sitemapPriority }}</priority>
   </url>
-  <url>
-    <loc>{{ site.url }}/features</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>{{ site.url }}/gallery</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>{{ site.url }}/support</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>{{ site.url }}/privacy</loc>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>{{ site.url }}/terms</loc>
-    <priority>0.3</priority>
-  </url>
+{%- endif %}
+{%- endfor %}
 </urlset>
