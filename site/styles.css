@@ -839,6 +839,201 @@ footer a:hover {
 }
 
 /* ============================================================
+   FEATURES PAGE
+   ============================================================ */
+
+.features-detail {
+  padding: 2rem 2rem 5rem;
+}
+.features-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+.feature-block-reverse {
+  direction: rtl;
+}
+.feature-block-reverse > * {
+  direction: ltr;
+}
+.feature-tag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+}
+.feature-text h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.feature-text p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+.feature-text code {
+  background: var(--surface2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.feature-menu {
+  font-size: 0.85rem !important;
+  color: var(--text) !important;
+  margin-top: 1rem !important;
+}
+.feature-media svg {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Fix Markdown highlight block */
+.feature-block-highlight {
+  background: var(--surface);
+  border: 1px solid rgba(74, 234, 204, 0.12);
+  border-radius: 20px;
+  padding: 3rem;
+  margin-bottom: 5rem;
+}
+.feature-highlight-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.feature-highlight-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.feature-highlight-lead {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.problem-story,
+.solution-story {
+  margin-bottom: 2.5rem;
+}
+.problem-story:last-child,
+.solution-story:last-child {
+  margin-bottom: 0;
+}
+.problem-story h3,
+.solution-story h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--accent2);
+}
+.solution-story h3 {
+  color: var(--accent);
+}
+.problem-story p,
+.solution-story p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+.problem-story code,
+.solution-story code {
+  background: var(--surface2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.solution-story ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.solution-story li {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  margin-bottom: 0.4rem;
+  line-height: 1.6;
+}
+
+.problem-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.problem-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.problem-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+.problem-item strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.problem-item p {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Features privacy section */
+.features-privacy {
+  padding: 4rem 2rem;
+  background: var(--surface);
+}
+.features-privacy-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+.features-privacy-inner h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.features-privacy-inner p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .feature-block {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .feature-block-reverse {
+    direction: ltr;
+  }
+  .feature-block-highlight {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* ============================================================
    SUPPORT PAGE
    ============================================================ */
 
