@@ -29,7 +29,7 @@
     </div>
   </nav>
 
-  <div class="support-hero">
+  <div class="page-hero support-hero">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <h1 class="reveal">Support</h1>
@@ -37,7 +37,7 @@
   </div>
 
   <div class="support-grid reveal-stagger">
-    <div class="support-card">
+    <div class="card support-card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
       </div>
@@ -45,7 +45,7 @@
       <p>Found something broken? Open a bug report on GitHub and we'll look into it.</p>
       <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs/issues/new?template=bug_report.md" class="btn-sm">Report Bug</a>
     </div>
-    <div class="support-card">
+    <div class="card support-card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       </div>
@@ -53,7 +53,7 @@
       <p>Have a question or idea? Start a discussion with the community.</p>
       <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs/discussions" class="btn-sm">Start Discussion</a>
     </div>
-    <div class="support-card">
+    <div class="card support-card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
@@ -80,12 +80,12 @@
   <div class="faq-section reveal" id="faq">
     <h2>Frequently Asked Questions</h2>
 
-    <details>
+    <details class="card">
       <summary>My Mermaid code isn't being detected</summary>
       <p>The first line of your code block must start with a supported diagram keyword (e.g. <code>graph TD</code>, <code>sequenceDiagram</code>, <code>erDiagram</code>). Comments (<code>%%</code>) on the first line will prevent detection. Move any comments below the keyword line.</p>
     </details>
 
-    <details>
+    <details class="card">
       <summary>What permissions does the add-on need?</summary>
       <div>
         <p>The add-on uses four OAuth scopes:</p>
@@ -98,17 +98,17 @@
       </div>
     </details>
 
-    <details>
+    <details class="card">
       <summary>Is my data sent to any server?</summary>
       <p>No. All diagram rendering happens 100% client-side in your browser using mermaid.js. No document content, diagram code, or any other data is transmitted anywhere. See our <a href="privacy.html">Privacy Policy</a> for full details.</p>
     </details>
 
-    <details>
+    <details class="card">
       <summary>Which diagram types are supported?</summary>
       <p>The add-on supports all major Mermaid diagram types including flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, pie charts, git graphs, mindmaps, timelines, C4 diagrams, and more. See the <a href="index.html#diagrams">full list</a>.</p>
     </details>
 
-    <details>
+    <details class="card">
       <summary>The add-on isn't showing in the Extensions menu</summary>
       <p>Try refreshing the page (Ctrl+R / Cmd+R). If it still doesn't appear, go to <strong>Extensions → Add-ons → Manage add-ons</strong> and verify that Mermaid Toolkit for Google Docs™ is installed and enabled.</p>
     </details>

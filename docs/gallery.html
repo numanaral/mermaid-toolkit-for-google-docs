@@ -28,7 +28,7 @@
     </div>
   </nav>
 
-  <section class="gallery-hero">
+  <section class="page-hero gallery-hero">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <h1 class="reveal">Diagram Gallery</h1>
@@ -37,7 +37,7 @@
 
   <div class="gallery-grid">
 
-    <div class="gallery-item" data-mermaid="graph TD
+    <div class="card gallery-item" data-mermaid="graph TD
     A[Start] --> B{Decision}
     B -->|Yes| C[Process]
     B -->|No| D[End]
@@ -51,7 +51,7 @@
     C --> D</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="sequenceDiagram
+    <div class="card gallery-item" data-mermaid="sequenceDiagram
     Alice->>Bob: Hello Bob!
     Bob-->>Alice: Hi Alice!
     Alice->>Bob: How are you?
@@ -65,7 +65,7 @@
     Bob-->>Alice: Great!</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="classDiagram
+    <div class="card gallery-item" data-mermaid="classDiagram
     Animal <|-- Duck
     Animal <|-- Fish
     Animal : +int age
@@ -85,7 +85,7 @@
     Fish: +canEat()</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="stateDiagram-v2
+    <div class="card gallery-item" data-mermaid="stateDiagram-v2
     [*] --> Idle
     Idle --> Processing : Start
     Processing --> Done : Complete
@@ -103,7 +103,7 @@
     Done --> [*]</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="erDiagram
+    <div class="card gallery-item" data-mermaid="erDiagram
     CUSTOMER ||--o{ ORDER : places
     ORDER ||--|{ LINE-ITEM : contains
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses">
@@ -115,7 +115,7 @@
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="gantt
+    <div class="card gallery-item" data-mermaid="gantt
     title Project Plan
     dateFormat YYYY-MM-DD
     section Design
@@ -137,7 +137,7 @@
       Backend    :b2, after a2, 12d</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="pie title Favorite Languages
+    <div class="card gallery-item" data-mermaid="pie title Favorite Languages
     &quot;JavaScript&quot; : 35
     &quot;Python&quot; : 30
     &quot;TypeScript&quot; : 20
@@ -151,7 +151,7 @@
     "Go" : 15</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="gitGraph
+    <div class="card gallery-item" data-mermaid="gitGraph
     commit
     commit
     branch develop
@@ -175,7 +175,7 @@
     commit</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="journey
+    <div class="card gallery-item" data-mermaid="journey
     title My Working Day
     section Go to work
       Make tea: 5: Me
@@ -197,7 +197,7 @@
       Sit down: 5: Me</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="mindmap
+    <div class="card gallery-item" data-mermaid="mindmap
   root((Project))
     Planning
       Goals
@@ -219,7 +219,7 @@
     Testing</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="timeline
+    <div class="card gallery-item" data-mermaid="timeline
     title History of Social Media
     2002 : LinkedIn
     2004 : Facebook : Google
@@ -235,7 +235,7 @@
     2006 : Twitter</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="sankey-beta
+    <div class="card gallery-item" data-mermaid="sankey-beta
 Agricultural waste,Bio-conversion,124.729
 Bio-conversion,Liquid,0.597
 Bio-conversion,Losses,26.862
@@ -251,7 +251,7 @@ Bio-conversion,Solid,280.322
 Bio-conversion,Gas,81.144</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="xychart-beta
+    <div class="card gallery-item" data-mermaid="xychart-beta
     title &quot;Sales Revenue&quot;
     x-axis [jan, feb, mar, apr, may]
     y-axis &quot;Revenue (k$)&quot; 0 --> 150
@@ -267,7 +267,7 @@ Bio-conversion,Gas,81.144</pre></div>
     line [52, 78, 65, 120, 95]</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="block-beta
+    <div class="card gallery-item" data-mermaid="block-beta
   columns 3
   a[&quot;Frontend&quot;]:2 b[&quot;Backend&quot;]
   c[&quot;Database&quot;] d[&quot;Cache&quot;] e[&quot;Queue&quot;]">
@@ -279,7 +279,7 @@ Bio-conversion,Gas,81.144</pre></div>
   c["Database"] d["Cache"] e["Queue"]</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="quadrantChart
+    <div class="card gallery-item" data-mermaid="quadrantChart
     title Reach and engagement
     x-axis Low Reach --> High Reach
     y-axis Low Engagement --> High Engagement
@@ -307,7 +307,7 @@ Bio-conversion,Gas,81.144</pre></div>
     Campaign D: [0.78, 0.34]</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="requirementDiagram
+    <div class="card gallery-item" data-mermaid="requirementDiagram
     requirement test_req {
       id: 1
       text: the test text
@@ -333,7 +333,7 @@ Bio-conversion,Gas,81.144</pre></div>
     test_entity - satisfies -> test_req</pre></div>
     </div>
 
-    <div class="gallery-item" data-mermaid="C4Context
+    <div class="card gallery-item" data-mermaid="C4Context
     title System Context diagram for Internet Banking System
     Person(customerA, &quot;Banking Customer A&quot;, &quot;A customer of the bank&quot;)
     System(systemAA, &quot;Internet Banking System&quot;, &quot;Allows customers to view information about their bank accounts.&quot;)
