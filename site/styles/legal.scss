@@ -1,6 +1,8 @@
-/* ============================================================
-   LEGAL PAGES (PRIVACY / TERMS)
-   ============================================================ */
+@use "base/variables";
+@use "base/shared";
+@use "base/responsive";
+@use "layout/nav";
+@use "layout/footer";
 
 .legal {
   max-width: 800px;
@@ -68,4 +70,10 @@
 }
 .legal td {
   color: var(--text-dim);
+}
+
+@media (max-width: 768px) {
+  .legal {
+    padding-top: 6rem;
+  }
 }

@@ -1,0 +1,41 @@
+@use "base/variables";
+@use "base/shared";
+@use "base/animations";
+@use "base/responsive";
+@use "layout/nav";
+@use "layout/footer";
+@use "layout/hero";
+@use "components/bento";
+@use "components/showcase";
+@use "components/how";
+@use "components/diagrams";
+@use "components/pending";
+
+@media (max-width: 768px) {
+  .hero-two-col {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-demo {
+    order: -1;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  .bento-card.wide {
+    grid-column: span 1;
+  }
+  .how-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .hero-stats {
+    gap: 1.5rem;
+  }
+  .diagram-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

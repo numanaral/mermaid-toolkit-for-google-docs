@@ -1,6 +1,9 @@
-/* ============================================================
-   FEATURES PAGE
-   ============================================================ */
+@use "base/variables";
+@use "base/shared";
+@use "base/animations";
+@use "base/responsive";
+@use "layout/nav";
+@use "layout/footer";
 
 .features-detail {
   padding: 2rem 2rem 5rem;
@@ -61,7 +64,6 @@
   border-radius: 12px;
 }
 
-/* Fix Markdown highlight block */
 .feature-block-highlight {
   background: var(--surface);
   border: 1px solid var(--border-accent-dim);
@@ -158,7 +160,6 @@
   margin: 0;
 }
 
-/* Features privacy section */
 .features-privacy {
   padding: 4rem 2rem;
   background: var(--surface);
@@ -178,4 +179,17 @@
   color: var(--text-dim);
   line-height: 1.7;
   margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .feature-block {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .feature-block-reverse {
+    direction: ltr;
+  }
+  .feature-block-highlight {
+    padding: 2rem 1.5rem;
+  }
 }

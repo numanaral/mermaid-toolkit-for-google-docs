@@ -1,6 +1,10 @@
-/* ============================================================
-   SUPPORT PAGE
-   ============================================================ */
+@use "base/variables";
+@use "base/shared";
+@use "base/animations";
+@use "base/responsive";
+@use "layout/nav";
+@use "layout/footer";
+@use "layout/hero";
 
 .support-grid {
   display: grid;
@@ -139,7 +143,7 @@
   text-align: center;
 }
 .faq-section details[open] summary::before {
-  content: "−";
+  content: "\2212";
 }
 .faq-section details[open] summary {
   color: var(--accent);
@@ -159,4 +163,10 @@
 }
 .faq-section details li {
   margin-bottom: 0.3rem;
+}
+
+@media (max-width: 768px) {
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
 }
