@@ -109,8 +109,7 @@ nav {
   letter-spacing: 0.02em;
 }
 .nav-cta:hover {
-  background: #fff;
-  transform: translateY(-1px);
+  background: #72f5d8;
   text-decoration: none;
 }
 .nav-toggle {
@@ -146,7 +145,12 @@ nav {
   width: 60%;
   max-width: 500px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(74, 234, 204, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(74, 234, 204, 0.3),
+    transparent
+  );
   margin: 2.5rem auto;
 }
 .orb {
@@ -279,9 +283,9 @@ nav {
   gap: 0.5rem;
 }
 .btn-accent:hover {
-  background: #fff;
+  background: #72f5d8;
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(74, 234, 204, 0.2);
+  box-shadow: 0 8px 30px rgba(74, 234, 204, 0.3);
   text-decoration: none;
 }
 .btn-dim {
@@ -295,8 +299,9 @@ nav {
   transition: all 0.3s;
 }
 .btn-dim:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: var(--surface);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
   text-decoration: none;
 }
 
@@ -376,7 +381,8 @@ nav {
 }
 .bento-card:hover {
   border-color: var(--accent);
-  transform: translateY(-2px);
+  margin-top: -4px;
+  margin-bottom: 4px;
 }
 .bento-card.wide {
   grid-column: span 2;
@@ -421,7 +427,7 @@ nav {
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.82rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text-dim);
   transition: all 0.25s;
   font-family: inherit;
@@ -434,7 +440,6 @@ nav {
   background: var(--accent);
   color: var(--dark);
   border-color: var(--accent);
-  font-weight: 700;
 }
 .showcase-window {
   background: var(--surface);
@@ -664,7 +669,8 @@ nav {
 }
 .diagram-card:hover {
   border-color: var(--accent);
-  transform: translateY(-3px);
+  margin-top: -5px;
+  margin-bottom: 5px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 .diagram-card img {
@@ -765,7 +771,8 @@ nav {
 }
 .support-card:hover {
   border-color: var(--accent);
-  transform: translateY(-2px);
+  margin-top: -4px;
+  margin-bottom: 4px;
 }
 .support-card .card-icon {
   width: 48px;
@@ -1034,7 +1041,8 @@ nav {
 }
 .gallery-item:hover {
   border-color: var(--accent);
-  transform: translateY(-2px);
+  margin-top: -4px;
+  margin-bottom: 4px;
 }
 .gallery-item-header {
   display: flex;
@@ -1171,7 +1179,6 @@ footer a:hover {
 .js .reveal,
 .js .gallery-item {
   opacity: 0;
-  transform: translateY(24px);
 }
 .js .reveal.visible {
   animation: fadeInUp 0.6s ease forwards;
@@ -1182,7 +1189,6 @@ footer a:hover {
 
 .js .reveal-stagger > * {
   opacity: 0;
-  transform: translateY(20px);
 }
 .js .reveal-stagger.visible > * {
   animation: fadeInUp 0.5s ease forwards;
@@ -1321,8 +1327,8 @@ footer a:hover {
   pointer-events: auto;
 }
 .pending-modal-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   backdrop-filter: blur(24px) saturate(1.4);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
@@ -1330,7 +1336,9 @@ footer a:hover {
   max-width: 420px;
   width: 90%;
   text-align: center;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transform: translateY(12px) scale(0.97);
   transition: transform 0.25s ease;
 }
@@ -1366,7 +1374,7 @@ footer a:hover {
     transform 0.2s;
 }
 .pending-modal-close:hover {
-  background: #fff;
+  background: #72f5d8;
   transform: translateY(-1px);
 }
 
