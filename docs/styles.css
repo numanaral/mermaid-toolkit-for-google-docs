@@ -69,6 +69,9 @@ nav {
   text-decoration: none;
   line-height: 1.15;
 }
+.nav-brand:hover {
+  text-decoration: none;
+}
 .nav-brand img {
   width: 28px;
   height: 28px;
@@ -364,7 +367,7 @@ nav {
 }
 .bento-card {
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(74, 234, 204, 0.2);
   border-radius: 16px;
   padding: 2rem;
   transition: all 0.3s;
@@ -372,7 +375,7 @@ nav {
   overflow: hidden;
 }
 .bento-card:hover {
-  border-color: rgba(74, 234, 204, 0.2);
+  border-color: var(--accent);
   transform: translateY(-2px);
 }
 .bento-card.wide {
@@ -398,6 +401,7 @@ nav {
 
 .showcase {
   padding: 5rem 2rem;
+  background: var(--surface);
 }
 .showcase-inner {
   max-width: 1000px;
@@ -524,6 +528,8 @@ nav {
   border-radius: 50%;
   background: var(--accent);
   border: 3px solid var(--dark);
+  transform: translateX(-50%);
+  margin-left: 6px;
 }
 .tl-item h4 {
   font-size: 1.05rem;
@@ -644,7 +650,7 @@ nav {
 }
 .diagram-card {
   background: var(--dark);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(74, 234, 204, 0.2);
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s;
@@ -652,11 +658,14 @@ nav {
   display: flex;
   flex-direction: column;
 }
+.diagram-card,
+.diagram-card:hover {
+  text-decoration: none;
+}
 .diagram-card:hover {
   border-color: var(--accent);
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
 }
 .diagram-card img {
   width: 100%;
@@ -672,7 +681,8 @@ nav {
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  order: -1;
 }
 
 .chip-cloud {
@@ -703,6 +713,7 @@ nav {
 .diagrams-footer {
   margin-top: 1.5rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -717,7 +728,6 @@ nav {
   padding: 8rem 2rem 3rem;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 .support-hero h1 {
   font-size: 2.5rem;
@@ -739,7 +749,7 @@ nav {
 }
 .support-card {
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(74, 234, 204, 0.2);
   border-radius: 16px;
   padding: 2rem;
   text-align: center;
@@ -752,7 +762,7 @@ nav {
   flex: 1;
 }
 .support-card:hover {
-  border-color: rgba(74, 234, 204, 0.2);
+  border-color: var(--accent);
   transform: translateY(-2px);
 }
 .support-card .card-icon {
@@ -840,10 +850,14 @@ nav {
 }
 .faq-section details {
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(74, 234, 204, 0.2);
   border-radius: 12px;
   margin-bottom: 0.75rem;
   overflow: hidden;
+  transition: border-color 0.3s;
+}
+.faq-section details[open] {
+  border-color: var(--accent);
 }
 .faq-section details summary {
   padding: 1rem 1.5rem;
@@ -987,7 +1001,6 @@ nav {
   padding: 8rem 2rem 3rem;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 .gallery-hero h1 {
   font-size: 2.5rem;
@@ -1009,16 +1022,17 @@ nav {
 }
 .gallery-item {
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(74, 234, 204, 0.2);
   border-radius: 16px;
   overflow: hidden;
-  transition: border-color 0.3s;
+  transition: all 0.3s;
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 .gallery-item:hover {
-  border-color: rgba(74, 234, 204, 0.2);
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 .gallery-item-header {
   display: flex;
@@ -1104,9 +1118,12 @@ footer {
 }
 footer a {
   color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 footer a:hover {
   color: var(--accent);
+  text-decoration: none;
 }
 .footer-links {
   display: flex;
@@ -1132,9 +1149,10 @@ footer a:hover {
 }
 .footer-heart a {
   color: var(--accent2);
+  transition: color 0.2s;
 }
 .footer-heart a:hover {
-  color: var(--accent);
+  color: #ff9a89;
 }
 @keyframes heartbeat {
   0% {
