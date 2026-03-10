@@ -4,11 +4,8 @@
   "private": true,
   "description": "Render Mermaid diagrams as images directly in Google Docs.",
   "scripts": {
-    "build:css": "sass site/styles/index.scss:_site/styles/index.css site/styles/gallery.scss:_site/styles/gallery.css site/styles/features.scss:_site/styles/features.css site/styles/support.scss:_site/styles/support.css site/styles/legal.scss:_site/styles/legal.css --style=compressed --no-source-map",
-    "build:js": "esbuild site/scripts/main.ts site/scripts/gallery.ts --bundle --outdir=_site/scripts --minify --target=es2020",
-    "build:11ty": "npx @11ty/eleventy",
-    "build": "npm-run-all build:css build:js build:11ty",
-    "dev": "npm-run-all --parallel build:css build:js build:11ty"
+    "build": "bash scripts/build.sh",
+    "dev": "bash scripts/dev.sh"
   },
   "repository": {
     "type": "git",
@@ -18,8 +15,8 @@
   "license": "MIT",
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
+    "concurrently": "^9.2.1",
     "esbuild": "^0.27.3",
-    "npm-run-all2": "^8.0.4",
     "sass": "^1.97.3"
   }
 }
