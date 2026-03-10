@@ -26,22 +26,33 @@ layout: base.njk
       Currently undergoing branding verification by Google's Trust &amp; Safety team. The Marketplace listing will be submitted for review once verification is complete. Install link coming soon!
     </div>
     <hr class="hero-divider">
-    <div class="hero-content">
-      <div class="hero-badge"><img src="/assets/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
-      <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
-      <p>Write Mermaid syntax in Google Docs™, render it as a polished image. Everything stays in your browser.</p>
-      <div class="hero-actions">
-        {# TODO: Replace # with actual Marketplace URL once published #}
-        <a href="#" class="btn-accent">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Install from Marketplace
-        </a>
-        <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs" class="btn-dim">GitHub →</a>
+    <div class="hero-two-col">
+      <div class="hero-content">
+        <div class="hero-badge"><img src="/assets/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
+        <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
+        <p>Write Mermaid syntax in Google Docs™, render it as a polished image. Everything stays in your browser.</p>
+        <div class="hero-actions">
+          {# TODO: Replace # with actual Marketplace URL once published #}
+          <a href="#" class="btn-accent">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Install from Marketplace
+          </a>
+          <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs" class="btn-dim">GitHub →</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="val">0</div><div class="label">Data collected</div></div>
+          <div class="stat"><div class="val">100%</div><div class="label">Client-side</div></div>
+          <div class="stat"><div class="val">17</div><div class="label">Diagram types</div></div>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><div class="val">0</div><div class="label">Data collected</div></div>
-        <div class="stat"><div class="val">100%</div><div class="label">Client-side</div></div>
-        <div class="stat"><div class="val">17</div><div class="label">Diagram types</div></div>
+      <div class="hero-demo">
+        <svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Demo video placeholder">
+          <rect width="560" height="380" rx="16" fill="#111818"/>
+          <rect x="1" y="1" width="558" height="378" rx="15" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
+          <circle cx="280" cy="175" r="36" fill="none" stroke="rgba(74,234,204,0.4)" stroke-width="2"/>
+          <polygon points="270,158 300,175 270,192" fill="rgba(74,234,204,0.5)"/>
+          <text x="280" y="240" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: demo video</text>
+        </svg>
       </div>
     </div>
   </section>
@@ -54,12 +65,13 @@ layout: base.njk
         <h2>Built for speed and privacy.</h2>
       </div>
       <div class="bento-grid reveal-stagger">
-        <div class="card bento-card wide"><div class="card-icon">🔍</div><h3>Auto-detect &amp; Render</h3><p>Scans your entire document for Mermaid code blocks and renders them all as high-quality images in one click. No manual work.</p></div>
-        <div class="card bento-card"><div class="card-icon">✏️</div><h3>Live Editor</h3><p>Side-by-side editor with instant preview and syntax highlighting.</p></div>
-        <div class="card bento-card"><div class="card-icon">🔄</div><h3>Insert or Replace</h3><p>Add diagram images after your code, or swap out the code block.</p></div>
-        <div class="card bento-card wide"><div class="card-icon">⚡</div><h3>One-click for Everything</h3><p>No setup, no config. Install the add-on, open your doc, and render — it just works. Updates to Mermaid syntax are supported automatically.</p></div>
+        <div class="card bento-card wide"><div class="card-icon">🔍</div><h3>Convert All Code to Diagrams</h3><p>Scans your entire document for Mermaid code blocks and renders them all as high-quality images in one click. No manual work.</p></div>
+        <div class="card bento-card"><div class="card-icon">✏️</div><h3>Insert Mermaid Diagram</h3><p>Side-by-side editor with instant preview, syntax highlighting, and templates.</p></div>
+        <div class="card bento-card"><div class="card-icon">🔄</div><h3>Edit Selected Mermaid Image</h3><p>Click any diagram image and edit its source in place — no copy-paste needed.</p></div>
+        <div class="card bento-card wide"><div class="card-icon">🩹</div><h3>Fix Copied Markdown</h3><p>Google Docs mangles Mermaid syntax when you copy from markdown. This tool repairs vertical tabs, stray backticks, and broken formatting so your diagrams render correctly. <a href="/features" style="color:inherit;text-decoration:underline">Learn more →</a></p></div>
+        <div class="card bento-card"><div class="card-icon">🖼️</div><h3>Convert Image to Code</h3><p>Extract the original Mermaid source from any diagram image inserted by this add-on.</p></div>
+        <div class="card bento-card"><div class="card-icon">📋</div><h3>Templates &amp; Gallery</h3><p>Jump-start with flowcharts, sequences, ER diagrams, and 14 more types. <a href="/gallery" style="color:inherit;text-decoration:underline">Browse gallery →</a></p></div>
         <div class="card bento-card wide"><div class="card-icon">🔒</div><h3>Zero Data Collection</h3><p>No analytics. No cookies. No telemetry. No servers. Your documents never leave your browser — rendering is 100% client-side via mermaid.js. The only external request is loading the mermaid.js library from <a href="https://www.jsdelivr.com/" style="color:inherit;text-decoration:underline">jsDelivr</a>.</p></div>
-        <div class="card bento-card"><div class="card-icon">📋</div><h3>Templates</h3><p>Jump-start with flowcharts, sequences, ER diagrams, and more.</p></div>
       </div>
     </div>
   </section>
@@ -89,14 +101,14 @@ layout: base.njk
     <div class="how-inner">
       <div class="section-header reveal">
         <div class="tag">Getting Started</div>
-        <h2>Two ways to create diagrams.</h2>
+        <h2>Three ways to work with diagrams.</h2>
       </div>
       <div class="how-grid reveal-stagger">
         <div class="how-col">
           <h3 class="how-subtitle">Auto-render from your doc</h3>
           <p class="how-subtitle-desc">Already have Mermaid code? Render everything in one click.</p>
           <div class="timeline">
-            <div class="tl-item"><h4>Have Mermaid syntax</h4><p>Write your diagram code inside a code block in your Google Doc.</p></div>
+            <div class="tl-item"><h4>Write Mermaid syntax</h4><p>Place your diagram code inside a code block in your Google Doc.</p></div>
             <div class="tl-item"><h4>Run the renderer</h4><p><strong>Extensions → Mermaid Toolkit → Convert All Code to Diagrams.</strong> Every diagram gets rendered.</p></div>
             <div class="tl-item"><h4>Insert into your document</h4><p>Preview each diagram, then click <strong>Insert</strong> or <strong>Replace</strong>. Done.</p></div>
           </div>
@@ -108,6 +120,15 @@ layout: base.njk
             <div class="tl-item"><h4>Open the editor</h4><p><strong>Extensions → Mermaid Toolkit → Insert Mermaid Diagram.</strong></p></div>
             <div class="tl-item"><h4>Write and preview</h4><p>Write or paste Mermaid syntax on the left, see the <strong>live preview</strong> update on the right.</p></div>
             <div class="tl-item"><h4>Insert into your document</h4><p>Pick a <strong>template</strong> to get started quickly, then click <strong>Insert at Cursor</strong>.</p></div>
+          </div>
+        </div>
+        <div class="how-col how-col-full">
+          <h3 class="how-subtitle">Fix pasted markdown</h3>
+          <p class="how-subtitle-desc">Copied Mermaid code from a markdown file or another tool? Google Docs corrupts it. Fix it in one step.</p>
+          <div class="timeline">
+            <div class="tl-item"><h4>Open Fix Copied Markdown</h4><p><strong>Extensions → Mermaid Toolkit → Fix Copied Markdown.</strong></p></div>
+            <div class="tl-item"><h4>Paste your broken code</h4><p>Paste the corrupted markdown. The tool shows a side-by-side diff of what it will fix.</p></div>
+            <div class="tl-item"><h4>Copy the fixed result</h4><p>Click <strong>Copy Fixed</strong> and paste it back into your doc — ready to render.</p></div>
           </div>
         </div>
       </div>
