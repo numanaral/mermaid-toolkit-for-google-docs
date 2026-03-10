@@ -13,7 +13,7 @@
 &nbsp;  
 
 <p align="center">
-  <img src="site/assets/icon-128.png" alt="Mermaid Toolkit for Google Docs™" width="128" height="128" />
+  <img src="site/assets/brand/icon-128.png" alt="Mermaid Toolkit for Google Docs™" width="128" height="128" />
 </p>
 
 <h1 align="center">Mermaid Toolkit for Google Docs™</h1>
@@ -44,16 +44,16 @@
 ## Screenshots
 
 ### Live Editor
-<img src="site/assets/example-editor.png" alt="Mermaid Editor — side-by-side code and preview" width="800" />
+<img src="site/assets/screenshots/example-editor.png" alt="Mermaid Editor — side-by-side code and preview" width="800" />
 
 ### Render Preview (single diagram)
-<img src="site/assets/example-render-all-for-one.png" alt="Render preview for a single diagram" width="800" />
+<img src="site/assets/screenshots/example-render-all-for-one.png" alt="Render preview for a single diagram" width="800" />
 
 ### Render Preview (all diagrams)
-<img src="site/assets/example-render-all-for-all.png" alt="Render preview for all diagrams with bulk actions" width="800" />
+<img src="site/assets/screenshots/example-render-all-for-all.png" alt="Render preview for all diagrams with bulk actions" width="800" />
 
 ### Extensions Menu
-<img src="site/assets/example-menu.png" alt="Extensions menu showing Mermaid Toolkit options" width="800" />
+<img src="site/assets/screenshots/example-menu.png" alt="Extensions menu showing Mermaid Toolkit options" width="800" />
 
 ## Installation
 

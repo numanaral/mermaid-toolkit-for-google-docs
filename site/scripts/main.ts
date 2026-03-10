@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.add("active");
         const name = btn.getAttribute("data-img");
         const source = img.parentElement?.querySelector<HTMLSourceElement>("source");
-        if (source) source.srcset = `/assets/${name}.webp`;
-        img.src = `/assets/${name}.png`;
+        if (source) source.srcset = `/assets/screenshots/${name}.webp`;
+        img.src = `/assets/screenshots/${name}.png`;
       });
     });
   }

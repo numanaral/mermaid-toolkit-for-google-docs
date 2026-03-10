@@ -28,7 +28,7 @@ layout: base.njk
     <hr class="hero-divider">
     <div class="hero-two-col">
       <div class="hero-content">
-        <div class="hero-badge"><img src="/assets/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
+        <div class="hero-badge"><img src="/assets/brand/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
         <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
         <p>Write Mermaid syntax in Google Docs™, render it as a polished image. Everything stays in your browser.</p>
         <div class="hero-actions">
@@ -86,7 +86,7 @@ layout: base.njk
       </div>
       <div class="showcase-window reveal">
         <div class="window-bar"><div class="window-dot r"></div><div class="window-dot y"></div><div class="window-dot g"></div></div>
-        <picture><source srcset="/assets/example-render-all-for-all.webp" type="image/webp"><img id="ss" src="/assets/example-render-all-for-all.png" alt="Screenshot" width="1212" height="642" loading="eager"></picture>
+        <picture><source srcset="/assets/screenshots/example-render-all-for-all.webp" type="image/webp"><img id="ss" src="/assets/screenshots/example-render-all-for-all.png" alt="Screenshot" width="1212" height="642" loading="eager"></picture>
       </div>
     </div>
   </section>
@@ -135,7 +135,7 @@ layout: base.njk
       <div class="diagram-cards reveal-stagger">
         {% for d in diagrams %}{% if d.hasCard %}
         <a href="{{ d.docsUrl }}" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagram-{{ d.slug }}.webp" type="image/webp"><img src="/assets/diagram-{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagrams/diagram-{{ d.slug }}.webp" type="image/webp"><img src="/assets/diagrams/diagram-{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy"></picture>
           <span>{{ d.name }}</span>
         </a>
         {% endif %}{% endfor %}
