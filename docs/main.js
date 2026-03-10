@@ -23,9 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
   pendingModal.innerHTML = `
     <div class="pending-modal-card">
       <div class="pending-modal-icon">\u23F3</div>
-      <h3>Awaiting Marketplace Approval</h3>
-      <p>Mermaid Toolkit for Google Docs\u2122 is currently under review by Google.
-         The install link will be available once the listing is approved.</p>
+      <h3>Awaiting Google Verification</h3>
+      <p>Currently undergoing branding verification by Google\u2019s Trust & Safety team.
+         The Marketplace listing will be submitted for review once verification is complete. Install link coming soon!</p>
       <button class="pending-modal-close">Got it</button>
     </div>`;
   document.body.appendChild(pendingModal);

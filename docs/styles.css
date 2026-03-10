@@ -130,12 +130,21 @@ nav {
 .hero {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 7rem 2rem 5rem;
+  padding: 7rem 2rem 3rem;
   text-align: center;
   overflow: hidden;
+}
+.hero-divider {
+  border: none;
+  width: 60%;
+  max-width: 500px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 234, 204, 0.3), transparent);
+  margin: 2.5rem auto;
 }
 .orb {
   position: absolute;
@@ -1232,14 +1241,16 @@ footer a:hover {
   pointer-events: auto;
 }
 .pending-modal-card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
   padding: 2.5rem 2rem;
   max-width: 420px;
   width: 90%;
   text-align: center;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transform: translateY(12px) scale(0.97);
   transition: transform 0.25s ease;
 }
@@ -1275,4 +1286,25 @@ footer a:hover {
 .pending-modal-close:hover {
   background: #fff;
   transform: translateY(-1px);
+}
+
+.pending-banner {
+  position: relative;
+  z-index: 10;
+  max-width: 700px;
+  margin: -3rem auto 0;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 122, 101, 0.06);
+  border: 1px solid rgba(255, 122, 101, 0.18);
+  border-radius: 12px;
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.pending-banner strong {
+  color: var(--accent2);
+  display: block;
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
 }

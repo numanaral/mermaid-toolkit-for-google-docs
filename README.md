@@ -1,3 +1,17 @@
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
+---
+
+> **⏳ Awaiting Google Verification:** Currently undergoing branding verification by Google's Trust and Safety team. The Marketplace listing will be submitted for review once verification is complete. Install link coming soon!
+
+---
+
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
 <p align="center">
   <img src="docs/assets/icon-128.png" alt="Mermaid Toolkit for Google Docs™" width="128" height="128" />
 </p>
