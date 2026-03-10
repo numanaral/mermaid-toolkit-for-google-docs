@@ -17,6 +17,9 @@
   <meta name="twitter:title" content="Mermaid Toolkit for Google Docs™">
   <meta name="twitter:description" content="Render Mermaid diagrams as images directly in Google Docs™. 100% client-side — no data leaves your browser.">
   <meta name="twitter:image" content="https://numanaral.github.io/mermaid-toolkit-for-google-docs/assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" href="assets/icon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="assets/icon-128.png">
@@ -62,6 +65,7 @@
     </div>
   </nav>
 
+  <main>
   <!-- HERO -->
   <section class="hero">
     <div class="orb orb-1"></div>
@@ -125,7 +129,7 @@
       </div>
       <div class="showcase-window reveal">
         <div class="window-bar"><div class="window-dot r"></div><div class="window-dot y"></div><div class="window-dot g"></div></div>
-        <img id="ss" src="assets/example-render-all-for-all.png" alt="Screenshot">
+        <picture><source srcset="assets/example-render-all-for-all.webp" type="image/webp"><img id="ss" src="assets/example-render-all-for-all.png" alt="Screenshot" width="1212" height="642" loading="eager"></picture>
       </div>
     </div>
   </section>
@@ -180,27 +184,27 @@
       <h2 class="reveal">Every diagram type you need.</h2>
       <div class="diagram-cards reveal-stagger">
         <a href="https://mermaid.js.org/syntax/flowchart.html" class="card diagram-card" target="_blank" rel="noopener">
-          <img src="assets/diagram-flowchart.png" alt="Flowchart" loading="lazy">
+          <picture><source srcset="assets/diagram-flowchart.webp" type="image/webp"><img src="assets/diagram-flowchart.png" alt="Flowchart" width="364" height="938" loading="lazy"></picture>
           <span>Flowchart</span>
         </a>
         <a href="https://mermaid.js.org/syntax/sequenceDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <img src="assets/diagram-sequence.png" alt="Sequence Diagram" loading="lazy">
+          <picture><source srcset="assets/diagram-sequence.webp" type="image/webp"><img src="assets/diagram-sequence.png" alt="Sequence Diagram" width="600" height="492" loading="lazy"></picture>
           <span>Sequence</span>
         </a>
         <a href="https://mermaid.js.org/syntax/classDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <img src="assets/diagram-class.png" alt="Class Diagram" loading="lazy">
+          <picture><source srcset="assets/diagram-class.webp" type="image/webp"><img src="assets/diagram-class.png" alt="Class Diagram" width="544" height="728" loading="lazy"></picture>
           <span>Class</span>
         </a>
         <a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <img src="assets/diagram-er.png" alt="ER Diagram" loading="lazy">
+          <picture><source srcset="assets/diagram-er.webp" type="image/webp"><img src="assets/diagram-er.png" alt="ER Diagram" width="600" height="656" loading="lazy"></picture>
           <span>ER Diagram</span>
         </a>
         <a href="https://mermaid.js.org/syntax/mindmap.html" class="card diagram-card" target="_blank" rel="noopener">
-          <img src="assets/diagram-mindmap.png" alt="Mindmap" loading="lazy">
+          <picture><source srcset="assets/diagram-mindmap.webp" type="image/webp"><img src="assets/diagram-mindmap.png" alt="Mindmap" width="600" height="672" loading="lazy"></picture>
           <span>Mindmap</span>
         </a>
         <a href="https://mermaid.js.org/syntax/gantt.html" class="card diagram-card" target="_blank" rel="noopener">
-          <img src="assets/diagram-gantt.png" alt="Gantt Chart" loading="lazy">
+          <picture><source srcset="assets/diagram-gantt.webp" type="image/webp"><img src="assets/diagram-gantt.png" alt="Gantt Chart" width="600" height="140" loading="lazy"></picture>
           <span>Gantt</span>
         </a>
       </div>
@@ -214,6 +218,7 @@
     </div>
   </section>
 
+  </main>
   <!-- FOOTER -->
   <footer>
     <ul class="footer-links">

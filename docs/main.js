@@ -15,7 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", () => {
         tabs.forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        img.src = `assets/${btn.getAttribute("data-img")}.png`;
+        const name = btn.getAttribute("data-img");
+        const source = img.parentElement.querySelector("source");
+        if (source) source.srcset = `assets/${name}.webp`;
+        img.src = `assets/${name}.png`;
       });
     });
   }

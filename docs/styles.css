@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap");
+/* Fonts loaded via <link> in HTML for performance */
 
 * {
   margin: 0;
@@ -289,7 +289,7 @@ footer a:hover {
 }
 .trademark {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.45);
   margin-top: 1rem;
 }
 
@@ -526,7 +526,7 @@ footer a:hover {
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-dim);
-  transition: all 0.25s;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
   font-family: inherit;
 }
 .showcase-tabs button:hover {
