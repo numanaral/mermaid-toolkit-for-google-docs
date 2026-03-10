@@ -14,6 +14,7 @@ sass \
   --style=compressed --no-source-map
 
 esbuild "$SCRIPTS/index.ts" "$SCRIPTS/gallery.ts" \
-  --bundle --outdir="$OUT/scripts" --minify --target=es2020
+  --bundle --outdir="$OUT/scripts" --minify --target=es2020 \
+  --splitting --format=esm
 
 npx @11ty/eleventy

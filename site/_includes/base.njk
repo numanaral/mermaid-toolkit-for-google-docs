@@ -8,9 +8,9 @@
 {%- include "nav.njk" %}
 {{ content | safe }}
 {%- include "footer.njk" %}
-  <script src="/scripts/index.js"></script>
+  <script type="module" src="/scripts/index.js"></script>
   {%- if pageJs %}
-  <script src="/scripts/{{ pageJs }}.js"></script>
+  <script type="module" src="/scripts/{{ pageJs }}.js"></script>
   {%- endif %}
 </body>
 </html>

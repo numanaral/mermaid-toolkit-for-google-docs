@@ -1,15 +1,16 @@
-declare const mermaid: {
-  initialize(config: Record<string, unknown>): void;
-  render(id: string, code: string): Promise<{ svg: string }>;
-};
-
-mermaid.initialize({ startOnLoad: false, theme: "default" });
-
 let counter = 0;
 const items = document.querySelectorAll<HTMLElement>(".gallery-item[data-mermaid]");
 
+async function loadMermaid() {
+  const { default: mermaid } = await import("mermaid");
+  mermaid.initialize({ startOnLoad: false, theme: "default" });
+  return mermaid;
+}
+
+const mermaidPromise = items.length ? loadMermaid() : null;
+
 const observer = new IntersectionObserver(
-  (entries: IntersectionObserverEntry[]) => {
+  (entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       const item = entry.target as HTMLElement;
@@ -17,9 +18,10 @@ const observer = new IntersectionObserver(
       const code = item.getAttribute("data-mermaid");
       const container = item.querySelector<HTMLElement>(".gallery-item-render");
       if (!code || !container) return;
+
       const id = "mermaid-" + counter++;
-      mermaid
-        .render(id, code)
+      mermaidPromise!
+        .then((mermaid) => mermaid.render(id, code))
         .then((result) => {
           container.innerHTML = result.svg;
         })
@@ -34,7 +36,7 @@ const observer = new IntersectionObserver(
 
 items.forEach((item) => observer.observe(item));
 
-new MutationObserver((mutations: MutationRecord[]) => {
+new MutationObserver((mutations) => {
   mutations.forEach((m) => {
     m.addedNodes.forEach((node) => {
       const el = node as HTMLElement;
