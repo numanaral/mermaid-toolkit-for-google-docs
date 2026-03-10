@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://numanaral.github.io/mermaid-toolkit-for-google-docs/sitemap.xml
