@@ -526,7 +526,10 @@ footer a:hover {
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-dim);
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s;
   font-family: inherit;
 }
 .showcase-tabs button:hover {
@@ -565,6 +568,9 @@ footer a:hover {
 }
 .window-dot.g {
   background: #28c840;
+}
+.showcase-window picture {
+  display: contents;
 }
 .showcase-window img {
   width: 100%;
@@ -749,6 +755,9 @@ footer a:hover {
   margin-top: -5px;
   margin-bottom: 5px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.diagram-card picture {
+  display: contents;
 }
 .diagram-card img {
   width: 100%;
