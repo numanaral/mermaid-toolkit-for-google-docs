@@ -24,7 +24,7 @@
     "tag": "Core",
     "wide": false,
     "menu": "Extensions → Mermaid Toolkit → Convert Selected Code to Diagram",
-    "showInBento": false,
+    "showInBento": true,
     "showInShowcase": true,
     "showcaseImg": "example-render-all-for-one",
     "showcaseLabel": "Convert Selected",

@@ -8,17 +8,51 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const tabs = document.querySelectorAll<HTMLButtonElement>(".showcase-tabs button");
-  const img = document.getElementById("ss") as HTMLImageElement | null;
-  if (tabs.length && img) {
+  const showcaseWindow = document.querySelector<HTMLElement>(".showcase-window");
+  const windowBar = showcaseWindow?.querySelector<HTMLElement>(".window-bar");
+  if (tabs.length && showcaseWindow && windowBar) {
+    const placeholderSvg = `<svg viewBox="0 0 1212 642" xmlns="http://www.w3.org/2000/svg" role="img" style="width:100%;display:block">
+      <rect width="1212" height="642" fill="#111818"/>
+      <text x="606" y="321" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="18">TODO: screenshot</text>
+    </svg>`;
+
+    const setShowcaseContent = (name: string | null) => {
+      const existing = showcaseWindow.querySelector("picture, .showcase-placeholder");
+      if (existing) existing.remove();
+
+      if (name) {
+        const picture = document.createElement("picture");
+        const source = document.createElement("source");
+        source.srcset = `/assets/screenshots/${name}.webp`;
+        source.type = "image/webp";
+        const img = document.createElement("img");
+        img.src = `/assets/screenshots/${name}.png`;
+        img.alt = "Screenshot";
+        img.width = 1212;
+        img.height = 642;
+        img.style.width = "100%";
+        img.style.display = "block";
+        picture.appendChild(source);
+        picture.appendChild(img);
+        showcaseWindow.appendChild(picture);
+      } else {
+        const div = document.createElement("div");
+        div.className = "showcase-placeholder";
+        div.innerHTML = placeholderSvg;
+        showcaseWindow.appendChild(div);
+      }
+    };
+
     tabs[0].classList.add("active");
+    const firstName = tabs[0].getAttribute("data-img");
+    setShowcaseContent(firstName || null);
+
     tabs.forEach((btn) => {
       btn.addEventListener("click", () => {
         tabs.forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         const name = btn.getAttribute("data-img");
-        const source = img.parentElement?.querySelector<HTMLSourceElement>("source");
-        if (source) source.srcset = `/assets/screenshots/${name}.webp`;
-        img.src = `/assets/screenshots/${name}.png`;
+        setShowcaseContent(name || null);
       });
     });
   }
