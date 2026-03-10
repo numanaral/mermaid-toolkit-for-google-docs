@@ -5,6 +5,13 @@ pageTitle: Features
 pageDescription: "Explore every feature of Mermaid Toolkit for Google Docs — from one-click rendering to Fix Copied Markdown."
 pageCss: features
 ---
+{% macro placeholder(label) %}
+<svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{{ label }} screenshot placeholder">
+  <rect width="480" height="300" rx="12" fill="#111818"/>
+  <rect x="1" y="1" width="478" height="298" rx="11" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
+  <text x="240" y="155" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: {{ label }} screenshot</text>
+</svg>
+{% endmacro %}
   <main>
   <section class="page-hero">
     <h1>Features</h1>
@@ -14,90 +21,19 @@ pageCss: features
   <section class="features-detail">
     <div class="features-inner">
 
-      <!-- CONVERT ALL -->
-      <div class="feature-block reveal" id="convert-all">
+      {% for feat in features %}{% if feat.showOnFeaturesPage and feat.id != 'fix-markdown' %}
+      <div class="feature-block{{ ' feature-block-reverse' if feat.reverse }} reveal" id="{{ feat.id }}">
         <div class="feature-text">
-          <div class="feature-tag">Core</div>
-          <h2>Convert All Code to Diagrams</h2>
-          <p>Scans your entire Google Doc for Mermaid code blocks — both native <code>Code Snippet</code> elements and fenced <code>```mermaid</code> blocks — and renders every one as a high-quality PNG image. You preview each diagram before choosing to <strong>Insert</strong> (after the code) or <strong>Replace</strong> (swap the code block).</p>
-          <p class="feature-menu"><strong>Extensions → Mermaid Toolkit → Convert All Code to Diagrams</strong></p>
+          <div class="feature-tag">{{ feat.tag }}</div>
+          <h2>{{ feat.title }}</h2>
+          <p>{{ feat.longDesc | safe }}</p>
+          <p class="feature-menu"><strong>{{ feat.menu }}</strong>{% if feat.menuAlt %}<br><strong>{{ feat.menuAlt }}</strong>{% endif %}</p>
         </div>
         <div class="feature-media">
-          <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Convert All screenshot placeholder">
-            <rect width="480" height="300" rx="12" fill="#111818"/>
-            <rect x="1" y="1" width="478" height="298" rx="11" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
-            <text x="240" y="155" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: convert-all screenshot</text>
-          </svg>
+          {{ placeholder(feat.id) | safe }}
         </div>
       </div>
-
-      <!-- CONVERT SELECTED -->
-      <div class="feature-block feature-block-reverse reveal" id="convert-selected">
-        <div class="feature-text">
-          <div class="feature-tag">Core</div>
-          <h2>Convert Selected Code to Diagram</h2>
-          <p>Select a single code block or fenced Mermaid block and convert just that one. Useful when you want to render one diagram without scanning the whole document.</p>
-          <p class="feature-menu"><strong>Extensions → Mermaid Toolkit → Convert Selected Code to Diagram</strong></p>
-        </div>
-        <div class="feature-media">
-          <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Convert Selected screenshot placeholder">
-            <rect width="480" height="300" rx="12" fill="#111818"/>
-            <rect x="1" y="1" width="478" height="298" rx="11" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
-            <text x="240" y="155" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: convert-selected screenshot</text>
-          </svg>
-        </div>
-      </div>
-
-      <!-- EDITOR -->
-      <div class="feature-block reveal" id="editor">
-        <div class="feature-text">
-          <div class="feature-tag">Editor</div>
-          <h2>Insert Mermaid Diagram</h2>
-          <p>Opens a full-featured side-by-side editor with live preview. Write or paste Mermaid syntax on the left, see the rendered diagram update in real time on the right. Choose from built-in templates to jump-start any diagram type.</p>
-          <p class="feature-menu"><strong>Extensions → Mermaid Toolkit → Insert Mermaid Diagram</strong></p>
-        </div>
-        <div class="feature-media">
-          <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editor screenshot placeholder">
-            <rect width="480" height="300" rx="12" fill="#111818"/>
-            <rect x="1" y="1" width="478" height="298" rx="11" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
-            <text x="240" y="155" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: editor screenshot</text>
-          </svg>
-        </div>
-      </div>
-
-      <!-- EDIT IN PLACE -->
-      <div class="feature-block feature-block-reverse reveal" id="edit-in-place">
-        <div class="feature-text">
-          <div class="feature-tag">Editor</div>
-          <h2>Edit Selected Mermaid Image</h2>
-          <p>Click on any Mermaid diagram image that was inserted by this add-on, then run this command. The editor opens pre-loaded with the diagram's source code so you can tweak and re-render without starting over.</p>
-          <p class="feature-menu"><strong>Extensions → Mermaid Toolkit → Edit Selected Mermaid Image</strong></p>
-        </div>
-        <div class="feature-media">
-          <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Edit in Place screenshot placeholder">
-            <rect width="480" height="300" rx="12" fill="#111818"/>
-            <rect x="1" y="1" width="478" height="298" rx="11" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
-            <text x="240" y="155" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: edit-in-place screenshot</text>
-          </svg>
-        </div>
-      </div>
-
-      <!-- IMAGE TO CODE -->
-      <div class="feature-block reveal" id="image-to-code">
-        <div class="feature-text">
-          <div class="feature-tag">Reverse</div>
-          <h2>Convert Image to Code</h2>
-          <p>Every diagram image inserted by this add-on embeds the original Mermaid source in its alt text. Use <strong>Convert Selected Image to Code</strong> on a single image, or <strong>Convert All Images to Code</strong> to extract source from every diagram in the document.</p>
-          <p class="feature-menu"><strong>Extensions → Mermaid Toolkit → Convert Selected Image to Code</strong><br><strong>Extensions → Mermaid Toolkit → Convert All Images to Code</strong></p>
-        </div>
-        <div class="feature-media">
-          <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Image to Code screenshot placeholder">
-            <rect width="480" height="300" rx="12" fill="#111818"/>
-            <rect x="1" y="1" width="478" height="298" rx="11" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
-            <text x="240" y="155" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: image-to-code screenshot</text>
-          </svg>
-        </div>
-      </div>
+      {% endif %}{% endfor %}
 
       <!-- FIX MARKDOWN — THE BIG STORY -->
       <div class="feature-block-highlight reveal" id="fix-markdown">

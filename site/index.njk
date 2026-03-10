@@ -65,13 +65,9 @@ layout: base.njk
         <h2>Built for speed and privacy.</h2>
       </div>
       <div class="bento-grid reveal-stagger">
-        <div class="card bento-card wide"><div class="card-icon">🔍</div><h3>Convert All Code to Diagrams</h3><p>Scans your entire document for Mermaid code blocks and renders them all as high-quality images in one click. No manual work.</p></div>
-        <div class="card bento-card"><div class="card-icon">✏️</div><h3>Insert Mermaid Diagram</h3><p>Side-by-side editor with instant preview, syntax highlighting, and templates.</p></div>
-        <div class="card bento-card"><div class="card-icon">🔄</div><h3>Edit Selected Mermaid Image</h3><p>Click any diagram image and edit its source in place — no copy-paste needed.</p></div>
-        <div class="card bento-card wide"><div class="card-icon">🩹</div><h3>Fix Copied Markdown</h3><p>Google Docs mangles Mermaid syntax when you copy from markdown. This tool repairs vertical tabs, stray backticks, and broken formatting so your diagrams render correctly. <a href="/features" style="color:inherit;text-decoration:underline">Learn more →</a></p></div>
-        <div class="card bento-card"><div class="card-icon">🖼️</div><h3>Convert Image to Code</h3><p>Extract the original Mermaid source from any diagram image inserted by this add-on.</p></div>
-        <div class="card bento-card"><div class="card-icon">📋</div><h3>Templates &amp; Gallery</h3><p>Jump-start with flowcharts, sequences, ER diagrams, and 14 more types. <a href="/gallery" style="color:inherit;text-decoration:underline">Browse gallery →</a></p></div>
-        <div class="card bento-card wide"><div class="card-icon">🔒</div><h3>Zero Data Collection</h3><p>No analytics. No cookies. No telemetry. No servers. Your documents never leave your browser — rendering is 100% client-side via mermaid.js. The only external request is loading the mermaid.js library from <a href="https://www.jsdelivr.com/" style="color:inherit;text-decoration:underline">jsDelivr</a>.</p></div>
+        {% for feat in features %}{% if feat.showInBento %}
+        <div class="card bento-card{{ ' wide' if feat.wide }}"><div class="card-icon">{{ feat.icon }}</div><h3>{{ feat.title }}</h3><p>{{ feat.shortDesc | safe }}</p></div>
+        {% endif %}{% endfor %}
       </div>
     </div>
   </section>
@@ -84,10 +80,9 @@ layout: base.njk
         <h2>See it in action.</h2>
       </div>
       <div class="showcase-tabs reveal">
-        <button data-img="example-render-all-for-all">Render All</button>
-        <button data-img="example-render-all-for-one">Preview</button>
-        <button data-img="example-editor">Editor</button>
-        <button data-img="example-menu">Menu</button>
+        {% for feat in features %}{% if feat.showInShowcase %}
+        <button data-img="{{ feat.showcaseImg or '' }}">{{ feat.showcaseLabel }}</button>
+        {% endif %}{% endfor %}
       </div>
       <div class="showcase-window reveal">
         <div class="window-bar"><div class="window-dot r"></div><div class="window-dot y"></div><div class="window-dot g"></div></div>
@@ -104,33 +99,17 @@ layout: base.njk
         <h2>Three ways to work with diagrams.</h2>
       </div>
       <div class="how-grid reveal-stagger">
-        <div class="how-col">
-          <h3 class="how-subtitle">Auto-render from your doc</h3>
-          <p class="how-subtitle-desc">Already have Mermaid code? Render everything in one click.</p>
+        {% for workflow in howto %}
+        <div class="how-col{{ ' how-col-full' if loop.index > 2 }}">
+          <h3 class="how-subtitle">{{ workflow.subtitle }}</h3>
+          <p class="how-subtitle-desc">{{ workflow.desc }}</p>
           <div class="timeline">
-            <div class="tl-item"><h4>Write Mermaid syntax</h4><p>Place your diagram code inside a code block in your Google Doc.</p></div>
-            <div class="tl-item"><h4>Run the renderer</h4><p><strong>Extensions → Mermaid Toolkit → Convert All Code to Diagrams.</strong> Every diagram gets rendered.</p></div>
-            <div class="tl-item"><h4>Insert into your document</h4><p>Preview each diagram, then click <strong>Insert</strong> or <strong>Replace</strong>. Done.</p></div>
+            {% for step in workflow.steps %}
+            <div class="tl-item"><h4>{{ step.title }}</h4><p>{{ step.desc | safe }}</p></div>
+            {% endfor %}
           </div>
         </div>
-        <div class="how-col">
-          <h3 class="how-subtitle">Use the built-in editor</h3>
-          <p class="how-subtitle-desc">Write diagrams from scratch with live preview and templates.</p>
-          <div class="timeline">
-            <div class="tl-item"><h4>Open the editor</h4><p><strong>Extensions → Mermaid Toolkit → Insert Mermaid Diagram.</strong></p></div>
-            <div class="tl-item"><h4>Write and preview</h4><p>Write or paste Mermaid syntax on the left, see the <strong>live preview</strong> update on the right.</p></div>
-            <div class="tl-item"><h4>Insert into your document</h4><p>Pick a <strong>template</strong> to get started quickly, then click <strong>Insert at Cursor</strong>.</p></div>
-          </div>
-        </div>
-        <div class="how-col how-col-full">
-          <h3 class="how-subtitle">Fix pasted markdown</h3>
-          <p class="how-subtitle-desc">Copied Mermaid code from a markdown file or another tool? Google Docs corrupts it. Fix it in one step.</p>
-          <div class="timeline">
-            <div class="tl-item"><h4>Open Fix Copied Markdown</h4><p><strong>Extensions → Mermaid Toolkit → Fix Copied Markdown.</strong></p></div>
-            <div class="tl-item"><h4>Paste your broken code</h4><p>Paste the corrupted markdown. The tool shows a side-by-side diff of what it will fix.</p></div>
-            <div class="tl-item"><h4>Copy the fixed result</h4><p>Click <strong>Copy Fixed</strong> and paste it back into your doc — ready to render.</p></div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
       <div class="callout reveal">
         <strong>Heads up:</strong> The first line of your code block must be a diagram type keyword.
@@ -154,33 +133,17 @@ layout: base.njk
       <div class="tag reveal">Compatibility</div>
       <h2 class="reveal">Every diagram type you need.</h2>
       <div class="diagram-cards reveal-stagger">
-        <a href="https://mermaid.js.org/syntax/flowchart.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagram-flowchart.webp" type="image/webp"><img src="/assets/diagram-flowchart.png" alt="Flowchart" loading="lazy"></picture>
-          <span>Flowchart</span>
+        {% for d in diagrams %}{% if d.hasCard %}
+        <a href="{{ d.docsUrl }}" class="card diagram-card" target="_blank" rel="noopener">
+          <picture><source srcset="/assets/diagram-{{ d.slug }}.webp" type="image/webp"><img src="/assets/diagram-{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy"></picture>
+          <span>{{ d.name }}</span>
         </a>
-        <a href="https://mermaid.js.org/syntax/sequenceDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagram-sequence.webp" type="image/webp"><img src="/assets/diagram-sequence.png" alt="Sequence Diagram" loading="lazy"></picture>
-          <span>Sequence</span>
-        </a>
-        <a href="https://mermaid.js.org/syntax/classDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagram-class.webp" type="image/webp"><img src="/assets/diagram-class.png" alt="Class Diagram" loading="lazy"></picture>
-          <span>Class</span>
-        </a>
-        <a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagram-er.webp" type="image/webp"><img src="/assets/diagram-er.png" alt="ER Diagram" loading="lazy"></picture>
-          <span>ER Diagram</span>
-        </a>
-        <a href="https://mermaid.js.org/syntax/mindmap.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagram-mindmap.webp" type="image/webp"><img src="/assets/diagram-mindmap.png" alt="Mindmap" loading="lazy"></picture>
-          <span>Mindmap</span>
-        </a>
-        <a href="https://mermaid.js.org/syntax/gantt.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagram-gantt.webp" type="image/webp"><img src="/assets/diagram-gantt.png" alt="Gantt Chart" loading="lazy"></picture>
-          <span>Gantt</span>
-        </a>
+        {% endif %}{% endfor %}
       </div>
       <div class="chip-cloud reveal">
-        <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">flowchart</a><a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">graph</a><a href="https://mermaid.js.org/syntax/sequenceDiagram.html" target="_blank" rel="noopener">sequenceDiagram</a><a href="https://mermaid.js.org/syntax/classDiagram.html" target="_blank" rel="noopener">classDiagram</a><a href="https://mermaid.js.org/syntax/stateDiagram.html" target="_blank" rel="noopener">stateDiagram</a><a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" target="_blank" rel="noopener">erDiagram</a><a href="https://mermaid.js.org/syntax/gantt.html" target="_blank" rel="noopener">gantt</a><a href="https://mermaid.js.org/syntax/pie.html" target="_blank" rel="noopener">pie</a><a href="https://mermaid.js.org/syntax/gitgraph.html" target="_blank" rel="noopener">gitGraph</a><a href="https://mermaid.js.org/syntax/userJourney.html" target="_blank" rel="noopener">journey</a><a href="https://mermaid.js.org/syntax/mindmap.html" target="_blank" rel="noopener">mindmap</a><a href="https://mermaid.js.org/syntax/timeline.html" target="_blank" rel="noopener">timeline</a><a href="https://mermaid.js.org/syntax/sankey.html" target="_blank" rel="noopener">sankey</a><a href="https://mermaid.js.org/syntax/xychart.html" target="_blank" rel="noopener">xychart</a><a href="https://mermaid.js.org/syntax/block.html" target="_blank" rel="noopener">block-beta</a><a href="https://mermaid.js.org/syntax/quadrantChart.html" target="_blank" rel="noopener">quadrantChart</a><a href="https://mermaid.js.org/syntax/requirementDiagram.html" target="_blank" rel="noopener">requirementDiagram</a><a href="https://mermaid.js.org/syntax/c4.html" target="_blank" rel="noopener">c4context</a>
+        {% for d in diagrams %}
+        <a href="{{ d.docsUrl }}" target="_blank" rel="noopener">{{ d.keyword }}</a>
+        {% endfor %}
       </div>
       <div class="diagrams-footer reveal">
         <a href="/gallery" class="btn-dim">View Full Gallery →</a>
