@@ -521,13 +521,13 @@ nav {
 .tl-item::before {
   content: "";
   position: absolute;
-  left: -2.5rem;
   top: 3px;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background: var(--accent);
   border: 3px solid var(--dark);
+  left: -2.5rem;
   transform: translateX(-50%);
   margin-left: 6px;
 }
@@ -711,13 +711,15 @@ nav {
 }
 
 .diagrams-footer {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
+}
+.diagrams-ref {
+  font-size: 0.85rem;
+  color: var(--text-dim);
 }
 
 /* ============================================================
@@ -1154,6 +1156,66 @@ footer a:hover {
 .footer-heart a:hover {
   color: #ff9a89;
 }
+/* Scroll-reveal animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.js .reveal,
+.js .gallery-item {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.js .reveal.visible {
+  animation: fadeInUp 0.6s ease forwards;
+}
+.js .gallery-item.reveal.visible:nth-child(even) {
+  animation-delay: 0.12s;
+}
+
+.js .reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.js .reveal-stagger.visible > * {
+  animation: fadeInUp 0.5s ease forwards;
+}
+.reveal-stagger.visible > *:nth-child(1) {
+  animation-delay: 0s;
+}
+.reveal-stagger.visible > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.reveal-stagger.visible > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.reveal-stagger.visible > *:nth-child(4) {
+  animation-delay: 0.24s;
+}
+.reveal-stagger.visible > *:nth-child(5) {
+  animation-delay: 0.32s;
+}
+.reveal-stagger.visible > *:nth-child(6) {
+  animation-delay: 0.4s;
+}
+
+.js .hero-content {
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+.js .pending-banner {
+  animation: fadeInUp 0.6s ease 0s both;
+}
+.js .hero-divider {
+  animation: fadeInUp 0.5s ease 0.1s both;
+}
+
 @keyframes heartbeat {
   0% {
     transform: scale(1);
@@ -1299,7 +1361,9 @@ footer a:hover {
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
+  transition:
+    background 0.2s,
+    transform 0.2s;
 }
 .pending-modal-close:hover {
   background: #fff;

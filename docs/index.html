@@ -62,11 +62,11 @@
   <!-- BENTO FEATURES -->
   <section class="bento" id="features">
     <div class="bento-inner">
-      <div class="section-header">
+      <div class="section-header reveal">
         <div class="tag">Features</div>
         <h2>Built for speed and privacy.</h2>
       </div>
-      <div class="bento-grid">
+      <div class="bento-grid reveal-stagger">
         <div class="bento-card wide"><div class="card-icon">🔍</div><h3>Auto-detect &amp; Render</h3><p>Scans your entire document for Mermaid code blocks and renders them all as high-quality images in one click. No manual work.</p></div>
         <div class="bento-card"><div class="card-icon">✏️</div><h3>Live Editor</h3><p>Side-by-side editor with instant preview and syntax highlighting.</p></div>
         <div class="bento-card"><div class="card-icon">🔄</div><h3>Insert or Replace</h3><p>Add diagram images after your code, or swap out the code block.</p></div>
@@ -80,17 +80,17 @@
   <!-- SHOWCASE -->
   <section class="showcase" id="showcase">
     <div class="showcase-inner">
-      <div class="section-header">
+      <div class="section-header reveal">
         <div class="tag">In Action</div>
         <h2>See it in action.</h2>
       </div>
-      <div class="showcase-tabs">
+      <div class="showcase-tabs reveal">
         <button data-img="example-render-all-for-all">Render All</button>
         <button data-img="example-render-all-for-one">Preview</button>
         <button data-img="example-editor">Editor</button>
         <button data-img="example-menu">Menu</button>
       </div>
-      <div class="showcase-window">
+      <div class="showcase-window reveal">
         <div class="window-bar"><div class="window-dot r"></div><div class="window-dot y"></div><div class="window-dot g"></div></div>
         <img id="ss" src="assets/example-render-all-for-all.png" alt="Screenshot">
       </div>
@@ -100,11 +100,11 @@
   <!-- GETTING STARTED -->
   <section class="how" id="how">
     <div class="how-inner">
-      <div class="section-header">
+      <div class="section-header reveal">
         <div class="tag">Getting Started</div>
         <h2>Two ways to create diagrams.</h2>
       </div>
-      <div class="how-grid">
+      <div class="how-grid reveal-stagger">
         <div class="how-col">
           <h3 class="how-subtitle">Auto-render from your doc</h3>
           <p class="how-subtitle-desc">Already have Mermaid code? Render everything in one click.</p>
@@ -124,7 +124,7 @@
           </div>
         </div>
       </div>
-      <div class="callout">
+      <div class="callout reveal">
         <strong>Heads up:</strong> The first line of your code block must be a diagram type keyword.
         <div class="callout-compare">
           <div class="callout-do">
@@ -143,9 +143,9 @@
   <!-- DIAGRAMS -->
   <section class="diagrams" id="diagrams">
     <div class="diagrams-inner">
-      <div class="tag">Compatibility</div>
-      <h2>Every diagram type you need.</h2>
-      <div class="diagram-cards">
+      <div class="tag reveal">Compatibility</div>
+      <h2 class="reveal">Every diagram type you need.</h2>
+      <div class="diagram-cards reveal-stagger">
         <a href="https://mermaid.js.org/syntax/flowchart.html" class="diagram-card" target="_blank" rel="noopener">
           <img src="assets/diagram-flowchart.png" alt="Flowchart" loading="lazy">
           <span>Flowchart</span>
@@ -171,13 +171,13 @@
           <span>Gantt</span>
         </a>
       </div>
-      <div class="chip-cloud">
+      <div class="chip-cloud reveal">
         <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">flowchart</a><a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">graph</a><a href="https://mermaid.js.org/syntax/sequenceDiagram.html" target="_blank" rel="noopener">sequenceDiagram</a><a href="https://mermaid.js.org/syntax/classDiagram.html" target="_blank" rel="noopener">classDiagram</a><a href="https://mermaid.js.org/syntax/stateDiagram.html" target="_blank" rel="noopener">stateDiagram</a><a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" target="_blank" rel="noopener">erDiagram</a><a href="https://mermaid.js.org/syntax/gantt.html" target="_blank" rel="noopener">gantt</a><a href="https://mermaid.js.org/syntax/pie.html" target="_blank" rel="noopener">pie</a><a href="https://mermaid.js.org/syntax/gitgraph.html" target="_blank" rel="noopener">gitGraph</a><a href="https://mermaid.js.org/syntax/userJourney.html" target="_blank" rel="noopener">journey</a><a href="https://mermaid.js.org/syntax/mindmap.html" target="_blank" rel="noopener">mindmap</a><a href="https://mermaid.js.org/syntax/timeline.html" target="_blank" rel="noopener">timeline</a><a href="https://mermaid.js.org/syntax/sankey.html" target="_blank" rel="noopener">sankey</a><a href="https://mermaid.js.org/syntax/xychart.html" target="_blank" rel="noopener">xychart</a><a href="https://mermaid.js.org/syntax/block.html" target="_blank" rel="noopener">block-beta</a><a href="https://mermaid.js.org/syntax/quadrantChart.html" target="_blank" rel="noopener">quadrantChart</a><a href="https://mermaid.js.org/syntax/requirementDiagram.html" target="_blank" rel="noopener">requirementDiagram</a><a href="https://mermaid.js.org/syntax/c4.html" target="_blank" rel="noopener">c4context</a>
       </div>
-      <p class="diagrams-footer">
-        <a href="gallery.html" class="btn-dim" style="margin-right:1rem;">View Full Gallery →</a>
-        <span style="font-size:0.88rem; color:var(--text-dim);">Reference at <a href="https://mermaid.js.org/">mermaid.js.org</a></span>
-      </p>
+      <div class="diagrams-footer reveal">
+        <a href="gallery.html" class="btn-dim">View Full Gallery →</a>
+        <span class="diagrams-ref">Reference at <a href="https://mermaid.js.org/">mermaid.js.org</a></span>
+      </div>
     </div>
   </section>
 

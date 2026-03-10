@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js");
+
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector(".nav-toggle");
   const links = document.querySelector(".nav-links");
@@ -79,5 +81,25 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     sections.forEach((s) => observer.observe(s));
+  }
+
+  document
+    .querySelectorAll(".gallery-item")
+    .forEach((el) => el.classList.add("reveal"));
+
+  const reveals = document.querySelectorAll(".reveal, .reveal-stagger");
+  if (reveals.length) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    reveals.forEach((el) => revealObserver.observe(el));
   }
 });
