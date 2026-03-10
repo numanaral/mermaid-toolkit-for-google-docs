@@ -1,0 +1,75 @@
+---
+permalink: /privacy/
+layout: base.njk
+pageTitle: Privacy Policy
+pageDescription: "Privacy Policy for Mermaid Toolkit for Google Docs™. No data collection, 100% client-side rendering."
+---
+  <main class="legal">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: March 8, 2026</p>
+
+    <h2>Overview</h2>
+    <p>{{ site.title }} is a Google Docs™ add-on that renders Mermaid diagram syntax as images. Your privacy is important — this add-on is designed to work entirely within your browser with no external data transmission.</p>
+
+    <h2>Data Collection</h2>
+    <p>This add-on does <strong>not</strong> collect, store, or transmit any user data. Specifically:</p>
+    <ul>
+      <li><strong>No analytics</strong> — No usage tracking of any kind</li>
+      <li><strong>No cookies</strong> — No cookies are set or read</li>
+      <li><strong>No telemetry</strong> — No diagnostic data is sent anywhere</li>
+      <li><strong>No advertising</strong> — No ads, no ad-related tracking</li>
+      <li><strong>No user accounts</strong> — No sign-up or login required beyond Google's own authentication</li>
+    </ul>
+
+    <h2>How Your Data Is Processed</h2>
+    <p>All diagram rendering happens <strong>client-side</strong> in your browser using the <a href="https://mermaid.js.org/">mermaid.js</a> library. When you use this add-on:</p>
+    <ol>
+      <li>Your Mermaid code is read from the Google Docs™ document</li>
+      <li>The diagram is rendered locally in your browser via mermaid.js</li>
+      <li>The rendered image is inserted back into your Google Docs™ document</li>
+    </ol>
+    <p><strong>No diagram content, document text, or any other data is sent to any external server.</strong></p>
+
+    <h2>OAuth Scopes</h2>
+    <p>This add-on requests the following Google OAuth scopes:</p>
+    <table>
+      <thead><tr><th>Scope</th><th>Why It's Needed</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>userinfo.email</code></td>
+          <td>Included by default by Google for all add-ons. Not used by this add-on</td>
+        </tr>
+        <tr>
+          <td><code>userinfo.profile</code></td>
+          <td>Included by default by Google for all add-ons. Not used by this add-on</td>
+        </tr>
+        <tr>
+          <td><code>documents.currentonly</code></td>
+          <td>Read Mermaid code snippets from the current document and insert rendered diagram images back into it</td>
+        </tr>
+        <tr>
+          <td><code>script.container.ui</code></td>
+          <td>Display dialog windows (editor, preview) within Google Docs™</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>These are the minimum scopes required for the add-on to function. The <code>documents.currentonly</code> scope limits access to only the document you have open — the add-on cannot access any other files in your Google Drive™.</p>
+
+    <h2>Third-Party Services</h2>
+    <p>This add-on loads the <a href="https://mermaid.js.org/">mermaid.js</a> library from <strong>jsDelivr</strong> (<code>cdn.jsdelivr.net</code>), a public open-source CDN. This is the only external network request the add-on makes.</p>
+    <ul>
+      <li>The request fetches the mermaid.js script file — <strong>no user data, document content, or diagram code is sent to jsDelivr</strong>.</li>
+      <li>jsDelivr may log standard HTTP metadata (IP address, user-agent) as part of normal CDN operation. This is outside the add-on's control. See <a href="https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net">jsDelivr's privacy policy</a> for details.</li>
+      <li>All diagram rendering happens locally in your browser after the library is loaded.</li>
+    </ul>
+    <p>No other third-party services, APIs, or servers are used.</p>
+
+    <h2>Data Sharing</h2>
+    <p>Your data is never shared with anyone. There is no server-side component, no database, and no mechanism to collect or share data.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>If this privacy policy changes, the update will be reflected in this document with a new "Last updated" date. Since no data is collected, meaningful changes are unlikely.</p>
+
+    <h2>Contact</h2>
+    <p>If you have questions about this privacy policy, please visit our <a href="/support">Support page</a>.</p>
+  </main>

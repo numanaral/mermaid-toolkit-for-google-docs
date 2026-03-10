@@ -1,70 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5LVQFDZGM"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Y5LVQFDZGM');</script>
-  <title>Mermaid Toolkit for Google Docs™</title>
-  <meta name="description" content="Render Mermaid diagrams as images directly in Google Docs™. 100% client-side — no data leaves your browser.">
-  <link rel="canonical" href="https://numanaral.github.io/mermaid-toolkit-for-google-docs/">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://numanaral.github.io/mermaid-toolkit-for-google-docs/">
-  <meta property="og:title" content="Mermaid Toolkit for Google Docs™">
-  <meta property="og:description" content="Render Mermaid diagrams as images directly in Google Docs™. 100% client-side — no data leaves your browser.">
-  <meta property="og:image" content="https://numanaral.github.io/mermaid-toolkit-for-google-docs/assets/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Mermaid Toolkit for Google Docs™">
-  <meta name="twitter:description" content="Render Mermaid diagrams as images directly in Google Docs™. 100% client-side — no data leaves your browser.">
-  <meta name="twitter:image" content="https://numanaral.github.io/mermaid-toolkit-for-google-docs/assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap">
-  <link rel="icon" href="assets/favicon.ico" sizes="any">
-  <link rel="icon" href="assets/icon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="assets/icon-128.png">
-  <link rel="stylesheet" href="styles.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Mermaid Toolkit for Google Docs™",
-    "url": "https://numanaral.github.io/mermaid-toolkit-for-google-docs/",
-    "description": "Render Mermaid diagrams as images directly in Google Docs™. 100% client-side — no data leaves your browser.",
-    "applicationCategory": "Productivity",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Numan Aral",
-      "url": "https://numanaral.github.io"
-    }
-  }
-  </script>
-</head>
-<body>
-  <nav>
-    <div class="nav-inner">
-      <a href="index.html" class="nav-brand"><img src="assets/icon-32.png" alt=""><span>Mermaid Toolkit<span class="brand-sub">for Google Docs™</span></span></a>
-      <button class="nav-toggle" aria-label="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-      </button>
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#showcase">Screenshots</a></li>
-        <li><a href="#how">How to Use</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="support.html">Support</a></li>
-      </ul>
-      <!-- TODO: Replace # with actual Marketplace URL once published -->
-      <a href="#" class="nav-cta">INSTALL</a>
-    </div>
-  </nav>
-
+---
+permalink: /
+layout: base.njk
+---
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ site.title }}",
+  "url": "{{ site.url }}/",
+  "description": "{{ site.description }}",
+  "applicationCategory": "Productivity",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "{{ site.author.name }}", "url": "{{ site.author.url }}" }
+}
+</script>
   <main>
   <!-- HERO -->
   <section class="hero">
@@ -77,11 +27,11 @@
     </div>
     <hr class="hero-divider">
     <div class="hero-content">
-      <div class="hero-badge"><img src="assets/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
+      <div class="hero-badge"><img src="/assets/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
       <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
       <p>Write Mermaid syntax in Google Docs™, render it as a polished image. Everything stays in your browser.</p>
       <div class="hero-actions">
-        <!-- TODO: Replace # with actual Marketplace URL once published -->
+        {# TODO: Replace # with actual Marketplace URL once published #}
         <a href="#" class="btn-accent">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Install from Marketplace
@@ -129,7 +79,7 @@
       </div>
       <div class="showcase-window reveal">
         <div class="window-bar"><div class="window-dot r"></div><div class="window-dot y"></div><div class="window-dot g"></div></div>
-        <picture><source srcset="assets/example-render-all-for-all.webp" type="image/webp"><img id="ss" src="assets/example-render-all-for-all.png" alt="Screenshot" width="1212" height="642" loading="eager"></picture>
+        <picture><source srcset="/assets/example-render-all-for-all.webp" type="image/webp"><img id="ss" src="/assets/example-render-all-for-all.png" alt="Screenshot" width="1212" height="642" loading="eager"></picture>
       </div>
     </div>
   </section>
@@ -147,7 +97,7 @@
           <p class="how-subtitle-desc">Already have Mermaid code? Render everything in one click.</p>
           <div class="timeline">
             <div class="tl-item"><h4>Have Mermaid syntax</h4><p>Write your diagram code inside a code block in your Google Doc.</p></div>
-            <div class="tl-item"><h4>Run the renderer</h4><p><strong>Extensions → Mermaid Toolkit → Render All Mermaid Snippets.</strong> Every diagram gets rendered.</p></div>
+            <div class="tl-item"><h4>Run the renderer</h4><p><strong>Extensions → Mermaid Toolkit → Convert All Code to Diagrams.</strong> Every diagram gets rendered.</p></div>
             <div class="tl-item"><h4>Insert into your document</h4><p>Preview each diagram, then click <strong>Insert</strong> or <strong>Replace</strong>. Done.</p></div>
           </div>
         </div>
@@ -184,27 +134,27 @@
       <h2 class="reveal">Every diagram type you need.</h2>
       <div class="diagram-cards reveal-stagger">
         <a href="https://mermaid.js.org/syntax/flowchart.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="assets/diagram-flowchart.webp" type="image/webp"><img src="assets/diagram-flowchart.png" alt="Flowchart" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagram-flowchart.webp" type="image/webp"><img src="/assets/diagram-flowchart.png" alt="Flowchart" loading="lazy"></picture>
           <span>Flowchart</span>
         </a>
         <a href="https://mermaid.js.org/syntax/sequenceDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="assets/diagram-sequence.webp" type="image/webp"><img src="assets/diagram-sequence.png" alt="Sequence Diagram" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagram-sequence.webp" type="image/webp"><img src="/assets/diagram-sequence.png" alt="Sequence Diagram" loading="lazy"></picture>
           <span>Sequence</span>
         </a>
         <a href="https://mermaid.js.org/syntax/classDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="assets/diagram-class.webp" type="image/webp"><img src="assets/diagram-class.png" alt="Class Diagram" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagram-class.webp" type="image/webp"><img src="/assets/diagram-class.png" alt="Class Diagram" loading="lazy"></picture>
           <span>Class</span>
         </a>
         <a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="assets/diagram-er.webp" type="image/webp"><img src="assets/diagram-er.png" alt="ER Diagram" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagram-er.webp" type="image/webp"><img src="/assets/diagram-er.png" alt="ER Diagram" loading="lazy"></picture>
           <span>ER Diagram</span>
         </a>
         <a href="https://mermaid.js.org/syntax/mindmap.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="assets/diagram-mindmap.webp" type="image/webp"><img src="assets/diagram-mindmap.png" alt="Mindmap" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagram-mindmap.webp" type="image/webp"><img src="/assets/diagram-mindmap.png" alt="Mindmap" loading="lazy"></picture>
           <span>Mindmap</span>
         </a>
         <a href="https://mermaid.js.org/syntax/gantt.html" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="assets/diagram-gantt.webp" type="image/webp"><img src="assets/diagram-gantt.png" alt="Gantt Chart" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagram-gantt.webp" type="image/webp"><img src="/assets/diagram-gantt.png" alt="Gantt Chart" loading="lazy"></picture>
           <span>Gantt</span>
         </a>
       </div>
@@ -212,30 +162,10 @@
         <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">flowchart</a><a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">graph</a><a href="https://mermaid.js.org/syntax/sequenceDiagram.html" target="_blank" rel="noopener">sequenceDiagram</a><a href="https://mermaid.js.org/syntax/classDiagram.html" target="_blank" rel="noopener">classDiagram</a><a href="https://mermaid.js.org/syntax/stateDiagram.html" target="_blank" rel="noopener">stateDiagram</a><a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" target="_blank" rel="noopener">erDiagram</a><a href="https://mermaid.js.org/syntax/gantt.html" target="_blank" rel="noopener">gantt</a><a href="https://mermaid.js.org/syntax/pie.html" target="_blank" rel="noopener">pie</a><a href="https://mermaid.js.org/syntax/gitgraph.html" target="_blank" rel="noopener">gitGraph</a><a href="https://mermaid.js.org/syntax/userJourney.html" target="_blank" rel="noopener">journey</a><a href="https://mermaid.js.org/syntax/mindmap.html" target="_blank" rel="noopener">mindmap</a><a href="https://mermaid.js.org/syntax/timeline.html" target="_blank" rel="noopener">timeline</a><a href="https://mermaid.js.org/syntax/sankey.html" target="_blank" rel="noopener">sankey</a><a href="https://mermaid.js.org/syntax/xychart.html" target="_blank" rel="noopener">xychart</a><a href="https://mermaid.js.org/syntax/block.html" target="_blank" rel="noopener">block-beta</a><a href="https://mermaid.js.org/syntax/quadrantChart.html" target="_blank" rel="noopener">quadrantChart</a><a href="https://mermaid.js.org/syntax/requirementDiagram.html" target="_blank" rel="noopener">requirementDiagram</a><a href="https://mermaid.js.org/syntax/c4.html" target="_blank" rel="noopener">c4context</a>
       </div>
       <div class="diagrams-footer reveal">
-        <a href="gallery.html" class="btn-dim">View Full Gallery →</a>
+        <a href="/gallery" class="btn-dim">View Full Gallery →</a>
         <span class="diagrams-ref">Reference at <a href="https://mermaid.js.org/">mermaid.js.org</a></span>
       </div>
     </div>
   </section>
 
   </main>
-  <!-- FOOTER -->
-  <footer>
-    <ul class="footer-links">
-      <li><a href="support.html">Support</a></li>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-      <li><a href="terms.html">Terms of Service</a></li>
-      <li><a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs">GitHub</a></li>
-    </ul>
-    <div class="footer-heart">
-      <span>Created with</span>
-      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-      <span>by</span>
-      <a href="https://numanaral.github.io/?ref=mermaid-toolkit-for-google-docs" target="_blank" rel="noopener">Numan Aral</a>
-    </div>
-    <p class="trademark">Google Docs™ and Google Workspace™ are trademarks of Google LLC. Not affiliated with or endorsed by Google.</p>
-  </footer>
-
-  <script src="main.js"></script>
-</body>
-</html>

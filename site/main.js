@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.add("active");
         const name = btn.getAttribute("data-img");
         const source = img.parentElement.querySelector("source");
-        if (source) source.srcset = `assets/${name}.webp`;
-        img.src = `assets/${name}.png`;
+        if (source) source.srcset = `/assets/${name}.webp`;
+        img.src = `/assets/${name}.png`;
       });
     });
   }
@@ -54,12 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const navLinks = document.querySelectorAll(".nav-links a");
-  const page = location.pathname.split("/").pop() || "index.html";
+  const path = location.pathname.replace(/\/index\.html$/, "/").replace(/\/$/, "") || "/";
 
   navLinks.forEach((a) => {
     const href = a.getAttribute("href");
-    if (href && !href.startsWith("#") && href === page) {
-      a.classList.add("active");
+    if (href && !href.startsWith("#") && !href.startsWith("/#")) {
+      const hrefNorm = href.replace(/\/$/, "") || "/";
+      if (hrefNorm === path) a.classList.add("active");
     }
   });
 

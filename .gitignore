@@ -1,2 +1,4 @@
 src/
 backup/
+_site/
+node_modules/

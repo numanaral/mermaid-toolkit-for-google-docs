@@ -1,47 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5LVQFDZGM"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Y5LVQFDZGM');</script>
-  <title>Diagram Gallery — Mermaid Toolkit for Google Docs™</title>
-  <meta name="description" content="Live-rendered examples of every Mermaid diagram type supported by Mermaid Toolkit for Google Docs™.">
-  <link rel="canonical" href="https://numanaral.github.io/mermaid-toolkit-for-google-docs/gallery.html">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://numanaral.github.io/mermaid-toolkit-for-google-docs/gallery.html">
-  <meta property="og:title" content="Diagram Gallery — Mermaid Toolkit for Google Docs™">
-  <meta property="og:description" content="Live-rendered examples of every Mermaid diagram type supported by Mermaid Toolkit for Google Docs™.">
-  <meta property="og:image" content="https://numanaral.github.io/mermaid-toolkit-for-google-docs/assets/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Diagram Gallery — Mermaid Toolkit for Google Docs™">
-  <meta name="twitter:description" content="Live-rendered examples of every Mermaid diagram type supported by Mermaid Toolkit for Google Docs™.">
-  <meta name="twitter:image" content="https://numanaral.github.io/mermaid-toolkit-for-google-docs/assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap">
-  <link rel="icon" href="assets/favicon.ico" sizes="any">
-  <link rel="icon" href="assets/icon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="assets/icon-128.png">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <nav>
-    <div class="nav-inner">
-      <a href="index.html" class="nav-brand"><img src="assets/icon-32.png" alt=""><span>Mermaid Toolkit<span class="brand-sub">for Google Docs™</span></span></a>
-      <button class="nav-toggle" aria-label="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-      </button>
-      <ul class="nav-links">
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#showcase">Screenshots</a></li>
-        <li><a href="index.html#how">How to Use</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="support.html">Support</a></li>
-      </ul>
-      <a href="#" class="nav-cta">INSTALL</a>
-    </div>
-  </nav>
+---
+permalink: /gallery/
+layout: base.njk
+pageTitle: Diagram Gallery
+pageDescription: "Live-rendered examples of every Mermaid diagram type supported by Mermaid Toolkit for Google Docs™."
+---
 
   <section class="page-hero gallery-hero">
     <div class="orb orb-1"></div>
@@ -368,23 +330,6 @@ Bio-conversion,Gas,81.144</pre></div>
 
   </div>
 
-  <footer>
-    <ul class="footer-links">
-      <li><a href="support.html">Support</a></li>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-      <li><a href="terms.html">Terms of Service</a></li>
-      <li><a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs">GitHub</a></li>
-    </ul>
-    <div class="footer-heart">
-      <span>Created with</span>
-      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-      <span>by</span>
-      <a href="https://numanaral.github.io/?ref=mermaid-toolkit-for-google-docs" target="_blank" rel="noopener">Numan Aral</a>
-    </div>
-    <p class="trademark">Google Docs™ and Google Workspace™ are trademarks of Google LLC. Not affiliated with or endorsed by Google.</p>
-  </footer>
-
-  <script src="main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <script>
     mermaid.initialize({ startOnLoad: false, theme: 'default' });
@@ -410,7 +355,6 @@ Bio-conversion,Gas,81.144</pre></div>
 
     items.forEach(function (item) { observer.observe(item); });
 
-    // mermaid v10 appends error SVGs to document.body on render failure — remove them
     new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
         m.addedNodes.forEach(function (node) {
@@ -419,5 +363,3 @@ Bio-conversion,Gas,81.144</pre></div>
       });
     }).observe(document.body, { childList: true });
   </script>
-</body>
-</html>
