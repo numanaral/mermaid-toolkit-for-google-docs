@@ -1,0 +1,71 @@
+/* ============================================================
+   LEGAL PAGES (PRIVACY / TERMS)
+   ============================================================ */
+
+.legal {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 8rem 2rem 5rem;
+}
+.legal h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+.legal .updated {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 2.5rem;
+}
+.legal h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-faintest);
+}
+.legal h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+.legal p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+.legal ul,
+.legal ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.legal li {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  margin-bottom: 0.4rem;
+  line-height: 1.6;
+}
+.legal strong {
+  color: var(--text);
+}
+.legal table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+.legal th,
+.legal td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  border-bottom: 1px solid var(--border-faint);
+}
+.legal th {
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface);
+}
+.legal td {
+  color: var(--text-dim);
+}

@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
 {%- include "head.njk" %}
+  <link rel="stylesheet" href="/styles/main.css">
+  {%- if pageCss %}
+  <link rel="stylesheet" href="/styles/{{ pageCss }}.css">
+  {%- endif %}
 </head>
 <body>
 {%- include "nav.njk" %}
 {{ content | safe }}
 {%- include "footer.njk" %}
-  <script src="/main.js"></script>
+  <script src="/scripts/main.js"></script>
+  {%- if pageJs %}
+  <script src="/scripts/{{ pageJs }}.js"></script>
+  {%- endif %}
 </body>
 </html>

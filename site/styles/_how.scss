@@ -1,0 +1,140 @@
+/* ============================================================
+   HOME: GETTING STARTED (TIMELINE)
+   ============================================================ */
+
+.how {
+  padding: 5rem 2rem;
+}
+.how-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.how-subtitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.how-subtitle-desc {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+}
+.how-col-full {
+  grid-column: 1 / -1;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--border-subtle);
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+.tl-item:last-child {
+  margin-bottom: 0;
+}
+.tl-item::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--dark);
+  left: -2.5rem;
+  transform: translateX(-50%);
+  margin-left: 6px;
+}
+.tl-item h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.tl-item p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+/* ============================================================
+   HOME: CALLOUT
+   ============================================================ */
+
+.callout {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--accent2-tint-light);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+.callout strong {
+  color: var(--accent2);
+}
+.callout-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+.callout-do,
+.callout-dont {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.callout-label {
+  display: block;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: "Space Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.callout-label.do {
+  background: var(--accent-tint-light);
+  color: var(--accent);
+}
+.callout-label.dont {
+  background: var(--accent2-tint);
+  color: var(--accent2);
+}
+.code-block {
+  background: var(--dark);
+  font-family: "Space Mono", monospace;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+.code-line {
+  padding: 0 0.75rem;
+  white-space: pre;
+}
+.code-line.hl-ok {
+  background: var(--accent-tint-faint);
+  color: var(--accent);
+}
+.code-line.hl-bad {
+  background: var(--accent2-tint-faint);
+  color: var(--accent2);
+}

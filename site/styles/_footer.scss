@@ -1,0 +1,54 @@
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border-faintest);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+footer a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.footer-heart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+.footer-heart svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--accent2);
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+.footer-heart a {
+  color: var(--accent2);
+  transition: color 0.2s;
+}
+.footer-heart a:hover {
+  color: var(--accent2-hover);
+}
+.trademark {
+  font-size: 0.65rem;
+  color: var(--text-trademark);
+  margin-top: 1rem;
+}

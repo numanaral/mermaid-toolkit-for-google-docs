@@ -1,0 +1,56 @@
+[
+  {
+    "subtitle": "Auto-render from your doc",
+    "desc": "Already have Mermaid code? Render everything in one click.",
+    "steps": [
+      {
+        "title": "Write Mermaid syntax",
+        "desc": "Place your diagram code inside a code block in your Google Doc."
+      },
+      {
+        "title": "Run the renderer",
+        "desc": "Extensions → Mermaid Toolkit → Convert All Code to Diagrams. Every diagram gets rendered."
+      },
+      {
+        "title": "Insert into your document",
+        "desc": "Preview each diagram, then click Insert or Replace. Done."
+      }
+    ]
+  },
+  {
+    "subtitle": "Use the built-in editor",
+    "desc": "Write diagrams from scratch with live preview and templates.",
+    "steps": [
+      {
+        "title": "Open the editor",
+        "desc": "Extensions → Mermaid Toolkit → Insert Mermaid Diagram."
+      },
+      {
+        "title": "Write and preview",
+        "desc": "Write or paste Mermaid syntax on the left, see the live preview update on the right."
+      },
+      {
+        "title": "Insert into your document",
+        "desc": "Pick a template to get started quickly, then click Insert at Cursor."
+      }
+    ]
+  },
+  {
+    "subtitle": "Fix pasted markdown",
+    "desc": "Copied Mermaid code from a markdown file or another tool? Google Docs corrupts it. Fix it in one step.",
+    "steps": [
+      {
+        "title": "Open Fix Copied Markdown",
+        "desc": "Extensions → Mermaid Toolkit → Fix Copied Markdown."
+      },
+      {
+        "title": "Paste your broken code",
+        "desc": "Paste the corrupted markdown. The tool shows a side-by-side diff of what it will fix."
+      },
+      {
+        "title": "Copy the fixed result",
+        "desc": "Click Copy Fixed and paste it back into your doc — ready to render."
+      }
+    ]
+  }
+]

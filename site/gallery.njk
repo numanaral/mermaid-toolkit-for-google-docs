@@ -3,6 +3,8 @@ permalink: /gallery/
 layout: base.njk
 pageTitle: Diagram Gallery
 pageDescription: "Live-rendered examples of every Mermaid diagram type supported by Mermaid Toolkit for Google Docs™."
+pageJs: gallery
+pageCss: gallery
 ---
 
   <section class="page-hero gallery-hero">
@@ -331,35 +333,3 @@ Bio-conversion,Gas,81.144</pre></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: false, theme: 'default' });
-
-    var counter = 0;
-    var items = document.querySelectorAll('.gallery-item[data-mermaid]');
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var item = entry.target;
-        observer.unobserve(item);
-        var code = item.getAttribute('data-mermaid');
-        var container = item.querySelector('.gallery-item-render');
-        var id = 'mermaid-' + (counter++);
-        mermaid.render(id, code).then(function (result) {
-          container.innerHTML = result.svg;
-        }).catch(function () {
-          container.innerHTML = '<span class="mermaid-placeholder">Preview not available — <a href="https://mermaid.js.org/" target="_blank" rel="noopener" style="color:var(--accent)">try on mermaid.js.org</a></span>';
-        });
-      });
-    }, { rootMargin: '200px' });
-
-    items.forEach(function (item) { observer.observe(item); });
-
-    new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
-        m.addedNodes.forEach(function (node) {
-          if (node.id && node.id.startsWith('d') && node.tagName === 'svg') node.remove();
-        });
-      });
-    }).observe(document.body, { childList: true });
-  </script>

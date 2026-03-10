@@ -1,0 +1,88 @@
+/* ============================================================
+   NAV
+   ============================================================ */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--border-faint);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.15;
+}
+.nav-brand:hover {
+  text-decoration: none;
+}
+.nav-brand img {
+  width: 28px;
+  height: 28px;
+}
+.nav-brand .brand-sub {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text-dim);
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--accent);
+  text-decoration: none;
+}
+.nav-cta {
+  background: var(--accent);
+  color: var(--dark);
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.3s;
+  letter-spacing: 0.02em;
+}
+.nav-cta:hover {
+  background: var(--accent-hover);
+  text-decoration: none;
+}
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 0.4rem;
+}
+.nav-toggle svg {
+  width: 22px;
+  height: 22px;
+}

@@ -1,0 +1,70 @@
+/* Fonts loaded via <link> in HTML for performance */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --teal: #00897b;
+  --dark: #0a0f0f;
+  --surface: #111818;
+  --surface2: #1a2222;
+  --accent: #4aeacc;
+  --accent2: #ff7a65;
+  --text: #e8eeee;
+  --text-dim: #7a9090;
+  --muted: #7a9090;
+  --accent-hover: #72f5d8;
+  --accent2-hover: #ff9a89;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-dim: rgba(255, 255, 255, 0.08);
+  --border-faint: rgba(255, 255, 255, 0.05);
+  --border-accent: rgba(74, 234, 204, 0.2);
+  --border-accent-dim: rgba(74, 234, 204, 0.12);
+  --border-accent-faint: rgba(74, 234, 204, 0.15);
+  --overlay: rgba(0, 0, 0, 0.6);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-deep: rgba(0, 0, 0, 0.5);
+  --surface-light: #fff;
+  --text-trademark: rgba(255, 255, 255, 0.2);
+  --nav-bg: rgba(10, 15, 15, 0.7);
+  --nav-bg-mobile: rgba(10, 15, 15, 0.95);
+  --accent-glow: rgba(74, 234, 204, 0.3);
+  --accent-tint: rgba(74, 234, 204, 0.08);
+  --accent-tint-light: rgba(74, 234, 204, 0.12);
+  --accent-tint-faint: rgba(74, 234, 204, 0.1);
+  --accent2-tint: rgba(255, 107, 101, 0.12);
+  --accent2-tint-light: rgba(255, 107, 101, 0.2);
+  --accent2-tint-faint: rgba(255, 107, 101, 0.1);
+  --accent2-bg: rgba(255, 122, 101, 0.06);
+  --accent2-border: rgba(255, 122, 101, 0.18);
+  --surface-hover: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(255, 255, 255, 0.25);
+  --border-hover-dim: rgba(255, 255, 255, 0.15);
+  --form-bg: #f0ebf8;
+  --window-red: #ff5f57;
+  --window-yellow: #febc2e;
+  --window-green: #28c840;
+  --border-faintest: rgba(255, 255, 255, 0.04);
+}
+
+html {
+  overflow-x: hidden;
+}
+body {
+  font-family: "Outfit", sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}

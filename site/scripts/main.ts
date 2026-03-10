@@ -1,14 +1,14 @@
 document.documentElement.classList.add("js");
 
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.querySelector(".nav-toggle");
-  const links = document.querySelector(".nav-links");
+  const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const links = document.querySelector<HTMLElement>(".nav-links");
   if (toggle && links) {
     toggle.addEventListener("click", () => links.classList.toggle("open"));
   }
 
-  const tabs = document.querySelectorAll(".showcase-tabs button");
-  const img = document.getElementById("ss");
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".showcase-tabs button");
+  const img = document.getElementById("ss") as HTMLImageElement | null;
   if (tabs.length && img) {
     tabs[0].classList.add("active");
     tabs.forEach((btn) => {
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tabs.forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         const name = btn.getAttribute("data-img");
-        const source = img.parentElement.querySelector("source");
+        const source = img.parentElement?.querySelector<HTMLSourceElement>("source");
         if (source) source.srcset = `/assets/${name}.webp`;
         img.src = `/assets/${name}.png`;
       });
@@ -35,16 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>`;
   document.body.appendChild(pendingModal);
 
-  pendingModal.addEventListener("click", (e) => {
+  pendingModal.addEventListener("click", (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
     if (
-      e.target === pendingModal ||
-      e.target.classList.contains("pending-modal-close")
+      target === pendingModal ||
+      target.classList.contains("pending-modal-close")
     ) {
       pendingModal.classList.remove("visible");
     }
   });
 
-  document.querySelectorAll(".nav-cta, .btn-accent").forEach((btn) => {
+  document.querySelectorAll<HTMLElement>(".nav-cta, .btn-accent").forEach((btn) => {
     if (btn.getAttribute("href") === "#") {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const navLinks = document.querySelectorAll(".nav-links a");
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-links a");
   const path = location.pathname.replace(/\/index\.html$/, "/").replace(/\/$/, "") || "/";
 
   navLinks.forEach((a) => {
@@ -64,17 +65,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const sections = document.querySelectorAll("section[id]");
+  const sections = document.querySelectorAll<HTMLElement>("section[id]");
   if (sections.length) {
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
           const { id } = entry.target;
-          const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+          const link = document.querySelector<HTMLAnchorElement>(`.nav-links a[href="#${id}"]`);
           if (!link) return;
           if (entry.isIntersecting) {
             navLinks.forEach((a) => {
-              if (a.getAttribute("href").startsWith("#"))
+              if (a.getAttribute("href")!.startsWith("#"))
                 a.classList.remove("active");
             });
             link.classList.add("active");
@@ -94,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const reveals = document.querySelectorAll(".reveal, .reveal-stagger");
   if (reveals.length) {
     const revealObserver = new IntersectionObserver(
-      (entries) => {
+      (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");

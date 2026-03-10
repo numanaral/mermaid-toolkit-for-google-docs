@@ -1,0 +1,84 @@
+/* ============================================================
+   ANIMATIONS: SCROLL REVEAL
+   ============================================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.js .reveal,
+.js .gallery-item {
+  opacity: 0;
+}
+.js .reveal.visible {
+  animation: fadeInUp 0.6s ease forwards;
+}
+.js .gallery-item.reveal.visible:nth-child(even) {
+  animation-delay: 0.12s;
+}
+
+.js .reveal-stagger > * {
+  opacity: 0;
+}
+.js .reveal-stagger.visible > * {
+  animation: fadeInUp 0.5s ease forwards;
+}
+.reveal-stagger.visible > *:nth-child(1) {
+  animation-delay: 0s;
+}
+.reveal-stagger.visible > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.reveal-stagger.visible > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.reveal-stagger.visible > *:nth-child(4) {
+  animation-delay: 0.24s;
+}
+.reveal-stagger.visible > *:nth-child(5) {
+  animation-delay: 0.32s;
+}
+.reveal-stagger.visible > *:nth-child(6) {
+  animation-delay: 0.4s;
+}
+
+.js .hero-content {
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+.js .hero-demo {
+  animation: fadeInUp 0.8s ease 0.4s both;
+}
+.js .pending-banner {
+  animation: fadeInUp 0.6s ease 0s both;
+}
+.js .hero-divider {
+  animation: fadeInUp 0.5s ease 0.1s both;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.25);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.2);
+  }
+  56% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

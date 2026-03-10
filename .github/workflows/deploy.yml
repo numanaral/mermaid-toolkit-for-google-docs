@@ -27,7 +27,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npx @11ty/eleventy
+      - run: npm run build
         env:
           NODE_ENV: production
 

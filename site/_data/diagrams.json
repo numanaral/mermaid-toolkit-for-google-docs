@@ -1,0 +1,147 @@
+[
+  {
+    "name": "Flowchart",
+    "slug": "flowchart",
+    "keyword": "flowchart",
+    "docsUrl": "https://mermaid.js.org/syntax/flowchart.html",
+    "code": "graph TD\n    A[Start] --> B{Decision}\n    B -->|Yes| C[Process]\n    B -->|No| D[End]\n    C --> D",
+    "hasCard": true
+  },
+  {
+    "name": "graph",
+    "slug": "flowchart",
+    "keyword": "graph",
+    "docsUrl": "https://mermaid.js.org/syntax/flowchart.html",
+    "code": null,
+    "hasCard": false,
+    "isAlias": true
+  },
+  {
+    "name": "Sequence Diagram",
+    "slug": "sequence",
+    "keyword": "sequenceDiagram",
+    "docsUrl": "https://mermaid.js.org/syntax/sequenceDiagram.html",
+    "code": "sequenceDiagram\n    Alice->>Bob: Hello Bob!\n    Bob-->>Alice: Hi Alice!\n    Alice->>Bob: How are you?\n    Bob-->>Alice: Great!",
+    "hasCard": true
+  },
+  {
+    "name": "Class Diagram",
+    "slug": "class",
+    "keyword": "classDiagram",
+    "docsUrl": "https://mermaid.js.org/syntax/classDiagram.html",
+    "code": "classDiagram\n    Animal <|-- Duck\n    Animal <|-- Fish\n    Animal : +int age\n    Animal : +String gender\n    Animal: +isMammal()\n    Duck: +swim()\n    Fish: +canEat()",
+    "hasCard": true
+  },
+  {
+    "name": "State Diagram",
+    "slug": "state",
+    "keyword": "stateDiagram",
+    "docsUrl": "https://mermaid.js.org/syntax/stateDiagram.html",
+    "code": "stateDiagram-v2\n    [*] --> Idle\n    Idle --> Processing : Start\n    Processing --> Done : Complete\n    Processing --> Error : Fail\n    Error --> Idle : Reset\n    Done --> [*]",
+    "hasCard": false
+  },
+  {
+    "name": "Entity Relationship",
+    "slug": "er",
+    "keyword": "erDiagram",
+    "docsUrl": "https://mermaid.js.org/syntax/entityRelationshipDiagram.html",
+    "code": "erDiagram\n    CUSTOMER ||--o{ ORDER : places\n    ORDER ||--|{ LINE-ITEM : contains\n    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses",
+    "hasCard": true
+  },
+  {
+    "name": "Gantt Chart",
+    "slug": "gantt",
+    "keyword": "gantt",
+    "docsUrl": "https://mermaid.js.org/syntax/gantt.html",
+    "code": "gantt\n    title Project Plan\n    dateFormat YYYY-MM-DD\n    section Design\n      Wireframes :a1, 2024-01-01, 7d\n      Mockups    :a2, after a1, 5d\n    section Dev\n      Frontend   :b1, after a2, 10d\n      Backend    :b2, after a2, 12d",
+    "hasCard": true
+  },
+  {
+    "name": "Pie Chart",
+    "slug": "pie",
+    "keyword": "pie",
+    "docsUrl": "https://mermaid.js.org/syntax/pie.html",
+    "code": "pie title Favorite Languages\n    \"JavaScript\" : 35\n    \"Python\" : 30\n    \"TypeScript\" : 20\n    \"Go\" : 15",
+    "hasCard": false
+  },
+  {
+    "name": "Git Graph",
+    "slug": "gitgraph",
+    "keyword": "gitGraph",
+    "docsUrl": "https://mermaid.js.org/syntax/gitgraph.html",
+    "code": "gitGraph\n    commit\n    commit\n    branch develop\n    checkout develop\n    commit\n    commit\n    checkout main\n    merge develop\n    commit",
+    "hasCard": false
+  },
+  {
+    "name": "User Journey",
+    "slug": "journey",
+    "keyword": "journey",
+    "docsUrl": "https://mermaid.js.org/syntax/userJourney.html",
+    "code": "journey\n    title My Working Day\n    section Go to work\n      Make tea: 5: Me\n      Go upstairs: 3: Me\n      Do work: 1: Me, Cat\n    section Go home\n      Go downstairs: 5: Me\n      Sit down: 5: Me",
+    "hasCard": false
+  },
+  {
+    "name": "Mindmap",
+    "slug": "mindmap",
+    "keyword": "mindmap",
+    "docsUrl": "https://mermaid.js.org/syntax/mindmap.html",
+    "code": "mindmap\n  root((Project))\n    Planning\n      Goals\n      Timeline\n    Development\n      Frontend\n      Backend\n    Testing",
+    "hasCard": true
+  },
+  {
+    "name": "Timeline",
+    "slug": "timeline",
+    "keyword": "timeline",
+    "docsUrl": "https://mermaid.js.org/syntax/timeline.html",
+    "code": "timeline\n    title History of Social Media\n    2002 : LinkedIn\n    2004 : Facebook : Google\n    2005 : YouTube\n    2006 : Twitter",
+    "hasCard": false
+  },
+  {
+    "name": "Sankey",
+    "slug": "sankey",
+    "keyword": "sankey",
+    "docsUrl": "https://mermaid.js.org/syntax/sankey.html",
+    "code": "sankey-beta\nAgricultural waste,Bio-conversion,124.729\nBio-conversion,Liquid,0.597\nBio-conversion,Losses,26.862\nBio-conversion,Solid,280.322\nBio-conversion,Gas,81.144",
+    "hasCard": false
+  },
+  {
+    "name": "XY Chart",
+    "slug": "xychart",
+    "keyword": "xychart",
+    "docsUrl": "https://mermaid.js.org/syntax/xychart.html",
+    "code": "xychart-beta\n    title \"Sales Revenue\"\n    x-axis [jan, feb, mar, apr, may]\n    y-axis \"Revenue (k$)\" 0 --> 150\n    bar [52, 78, 65, 120, 95]\n    line [52, 78, 65, 120, 95]",
+    "hasCard": false
+  },
+  {
+    "name": "Block Diagram",
+    "slug": "block",
+    "keyword": "block-beta",
+    "docsUrl": "https://mermaid.js.org/syntax/block.html",
+    "code": "block-beta\n  columns 3\n  a[\"Frontend\"]:2 b[\"Backend\"]\n  c[\"Database\"] d[\"Cache\"] e[\"Queue\"]",
+    "hasCard": false
+  },
+  {
+    "name": "Quadrant Chart",
+    "slug": "quadrant",
+    "keyword": "quadrantChart",
+    "docsUrl": "https://mermaid.js.org/syntax/quadrantChart.html",
+    "code": "quadrantChart\n    title Reach and engagement\n    x-axis Low Reach --> High Reach\n    y-axis Low Engagement --> High Engagement\n    quadrant-1 We should expand\n    quadrant-2 Need to promote\n    quadrant-3 Re-evaluate\n    quadrant-4 May be improved\n    Campaign A: [0.3, 0.6]\n    Campaign B: [0.45, 0.23]\n    Campaign C: [0.57, 0.69]\n    Campaign D: [0.78, 0.34]",
+    "hasCard": false
+  },
+  {
+    "name": "Requirement Diagram",
+    "slug": "requirement",
+    "keyword": "requirementDiagram",
+    "docsUrl": "https://mermaid.js.org/syntax/requirementDiagram.html",
+    "code": "requirementDiagram\n    requirement test_req {\n      id: 1\n      text: the test text\n      risk: high\n      verifymethod: test\n    }\n    element test_entity {\n      type: simulation\n    }\n    test_entity - satisfies -> test_req",
+    "hasCard": false
+  },
+  {
+    "name": "C4 Context",
+    "slug": "c4context",
+    "keyword": "c4context",
+    "docsUrl": "https://mermaid.js.org/syntax/c4.html",
+    "code": "C4Context\n    title System Context diagram for Internet Banking System\n    Person(customerA, \"Banking Customer A\", \"A customer of the bank\")\n    System(systemAA, \"Internet Banking System\", \"Allows customers to view information about their bank accounts.\")\n    System_Ext(systemC, \"E-mail system\", \"The internal e-mail system.\")\n    Rel(customerA, systemAA, \"Uses\")\n    Rel(systemAA, systemC, \"Sends e-mails\", \"SMTP\")",
+    "hasCard": false
+  }
+]
