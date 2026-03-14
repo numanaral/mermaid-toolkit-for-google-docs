@@ -205,7 +205,6 @@ for (const btn of tplBtns) {
     const key = btn.getAttribute("data-tpl")!;
     if (TEMPLATES[key]) {
       sourceEl.value = TEMPLATES[key];
-      tplRow.classList.remove("visible");
       updateTemplateHighlight();
       doRender();
     }
