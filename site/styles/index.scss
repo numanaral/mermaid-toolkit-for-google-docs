@@ -6,6 +6,7 @@
 @use "layout/footer";
 @use "layout/hero";
 @use "components/bento";
+@use "components/why";
 @use "components/showcase";
 @use "components/how";
 @use "components/diagrams";
@@ -27,6 +28,9 @@
   }
   .bento-card.wide {
     grid-column: span 1;
+  }
+  .why-grid {
+    grid-template-columns: 1fr;
   }
   .how-grid {
     grid-template-columns: 1fr;

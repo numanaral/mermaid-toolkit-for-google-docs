@@ -31,6 +31,13 @@
 
 ---
 
+## Why Mermaid Toolkit?
+
+- **AI-friendly workflows** — Mermaid diagrams are plain text. Copy them between Google Docs, your IDE, and AI tools (ChatGPT, Copilot, Claude) without dealing with images or format issues
+- **Markdown interop** — Export as markdown, paste into GitHub, Notion, or any markdown editor. Import back into Google Docs and re-render — no conversion needed
+- **Zero data collection** — Everything renders client-side via mermaid.js. No servers, no analytics, no cookies
+- **Round-trip editing** — Every diagram image stores its source code. Click any diagram to edit, update, or extract the original Mermaid syntax
+
 ## Features
 
 - **Convert All Code to Diagrams** — Scans your entire document for Mermaid code blocks and renders them all as high-quality images in one click
