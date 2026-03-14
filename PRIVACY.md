@@ -59,7 +59,7 @@ If this privacy policy changes, the update will be reflected in this document wi
 
 ## Contact
 
-If you have questions about this privacy policy, please visit our [Support page](https://numanaral.github.io/mermaid-toolkit-for-google-docs/support).
+If you have questions about this privacy policy, please visit our [Support page](https://mermaid.numanaral.dev/support?utm_source=github&utm_medium=privacy_md&utm_campaign=mermaid_toolkit).
 
 ---
 

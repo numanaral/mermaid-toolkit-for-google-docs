@@ -45,7 +45,7 @@ These terms may be updated from time to time. Continued use of the add-on after 
 
 ## Contact
 
-If you have questions about these terms, please visit our [Support page](https://numanaral.github.io/mermaid-toolkit-for-google-docs/support).
+If you have questions about these terms, please visit our [Support page](https://mermaid.numanaral.dev/support?utm_source=github&utm_medium=terms_md&utm_campaign=mermaid_toolkit).
 
 ---
 

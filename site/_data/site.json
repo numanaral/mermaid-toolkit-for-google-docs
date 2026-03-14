@@ -1,7 +1,7 @@
 {
   "title": "Mermaid Toolkit for Google Docs™",
-  "url": "https://numanaral.github.io/mermaid-toolkit-for-google-docs",
+  "url": "https://mermaid.numanaral.dev",
   "description": "Render Mermaid diagrams as images directly in Google Docs™. 100% client-side — no data leaves your browser.",
-  "author": { "name": "Numan Aral", "url": "https://numanaral.github.io" },
+  "author": { "name": "Numan Aral", "url": "https://numanaral.dev?utm_source=mermaid-site&utm_medium=footer&utm_campaign=mermaid_toolkit" },
   "ga": "G-Y5LVQFDZGM"
 }

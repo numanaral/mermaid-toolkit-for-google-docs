@@ -38,7 +38,7 @@
 - **Insert Mermaid Diagram** — Side-by-side editor with real-time preview, syntax highlighting, and starter templates
 - **Edit Selected Mermaid Image** — Click any diagram image and edit its source in place
 - **Convert Image to Code** — Extract the original Mermaid source from any diagram image inserted by this add-on (single or bulk)
-- **Fix Copied Markdown** — Repairs corrupted Mermaid syntax caused by Google Docs' paste behavior (vertical tabs, stray backticks, formatting artifacts). [Learn more](https://numanaral.github.io/mermaid-toolkit-for-google-docs/features#fix-markdown)
+- **Fix Copied Markdown** — Repairs corrupted Mermaid syntax caused by Google Docs' paste behavior (vertical tabs, stray backticks, formatting artifacts). [Learn more](https://mermaid.numanaral.dev/features?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit#fix-markdown)
 - **100% client-side** — All rendering happens in your browser via [mermaid.js](https://mermaid.js.org/). No data is sent to any server
 
 ## Screenshots
@@ -131,17 +131,17 @@ The add-on requests only two OAuth scopes:
 - `documents.currentonly` — to read code snippets and insert images in the current document
 - `script.container.ui` — to display dialog windows
 
-Read the full [Privacy Policy](https://numanaral.github.io/mermaid-toolkit-for-google-docs/privacy).
+Read the full [Privacy Policy](https://mermaid.numanaral.dev/privacy?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit).
 
 ## Terms of Service
 
 This add-on is provided "as is" without warranty. It is free to use and not affiliated with Google or Mermaid.js.
 
-Read the full [Terms of Service](https://numanaral.github.io/mermaid-toolkit-for-google-docs/terms).
+Read the full [Terms of Service](https://mermaid.numanaral.dev/terms?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit).
 
 ## Support
 
-Need help or have feedback? Visit the [Support page](https://numanaral.github.io/mermaid-toolkit-for-google-docs/support) for all the ways to reach us.
+Need help or have feedback? Visit the [Support page](https://mermaid.numanaral.dev/support?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit) for all the ways to reach us.
 
 - **Bug reports:** [Open an issue](https://github.com/numanaral/mermaid-toolkit-for-google-docs/issues)
 - **Questions & feedback:** [Join the discussion](https://github.com/numanaral/mermaid-toolkit-for-google-docs/discussions)
@@ -163,7 +163,7 @@ The site uses [Eleventy](https://www.11ty.dev/) for templating, [Sass](https://s
 ---
 
 <p align="center">
-  Created by <a href="https://numanaral.github.io">Numan Aral</a>
+  Created by <a href="https://numanaral.dev?utm_source=mermaid-github&utm_medium=readme&utm_campaign=mermaid_toolkit">Numan Aral</a>
 </p>
 
 <sub>Google Docs™, Google Drive™, and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</sub>
