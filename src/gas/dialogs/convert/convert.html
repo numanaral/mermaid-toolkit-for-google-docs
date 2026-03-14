@@ -4,10 +4,16 @@
   <style>/* BUILD:INLINE_CSS */</style>
 </head>
 <body>
+  <div tabindex="-1" autofocus style="position:absolute;width:0;height:0;overflow:hidden"></div>
   <div class="spinner" id="spinner"></div>
   <div id="message">Rendering diagram...</div>
   <button id="close-btn">Close</button>
 
+  <script>
+    var mermaidSource = <?!= JSON.stringify(mermaidSource) ?>;
+    var startIdx = <?!= startIdx ?>;
+    var endIdx = <?!= endIdx ?>;
+  </script>
   <script>/* BUILD:INLINE_JS */</script>
 </body>
 </html>

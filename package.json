@@ -6,11 +6,13 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "dev": "bash scripts/dev.sh",
-    "build:gas": "bash scripts/build-gas.sh",
-    "dev:gas": "bash scripts/dev-gas.sh",
-    "push": "cd dist/gas && clasp push",
+    "build:gas": "tsx scripts/build-gas.ts",
+    "dev:gas": "tsx scripts/dev-gas.ts",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit -p tsconfig.json && ([ -n \"$(find src/gas/server -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/server/tsconfig.json || true) && ([ -n \"$(find src/gas/shared src/gas/dialogs -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/tsconfig.dialogs.json || true)"
+    "typecheck": "tsc --noEmit -p tsconfig.json && ([ -n \"$(find src/gas/server -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/server/tsconfig.json || true) && ([ -n \"$(find src/gas/shared src/gas/dialogs -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/tsconfig.dialogs.json || true)",
+    "verify": "yarn lint && yarn typecheck",
+    "clasp:login": "clasp login",
+    "clasp:push": "yarn verify && yarn build:gas && clasp push"
   },
   "repository": {
     "type": "git",
@@ -22,12 +24,15 @@
     "@11ty/eleventy": "^3.1.2",
     "@google/clasp": "^3.3.0",
     "@types/google-apps-script": "^2.0.8",
+    "@types/node": "^25.5.0",
     "@typescript-eslint/eslint-plugin": "^8.57.0",
     "@typescript-eslint/parser": "^8.57.0",
     "concurrently": "^9.2.1",
     "esbuild": "^0.27.3",
     "eslint": "^10.0.3",
+    "jiti": "^2.6.1",
     "sass": "^1.97.3",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {

@@ -1,14 +1,23 @@
-const tsPlugin = require("@typescript-eslint/eslint-plugin");
-const tsParser = require("@typescript-eslint/parser");
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
+import type { Linter } from "eslint";
 
-module.exports = [
+const sharedRules: Linter.RulesRecord = {
+  ...tsPlugin.configs!.recommended!.rules,
+  "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+  "@typescript-eslint/no-explicit-any": "warn",
+};
+
+const config: Linter.Config[] = [
   {
     ignores: ["node_modules/**", "dist/**", "_site/**", "backup/**"],
   },
+
+  // --- Site scripts (browser) ---
   {
     files: ["site/scripts/**/*.ts"],
     languageOptions: {
-      parser: tsParser,
+      parser: tsParser as Linter.Parser,
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: "module",
@@ -28,37 +37,25 @@ module.exports = [
       },
     },
     plugins: {
-      "@typescript-eslint": tsPlugin,
+      "@typescript-eslint": tsPlugin as Record<string, unknown>,
     },
-    rules: {
-      ...tsPlugin.configs.recommended.rules,
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_" },
-      ],
-      "@typescript-eslint/no-explicit-any": "warn",
-    },
+    rules: sharedRules,
   },
+
+  // --- GAS server (Apps Script runtime) ---
   {
     files: ["src/gas/server/**/*.ts"],
     languageOptions: {
-      parser: tsParser,
+      parser: tsParser as Linter.Parser,
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: "module",
       },
     },
     plugins: {
-      "@typescript-eslint": tsPlugin,
+      "@typescript-eslint": tsPlugin as Record<string, unknown>,
     },
-    rules: {
-      ...tsPlugin.configs.recommended.rules,
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_" },
-      ],
-      "@typescript-eslint/no-explicit-any": "warn",
-    },
+    rules: sharedRules,
   },
   {
     files: ["src/gas/server/Code.ts"],
@@ -66,10 +63,12 @@ module.exports = [
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+
+  // --- GAS dialogs + shared (browser + google.script) ---
   {
     files: ["src/gas/dialogs/**/*.ts", "src/gas/shared/**/*.ts"],
     languageOptions: {
-      parser: tsParser,
+      parser: tsParser as Linter.Parser,
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: "module",
@@ -100,15 +99,36 @@ module.exports = [
       },
     },
     plugins: {
-      "@typescript-eslint": tsPlugin,
+      "@typescript-eslint": tsPlugin as Record<string, unknown>,
     },
-    rules: {
-      ...tsPlugin.configs.recommended.rules,
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_" },
-      ],
-      "@typescript-eslint/no-explicit-any": "warn",
+    rules: sharedRules,
+  },
+
+  // --- Build scripts (Node.js) ---
+  {
+    files: ["scripts/**/*.ts"],
+    languageOptions: {
+      parser: tsParser as Linter.Parser,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: "module",
+      },
+      globals: {
+        console: "readonly",
+        process: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+      },
     },
+    plugins: {
+      "@typescript-eslint": tsPlugin as Record<string, unknown>,
+    },
+    rules: sharedRules,
   },
 ];
+
+export default config;

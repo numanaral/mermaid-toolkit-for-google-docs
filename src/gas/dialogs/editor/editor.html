@@ -4,6 +4,7 @@
   <style>/* BUILD:INLINE_CSS */</style>
 </head>
 <body>
+  <div tabindex="-1" autofocus style="position:absolute;width:0;height:0;overflow:hidden"></div>
   <div class="toolbar">
     <button class="btn-ghost" id="tpl-btn">Templates</button>
     <div class="toolbar-spacer"></div>
@@ -48,6 +49,10 @@
 
   <div id="status">Loading mermaid.js...</div>
 
+  <script>
+    var initialSource = <?!= JSON.stringify(initialSource || "") ?>;
+    var imageChildIndex = <?!= JSON.stringify(imageChildIndex != null ? imageChildIndex : -1) ?>;
+  </script>
   <script>/* BUILD:INLINE_JS */</script>
 </body>
 </html>

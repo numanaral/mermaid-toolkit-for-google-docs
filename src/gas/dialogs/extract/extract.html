@@ -4,6 +4,7 @@
   <style>/* BUILD:INLINE_CSS */</style>
 </head>
 <body>
+  <div tabindex="-1" autofocus style="position:absolute;width:0;height:0;overflow:hidden"></div>
   <div class="header">
     <h3>Convert Images to Code</h3>
   </div>
@@ -19,6 +20,7 @@
     <button class="btn-replace" id="replace-all-btn" disabled>Replace All with Code</button>
   </div>
 
+  <script>var imageInfos = <?!= imageInfos ?>;</script>
   <script>/* BUILD:INLINE_JS */</script>
 </body>
 </html>

@@ -12,6 +12,10 @@
     "noEmit": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
-  "include": ["site/scripts/**/*.ts"],
+  "include": [
+    "site/scripts/**/*.ts",
+    "scripts/**/*.ts",
+    "eslint.config.ts"
+  ],
   "exclude": ["node_modules", "dist", "_site"]
 }

@@ -2,6 +2,7 @@ node_modules/
 _site/
 dist/
 backup/
+.gas-build-tmp/
 .env
 .clasp.json
 .DS_Store

@@ -1,5 +1,10 @@
 import type { MermaidSnippet } from "./types";
-import { extractSelectedText, insertFencedCode, makeBlob, setMermaidAlt } from "./doc-utils";
+import {
+  extractSelectedText,
+  insertFencedCode,
+  makeBlob,
+  setMermaidAlt,
+} from "./doc-utils";
 import { findMermaidSnippets } from "./snippets";
 import { findMermaidImages, findMermaidImageIn } from "./images";
 
@@ -22,7 +27,9 @@ const openEditorForImage = (source: string, imageChildIndex: number): void => {
   DocumentApp.getUi().showModalDialog(html, "Mermaid Editor");
 };
 
-const openExtractDialog = (images: ReturnType<typeof findMermaidImages>): void => {
+const openExtractDialog = (
+  images: ReturnType<typeof findMermaidImages>,
+): void => {
   const template = HtmlService.createTemplateFromFile("Extract");
   template.imageInfos = JSON.stringify(images);
 
@@ -31,8 +38,9 @@ const openExtractDialog = (images: ReturnType<typeof findMermaidImages>): void =
 };
 
 // --- Public functions (called by GAS menu / client dialogs) ---
+// Exported so the build can discover and emit them as top-level GAS functions.
 
-const onOpen = (): void => {
+export const onOpen = (): void => {
   DocumentApp.getUi()
     .createMenu("Mermaid Toolkit")
     .addItem("Insert Mermaid Diagram", "openEditor")
@@ -51,11 +59,11 @@ const onOpen = (): void => {
     .addToUi();
 };
 
-const openEditor = (): void => {
+export const openEditor = (): void => {
   openEditorForImage("", -1);
 };
 
-const scanAndRender = (): void => {
+export const scanAndRender = (): void => {
   const blocks = findMermaidSnippets();
 
   if (blocks.length === 0) {
@@ -71,7 +79,7 @@ const scanAndRender = (): void => {
   showPreviewDialog(blocks);
 };
 
-const renderSelection = (): void => {
+export const renderSelection = (): void => {
   const doc = DocumentApp.getActiveDocument();
   const selection = doc.getSelection();
 
@@ -82,7 +90,10 @@ const renderSelection = (): void => {
     return;
   }
 
-  const { text, startIdx, endIdx } = extractSelectedText(selection, doc.getBody());
+  const { text, startIdx, endIdx } = extractSelectedText(
+    selection,
+    doc.getBody(),
+  );
 
   if (!text) {
     DocumentApp.getUi().alert("Selected text is empty.");
@@ -92,7 +103,7 @@ const renderSelection = (): void => {
   showPreviewDialog([{ definition: text, startIdx, endIdx }]);
 };
 
-const convertSelectedCodeToDiagram = (): void => {
+export const convertSelectedCodeToDiagram = (): void => {
   const doc = DocumentApp.getActiveDocument();
   const selection = doc.getSelection();
 
@@ -104,7 +115,10 @@ const convertSelectedCodeToDiagram = (): void => {
     return;
   }
 
-  const { text, startIdx, endIdx } = extractSelectedText(selection, doc.getBody());
+  const { text, startIdx, endIdx } = extractSelectedText(
+    selection,
+    doc.getBody(),
+  );
 
   if (!text) {
     DocumentApp.getUi().alert("Selected text is empty.");
@@ -120,7 +134,7 @@ const convertSelectedCodeToDiagram = (): void => {
   DocumentApp.getUi().showModalDialog(html, "Converting...");
 };
 
-const editSelectedMermaidImage = (): void => {
+export const editSelectedMermaidImage = (): void => {
   const doc = DocumentApp.getActiveDocument();
   const selection = doc.getSelection();
 
@@ -147,7 +161,7 @@ const editSelectedMermaidImage = (): void => {
   );
 };
 
-const extractMermaidFromImages = (): void => {
+export const extractMermaidFromImages = (): void => {
   const images = findMermaidImages();
 
   if (images.length === 0) {
@@ -161,7 +175,7 @@ const extractMermaidFromImages = (): void => {
   openExtractDialog(images);
 };
 
-const convertSelectedImageToCode = (): void => {
+export const convertSelectedImageToCode = (): void => {
   const doc = DocumentApp.getActiveDocument();
   const selection = doc.getSelection();
 
@@ -189,7 +203,7 @@ const convertSelectedImageToCode = (): void => {
   );
 };
 
-const insertDiagramAfterText = (
+export const insertDiagramAfterText = (
   base64Data: string,
   startIdx: number,
   endIdx: number,
@@ -198,12 +212,13 @@ const insertDiagramAfterText = (
 ): { success: boolean; index: number } => {
   const body = DocumentApp.getActiveDocument().getBody();
   const blob = makeBlob(base64Data, index);
-  const image = endIdx >= 0 ? body.insertImage(endIdx + 1, blob) : body.appendImage(blob);
+  const image =
+    endIdx >= 0 ? body.insertImage(endIdx + 1, blob) : body.appendImage(blob);
   if (mermaidSource) setMermaidAlt(image, mermaidSource);
   return { success: true, index };
 };
 
-const replaceDiagramText = (
+export const replaceDiagramText = (
   base64Data: string,
   startIdx: number,
   endIdx: number,
@@ -227,7 +242,7 @@ const replaceDiagramText = (
   return { success: true, index };
 };
 
-const insertImageAtCursor = (
+export const insertImageAtCursor = (
   base64Data: string,
   mermaidSource: string,
 ): { success: boolean; position: string } => {
@@ -264,7 +279,7 @@ const insertImageAtCursor = (
   return { success: true, position: "end" };
 };
 
-const replaceImageInPlace = (
+export const replaceImageInPlace = (
   base64Data: string,
   childIndex: number,
   mermaidSource: string,
@@ -282,34 +297,46 @@ const replaceImageInPlace = (
   return { success: true };
 };
 
-const insertCodeBlockAfterImage = (source: string, imageIdx: number): { success: boolean } => {
+export const insertCodeBlockAfterImage = (
+  source: string,
+  imageIdx: number,
+): { success: boolean } => {
   const body = DocumentApp.getActiveDocument().getBody();
   insertFencedCode(body, imageIdx + 1, source);
   return { success: true };
 };
 
-const replaceImageWithCodeBlock = (source: string, imageIdx: number): { success: boolean } => {
+export const replaceImageWithCodeBlock = (
+  source: string,
+  imageIdx: number,
+): { success: boolean } => {
   const body = DocumentApp.getActiveDocument().getBody();
   insertFencedCode(body, imageIdx, source);
   body.removeChild(body.getChild(imageIdx + 1));
   return { success: true };
 };
 
-const openEditorWithSource = (source: string): void => {
+export const openEditorWithSource = (source: string): void => {
   openEditorForImage(source, -1);
 };
 
-const openFixMarkdown = (): void => {
-  const html = HtmlService.createHtmlOutputFromFile("FixMarkdown").setWidth(720).setHeight(480);
+export const openFixMarkdown = (): void => {
+  const html = HtmlService.createHtmlOutputFromFile("FixMarkdown")
+    .setWidth(720)
+    .setHeight(480);
   DocumentApp.getUi().showModalDialog(html, "Fix Copied Markdown");
 };
 
-const showQuickGuide = (): void => {
-  const html = HtmlService.createHtmlOutputFromFile("QuickGuide").setWidth(440).setHeight(420);
+export const showQuickGuide = (): void => {
+  const html = HtmlService.createHtmlOutputFromFile("QuickGuide")
+    .setWidth(440)
+    .setHeight(420);
   DocumentApp.getUi().showModalDialog(html, "Quick Guide");
 };
 
-const showAbout = (): void => {
-  const html = HtmlService.createHtmlOutputFromFile("About").setWidth(320).setHeight(240);
+export const showAbout = (): void => {
+  const html = HtmlService.createHtmlOutputFromFile("About")
+    .setWidth(320)
+    .setHeight(240);
   DocumentApp.getUi().showModalDialog(html, "About");
 };
