@@ -82,8 +82,7 @@
     "longDesc": "The one feature you didn't know you needed — until Google Docs breaks your diagrams. Paste your corrupted code into the tool. It automatically: (1) Replaces all \\v (vertical tab) characters with proper newlines, (2) Strips stray backtick fences that wrapped individual lines, (3) Removes invisible formatting artifacts, (4) Shows a side-by-side diff so you can see exactly what changed. Copy the fixed result and paste it back into your doc — it's now valid Mermaid syntax, ready to render.",
     "menuAlt": null,
     "reverse": false,
-    "showOnFeaturesPage": true,
-    "featuresPageLink": "/features"
+    "showOnFeaturesPage": true
   },
   {
     "id": "image-to-code",
@@ -117,8 +116,7 @@
     "longDesc": null,
     "menuAlt": null,
     "reverse": false,
-    "showOnFeaturesPage": false,
-    "galleryLink": "/gallery"
+    "showOnFeaturesPage": false
   },
   {
     "id": "zero-data",

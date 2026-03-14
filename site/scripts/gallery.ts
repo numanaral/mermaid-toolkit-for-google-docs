@@ -1,5 +1,18 @@
+document
+  .querySelectorAll<HTMLButtonElement>(".gallery-source-toggle")
+  .forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn
+        .closest(".gallery-item")
+        ?.querySelector(".gallery-item-code")
+        ?.classList.toggle("open");
+    });
+  });
+
 let counter = 0;
-const items = document.querySelectorAll<HTMLElement>(".gallery-item[data-mermaid]");
+const items = document.querySelectorAll<HTMLElement>(
+  ".gallery-item[data-mermaid]",
+);
 
 async function loadMermaid() {
   const { default: mermaid } = await import("mermaid");

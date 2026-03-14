@@ -146,6 +146,16 @@ Need help or have feedback? Visit the [Support page](https://numanaral.github.io
 - **Bug reports:** [Open an issue](https://github.com/numanaral/mermaid-toolkit-for-google-docs/issues)
 - **Questions & feedback:** [Join the discussion](https://github.com/numanaral/mermaid-toolkit-for-google-docs/discussions)
 
+## Development
+
+```bash
+npm install          # install dependencies
+npm run dev          # start dev server with live reload
+npm run build        # production build → _site/
+```
+
+The site uses [Eleventy](https://www.11ty.dev/) for templating, [Sass](https://sass-lang.com/) for styles, [esbuild](https://esbuild.github.io/) for TypeScript bundling, and [Mermaid.js](https://mermaid.js.org/) for diagram rendering.
+
 ## License
 
 [MIT](LICENSE) — Copyright (c) 2026 Numan Aral

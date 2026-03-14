@@ -20,7 +20,7 @@ sitemapPriority: 0.8
     {% for diagram in diagrams %}
     {% if not diagram.isAlias %}
     <div class="card gallery-item" data-mermaid='{{ diagram.code | safe }}'>
-      <div class="gallery-item-header"><h3>{{ diagram.name }}</h3><div class="gallery-links"><button onclick="this.closest('.gallery-item').querySelector('.gallery-item-code').classList.toggle('open')">source</button><a href="{{ diagram.docsUrl }}" target="_blank" rel="noopener">docs →</a></div></div>
+      <div class="gallery-item-header"><h3>{{ diagram.name }}</h3><div class="gallery-links"><button class="gallery-source-toggle">source</button><a href="{{ diagram.docsUrl }}" target="_blank" rel="noopener">docs →</a></div></div>
       <div class="gallery-item-render"><span class="mermaid-placeholder">Loading…</span></div>
       <div class="gallery-item-code"><pre>{{ diagram.code | safe }}</pre></div>
     </div>

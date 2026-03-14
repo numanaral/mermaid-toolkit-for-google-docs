@@ -12,7 +12,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addCollection("sitemapValidated", (collectionApi) => {
     const all = collectionApi.getAll();
     const missing = all
-      .filter((item) => !item.data.eleventyExcludeFromCollections && !item.data.sitemapPriority)
+      .filter(
+        (item) =>
+          !item.data.eleventyExcludeFromCollections &&
+          !item.data.sitemapPriority,
+      )
       .map((item) => item.inputPath);
 
     if (missing.length) {
