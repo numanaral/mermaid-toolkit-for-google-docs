@@ -1,32 +1,52 @@
 :root {
-  // Core palette
-  --bg: #ffffff;
-  --panel-bg: #f8f9fa;
+  // M3 Color System
+  --primary: #1a73e8;
+  --on-primary: #ffffff;
+  --primary-container: #d3e3fd;
+  --on-primary-container: #041e49;
+
+  --secondary: #1e8e3e;
+  --secondary-container: #c4eed0;
+  --on-secondary-container: #00210b;
+
+  --tertiary: #e8710a;
+  --tertiary-container: #ffddb3;
+  --on-tertiary-container: #2d1600;
+
+  --error: #d93025;
+  --error-container: #fce8e6;
+  --on-error-container: #410002;
+
+  // Surfaces
   --surface: #fef7ff;
   --surface-container: #f3edf7;
-  --border: #dadce0;
-  --card-border: #e0e0e0;
-
-  // Text
-  --text: #202124;
-  --text-muted: #5f6368;
+  --on-surface: #1d1b20;
   --outline: #79747e;
+  --outline-variant: #cac4d0;
 
-  // Semantic colors
-  --blue: #1a73e8;
-  --green: #1e8e3e;
-  --orange: #e8710a;
-  --red: #d93025;
-  --teal: #00897B;
+  // Brand accent (teal) — identity touchpoints only
+  --brand-teal: #00897b;
+  --brand-teal-container: #b2dfdb;
 
-  // M3 tonal containers
-  --primary-container: #d3e3fd;
-  --secondary-container: #c4eed0;
-  --tertiary-container: #ffddb3;
-  --error-container: #fce8e6;
-  --teal-container: #b2dfdb;
+  // Surface tint (subtle primary tint on elevated surfaces)
+  --surface-tint: rgba(26, 115, 232, 0.05);
 
-  // Elevation
+  // Elevation shadows
   --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.08);
   --elevation-2: 0 2px 6px rgba(0, 0, 0, 0.07), 0 4px 12px rgba(0, 0, 0, 0.06);
+  --elevation-3: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.06);
+
+  // Legacy aliases (used by some dialogs, mapped to M3 equivalents)
+  --bg: #ffffff;
+  --panel-bg: var(--surface-container);
+  --border: var(--outline-variant);
+  --card-border: var(--outline-variant);
+  --text: var(--on-surface);
+  --text-muted: var(--outline);
+  --blue: var(--primary);
+  --green: var(--secondary);
+  --orange: var(--tertiary);
+  --red: var(--error);
+  --teal: var(--brand-teal);
+  --teal-container: var(--brand-teal-container);
 }

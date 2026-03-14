@@ -4,32 +4,51 @@
   }
 }
 
+// Block spinner (centered, 48px)
 .spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--border);
-  border-top-color: var(--blue);
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--outline-variant);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
+// Inline spinner (14px, inside buttons/status text)
 .spinner-inline {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: white;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   vertical-align: middle;
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
+// Tonal/outlined button spinners use darker borders
+.btn-tonal-primary .spinner-inline,
+.btn-tonal-secondary .spinner-inline,
+.btn-tonal-tertiary .spinner-inline,
+.btn-toggle .spinner-inline {
+  border-color: rgba(0, 0, 0, 0.2);
+  border-top-color: currentColor;
+}
+
+.btn-outlined .spinner-inline,
+.btn-ghost .spinner-inline,
+.btn-text .spinner-inline {
+  border-color: rgba(26, 115, 232, 0.3);
+  border-top-color: var(--primary);
+}
+
+// Card status spinner (10px)
 .spinner-status {
   display: inline-block;
   width: 10px;
   height: 10px;
-  border: 2px solid var(--border);
+  border: 2px solid var(--outline-variant);
   border-top-color: var(--outline);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;

@@ -10,27 +10,31 @@ body {
   overflow: hidden;
 }
 
+// --- Toolbar (M3 Top App Bar style) ---
 .toolbar {
   display: flex;
-  gap: 6px;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border);
-  background: var(--panel-bg);
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--surface-container);
+  background-image: linear-gradient(var(--surface-tint), var(--surface-tint));
   align-items: center;
   flex-wrap: wrap;
-  border-top: 3px solid var(--teal);
+  flex-shrink: 0;
+  border-top: 3px solid var(--brand-teal);
+  box-shadow: var(--elevation-1);
 }
 
 .toolbar-spacer {
   flex: 1;
 }
 
+// --- Template selector (M3 chip style) ---
 .template-row {
   display: none;
-  gap: 4px;
-  padding: 4px 12px 6px;
-  background: var(--panel-bg);
-  border-bottom: 1px solid var(--border);
+  gap: 6px;
+  padding: 8px 16px 10px;
+  background: var(--surface-container);
+  border-bottom: 1px solid var(--outline-variant);
   flex-wrap: wrap;
 
   &.visible {
@@ -38,27 +42,31 @@ body {
   }
 
   button {
-    font-size: 11px;
-    padding: 3px 8px;
-    background: white;
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    transition: border-color 0.15s, background 0.15s;
+    font-size: 13px;
+    padding: 6px 14px;
+    background: var(--surface);
+    color: var(--on-surface);
+    border: 1px solid var(--outline-variant);
+    border-radius: 28px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
 
     &:hover {
-      border-color: var(--teal);
-      background: var(--teal-container);
+      background: var(--surface-container);
+      border-color: var(--primary);
     }
 
     &.active {
-      border-color: var(--teal);
-      background: var(--teal-container);
-      font-weight: 600;
+      background: var(--primary-container);
+      border-color: var(--primary);
+      color: var(--on-primary-container);
     }
   }
 }
 
+// --- Split panels ---
 .panels {
   flex: 1;
   display: flex;
@@ -72,62 +80,62 @@ body {
   overflow: hidden;
 
   & + & {
-    border-left: 1px solid var(--border);
+    border-left: 1px solid var(--outline-variant);
   }
 }
 
 .panel-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  padding: 6px 12px 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--outline);
+  padding: 8px 16px 6px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background: var(--panel-bg);
+  background: rgba(0, 0, 0, 0.02);
   flex-shrink: 0;
 }
 
 textarea {
   flex: 1;
   width: 100%;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border: none;
   outline: none;
   resize: none;
   font-family: 'Roboto Mono', 'Courier New', monospace;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.5;
-  color: var(--text);
+  color: var(--on-surface);
   background: var(--bg);
 }
 
 .preview-scroll {
   flex: 1;
   overflow: auto;
-  background: var(--panel-bg);
-  padding: 8px 12px;
+  background: var(--surface);
+  padding: 10px 16px;
 
   img {
     max-width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    border-radius: 12px;
     background: white;
   }
 }
 
 .placeholder {
-  color: var(--text-muted);
+  color: var(--outline);
   font-style: italic;
   padding: 24px 0;
   text-align: center;
 }
 
 .error-bar {
-  font-size: 11px;
-  color: var(--red);
-  padding: 4px 12px;
+  font-size: 12px;
+  color: var(--error);
+  padding: 6px 16px;
   background: var(--error-container);
-  border-top: 1px solid #f5c6cb;
+  border-top: 1px solid rgba(217, 48, 37, 0.15);
   flex-shrink: 0;
   display: none;
   max-height: 60px;
@@ -139,10 +147,10 @@ textarea {
 }
 
 #status {
-  font-size: 11px;
-  color: var(--text-muted);
-  padding: 4px 12px;
-  border-top: 1px solid var(--border);
-  background: var(--panel-bg);
+  font-size: 12px;
+  color: var(--outline);
+  padding: 6px 16px;
+  border-top: 1px solid var(--outline-variant);
+  background: var(--surface-container);
   flex-shrink: 0;
 }

@@ -1,7 +1,7 @@
 export const markBtn = (btn: HTMLButtonElement, ok: boolean): void => {
   btn.disabled = true;
   btn.innerHTML = ok ? "Done &#10003;" : "Failed";
-  btn.className = ok ? "done" : "failed";
+  btn.className = ok ? "btn done" : "btn failed";
 };
 
 export const setLoading = (btn: HTMLButtonElement, text: string): void => {
@@ -17,9 +17,7 @@ export const setCardStatus = (
   const el = document.getElementById("card-status-" + idx);
   if (!el) return;
   if (spinning) {
-    el.innerHTML =
-      '<span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>' +
-      text;
+    el.innerHTML = '<span class="spinner-status"></span>' + text;
   } else {
     el.textContent = text;
   }

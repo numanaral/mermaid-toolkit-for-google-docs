@@ -44,7 +44,7 @@ export const onOpen = (): void => {
   DocumentApp.getUi()
     .createMenu("Mermaid Toolkit")
     .addItem("Insert Mermaid Diagram", "openEditor")
-    .addItem("Edit Selected Mermaid Image", "editSelectedMermaidImage")
+    .addItem("Edit Selected Mermaid Diagram", "editSelectedMermaidImage")
     .addSeparator()
     .addItem("Convert Selected Code to Diagram", "convertSelectedCodeToDiagram")
     .addItem("Convert All Code to Diagrams", "scanAndRender")

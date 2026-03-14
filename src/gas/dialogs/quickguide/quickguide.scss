@@ -1,24 +1,12 @@
 @use '../../shared/styles/base/variables';
 @use '../../shared/styles/base/reset';
 @use '../../shared/styles/layout/typography';
-@use '../../shared/styles/layout/footer';
 
 body {
   padding: 20px 24px;
   display: flex;
   flex-direction: column;
   height: 100vh;
-}
-
-h2 {
-  font-size: 18px;
-  margin-bottom: 2px;
-}
-
-.tagline {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 16px;
 }
 
 .grid {
@@ -29,10 +17,10 @@ h2 {
 }
 
 .feat {
-  padding: 12px;
-  background: var(--panel-bg);
-  border-radius: 12px;
-  border: 1px solid var(--border);
+  padding: 14px;
+  background: var(--surface-container);
+  background-image: linear-gradient(var(--surface-tint), var(--surface-tint));
+  border-radius: 16px;
   box-shadow: var(--elevation-1);
   transition: box-shadow 0.15s;
 
@@ -42,27 +30,28 @@ h2 {
 }
 
 .feat-icon {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 6px;
 }
 
 .feat-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--on-surface);
+  margin-bottom: 4px;
 }
 
 .feat-desc {
-  font-size: 11px;
-  color: var(--text-muted);
+  font-size: 12px;
+  color: var(--outline);
   line-height: 1.5;
 }
 
 .feat-menu {
-  font-size: 10px;
-  color: #9aa0a6;
-  margin-top: 4px;
+  font-size: 11px;
+  color: var(--outline);
+  margin-top: 6px;
+  opacity: 0.7;
 }
 
 .link-row {
@@ -70,10 +59,6 @@ h2 {
   margin-bottom: 14px;
 
   a {
-    font-size: 12px;
+    font-size: 13px;
   }
-}
-
-.site-footer {
-  margin-top: auto;
 }

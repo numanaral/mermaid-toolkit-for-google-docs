@@ -50,9 +50,9 @@ const buildCard = (index: number, result: RenderResult): void => {
   if (result.base64) {
     bodyHtml +=
       '<div class="card-buttons">' +
-      '<button class="btn-preview" id="prev-' + index + '">Preview</button>' +
-      '<button class="btn-insert" id="ins-' + index + '">Insert After</button>' +
-      '<button class="btn-replace" id="rep-' + index + '">Replace</button>' +
+      '<button class="btn btn-tonal-primary" id="prev-' + index + '">Preview</button>' +
+      '<button class="btn btn-filled-primary" id="ins-' + index + '">Insert After</button>' +
+      '<button class="btn btn-filled-secondary" id="rep-' + index + '">Replace</button>' +
       "</div>" +
       '<img src="data:image/png;base64,' + result.base64 + '" />' +
       "<details><summary>Show source</summary>" +

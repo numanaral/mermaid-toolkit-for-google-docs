@@ -15,22 +15,17 @@ body {
 
 #message {
   font-size: 14px;
-  color: var(--text-muted);
+  color: var(--outline);
+  margin-top: 16px;
 }
 
 .error-msg {
-  color: var(--red) !important;
-  font-size: 12px !important;
-  margin-top: 8px;
+  color: var(--error) !important;
+  font-size: 13px !important;
+  margin-top: 12px;
 }
 
 #close-btn {
   margin-top: 16px;
-  padding: 6px 16px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  color: var(--text);
-  font-size: 12px;
   display: none;
 }

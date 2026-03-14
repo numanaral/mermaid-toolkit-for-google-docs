@@ -37,9 +37,9 @@ const buildCard = (index: number, info: typeof imageInfos[0], previewHtml: strin
   const bodyHtml =
     '<div class="card-body">' +
     '<div class="card-buttons">' +
-    '<button class="btn-insert" id="ins-' + index + '">Insert Code After</button>' +
-    '<button class="btn-replace" id="rep-' + index + '">Replace with Code</button>' +
-    '<button class="btn-tertiary" id="edit-' + index + '">Open in Editor</button>' +
+    '<button class="btn btn-filled-primary" id="ins-' + index + '">Insert Code After</button>' +
+    '<button class="btn btn-filled-secondary" id="rep-' + index + '">Replace with Code</button>' +
+    '<button class="btn btn-tonal-primary" id="edit-' + index + '">Open in Editor</button>' +
     "</div>" +
     "<details><summary>Show source</summary>" +
     "<pre>" + escapeHtml(info.source) + "</pre>" +

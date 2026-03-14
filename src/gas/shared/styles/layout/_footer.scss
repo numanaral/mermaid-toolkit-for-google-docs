@@ -11,22 +11,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  padding: 10px 0 0;
-  color: #8b949e;
-  font-size: 0.8rem;
-  border-top: 1px solid var(--border);
+  gap: 6px;
+  padding: 14px 0 0;
+  color: var(--outline);
+  font-size: 13px;
+  border-top: 1px solid var(--outline-variant);
 
   svg {
     width: 14px;
     height: 14px;
-    fill: var(--teal);
+    fill: var(--brand-teal);
     animation: heartbeat 1.5s ease-in-out infinite;
   }
 
   a {
-    color: var(--teal);
+    color: var(--brand-teal);
     text-decoration: none;
+    font-weight: 500;
 
     &:hover {
       text-decoration: underline;

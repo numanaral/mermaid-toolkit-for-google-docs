@@ -22,20 +22,21 @@ body {
 .sticky-footer {
   position: sticky;
   bottom: 0;
-  background: var(--panel-bg);
-  border-top: 1px solid var(--card-border);
-  padding: 10px 16px;
+  background: var(--surface-container);
+  border-top: 1px solid var(--outline-variant);
+  padding: 12px 20px;
   display: flex;
   gap: 8px;
   align-items: center;
   flex-shrink: 0;
   flex-wrap: wrap;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .footer-status {
-  color: var(--text-muted);
+  color: var(--outline);
   font-style: italic;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .footer-spacer {

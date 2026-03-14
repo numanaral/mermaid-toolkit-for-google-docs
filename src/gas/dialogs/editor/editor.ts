@@ -169,7 +169,7 @@ insertBtn.addEventListener("click", () => {
     })
     .withFailureHandler((err: Error) => {
       insertBtn.textContent = "Insert into Document";
-      insertBtn.className = "btn-insert";
+      insertBtn.className = "btn btn-filled-primary";
       insertBtn.disabled = false;
       statusEl.textContent = "Error: " + err;
     })
@@ -187,8 +187,8 @@ replaceBtn.addEventListener("click", () => {
       google.script.host.close();
     })
     .withFailureHandler((err: Error) => {
-      replaceBtn.textContent = "Replace Image";
-      replaceBtn.className = "btn-replace";
+      replaceBtn.textContent = "Replace Diagram";
+      replaceBtn.className = "btn btn-filled-secondary";
       replaceBtn.disabled = false;
       statusEl.textContent = "Error: " + err;
     })

@@ -1,5 +1,5 @@
 .ext-link {
-  color: var(--teal);
+  color: var(--brand-teal);
   text-decoration: none;
   display: inline-block;
   position: relative;
@@ -12,7 +12,7 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: var(--teal);
+    background-color: var(--brand-teal);
     transform: scaleX(0);
     transform-origin: bottom right;
     transition: transform 0.25s ease-out;
@@ -35,29 +35,29 @@
 }
 
 pre {
-  background: #f1f3f4;
-  padding: 8px;
-  font-size: 11px;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 12px 16px;
+  font-size: 12px;
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   max-height: 160px;
   overflow-y: auto;
-  color: var(--text);
+  color: var(--on-surface);
   white-space: pre-wrap;
   word-break: break-word;
   font-family: 'Roboto Mono', 'Courier New', monospace;
 }
 
 .error {
-  color: var(--red);
-  font-weight: bold;
-  font-size: 12px;
+  color: var(--error);
+  font-weight: 500;
+  font-size: 13px;
 }
 
 .placeholder {
-  color: var(--text-muted);
+  color: var(--outline);
   font-style: italic;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 details {
@@ -66,6 +66,7 @@ details {
 
 summary {
   cursor: pointer;
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 13px;
+  color: var(--outline);
+  font-weight: 500;
 }

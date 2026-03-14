@@ -5,8 +5,11 @@
 </head>
 <body>
   <div tabindex="-1" autofocus style="position:absolute;width:0;height:0;overflow:hidden"></div>
-  <div class="header">
-    <h3>Convert Code to Diagrams</h3>
+  <div class="dialog-header">
+    <div class="dialog-header-title-wrap">
+      <span class="dialog-header-dot"></span>
+      <h3>Convert Code to Diagrams</h3>
+    </div>
   </div>
   <div class="scroll-area" id="scroll-area">
     <div id="cards"></div>
@@ -15,9 +18,9 @@
   <div class="sticky-footer">
     <span class="footer-status" id="status">Loading mermaid.js...</span>
     <span class="footer-spacer"></span>
-    <button class="btn-toggle" id="toggle-btn" style="display:none">Expand All</button>
-    <button class="btn-insert" id="insert-all-btn" disabled>Insert All</button>
-    <button class="btn-replace" id="replace-all-btn" disabled>Replace All</button>
+    <button class="btn btn-toggle" id="toggle-btn" style="display:none">Expand All</button>
+    <button class="btn btn-filled-primary" id="insert-all-btn" disabled>Insert All</button>
+    <button class="btn btn-filled-secondary" id="replace-all-btn" disabled>Replace All</button>
   </div>
 
   <script>var blockInfos = <?!= blockInfos ?>;</script>
