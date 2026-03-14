@@ -1,5 +1,5 @@
-export const svgToPngBase64 = (svgString: string): Promise<string | null> =>
-  new Promise((resolve) => {
+export const svgToPngBase64 = (svgString: string): Promise<string | null> => {
+  return new Promise((resolve) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(svgString, "image/svg+xml");
     const svg = doc.querySelector("svg");
@@ -48,3 +48,4 @@ export const svgToPngBase64 = (svgString: string): Promise<string | null> =>
 
     img.src = url;
   });
+};

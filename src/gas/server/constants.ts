@@ -1,0 +1,26 @@
+export const MERMAID_ALT_TITLE = "mermaid-diagram";
+
+export const MERMAID_KEYWORDS = [
+  "flowchart",
+  "graph",
+  "sequencediagram",
+  "classdiagram",
+  "statediagram",
+  "erdiagram",
+  "gantt",
+  "pie",
+  "gitgraph",
+  "journey",
+  "mindmap",
+  "timeline",
+  "sankey",
+  "xychart",
+  "block-beta",
+  "quadrantchart",
+  "requirementdiagram",
+  "c4context",
+  "c4container",
+  "c4component",
+  "c4dynamic",
+  "c4deployment",
+];

@@ -61,6 +61,12 @@ module.exports = [
     },
   },
   {
+    files: ["src/gas/server/Code.ts"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
     files: ["src/gas/dialogs/**/*.ts", "src/gas/shared/**/*.ts"],
     languageOptions: {
       parser: tsParser,
