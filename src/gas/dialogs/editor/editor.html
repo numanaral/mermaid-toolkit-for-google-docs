@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>/* BUILD:INLINE_CSS */</style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="btn-ghost" id="tpl-btn">Templates</button>
+    <div class="toolbar-spacer"></div>
+    <button class="btn-tertiary" id="preview-btn" disabled>Preview</button>
+    <button class="btn-replace" id="replace-btn" style="display:none" disabled>Replace Image</button>
+    <button class="btn-insert" id="insert-btn" disabled>Insert into Document</button>
+  </div>
+
+  <div class="template-row" id="tpl-row">
+    <button data-tpl="flowchart">Flowchart</button>
+    <button data-tpl="sequence">Sequence</button>
+    <button data-tpl="gantt">Gantt</button>
+    <button data-tpl="class">Class</button>
+    <button data-tpl="er">ER</button>
+    <button data-tpl="state">State</button>
+    <button data-tpl="pie">Pie</button>
+    <button data-tpl="mindmap">Mindmap</button>
+    <button data-tpl="timeline">Timeline</button>
+    <button data-tpl="journey">Journey</button>
+    <button data-tpl="gitgraph">Git Graph</button>
+    <button data-tpl="sankey">Sankey</button>
+    <button data-tpl="xychart">XY Chart</button>
+    <button data-tpl="block">Block</button>
+    <button data-tpl="quadrant">Quadrant</button>
+    <button data-tpl="requirement">Requirement</button>
+    <button data-tpl="c4">C4 Context</button>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-label">Source</div>
+      <textarea id="source" spellcheck="false" placeholder="Type mermaid syntax here — preview updates live..."></textarea>
+      <div class="error-bar" id="error-bar"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-label">Preview</div>
+      <div class="preview-scroll" id="preview-area">
+        <div class="placeholder">Start typing to see a live preview.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="status">Loading mermaid.js...</div>
+
+  <script>/* BUILD:INLINE_JS */</script>
+</body>
+</html>

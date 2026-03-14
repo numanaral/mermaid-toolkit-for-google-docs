@@ -1,0 +1,35 @@
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.25); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.2); }
+  56%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 0 0;
+  color: #8b949e;
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--teal);
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  a {
+    color: var(--teal);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

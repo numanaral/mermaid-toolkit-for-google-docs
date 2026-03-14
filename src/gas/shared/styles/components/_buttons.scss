@@ -1,0 +1,68 @@
+button,
+.btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: white;
+  transition: opacity 0.15s, box-shadow 0.15s;
+
+  &:hover:not(:disabled) {
+    opacity: 0.88;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary,
+.btn-insert {
+  background: var(--green);
+}
+
+.btn-secondary,
+.btn-replace {
+  background: var(--orange);
+}
+
+.btn-tertiary,
+.btn-preview {
+  background: var(--blue);
+}
+
+.btn-ghost,
+.btn-tpl {
+  background: white;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  &:hover:not(:disabled) {
+    background: var(--panel-bg);
+    opacity: 1;
+  }
+}
+
+.btn-danger {
+  background: var(--red);
+}
+
+.btn-toggle {
+  background: var(--blue);
+}
+
+.done {
+  background: var(--green) !important;
+  color: white !important;
+}
+
+.failed {
+  background: var(--red) !important;
+  color: white !important;
+}

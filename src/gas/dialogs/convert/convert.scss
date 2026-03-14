@@ -1,0 +1,36 @@
+@use '../../shared/styles/base/variables';
+@use '../../shared/styles/base/reset';
+@use '../../shared/styles/components/spinner';
+@use '../../shared/styles/components/buttons';
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 24px;
+}
+
+#message {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.error-msg {
+  color: var(--red) !important;
+  font-size: 12px !important;
+  margin-top: 8px;
+}
+
+#close-btn {
+  margin-top: 16px;
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  color: var(--text);
+  font-size: 12px;
+  display: none;
+}

@@ -1,0 +1,272 @@
+@use '../../shared/styles/base/variables';
+@use '../../shared/styles/base/reset';
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.tabs {
+  display: inline-flex;
+  padding: 10px 16px 0;
+  flex-shrink: 0;
+  border-top: 3px solid var(--teal);
+}
+
+.tab {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+
+  &:first-child {
+    border-radius: 12px 0 0 12px;
+  }
+
+  &:last-child {
+    border-radius: 0 12px 12px 0;
+  }
+
+  & + & {
+    border-left: none;
+  }
+
+  &:hover {
+    background: var(--panel-bg);
+    color: var(--text);
+  }
+
+  &.active {
+    background: var(--primary-container);
+    color: var(--blue);
+  }
+}
+
+.panes {
+  display: flex;
+  flex: 1;
+  gap: 12px;
+  padding: 10px 16px 12px;
+  min-height: 0;
+
+  &#normalView,
+  &#diffView {
+    display: none;
+  }
+
+  &.visible {
+    display: flex;
+  }
+}
+
+.pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pane-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  min-height: 0;
+}
+
+.code-box {
+  flex: 1;
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--panel-bg);
+  min-height: 0;
+
+  &.out-style {
+    background: var(--bg);
+  }
+
+  &:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.12);
+  }
+}
+
+$ln-width: 36px;
+$line-h: 18px;
+$ln-color: #b0b3b8;
+
+.ln-gutter {
+  width: $ln-width;
+  flex-shrink: 0;
+  padding: 10px 0;
+  text-align: right;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  line-height: $line-h;
+  color: $ln-color;
+  user-select: none;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+  background: var(--panel-bg);
+
+  span {
+    display: block;
+    padding-right: 6px;
+    height: $line-h;
+  }
+}
+
+textarea {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: $line-h;
+  padding: 10px;
+  border: none;
+  resize: none;
+  background: transparent;
+  color: var(--text);
+  white-space: pre;
+  overflow: auto;
+  outline: none;
+}
+
+.output-content {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: $line-h;
+  padding: 10px;
+  white-space: pre;
+  overflow: auto;
+  color: var(--text);
+  cursor: default;
+
+  &.empty {
+    color: var(--text-muted);
+    font-family: 'Google Sans', Arial, sans-serif;
+    font-style: italic;
+    white-space: normal;
+  }
+}
+
+.paste-hint {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 11px;
+  color: var(--blue);
+  cursor: pointer;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-family: inherit;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+  z-index: 1;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.diff-content {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: $line-h;
+  padding: 10px 0;
+  white-space: pre;
+  overflow: auto;
+  color: var(--text);
+  cursor: default;
+}
+
+.diff-line {
+  padding: 0 10px;
+  height: $line-h;
+
+  &.add {
+    background: #e6ffec;
+  }
+
+  &.del {
+    background: #ffebe9;
+  }
+
+  &.pad {
+    visibility: hidden;
+  }
+}
+
+.diff-ln {
+  display: inline-block;
+  width: 28px;
+  text-align: right;
+  padding-right: 8px;
+  color: $ln-color;
+  font-size: 10px;
+  user-select: none;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 14px;
+  flex-shrink: 0;
+}
+
+.status {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-muted);
+
+  &.ok {
+    color: var(--green);
+  }
+
+  &.err {
+    color: var(--red);
+  }
+}
+
+.btn-main {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 20px;
+  cursor: pointer;
+  color: #fff;
+  background: var(--green);
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.88;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+}

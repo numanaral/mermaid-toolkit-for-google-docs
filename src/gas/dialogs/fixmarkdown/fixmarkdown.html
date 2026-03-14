@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>/* BUILD:INLINE_CSS */</style>
+</head>
+<body>
+  <div class="tabs">
+    <button class="tab active" data-view="normal">
+      Fixed Output
+    </button>
+    <button class="tab" data-view="diff">
+      Diff
+    </button>
+  </div>
+
+  <div class="panes visible" id="normalView">
+    <div class="pane">
+      <div class="pane-label">Pasted Markdown</div>
+      <div class="input-wrap">
+        <div class="code-box">
+          <div class="ln-gutter" id="inputLn"></div>
+          <textarea id="input"
+            placeholder="Paste markdown here…"
+            spellcheck="false"></textarea>
+        </div>
+        <button class="paste-hint" id="pasteBtn">
+          Paste
+        </button>
+      </div>
+    </div>
+    <div class="pane">
+      <div class="pane-label">Fixed Output</div>
+      <div class="code-box out-style">
+        <div class="ln-gutter" id="outputLn"></div>
+        <div id="output" class="output-content empty">
+          Output will appear here
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panes" id="diffView">
+    <div class="pane">
+      <div class="pane-label">Before</div>
+      <div class="code-box out-style">
+        <div id="diffBefore" class="diff-content"></div>
+      </div>
+    </div>
+    <div class="pane">
+      <div class="pane-label">After</div>
+      <div class="code-box out-style">
+        <div id="diffAfter" class="diff-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span id="status" class="status"></span>
+    <button id="copyBtn" class="btn-main" disabled>
+      Copy Fixed Markdown
+    </button>
+  </div>
+
+  <script>/* BUILD:INLINE_JS */</script>
+</body>
+</html>

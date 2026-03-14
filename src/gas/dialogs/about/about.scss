@@ -1,0 +1,61 @@
+@use '../../shared/styles/base/variables';
+@use '../../shared/styles/base/reset';
+@use '../../shared/styles/layout/footer';
+
+body {
+  padding: 20px;
+  text-align: center;
+}
+
+.brand-card {
+  background: var(--panel-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  box-shadow: var(--elevation-1);
+
+  img {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.brand-card-text {
+  text-align: left;
+
+  .name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+}
+
+.privacy {
+  font-size: 11px;
+  color: #9aa0a6;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.website-link {
+  display: inline-block;
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

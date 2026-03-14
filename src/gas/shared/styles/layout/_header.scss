@@ -1,0 +1,11 @@
+.header {
+  padding: 12px 16px 0;
+  flex-shrink: 0;
+  border-top: 3px solid var(--teal);
+
+  h3 {
+    margin: 0 0 2px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+}

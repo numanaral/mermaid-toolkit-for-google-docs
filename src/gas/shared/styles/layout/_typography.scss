@@ -1,0 +1,35 @@
+pre {
+  background: #f1f3f4;
+  padding: 8px;
+  font-size: 11px;
+  overflow-x: auto;
+  border-radius: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+}
+
+.error {
+  color: var(--red);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 12px;
+}
+
+details {
+  margin-top: 8px;
+}
+
+summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-muted);
+}
