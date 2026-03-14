@@ -5,7 +5,12 @@
   "description": "Render Mermaid diagrams as images directly in Google Docs.",
   "scripts": {
     "build": "bash scripts/build.sh",
-    "dev": "bash scripts/dev.sh"
+    "dev": "bash scripts/dev.sh",
+    "build:gas": "bash scripts/build-gas.sh",
+    "dev:gas": "bash scripts/dev-gas.sh",
+    "push": "cd dist/gas && clasp push",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json && ([ -n \"$(find src/gas/server -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/server/tsconfig.json || true) && ([ -n \"$(find src/gas/shared src/gas/dialogs -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/tsconfig.dialogs.json || true)"
   },
   "repository": {
     "type": "git",
@@ -15,9 +20,15 @@
   "license": "MIT",
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
+    "@google/clasp": "^3.3.0",
+    "@types/google-apps-script": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^8.57.0",
+    "@typescript-eslint/parser": "^8.57.0",
     "concurrently": "^9.2.1",
     "esbuild": "^0.27.3",
-    "sass": "^1.97.3"
+    "eslint": "^10.0.3",
+    "sass": "^1.97.3",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "mermaid": "^11.13.0"

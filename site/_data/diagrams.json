@@ -143,5 +143,37 @@
     "docsUrl": "https://mermaid.js.org/syntax/c4.html",
     "code": "C4Context\n    title System Context diagram for Internet Banking System\n    Person(customerA, \"Banking Customer A\", \"A customer of the bank\")\n    System(systemAA, \"Internet Banking System\", \"Allows customers to view information about their bank accounts.\")\n    System_Ext(systemC, \"E-mail system\", \"The internal e-mail system.\")\n    Rel(customerA, systemAA, \"Uses\")\n    Rel(systemAA, systemC, \"Sends e-mails\", \"SMTP\")",
     "hasCard": false
+  },
+  {
+    "name": "C4 Container",
+    "slug": "c4container",
+    "keyword": "c4container",
+    "docsUrl": "https://mermaid.js.org/syntax/c4.html",
+    "code": "C4Container\n    title Container diagram for Internet Banking System\n    Person(customer, \"Customer\", \"A customer of the bank\")\n    Container_Boundary(c1, \"Internet Banking\") {\n        Container(web_app, \"Web Application\", \"Java, Spring MVC\", \"Delivers the static content and the Internet banking SPA\")\n        Container(spa, \"Single-Page App\", \"JavaScript, Angular\", \"Provides banking functionality to customers\")\n        ContainerDb(database, \"Database\", \"SQL Database\", \"Stores user registration, auth, and access logs\")\n    }\n    Rel(customer, web_app, \"Uses\", \"HTTPS\")\n    Rel(web_app, spa, \"Delivers\")\n    Rel(spa, database, \"Reads from and writes to\", \"JDBC\")",
+    "hasCard": false
+  },
+  {
+    "name": "C4 Component",
+    "slug": "c4component",
+    "keyword": "c4component",
+    "docsUrl": "https://mermaid.js.org/syntax/c4.html",
+    "code": "C4Component\n    title Component diagram for Internet Banking System - API Application\n    Container_Boundary(api, \"API Application\") {\n        Component(sign, \"Sign In Controller\", \"MVC Rest Controller\", \"Allows users to sign in\")\n        Component(accounts, \"Accounts Summary Controller\", \"MVC Rest Controller\", \"Provides customers with a summary of their accounts\")\n        Component(security, \"Security Component\", \"Spring Bean\", \"Provides functionality related to signing in\")\n    }\n    ContainerDb(db, \"Database\", \"Relational Database Schema\", \"Stores user registration, auth, and access logs\")\n    Rel(sign, security, \"Uses\")\n    Rel(accounts, db, \"Reads from\", \"JDBC\")\n    Rel(security, db, \"Reads & writes to\", \"JDBC\")",
+    "hasCard": false
+  },
+  {
+    "name": "C4 Dynamic",
+    "slug": "c4dynamic",
+    "keyword": "c4dynamic",
+    "docsUrl": "https://mermaid.js.org/syntax/c4.html",
+    "code": "C4Dynamic\n    title Dynamic diagram for Internet Banking System\n    ContainerDb(c4, \"Database\", \"Relational Database Schema\", \"Stores user info\")\n    Container(c1, \"Single-Page Application\", \"JavaScript and Angular\", \"Provides banking functionality\")\n    Container_Boundary(b, \"API Application\") {\n        Component(c2, \"Sign In Controller\", \"MVC Rest Controller\", \"Allows users to sign in\")\n        Component(c3, \"Security Component\", \"Spring Bean\", \"Provides sign-in functionality\")\n    }\n    Rel(c1, c2, \"Submits credentials to\", \"JSON/HTTPS\")\n    Rel(c2, c3, \"Validates credentials\")\n    Rel(c3, c4, \"Reads from\", \"JDBC\")",
+    "hasCard": false
+  },
+  {
+    "name": "C4 Deployment",
+    "slug": "c4deployment",
+    "keyword": "c4deployment",
+    "docsUrl": "https://mermaid.js.org/syntax/c4.html",
+    "code": "C4Deployment\n    title Deployment Diagram for Internet Banking System\n    Deployment_Node(mob, \"Customer's mobile device\", \"Apple iOS or Android\") {\n        Container(mobile, \"Mobile App\", \"Xamarin\", \"Provides a limited subset of banking functionality\")\n    }\n    Deployment_Node(comp, \"Customer's computer\", \"Chrome, Firefox, Safari, or Edge\") {\n        Container(spa, \"Single-Page Application\", \"JavaScript and Angular\", \"Provides banking functionality\")\n    }\n    Deployment_Node(dc, \"Big Bank plc\", \"Big Bank's data center\") {\n        Deployment_Node(apache, \"bigbank-web***\", \"Apache Tomcat\") {\n            Container(web, \"Web Application\", \"Java and Spring MVC\", \"Delivers the static content\")\n        }\n    }\n    Rel(mobile, web, \"Makes API calls to\", \"JSON/HTTPS\")\n    Rel(spa, web, \"Makes API calls to\", \"JSON/HTTPS\")",
+    "hasCard": false
   }
 ]

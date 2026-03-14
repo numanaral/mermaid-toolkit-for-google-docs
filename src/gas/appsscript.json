@@ -1,0 +1,16 @@
+{
+  "timeZone": "America/Toronto",
+  "runtimeVersion": "V8",
+  "exceptionLogging": "STACKDRIVER",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/documents.currentonly",
+    "https://www.googleapis.com/auth/script.container.ui"
+  ],
+  "addOns": {
+    "common": {
+      "name": "Mermaid Toolkit",
+      "logoUrl": "https://raw.githubusercontent.com/numanaral/mermaid-toolkit-for-google-docs/main/site/assets/brand/icon-48.png"
+    },
+    "docs": {}
+  }
+}

@@ -1,4 +1,7 @@
-src/
-backup/
-_site/
 node_modules/
+_site/
+dist/
+backup/
+.env
+.clasp.json
+.DS_Store
