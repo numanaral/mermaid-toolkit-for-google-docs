@@ -149,12 +149,20 @@ Need help or have feedback? Visit the [Support page](https://mermaid.numanaral.d
 ## Development
 
 ```bash
-npm install          # install dependencies
-npm run dev          # start dev server with live reload
-npm run build        # production build → _site/
+yarn install         # install dependencies
+yarn dev             # start site dev server with live reload
+yarn build           # production build for the site → _site/
+yarn dev:gas         # watch GAS source and rebuild on change
+yarn build:gas       # build the GAS add-on → dist/gas/
+yarn verify          # run ESLint + TypeScript checks
+yarn clasp:push      # verify, build, and push to Apps Script
 ```
 
 The site uses [Eleventy](https://www.11ty.dev/) for templating, [Sass](https://sass-lang.com/) for styles, [esbuild](https://esbuild.github.io/) for TypeScript bundling, and [Mermaid.js](https://mermaid.js.org/) for diagram rendering.
+
+The GAS add-on uses a custom TypeScript build pipeline that compiles server code, dialog SCSS/TS, and assembles self-contained HTML files for Apps Script.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full setup guide, including how to test with your own Google account.
 
 ## License
 
