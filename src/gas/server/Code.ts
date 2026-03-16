@@ -7,6 +7,8 @@ import {
 } from "./doc-utils";
 import { findMermaidSnippets } from "./snippets";
 import { findMermaidImages, findMermaidImageIn } from "./images";
+import { exportDocAsMarkdown } from "./export-md";
+import { getActiveBody, getTabContent } from "./tab-utils";
 
 // --- Dialog helpers ---
 
@@ -23,7 +25,7 @@ const openEditorForImage = (source: string, imageChildIndex: number): void => {
   template.initialSource = source;
   template.imageChildIndex = imageChildIndex;
 
-  const html = template.evaluate().setWidth(900).setHeight(620);
+  const html = template.evaluate().setWidth(1000).setHeight(700);
   DocumentApp.getUi().showModalDialog(html, "Mermaid Editor");
 };
 
@@ -34,7 +36,7 @@ const openExtractDialog = (
   template.imageInfos = JSON.stringify(images);
 
   const html = template.evaluate().setWidth(800).setHeight(600);
-  DocumentApp.getUi().showModalDialog(html, "Convert Images to Code");
+  DocumentApp.getUi().showModalDialog(html, "Convert Diagrams to Code");
 };
 
 // --- Public functions (called by GAS menu / client dialogs) ---
@@ -46,15 +48,18 @@ export const onOpen = (): void => {
     .addItem("Insert Mermaid Diagram", "openEditor")
     .addItem("Edit Selected Mermaid Diagram", "editSelectedMermaidImage")
     .addSeparator()
-    .addItem("Convert Selected Code to Diagram", "convertSelectedCodeToDiagram")
     .addItem("Convert All Code to Diagrams", "scanAndRender")
+    .addItem("Convert Selected Code to Diagram", "convertSelectedCodeToDiagram")
     .addSeparator()
-    .addItem("Convert Selected Image to Code", "convertSelectedImageToCode")
-    .addItem("Convert All Images to Code", "extractMermaidFromImages")
+    .addItem("Convert All Diagrams to Code", "extractMermaidFromImages")
+    .addItem("Convert Selected Diagram to Code", "convertSelectedImageToCode")
     .addSeparator()
-    .addItem("Fix Copied Markdown", "openFixMarkdown")
+    .addItem("Import from Markdown", "openImportMarkdown")
+    .addItem("Export as Markdown", "openExportMarkdown")
+    .addItem('Fix Native "Copy as Markdown"', "openFixMarkdown")
     .addSeparator()
     .addItem("Quick Guide", "showQuickGuide")
+    .addItem("Dev Tools", "openDevTools")
     .addItem("About", "showAbout")
     .addToUi();
 };
@@ -140,8 +145,8 @@ export const editSelectedMermaidImage = (): void => {
 
   if (!selection) {
     DocumentApp.getUi().alert(
-      "No image selected.\n\n" +
-        "Click on a Mermaid diagram image to select it, then try again.",
+      "No diagram selected.\n\n" +
+        "Click on a Mermaid diagram to select it, then try again.",
     );
     return;
   }
@@ -156,8 +161,8 @@ export const editSelectedMermaidImage = (): void => {
   }
 
   DocumentApp.getUi().alert(
-    "Selected image is not a Mermaid diagram.\n\n" +
-      "Only images inserted by this add-on contain embedded Mermaid source code.",
+    "Selection is not a Mermaid diagram.\n\n" +
+      "Only diagrams inserted by this add-on contain embedded Mermaid source code.",
   );
 };
 
@@ -166,8 +171,8 @@ export const extractMermaidFromImages = (): void => {
 
   if (images.length === 0) {
     DocumentApp.getUi().alert(
-      "No Mermaid diagram images found.\n\n" +
-        "Only images inserted by this add-on contain embedded Mermaid source code.",
+      "No Mermaid diagrams found.\n\n" +
+        "Only diagrams inserted by this add-on contain embedded Mermaid source code.",
     );
     return;
   }
@@ -181,8 +186,8 @@ export const convertSelectedImageToCode = (): void => {
 
   if (!selection) {
     DocumentApp.getUi().alert(
-      "No image selected.\n\n" +
-        "Click on a Mermaid diagram image to select it, then try again.",
+      "No diagram selected.\n\n" +
+        "Click on a Mermaid diagram to select it, then try again.",
     );
     return;
   }
@@ -198,8 +203,8 @@ export const convertSelectedImageToCode = (): void => {
   }
 
   DocumentApp.getUi().alert(
-    "Selected image is not a Mermaid diagram.\n\n" +
-      "Only images inserted by this add-on contain embedded Mermaid source code.",
+    "Selection is not a Mermaid diagram.\n\n" +
+      "Only diagrams inserted by this add-on contain embedded Mermaid source code.",
   );
 };
 
@@ -320,23 +325,466 @@ export const openEditorWithSource = (source: string): void => {
   openEditorForImage(source, -1);
 };
 
+export const openImportMarkdown = (): void => {
+  const html = HtmlService.createHtmlOutputFromFile("ImportMarkdown")
+    .setWidth(1000)
+    .setHeight(700);
+  DocumentApp.getUi().showModalDialog(html, "Import from Markdown");
+};
+
+export const isActiveTabFirst = (): boolean => {
+  try {
+    return DocumentApp.getActiveDocument().getActiveTab().getIndex() === 0;
+  } catch {
+    return true;
+  }
+};
+
+export { importMarkdownAtCursor, importMarkdownReplace } from "./import-md";
+
+export const openExportMarkdown = (): void => {
+  const html = HtmlService.createHtmlOutputFromFile("ExportMarkdown")
+    .setWidth(900)
+    .setHeight(600);
+  DocumentApp.getUi().showModalDialog(html, "Export as Markdown");
+};
+
+export const getExportMarkdown = (): string => {
+  const doc = DocumentApp.getActiveDocument();
+  const { body, tabId, isFirstTab } = getActiveBody(doc);
+  return exportDocAsMarkdown(body, doc.getId(), isFirstTab ? "" : tabId);
+};
+
 export const openFixMarkdown = (): void => {
   const html = HtmlService.createHtmlOutputFromFile("FixMarkdown")
-    .setWidth(720)
-    .setHeight(480);
-  DocumentApp.getUi().showModalDialog(html, "Fix Copied Markdown");
+    .setWidth(900)
+    .setHeight(600);
+  DocumentApp.getUi().showModalDialog(html, 'Fix Native "Copy as Markdown"');
 };
 
 export const showQuickGuide = (): void => {
   const html = HtmlService.createHtmlOutputFromFile("QuickGuide")
     .setWidth(440)
-    .setHeight(420);
+    .setHeight(600);
   DocumentApp.getUi().showModalDialog(html, "Quick Guide");
+};
+
+export const openDevTools = (): void => {
+  const html = HtmlService.createHtmlOutputFromFile("DevTools")
+    .setWidth(440)
+    .setHeight(380);
+  DocumentApp.getUi().showModalDialog(html, "Dev Tools");
 };
 
 export const showAbout = (): void => {
   const html = HtmlService.createHtmlOutputFromFile("About")
     .setWidth(320)
-    .setHeight(240);
+    .setHeight(280);
   DocumentApp.getUi().showModalDialog(html, "About");
+};
+
+export const debugDocStructure = (): void => {
+  const doc = DocumentApp.getActiveDocument();
+  const docId = doc.getId();
+  const { body, tabId, isFirstTab } = getActiveBody(doc);
+  const n = body.getNumChildren();
+
+  interface ChildInfo {
+    idx: number;
+    type: string;
+    heading: string;
+    glyph: string;
+    nest: number;
+    text: string;
+    font: string;
+  }
+  const children: ChildInfo[] = [];
+
+  for (let i = 0; i < n; i++) {
+    const child = body.getChild(i);
+    const type = child.getType().toString();
+    let text = "";
+    let heading = "";
+    let glyph = "";
+    let nest = -1;
+    let font = "";
+
+    try {
+      if (type === "TABLE") {
+        const tbl = child.asTable();
+        const cellTexts: string[] = [];
+        for (let r = 0; r < tbl.getNumRows() && r < 2; r++) {
+          const row = tbl.getRow(r);
+          for (let c = 0; c < row.getNumCells() && c < 3; c++) {
+            cellTexts.push(row.getCell(c).editAsText().getText());
+          }
+        }
+        text = cellTexts.join(" | ");
+      } else if (type === "LIST_ITEM") {
+        const li = child.asListItem();
+        text = li.editAsText().getText();
+        glyph = String(li.getGlyphType());
+        nest = li.getNestingLevel();
+        try {
+          font = li.editAsText().getFontFamily(0) ?? "";
+        } catch {
+          /* */
+        }
+      } else if (type === "PARAGRAPH") {
+        const para = child.asParagraph();
+        text = para.editAsText().getText();
+        heading = String(para.getHeading());
+        try {
+          font = para.editAsText().getFontFamily(0) ?? "";
+        } catch {
+          /* */
+        }
+      } else {
+        text = (child as GoogleAppsScript.Document.Text).editAsText().getText();
+      }
+    } catch {
+      text = "(unable to read)";
+    }
+
+    children.push({ idx: i, type, heading, glyph, nest, text, font });
+  }
+
+  interface ApiBlock {
+    idx: number;
+    type: string;
+    listId: string;
+    nestLevel: number;
+    indent: string;
+    text: string;
+    glyphType: string;
+    glyphSymbol: string;
+    strikethrough: boolean;
+    bulletRaw: string;
+    textStyleRaw: string;
+  }
+  const apiBlocks: ApiBlock[] = [];
+  let listsJson = "{}";
+
+  if (typeof Docs !== "undefined" && Docs?.Documents) {
+    try {
+      const fields =
+        "body.content(startIndex,endIndex,sectionBreak,table,paragraph(bullet,paragraphStyle,elements(textRun(content,textStyle)))),lists";
+
+      let raw: GoogleAppsScript.Docs.Schema.Document;
+      if (!tabId || isFirstTab) {
+        raw = Docs.Documents.get(docId, { fields });
+      } else {
+        raw = Docs.Documents.get(docId, {
+          includeTabsContent: true,
+          fields: "tabs(tabProperties/tabId,documentTab/" + fields + ")",
+        });
+        const tabs = (
+          raw as unknown as {
+            tabs?: {
+              tabProperties?: { tabId?: string };
+              documentTab?: GoogleAppsScript.Docs.Schema.Document;
+            }[];
+          }
+        ).tabs;
+        if (tabs) {
+          for (const tab of tabs) {
+            if (tab.tabProperties?.tabId === tabId) {
+              raw = tab.documentTab as GoogleAppsScript.Docs.Schema.Document;
+              break;
+            }
+          }
+        }
+      }
+
+      const content = raw?.body?.content ?? [];
+      const lists =
+        (raw as unknown as { lists?: Record<string, unknown> })?.lists ?? {};
+      listsJson = JSON.stringify(lists, null, 2);
+
+      const listGlyphs: Record<
+        string,
+        { glyphType: string; glyphSymbol: string }
+      > = {};
+      for (const [listId, listDef] of Object.entries(lists) as [
+        string,
+        {
+          listProperties?: {
+            nestingLevels?: { glyphType?: string; glyphSymbol?: string }[];
+          };
+        },
+      ][]) {
+        const l0 = listDef?.listProperties?.nestingLevels?.[0];
+        listGlyphs[listId] = {
+          glyphType: l0?.glyphType ?? "",
+          glyphSymbol: l0?.glyphSymbol ?? "",
+        };
+      }
+
+      for (let i = 0; i < content.length; i++) {
+        const block = content[i] as Record<string, unknown>;
+        let type = "UNKNOWN";
+        let listId = "";
+        let nestLevel = -1;
+        let indent = "";
+        let text = "";
+        let glyphType = "";
+        let glyphSymbol = "";
+        let strikethrough = false;
+
+        let bulletRaw = "";
+        let textStyleRaw = "";
+
+        if (block.sectionBreak) {
+          type = "SECTION_BREAK";
+        } else if (block.table) {
+          type = "TABLE";
+          text = "(table)";
+        } else if (block.paragraph) {
+          type = "PARAGRAPH";
+          const para = block.paragraph as Record<string, unknown>;
+          const bullet = para.bullet as
+            | { nestingLevel?: number; listId?: string }
+            | undefined;
+          const ps = para.paragraphStyle as
+            | {
+                namedStyleType?: string;
+                indentStart?: { magnitude?: number };
+                indentFirstLine?: { magnitude?: number };
+              }
+            | undefined;
+          const elements = (para.elements ?? []) as {
+            textRun?: {
+              content?: string;
+              textStyle?: Record<string, unknown>;
+            };
+          }[];
+
+          text = elements
+            .map((e) => e.textRun?.content ?? "")
+            .join("")
+            .replace(/\n$/, "");
+
+          if (bullet) {
+            type = "PARAGRAPH+BULLET";
+            listId =
+              ((bullet as Record<string, unknown>).listId as string) ?? "";
+            nestLevel = bullet.nestingLevel ?? 0;
+            bulletRaw = JSON.stringify(bullet);
+            if (listId && listGlyphs[listId]) {
+              glyphType = listGlyphs[listId].glyphType;
+              glyphSymbol = listGlyphs[listId].glyphSymbol;
+            }
+          }
+          if (ps?.namedStyleType && ps.namedStyleType !== "NORMAL_TEXT") {
+            type += " [" + ps.namedStyleType + "]";
+          }
+          const iS = ps?.indentStart?.magnitude;
+          const iF = ps?.indentFirstLine?.magnitude;
+          if (iS || iF) indent = "s:" + (iS ?? 0) + " f:" + (iF ?? 0);
+
+          const allStyles = elements
+            .map((e) => e.textRun?.textStyle)
+            .filter(Boolean);
+          if (allStyles.length > 0) {
+            textStyleRaw = JSON.stringify(allStyles);
+          }
+
+          strikethrough =
+            elements.length > 0 &&
+            elements.every(
+              (e) =>
+                (
+                  e.textRun?.textStyle as
+                    | { strikethrough?: boolean }
+                    | undefined
+                )?.strikethrough === true,
+            );
+        }
+
+        apiBlocks.push({
+          idx: i,
+          type,
+          listId: listId ? listId.substring(0, 20) : "",
+          nestLevel,
+          indent,
+          text,
+          glyphType,
+          glyphSymbol,
+          strikethrough,
+          bulletRaw,
+          textStyleRaw,
+        });
+      }
+    } catch (e) {
+      apiBlocks.push({
+        idx: -1,
+        type: "ERROR: " + e,
+        listId: "",
+        nestLevel: -1,
+        indent: "",
+        text: "",
+        glyphType: "",
+        glyphSymbol: "",
+        strikethrough: false,
+        bulletRaw: "",
+        textStyleRaw: "",
+      });
+    }
+  }
+
+  const data = {
+    numChildren: n,
+    tabId,
+    isFirstTab,
+    children,
+    apiBlocks,
+    listsJson,
+  };
+
+  const template = HtmlService.createTemplate(INSPECTOR_HTML);
+  template.data = JSON.stringify(data);
+  const html = template.evaluate().setWidth(1100).setHeight(700);
+  DocumentApp.getUi().showModalDialog(html, "Document Body Inspector");
+};
+
+const INSPECTOR_HTML = `<!DOCTYPE html>
+<html><head><style>
+*{box-sizing:border-box}
+body{font-family:'Google Sans',Arial,sans-serif;padding:0;margin:0;font-size:12px;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:#fff}
+.header{display:flex;align-items:center;padding:14px 20px;background:#f5f5f5;box-shadow:0 1px 2px rgba(0,0,0,.1);flex-shrink:0}
+.header-dot{width:8px;height:8px;border-radius:50%;background:#00897b;flex-shrink:0;margin-right:10px}
+.header h3{margin:0;font-size:18px;font-weight:500;color:#1c1b1f;flex:1}
+.stat{display:inline-block;background:#e8eaed;padding:3px 8px;border-radius:12px;margin:0 4px;font-size:11px;color:#444746}
+#copy-btn{padding:6px 16px;background:#00897b;color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:12px;font-weight:500;letter-spacing:.02em;transition:background .2s}
+#copy-btn:hover{background:#00796b}
+#copy-btn.copied{background:#0f9d58}
+.tabs{display:flex;border-bottom:1px solid #e0e0e0;flex-shrink:0;background:#fff;padding:0 12px}
+.tab{padding:10px 16px;cursor:pointer;font-size:12px;font-weight:500;color:#747775;border-bottom:2px solid transparent;transition:color .2s}
+.tab:hover{color:#1c1b1f}
+.tab.active{color:#00897b;border-bottom-color:#00897b}
+.tab-content{flex:1;overflow:auto;display:none}
+.tab-content.active{display:block}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;background:#f5f5f5;padding:6px 8px;border:1px solid #e0e0e0;white-space:nowrap;position:sticky;top:0;z-index:1;color:#444746;font-weight:500}
+td{padding:4px 8px;border:1px solid #e8eaed;vertical-align:top;color:#1c1b1f}
+td.mono{font-family:'Roboto Mono',monospace;font-size:10px;white-space:pre-wrap;word-break:break-all;max-width:400px}
+tr:nth-child(even){background:#fafafa}
+tr.cb{background:#e6f4ea}
+tr.heading{background:#e8f0fe}
+tr.table-row{background:#fef7e0}
+tr.section{background:#f3e8fd}
+pre.lists{font:11px/1.4 'Roboto Mono',monospace;white-space:pre-wrap;padding:12px;margin:0}
+</style></head><body>
+<div class="header">
+<span class="header-dot"></span>
+<h3>Document Body Inspector</h3>
+<span class="stat" id="stat-children"></span>
+<span class="stat" id="stat-tab"></span>
+<button id="copy-btn">Copy Active Tab</button>
+</div>
+<div class="tabs">
+<div class="tab active" data-tab="docapp">DocumentApp Children</div>
+<div class="tab" data-tab="docsapi">Docs API Blocks</div>
+<div class="tab" data-tab="lists">Lists Definitions</div>
+</div>
+<div class="tab-content active" id="tc-docapp"></div>
+<div class="tab-content" id="tc-docsapi"></div>
+<div class="tab-content" id="tc-lists"></div>
+<script>
+var data=JSON.parse(<?!= JSON.stringify(data) ?>);
+document.getElementById('stat-children').textContent='Children: '+data.numChildren;
+document.getElementById('stat-tab').textContent='Tab: '+(data.isFirstTab?'#1 (primary)':data.tabId);
+var tabs=document.querySelectorAll('.tab');
+var panes=document.querySelectorAll('.tab-content');
+for(var ti=0;ti<tabs.length;ti++){(function(i){tabs[i].onclick=function(){
+for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('active');panes[j].classList.remove('active')}
+tabs[i].classList.add('active');panes[i].classList.add('active');
+}})(ti)}
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function trunc(s,n){return s.length>n?s.substring(0,n)+'...':s}
+var copyParts={docapp:[],docsapi:[],lists:[]};
+/* DocumentApp tab */
+var h='<table><tr><th>#</th><th>Type</th><th>Heading</th><th>Glyph</th><th>Nest</th><th>Font</th><th>Text</th></tr>';
+copyParts.docapp.push('# DocumentApp Children');
+copyParts.docapp.push('idx|type|heading|glyph|nest|font|text');
+copyParts.docapp.push('---|----|----|-----|----|----|----');
+for(var i=0;i<data.children.length;i++){var c=data.children[i];
+var cls=c.type==='TABLE'?'table-row':c.heading&&c.heading!=='NORMAL'?'heading':'';
+h+='<tr class="'+cls+'"><td>'+c.idx+'</td><td>'+c.type+'</td><td>'+esc(c.heading)+'</td><td>'+esc(c.glyph)+'</td><td>'+(c.nest>=0?c.nest:'')+'</td><td>'+esc(c.font)+'</td><td class="mono">'+esc(trunc(c.text,200))+'</td></tr>';
+copyParts.docapp.push(c.idx+'|'+c.type+'|'+c.heading+'|'+c.glyph+'|'+(c.nest>=0?c.nest:'')+'|'+c.font+'|'+c.text.replace(/\\n/g,'\\\\n'))}
+h+='</table>';document.getElementById('tc-docapp').innerHTML=h;
+/* Docs API tab */
+var h2='<table><tr><th>#</th><th>Type</th><th>ListId</th><th>Nest</th><th>Indent</th><th>GlyphType</th><th>GlyphSym</th><th>Strike</th><th>Bullet (raw)</th><th>TextStyle (raw)</th><th>Text</th></tr>';
+copyParts.docsapi.push('# Docs API Blocks');
+copyParts.docsapi.push('idx|type|listId|nest|indent|glyphType|glyphSym|strike|bulletRaw|textStyleRaw|text');
+copyParts.docsapi.push('---|----|----|----|----|---------|--------|------|---------|------------|----');
+for(var j=0;j<data.apiBlocks.length;j++){var b=data.apiBlocks[j];
+var cls2=b.type.indexOf('SECTION')>=0?'section':b.type.indexOf('TABLE')>=0?'table-row':b.glyphType==='GLYPH_TYPE_UNSPECIFIED'?'cb':b.type.indexOf('HEADING')>=0?'heading':'';
+h2+='<tr class="'+cls2+'"><td>'+b.idx+'</td><td>'+esc(b.type)+'</td><td class="mono">'+esc(b.listId)+'</td><td>'+(b.nestLevel>=0?b.nestLevel:'')+'</td><td>'+esc(b.indent)+'</td><td>'+esc(b.glyphType)+'</td><td>'+esc(b.glyphSymbol)+'</td><td>'+(b.strikethrough?'YES':'')+'</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">'+esc(b.bulletRaw||'')+'</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">'+esc(b.textStyleRaw||'')+'</td><td class="mono">'+esc(trunc(b.text,200))+'</td></tr>';
+copyParts.docsapi.push(b.idx+'|'+b.type+'|'+b.listId+'|'+(b.nestLevel>=0?b.nestLevel:'')+'|'+b.indent+'|'+b.glyphType+'|'+b.glyphSymbol+'|'+(b.strikethrough?'YES':'')+' |'+(b.bulletRaw||'')+'|'+(b.textStyleRaw||'')+'|'+b.text.replace(/\\n/g,'\\\\n'))}
+h2+='</table>';document.getElementById('tc-docsapi').innerHTML=h2;
+/* Lists tab */
+copyParts.lists.push('# Lists Definitions');
+copyParts.lists.push(data.listsJson);
+document.getElementById('tc-lists').innerHTML='<pre class="lists">'+esc(data.listsJson)+'</pre>';
+/* Copy */
+document.getElementById('copy-btn').onclick=function(){
+var active='docapp';for(var k=0;k<tabs.length;k++){if(tabs[k].classList.contains('active')){active=tabs[k].getAttribute('data-tab');break}}
+var text=copyParts[active].join('\\n');var btn=document.getElementById('copy-btn');
+navigator.clipboard.writeText(text).then(function(){btn.textContent='Copied!';btn.className='copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className=''},1500)}).catch(function(){
+var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.textContent='Copied!';btn.className='copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className=''},1500)})};
+</script></body></html>`;
+
+export const testCheckboxGist = (): void => {
+  const t0 = Date.now();
+  const lap = (label: string) =>
+    Logger.log("[timing] " + label + " +" + (Date.now() - t0) + "ms");
+
+  const doc = DocumentApp.getActiveDocument();
+  const docId = doc.getId();
+  const { body, tabId, isFirstTab } = getActiveBody(doc);
+  lap("getActiveBody (isFirst=" + isFirstTab + ")");
+
+  body.clear();
+  body
+    .appendParagraph("Timing Test")
+    .setHeading(DocumentApp.ParagraphHeading.HEADING3);
+  const texts = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
+  const indices = texts.map(
+    (t) => body.getChildIndex(body.appendParagraph(t)) + 1,
+  );
+  if (body.getChild(0).asText().getText() === "") {
+    body.removeChild(body.getChild(0));
+    for (let i = 0; i < indices.length; i++) indices[i]--;
+  }
+  lap("appendParagraphs");
+
+  doc.saveAndClose();
+  lap("saveAndClose");
+
+  if (typeof Docs === "undefined" || !Docs?.Documents) return;
+
+  const content = getTabContent(docId, tabId, isFirstTab);
+  if (!content) return;
+  lap("Docs.get (read content)");
+
+  const cbRequests = indices.map((id) => ({
+    createParagraphBullets: {
+      bulletPreset: "BULLET_CHECKBOX",
+      range: {
+        startIndex: content[id].startIndex!,
+        endIndex: content[id].endIndex!,
+        ...(tabId ? { tabId } : {}),
+      },
+    },
+  }));
+  Docs.Documents.batchUpdate(
+    {
+      requests: cbRequests,
+    } as GoogleAppsScript.Docs.Schema.BatchUpdateDocumentRequest,
+    docId,
+  );
+  lap("batchUpdate (checkboxes)");
+
+  Logger.log("testCheckboxGist: done");
 };

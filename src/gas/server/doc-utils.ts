@@ -14,7 +14,9 @@ export const stripFences = (text: string): string => {
     .trim();
 };
 
-export const getParaText = (child: GoogleAppsScript.Document.Element): string => {
+export const getParaText = (
+  child: GoogleAppsScript.Document.Element,
+): string => {
   try {
     return (child as GoogleAppsScript.Document.Text).editAsText().getText();
   } catch {
@@ -40,7 +42,10 @@ export const tryExtractFencedMermaid = (text: string): string | null => {
   return definition;
 };
 
-export const makeBlob = (base64Data: string, index: number): GoogleAppsScript.Base.Blob => {
+export const makeBlob = (
+  base64Data: string,
+  index: number,
+): GoogleAppsScript.Base.Blob => {
   return Utilities.newBlob(
     Utilities.base64Decode(base64Data),
     "image/png",
@@ -48,12 +53,61 @@ export const makeBlob = (base64Data: string, index: number): GoogleAppsScript.Ba
   );
 };
 
+export const encodeMermaidSource = (source: string): string => {
+  return source.replace(/\\/g, "\\\\").replace(/\n/g, "\\n");
+};
+
+export const decodeMermaidSource = (encoded: string): string => {
+  let result = "";
+  for (let i = 0; i < encoded.length; i++) {
+    if (encoded[i] === "\\" && i + 1 < encoded.length) {
+      const next = encoded[i + 1];
+      if (next === "n") {
+        result += "\n";
+        i++;
+        continue;
+      }
+      if (next === "\\") {
+        result += "\\";
+        i++;
+        continue;
+      }
+    }
+    result += encoded[i];
+  }
+  return result;
+};
+
 export const setMermaidAlt = (
   image: GoogleAppsScript.Document.InlineImage,
   mermaidSource: string,
 ): void => {
   image.setAltTitle(MERMAID_ALT_TITLE);
-  image.setAltDescription(mermaidSource);
+  image.setAltDescription(encodeMermaidSource(mermaidSource));
+};
+
+const styleCodeTable = (table: GoogleAppsScript.Document.Table): void => {
+  const cell = table.getRow(0).getCell(0);
+  cell.setBackgroundColor("#f6f8fa");
+  cell.setPaddingTop(8);
+  cell.setPaddingBottom(8);
+  cell.setPaddingLeft(12);
+  cell.setPaddingRight(12);
+  const text = cell.editAsText();
+  text.setFontFamily("Roboto Mono");
+  text.setFontSize(10);
+  text.setForegroundColor("#24292f");
+  table.setBorderColor("#d1d9e0");
+  table.setBorderWidth(1);
+};
+
+export const appendCodeBlock = (
+  body: GoogleAppsScript.Document.Body,
+  content: string,
+): GoogleAppsScript.Document.Table => {
+  const table = body.appendTable([[content]]);
+  styleCodeTable(table);
+  return table;
 };
 
 export const insertFencedCode = (
@@ -62,24 +116,8 @@ export const insertFencedCode = (
   source: string,
 ): GoogleAppsScript.Document.Table => {
   const wrapped = "```mermaid\n" + source + "\n```";
-
   const table = body.insertTable(idx, [[wrapped]]);
-  const cell = table.getRow(0).getCell(0);
-
-  cell.setBackgroundColor("#f1f3f4");
-  cell.setPaddingTop(8);
-  cell.setPaddingBottom(8);
-  cell.setPaddingLeft(12);
-  cell.setPaddingRight(12);
-
-  const text = cell.editAsText();
-  text.setFontFamily("Courier New");
-  text.setFontSize(10);
-  text.setForegroundColor("#499a63");
-
-  table.setBorderColor("#dadce0");
-  table.setBorderWidth(1);
-
+  styleCodeTable(table);
   return table;
 };
 
@@ -115,7 +153,10 @@ export const extractSelectedText = (
     if (asText.editAsText) {
       const text = asText.editAsText().getText();
       if (re.isPartial()) {
-        selectedText += text.substring(re.getStartOffset(), re.getEndOffsetInclusive() + 1);
+        selectedText += text.substring(
+          re.getStartOffset(),
+          re.getEndOffsetInclusive() + 1,
+        );
       } else {
         selectedText += text;
       }

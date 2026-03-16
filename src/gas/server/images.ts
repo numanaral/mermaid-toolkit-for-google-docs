@@ -1,5 +1,6 @@
 import type { MermaidImage } from "./types";
 import { MERMAID_ALT_TITLE } from "./constants";
+import { decodeMermaidSource } from "./doc-utils";
 
 export const findMermaidImages = (): MermaidImage[] => {
   const body = DocumentApp.getActiveDocument().getBody();
@@ -13,8 +14,8 @@ export const findMermaidImages = (): MermaidImage[] => {
     if (type === DocumentApp.ElementType.INLINE_IMAGE) {
       const img = child.asInlineImage();
       if (img.getAltTitle() === MERMAID_ALT_TITLE) {
-        const source = img.getAltDescription();
-        if (source) results.push({ source, childIndex: i });
+        const raw = img.getAltDescription();
+        if (raw) results.push({ source: decodeMermaidSource(raw), childIndex: i });
       }
       continue;
     }
@@ -30,8 +31,8 @@ export const findMermaidImages = (): MermaidImage[] => {
       const img = pc.asInlineImage();
       if (img.getAltTitle() !== MERMAID_ALT_TITLE) continue;
 
-      const source = img.getAltDescription();
-      if (source) results.push({ source, childIndex: i });
+      const raw = img.getAltDescription();
+      if (raw) results.push({ source: decodeMermaidSource(raw), childIndex: i });
     }
   }
 
@@ -45,15 +46,15 @@ export const findMermaidImageIn = (
   if (el.getType() === DocumentApp.ElementType.INLINE_IMAGE) {
     const img = el.asInlineImage();
     if (img.getAltTitle() !== MERMAID_ALT_TITLE) return null;
-    const source = img.getAltDescription();
-    if (!source) return null;
+    const raw = img.getAltDescription();
+    if (!raw) return null;
 
     const parent = el.getParent();
     const idx =
       parent.getType() === DocumentApp.ElementType.BODY_SECTION
         ? body.getChildIndex(el)
         : body.getChildIndex(parent);
-    return { source, childIndex: idx };
+    return { source: decodeMermaidSource(raw), childIndex: idx };
   }
 
   try {
