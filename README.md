@@ -36,17 +36,19 @@
 - **AI-friendly workflows** — Mermaid diagrams are plain text. Copy them between Google Docs, your IDE, and AI tools (ChatGPT, Copilot, Claude) without dealing with images or format issues
 - **Markdown interop** — Export as markdown, paste into GitHub, Notion, or any markdown editor. Import back into Google Docs and re-render — no conversion needed
 - **Zero data collection** — Everything renders client-side via mermaid.js. No servers, no analytics, no cookies
-- **Round-trip editing** — Every diagram image stores its source code. Click any diagram to edit, update, or extract the original Mermaid syntax
+- **Round-trip editing** — Every diagram stores its source code. Click any diagram to edit, update, or extract the original Mermaid syntax
 
 ## Features
 
-- **Convert All Code to Diagrams** — Scans your entire document for Mermaid code blocks and renders them all as high-quality images in one click
+- **Convert All Code to Diagrams** — Scans your entire document for Mermaid code blocks and renders them all as high-quality diagrams in one click
 - **Convert Selected Code to Diagram** — Render a single selected code block without scanning the whole document
 - **Insert Mermaid Diagram** — Side-by-side editor with real-time preview, syntax highlighting, and starter templates
-- **Edit Selected Mermaid Image** — Click any diagram image and edit its source in place
-- **Convert Image to Code** — Extract the original Mermaid source from any diagram image inserted by this add-on (single or bulk)
-- **Fix Copied Markdown** — Repairs corrupted Mermaid syntax caused by Google Docs' paste behavior (vertical tabs, stray backticks, formatting artifacts). [Learn more](https://mermaid.numanaral.dev/features?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit#fix-markdown)
-- **100% client-side** — All rendering happens in your browser via [mermaid.js](https://mermaid.js.org/). No data is sent to any server
+- **Edit Selected Mermaid Diagram** — Click any diagram and edit its source in place
+- **Convert Diagram to Code** — Extract the original Mermaid source from any diagram inserted by this add-on (single or bulk)
+- **Import from Markdown** — Paste raw markdown with Mermaid code blocks, preview it, and insert formatted content with rendered diagrams into your doc
+- **Export as Markdown** — Convert your Google Doc content back to markdown, including extracting Mermaid source from diagram alt text
+- **Fix Native "Copy as Markdown"** — Repairs corrupted Mermaid syntax caused by Google Docs' native copy feature (vertical tabs, stray backticks, formatting artifacts). [Learn more](https://mermaid.numanaral.dev/features?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit#fix-markdown)
+- **100% client-side** — All rendering happens in your browser via [mermaid.js](https://mermaid.js.org/), including a multi-pass SVG-to-PNG pipeline that handles browser security restrictions (tainted canvas, CSS-driven layouts) without sending data to any server
 
 ## Screenshots
 
@@ -89,19 +91,22 @@
 4. Pick a template from the dropdown to get started quickly
 5. Click **Insert into Document** when you're happy with the result
 
-### Fix pasted markdown
+### Fix native "Copy as Markdown"
 
-1. Go to **Extensions → Mermaid Toolkit → Fix Copied Markdown**
+1. Go to **Extensions → Mermaid Toolkit → Fix Native "Copy as Markdown"**
 2. Paste the corrupted code — the tool shows a side-by-side diff of what it will fix
 3. Click **Copy Fixed** and paste it back into your doc
 
 ### Other menu options
 
 - **Convert Selected Code to Diagram** — Select text and render just that as a diagram
-- **Edit Selected Mermaid Image** — Click a diagram image and edit its source
-- **Convert Selected Image to Code** — Extract Mermaid source from a single diagram image
-- **Convert All Images to Code** — Extract source from all diagram images in the document
+- **Edit Selected Mermaid Diagram** — Click a diagram and edit its source
+- **Convert Selected Diagram to Code** — Extract Mermaid source from a single diagram
+- **Convert All Diagrams to Code** — Extract source from all diagrams in the document
+- **Import from Markdown** — Import markdown content with auto-rendered Mermaid diagrams
+- **Export as Markdown** — Export your document as markdown
 - **Quick Guide** — Feature overview and documentation links
+- **Dev Tools** — Document inspector and debug utilities
 - **About** — Version info and links
 
 ## Supported Diagram Types
@@ -112,6 +117,7 @@ The add-on detects code blocks that start with any of the following keywords:
 |---|---|
 | Flowchart | `flowchart` / `graph` |
 | Sequence Diagram | `sequenceDiagram` |
+| ZenUML | `zenuml` |
 | Class Diagram | `classDiagram` |
 | State Diagram | `stateDiagram` |
 | ER Diagram | `erDiagram` |
@@ -124,9 +130,13 @@ The add-on detects code blocks that start with any of the following keywords:
 | Sankey | `sankey` |
 | XY Chart | `xychart` |
 | Block Diagram | `block-beta` |
+| Packet | `packet-beta` |
 | Quadrant Chart | `quadrantChart` |
+| Architecture | `architecture-beta` |
+| Kanban | `kanban` |
 | Requirement Diagram | `requirementDiagram` |
 | C4 Diagrams | `c4context` / `c4container` / `c4component` / `c4dynamic` / `c4deployment` |
+| Radar | `radar-beta` |
 
 See the [mermaid.js docs](https://mermaid.js.org/) for syntax details on each type.
 
@@ -135,7 +145,7 @@ See the [mermaid.js docs](https://mermaid.js.org/) for syntax details on each ty
 This add-on **does not collect, store, or transmit any data**. All diagram rendering happens locally in your browser. No analytics, no tracking, no cookies.
 
 The add-on requests only two OAuth scopes:
-- `documents.currentonly` — to read code snippets and insert images in the current document
+- `documents` — to read code snippets, insert diagrams, and create native checkboxes via the Docs API
 - `script.container.ui` — to display dialog windows
 
 Read the full [Privacy Policy](https://mermaid.numanaral.dev/privacy?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit).
@@ -157,12 +167,12 @@ Need help or have feedback? Visit the [Support page](https://mermaid.numanaral.d
 
 ```bash
 yarn install         # install dependencies
-yarn dev             # start site dev server with live reload
-yarn build           # production build for the site → _site/
-yarn dev:gas         # watch GAS source and rebuild on change
-yarn build:gas       # build the GAS add-on → dist/gas/
+yarn site:dev        # start site dev server with live reload
+yarn site:build      # production build for the site → _site/
+yarn gas:dev         # watch GAS source and rebuild on change
+yarn gas:build       # build the GAS add-on → dist/gas/
+yarn gas:push        # verify, build, and push to Apps Script
 yarn verify          # run ESLint + TypeScript checks
-yarn clasp:push      # verify, build, and push to Apps Script
 ```
 
 The site uses [Eleventy](https://www.11ty.dev/) for templating, [Sass](https://sass-lang.com/) for styles, [esbuild](https://esbuild.github.io/) for TypeScript bundling, and [Mermaid.js](https://mermaid.js.org/) for diagram rendering.

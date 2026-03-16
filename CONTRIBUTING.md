@@ -52,16 +52,16 @@ You'll need your own Apps Script project to test changes in Google Docs.
 
 4. Log in to clasp:
    ```bash
-   yarn clasp:login
+   yarn gas:login
    ```
 
 ### Deploy and test
 
 ```bash
 # Build the add-on and push to your Apps Script project
-yarn clasp:push
+yarn gas:push
 
-# This runs: lint -> typecheck -> build:gas -> clasp push
+# This runs: lint -> typecheck -> build -> clasp push
 ```
 
 After pushing, reload your Google Doc. The add-on appears under **Extensions > Mermaid Toolkit**.
@@ -70,10 +70,10 @@ After pushing, reload your Google Doc. The add-on appears under **Extensions > M
 
 ```bash
 # Watch for changes and rebuild automatically
-yarn dev:gas
+yarn gas:dev
 
 # In another terminal, push when ready
-yarn clasp:push
+yarn gas:push
 ```
 
 ## Project Structure
@@ -90,9 +90,12 @@ yarn clasp:push
 │   ├── dialogs/           # Dialog UI (HTML + SCSS + TS per dialog)
 │   │   ├── editor/        # Live Mermaid editor
 │   │   ├── preview/       # Code-to-diagram preview
-│   │   ├── extract/       # Image-to-code extraction
+│   │   ├── extract/       # Diagram-to-code extraction
 │   │   ├── convert/       # Single code-to-diagram conversion
+│   │   ├── importmd/      # Import from Markdown
+│   │   ├── exportmd/      # Export as Markdown
 │   │   ├── fixmarkdown/   # Markdown repair tool
+│   │   ├── devtools/      # Developer tools and document inspector
 │   │   ├── about/         # About dialog
 │   │   └── quickguide/    # Quick guide dialog
 │   └── shared/            # Shared styles, scripts, templates
@@ -101,7 +104,10 @@ yarn clasp:push
 │       └── templates/     # Shared HTML partials (footer)
 ├── scripts/               # Build tooling (TypeScript)
 │   ├── build-gas.ts       # GAS build pipeline
-│   └── dev-gas.ts         # GAS file watcher
+│   ├── dev-gas.ts         # GAS file watcher
+│   ├── push.ts            # Verify + build + clasp push
+│   ├── verify.ts          # ESLint + typecheck
+│   └── verify-fix.ts      # ESLint fix + typecheck
 ├── dist/gas/              # Built GAS output (gitignored)
 └── _site/                 # Built site output (gitignored)
 ```
@@ -110,15 +116,16 @@ yarn clasp:push
 
 | Command | Description |
 |---|---|
-| `yarn dev` | Start the site dev server with live reload |
-| `yarn build` | Production build for the site |
-| `yarn dev:gas` | Watch GAS source files and rebuild on change |
-| `yarn build:gas` | Build the GAS add-on to `dist/gas/` |
-| `yarn verify` | Run ESLint + TypeScript checks |
-| `yarn lint` | Run ESLint only |
-| `yarn typecheck` | Run TypeScript type checking only |
-| `yarn clasp:login` | Authenticate with Google via clasp |
-| `yarn clasp:push` | Verify, build, and push to Apps Script |
+| `yarn site:dev` | Start the site dev server with live reload |
+| `yarn site:build` | Production build for the site |
+| `yarn gas:dev` | Watch GAS source files and rebuild on change |
+| `yarn gas:build` | Build the GAS add-on to `dist/gas/` |
+| `yarn gas:push` | Verify, build, and push to Apps Script |
+| `yarn gas:login` | Authenticate with Google via clasp |
+| `yarn verify` | Run ESLint + TypeScript checks (site + GAS) |
+| `yarn verify:fix` | Run ESLint fix + TypeScript checks |
+| `yarn site:lint` | Run ESLint on site code |
+| `yarn gas:lint` | Run ESLint on GAS code |
 
 ## Code Style
 
@@ -126,7 +133,7 @@ yarn clasp:push
 - **SCSS** with `@use` imports (no `@import`)
 - **`interface`** over `type` for object shapes
 - Explicit `return` with braces for multi-line arrow functions
-- ESLint enforces consistent style — run `yarn lint` before committing
+- ESLint enforces consistent style — run `yarn verify` before committing
 
 ## How the GAS Build Works
 
@@ -142,7 +149,7 @@ The build pipeline (`scripts/build-gas.ts`) does the following:
 1. Fork the repo and create a feature branch from `main`
 2. Make your changes
 3. Run `yarn verify` to ensure lint and types pass
-4. Run `yarn build:gas` to verify the build succeeds
+4. Run `yarn gas:build` to verify the build succeeds
 5. Test in Google Docs if your change affects the add-on
 6. Open a PR with a clear description of what changed and why
 
