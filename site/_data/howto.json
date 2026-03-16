@@ -1,23 +1,25 @@
 [
   {
-    "subtitle": "Auto-render from your doc",
-    "desc": "Already have Mermaid code? Render everything in one click.",
+    "id": "render-all",
+    "subtitle": "Convert code to diagrams",
+    "desc": "Already have Mermaid code in your doc? Render everything in one click.",
     "steps": [
       {
         "title": "Write Mermaid syntax",
-        "desc": "Place your diagram code inside a code block in your Google Doc."
+        "desc": "Place your diagram code inside a code block or fenced <code>```mermaid</code> block in your Google Doc."
       },
       {
         "title": "Run the renderer",
-        "desc": "Extensions → Mermaid Toolkit → Convert All Code to Diagrams. Every diagram gets rendered."
+        "desc": "Extensions → Mermaid Toolkit → Convert All Code to Diagrams."
       },
       {
-        "title": "Insert into your document",
-        "desc": "Preview each diagram, then click Insert or Replace. Done."
+        "title": "Preview and insert",
+        "desc": "Preview each diagram, then click Insert After or Replace to swap the code for a diagram."
       }
     ]
   },
   {
+    "id": "editor",
     "subtitle": "Use the built-in editor",
     "desc": "Write diagrams from scratch with live preview and templates.",
     "steps": [
@@ -27,29 +29,68 @@
       },
       {
         "title": "Write and preview",
-        "desc": "Write or paste Mermaid syntax on the left, see the live preview update on the right."
+        "desc": "Write or paste Mermaid syntax on the left, see the rendered diagram update live on the right. Pick a template to get started quickly."
       },
       {
         "title": "Insert into your document",
-        "desc": "Pick a template to get started quickly, then click Insert at Cursor."
+        "desc": "Click Insert into Document to place the diagram at your cursor, or Replace Diagram to update an existing one."
       }
     ]
   },
   {
-    "subtitle": "Fix pasted markdown",
-    "desc": "Copied Mermaid code from a markdown file or another tool? Google Docs corrupts it. Fix it in one step.",
+    "id": "edit-in-place",
+    "subtitle": "Edit diagrams in place",
+    "desc": "Click any diagram to edit its source — no copy-paste needed.",
     "steps": [
       {
-        "title": "Open Fix Copied Markdown",
-        "desc": "Extensions → Mermaid Toolkit → Fix Copied Markdown."
+        "title": "Select a diagram",
+        "desc": "Click on any Mermaid diagram that was inserted by the add-on."
+      },
+      {
+        "title": "Open the editor",
+        "desc": "Extensions → Mermaid Toolkit → Edit Selected Mermaid Diagram."
+      },
+      {
+        "title": "Edit and replace",
+        "desc": "The editor opens with the diagram's source code pre-loaded. Tweak it and click Replace Diagram."
+      }
+    ]
+  },
+  {
+    "id": "image-to-code",
+    "subtitle": "Convert diagrams back to code",
+    "desc": "Extract the original Mermaid source from any diagram.",
+    "steps": [
+      {
+        "title": "Select a diagram or scan all",
+        "desc": "Click a single diagram, or use Convert All Diagrams to Code to extract from every diagram in the document."
+      },
+      {
+        "title": "Run the extractor",
+        "desc": "Extensions → Mermaid Toolkit → Convert Selected Diagram to Code (or Convert All)."
+      },
+      {
+        "title": "Get your code back",
+        "desc": "The original Mermaid code is inserted as a fenced code block right in your doc, ready to edit or share."
+      }
+    ]
+  },
+  {
+    "id": "fix-markdown",
+    "subtitle": "Fix native \"Copy as Markdown\"",
+    "desc": "Copied Mermaid code from a markdown file? Google Docs corrupts it. Fix it in one step.",
+    "steps": [
+      {
+        "title": "Open the fix tool",
+        "desc": "Extensions → Mermaid Toolkit → Fix Native \"Copy as Markdown\"."
       },
       {
         "title": "Paste your broken code",
-        "desc": "Paste the corrupted markdown. The tool shows a side-by-side diff of what it will fix."
+        "desc": "Paste the corrupted markdown into the text area. The tool shows a side-by-side diff of what it will fix."
       },
       {
         "title": "Copy the fixed result",
-        "desc": "Click Copy Fixed and paste it back into your doc — ready to render."
+        "desc": "Click Copy Fixed Markdown and paste it back into your doc — ready to render."
       }
     ]
   }

@@ -1,5 +1,5 @@
 /* ============================================================
-   HOME: GETTING STARTED (TIMELINE)
+   HOME: GETTING STARTED (TABBED SHOWCASE — Option A)
    ============================================================ */
 
 .how {
@@ -10,84 +10,172 @@
   margin: 0 auto;
 }
 
-.how-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-}
+/* --- Tab bar (underline style) --- */
 
-.how-subtitle {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-.how-subtitle-desc {
-  font-size: 0.9rem;
-  color: var(--text-dim);
+.how-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border-subtle);
   margin-bottom: 1.5rem;
 }
-.how-col-full {
-  grid-column: 1 / -1;
-}
 
-.timeline {
+.how-tab {
+  background: none;
+  border: none;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  padding: 1rem 1.5rem;
+  cursor: pointer;
   position: relative;
-  padding-left: 2.5rem;
+  transition: color 0.2s ease;
 }
-.timeline::before {
+.how-tab:hover {
+  color: var(--text);
+}
+.how-tab.active {
+  color: var(--accent);
+}
+.how-tab.active::after {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 6px;
-  bottom: 6px;
-  width: 2px;
-  background: var(--border-subtle);
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
 }
-.tl-item {
+
+/* --- Panels --- */
+
+.how-panels {
   position: relative;
-  margin-bottom: 2rem;
 }
-.tl-item:last-child {
+
+.how-panel {
+  display: none;
+  animation: howFadeIn 0.3s ease;
+}
+.how-panel.active {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 2rem;
+  align-items: start;
+}
+
+@keyframes howFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- Panel screenshot (left side) --- */
+
+.how-panel-screenshot {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.screenshot-placeholder svg,
+.how-panel-screenshot img {
+  width: 100%;
+  display: block;
+}
+
+/* --- Panel content (right side) --- */
+
+.how-panel-desc {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.how-steps {
+  list-style: none;
+  padding: 0;
+}
+.how-steps li {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: howSlideIn 0.4s ease forwards;
+}
+.how-steps li:last-child {
   margin-bottom: 0;
 }
-.tl-item::before {
-  content: "";
-  position: absolute;
-  top: 3px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+.how-panel.active .how-steps li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.how-panel.active .how-steps li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.how-panel.active .how-steps li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes howSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.how-steps li::before {
+  content: counter(step);
+  counter-increment: step;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
   background: var(--accent);
-  border: 3px solid var(--dark);
-  left: -2.5rem;
-  transform: translateX(-50%);
-  margin-left: 6px;
-}
-.tl-item h4 {
-  font-size: 1.05rem;
+  color: var(--dark);
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.tl-item p {
+.how-steps {
+  counter-reset: step;
+}
+
+.how-steps h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text);
+}
+.how-steps p {
   font-size: 0.9rem;
   color: var(--text-dim);
+  line-height: 1.55;
 }
 
-/* ============================================================
-   HOME: CALLOUT
-   ============================================================ */
+/* --- Callout --- */
 
 .callout {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   padding: 1rem 1.5rem;
   background: var(--surface);
-  border: 1px solid var(--accent2-tint-light);
+  border: 1px solid var(--border-accent);
   border-radius: 12px;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-dim);
 }
 .callout strong {
-  color: var(--accent2);
+  color: var(--accent);
 }
 .callout-compare {
   display: grid;
@@ -137,4 +225,22 @@
 .code-line.hl-bad {
   background: var(--accent2-tint-faint);
   color: var(--accent2);
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 768px) {
+  .how-panel.active {
+    grid-template-columns: 1fr;
+  }
+  .how-tabs {
+    flex-wrap: wrap;
+  }
+  .how-tab {
+    flex: 1 1 100%;
+    text-align: left;
+  }
+  .callout-compare {
+    grid-template-columns: 1fr;
+  }
 }

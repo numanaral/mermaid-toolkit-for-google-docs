@@ -25,6 +25,14 @@
     "hasCard": true
   },
   {
+    "name": "ZenUML",
+    "slug": "zenuml",
+    "keyword": "zenuml",
+    "docsUrl": "https://mermaid.js.org/syntax/zenuml.html",
+    "code": "zenuml\n    title Order Service\n    @Actor Client\n    @Boundary OrderController\n    @Entity OrderService\n    @Database OrderRepository\n    Client->OrderController.placeOrder(items) {\n      OrderController->OrderService.create(items) {\n        OrderService->OrderRepository.save(order)\n      }\n    }",
+    "hasCard": false
+  },
+  {
     "name": "Class Diagram",
     "slug": "class",
     "keyword": "classDiagram",
@@ -35,10 +43,19 @@
   {
     "name": "State Diagram",
     "slug": "state",
-    "keyword": "stateDiagram",
+    "keyword": "stateDiagram-v2",
     "docsUrl": "https://mermaid.js.org/syntax/stateDiagram.html",
     "code": "stateDiagram-v2\n    [*] --> Idle\n    Idle --> Processing : Start\n    Processing --> Done : Complete\n    Processing --> Error : Fail\n    Error --> Idle : Reset\n    Done --> [*]",
-    "hasCard": false
+    "hasCard": true
+  },
+  {
+    "name": "stateDiagram",
+    "slug": "state",
+    "keyword": "stateDiagram",
+    "docsUrl": "https://mermaid.js.org/syntax/stateDiagram.html",
+    "code": null,
+    "hasCard": false,
+    "isAlias": true
   },
   {
     "name": "Entity Relationship",
@@ -65,22 +82,6 @@
     "hasCard": false
   },
   {
-    "name": "Git Graph",
-    "slug": "gitgraph",
-    "keyword": "gitGraph",
-    "docsUrl": "https://mermaid.js.org/syntax/gitgraph.html",
-    "code": "gitGraph\n    commit\n    commit\n    branch develop\n    checkout develop\n    commit\n    commit\n    checkout main\n    merge develop\n    commit",
-    "hasCard": false
-  },
-  {
-    "name": "User Journey",
-    "slug": "journey",
-    "keyword": "journey",
-    "docsUrl": "https://mermaid.js.org/syntax/userJourney.html",
-    "code": "journey\n    title My Working Day\n    section Go to work\n      Make tea: 5: Me\n      Go upstairs: 3: Me\n      Do work: 1: Me, Cat\n    section Go home\n      Go downstairs: 5: Me\n      Sit down: 5: Me",
-    "hasCard": false
-  },
-  {
     "name": "Mindmap",
     "slug": "mindmap",
     "keyword": "mindmap",
@@ -97,19 +98,43 @@
     "hasCard": false
   },
   {
-    "name": "Sankey",
-    "slug": "sankey",
-    "keyword": "sankey",
-    "docsUrl": "https://mermaid.js.org/syntax/sankey.html",
-    "code": "sankey-beta\nAgricultural waste,Bio-conversion,124.729\nBio-conversion,Liquid,0.597\nBio-conversion,Losses,26.862\nBio-conversion,Solid,280.322\nBio-conversion,Gas,81.144",
+    "name": "User Journey",
+    "slug": "journey",
+    "keyword": "journey",
+    "docsUrl": "https://mermaid.js.org/syntax/userJourney.html",
+    "code": "journey\n    title My Working Day\n    section Go to work\n      Make tea: 5: Me\n      Go upstairs: 3: Me\n      Do work: 1: Me, Cat\n    section Go home\n      Go downstairs: 5: Me\n      Sit down: 5: Me",
+    "hasCard": false
+  },
+  {
+    "name": "Git Graph",
+    "slug": "gitgraph",
+    "keyword": "gitGraph",
+    "docsUrl": "https://mermaid.js.org/syntax/gitgraph.html",
+    "code": "gitGraph\n    commit\n    commit\n    branch develop\n    checkout develop\n    commit\n    commit\n    checkout main\n    merge develop\n    commit",
     "hasCard": false
   },
   {
     "name": "XY Chart",
     "slug": "xychart",
-    "keyword": "xychart",
+    "keyword": "xychart-beta",
     "docsUrl": "https://mermaid.js.org/syntax/xychart.html",
     "code": "xychart-beta\n    title \"Sales Revenue\"\n    x-axis [jan, feb, mar, apr, may]\n    y-axis \"Revenue (k$)\" 0 --> 150\n    bar [52, 78, 65, 120, 95]\n    line [52, 78, 65, 120, 95]",
+    "hasCard": false
+  },
+  {
+    "name": "Sankey",
+    "slug": "sankey",
+    "keyword": "sankey-beta",
+    "docsUrl": "https://mermaid.js.org/syntax/sankey.html",
+    "code": "sankey-beta\nAgricultural waste,Bio-conversion,124.729\nBio-conversion,Liquid,0.597\nBio-conversion,Losses,26.862\nBio-conversion,Solid,280.322\nBio-conversion,Gas,81.144",
+    "hasCard": false
+  },
+  {
+    "name": "Quadrant Chart",
+    "slug": "quadrant",
+    "keyword": "quadrantChart",
+    "docsUrl": "https://mermaid.js.org/syntax/quadrantChart.html",
+    "code": "quadrantChart\n    title Reach and engagement\n    x-axis Low Reach --> High Reach\n    y-axis Low Engagement --> High Engagement\n    quadrant-1 We should expand\n    quadrant-2 Need to promote\n    quadrant-3 Re-evaluate\n    quadrant-4 May be improved\n    Campaign A: [0.3, 0.6]\n    Campaign B: [0.45, 0.23]\n    Campaign C: [0.57, 0.69]\n    Campaign D: [0.78, 0.34]",
     "hasCard": false
   },
   {
@@ -121,11 +146,27 @@
     "hasCard": false
   },
   {
-    "name": "Quadrant Chart",
-    "slug": "quadrant",
-    "keyword": "quadrantChart",
-    "docsUrl": "https://mermaid.js.org/syntax/quadrantChart.html",
-    "code": "quadrantChart\n    title Reach and engagement\n    x-axis Low Reach --> High Reach\n    y-axis Low Engagement --> High Engagement\n    quadrant-1 We should expand\n    quadrant-2 Need to promote\n    quadrant-3 Re-evaluate\n    quadrant-4 May be improved\n    Campaign A: [0.3, 0.6]\n    Campaign B: [0.45, 0.23]\n    Campaign C: [0.57, 0.69]\n    Campaign D: [0.78, 0.34]",
+    "name": "Packet",
+    "slug": "packet",
+    "keyword": "packet-beta",
+    "docsUrl": "https://mermaid.js.org/syntax/packet.html",
+    "code": "packet-beta\n  0-15: \"Source Port\"\n  16-31: \"Destination Port\"\n  32-63: \"Sequence Number\"\n  64-95: \"Acknowledgment Number\"\n  96-99: \"Data Offset\"\n  100-105: \"Reserved\"\n  106-111: \"Flags\"\n  112-127: \"Window Size\"",
+    "hasCard": false
+  },
+  {
+    "name": "Architecture",
+    "slug": "architecture",
+    "keyword": "architecture-beta",
+    "docsUrl": "https://mermaid.js.org/syntax/architecture.html",
+    "code": "architecture-beta\n    group api(cloud)[API]\n\n    service db(database)[Database] in api\n    service disk1(disk)[Storage] in api\n    service disk2(disk)[Backup] in api\n    service server(server)[Server] in api\n\n    db:L -- R:server\n    disk1:T -- B:server\n    disk2:T -- B:db",
+    "hasCard": false
+  },
+  {
+    "name": "Kanban",
+    "slug": "kanban",
+    "keyword": "kanban",
+    "docsUrl": "https://mermaid.js.org/syntax/kanban.html",
+    "code": "kanban\n  Todo\n    id1[Design homepage]\n    id2[Write tests]\n  In Progress\n    id3[Implement API]\n  Done\n    id4[Setup CI/CD]",
     "hasCard": false
   },
   {
@@ -139,7 +180,7 @@
   {
     "name": "C4 Context",
     "slug": "c4context",
-    "keyword": "c4context",
+    "keyword": "C4Context",
     "docsUrl": "https://mermaid.js.org/syntax/c4.html",
     "code": "C4Context\n    title System Context diagram for Internet Banking System\n    Person(customerA, \"Banking Customer A\", \"A customer of the bank\")\n    System(systemAA, \"Internet Banking System\", \"Allows customers to view information about their bank accounts.\")\n    System_Ext(systemC, \"E-mail system\", \"The internal e-mail system.\")\n    Rel(customerA, systemAA, \"Uses\")\n    Rel(systemAA, systemC, \"Sends e-mails\", \"SMTP\")",
     "hasCard": false
@@ -147,7 +188,7 @@
   {
     "name": "C4 Container",
     "slug": "c4container",
-    "keyword": "c4container",
+    "keyword": "C4Container",
     "docsUrl": "https://mermaid.js.org/syntax/c4.html",
     "code": "C4Container\n    title Container diagram for Internet Banking System\n    Person(customer, \"Customer\", \"A customer of the bank\")\n    Container_Boundary(c1, \"Internet Banking\") {\n        Container(web_app, \"Web Application\", \"Java, Spring MVC\", \"Delivers the static content and the Internet banking SPA\")\n        Container(spa, \"Single-Page App\", \"JavaScript, Angular\", \"Provides banking functionality to customers\")\n        ContainerDb(database, \"Database\", \"SQL Database\", \"Stores user registration, auth, and access logs\")\n    }\n    Rel(customer, web_app, \"Uses\", \"HTTPS\")\n    Rel(web_app, spa, \"Delivers\")\n    Rel(spa, database, \"Reads from and writes to\", \"JDBC\")",
     "hasCard": false
@@ -155,7 +196,7 @@
   {
     "name": "C4 Component",
     "slug": "c4component",
-    "keyword": "c4component",
+    "keyword": "C4Component",
     "docsUrl": "https://mermaid.js.org/syntax/c4.html",
     "code": "C4Component\n    title Component diagram for Internet Banking System - API Application\n    Container_Boundary(api, \"API Application\") {\n        Component(sign, \"Sign In Controller\", \"MVC Rest Controller\", \"Allows users to sign in\")\n        Component(accounts, \"Accounts Summary Controller\", \"MVC Rest Controller\", \"Provides customers with a summary of their accounts\")\n        Component(security, \"Security Component\", \"Spring Bean\", \"Provides functionality related to signing in\")\n    }\n    ContainerDb(db, \"Database\", \"Relational Database Schema\", \"Stores user registration, auth, and access logs\")\n    Rel(sign, security, \"Uses\")\n    Rel(accounts, db, \"Reads from\", \"JDBC\")\n    Rel(security, db, \"Reads & writes to\", \"JDBC\")",
     "hasCard": false
@@ -163,7 +204,7 @@
   {
     "name": "C4 Dynamic",
     "slug": "c4dynamic",
-    "keyword": "c4dynamic",
+    "keyword": "C4Dynamic",
     "docsUrl": "https://mermaid.js.org/syntax/c4.html",
     "code": "C4Dynamic\n    title Dynamic diagram for Internet Banking System\n    ContainerDb(c4, \"Database\", \"Relational Database Schema\", \"Stores user info\")\n    Container(c1, \"Single-Page Application\", \"JavaScript and Angular\", \"Provides banking functionality\")\n    Container_Boundary(b, \"API Application\") {\n        Component(c2, \"Sign In Controller\", \"MVC Rest Controller\", \"Allows users to sign in\")\n        Component(c3, \"Security Component\", \"Spring Bean\", \"Provides sign-in functionality\")\n    }\n    Rel(c1, c2, \"Submits credentials to\", \"JSON/HTTPS\")\n    Rel(c2, c3, \"Validates credentials\")\n    Rel(c3, c4, \"Reads from\", \"JDBC\")",
     "hasCard": false
@@ -171,9 +212,17 @@
   {
     "name": "C4 Deployment",
     "slug": "c4deployment",
-    "keyword": "c4deployment",
+    "keyword": "C4Deployment",
     "docsUrl": "https://mermaid.js.org/syntax/c4.html",
     "code": "C4Deployment\n    title Deployment Diagram for Internet Banking System\n    Deployment_Node(mob, \"Customer's mobile device\", \"Apple iOS or Android\") {\n        Container(mobile, \"Mobile App\", \"Xamarin\", \"Provides a limited subset of banking functionality\")\n    }\n    Deployment_Node(comp, \"Customer's computer\", \"Chrome, Firefox, Safari, or Edge\") {\n        Container(spa, \"Single-Page Application\", \"JavaScript and Angular\", \"Provides banking functionality\")\n    }\n    Deployment_Node(dc, \"Big Bank plc\", \"Big Bank's data center\") {\n        Deployment_Node(apache, \"bigbank-web***\", \"Apache Tomcat\") {\n            Container(web, \"Web Application\", \"Java and Spring MVC\", \"Delivers the static content\")\n        }\n    }\n    Rel(mobile, web, \"Makes API calls to\", \"JSON/HTTPS\")\n    Rel(spa, web, \"Makes API calls to\", \"JSON/HTTPS\")",
     "hasCard": false
+  },
+  {
+    "name": "Radar",
+    "slug": "radar",
+    "keyword": "radar-beta",
+    "docsUrl": "https://mermaid.js.org/syntax/radar.html",
+    "code": "radar-beta\n  title Skills Assessment\n  axis f[\"Frontend\"], b[\"Backend\"], d[\"DevOps\"], t[\"Testing\"], u[\"Design\"]\n  curve a[\"Developer A\"]{4, 3, 2, 5, 1}\n  curve b[\"Developer B\"]{2, 5, 4, 2, 3}\n  max 5",
+    "hasCard": true
   }
 ]

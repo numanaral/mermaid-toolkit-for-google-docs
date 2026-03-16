@@ -32,9 +32,11 @@
   .why-grid {
     grid-template-columns: 1fr;
   }
-  .how-grid {
+  .how-panel.active {
     grid-template-columns: 1fr;
-    gap: 2rem;
+  }
+  .how-tabs {
+    flex-wrap: wrap;
   }
   .hero-stats {
     gap: 1.5rem;
