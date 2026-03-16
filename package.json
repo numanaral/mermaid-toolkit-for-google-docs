@@ -4,15 +4,20 @@
   "private": true,
   "description": "Render Mermaid diagrams as images directly in Google Docs.",
   "scripts": {
-    "build": "bash scripts/build.sh",
-    "dev": "bash scripts/dev.sh",
-    "build:gas": "tsx scripts/build-gas.ts",
-    "dev:gas": "tsx scripts/dev-gas.ts",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit -p tsconfig.json && ([ -n \"$(find src/gas/server -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/server/tsconfig.json || true) && ([ -n \"$(find src/gas/shared src/gas/dialogs -name '*.ts' 2>/dev/null)\" ] && tsc --noEmit -p src/gas/tsconfig.dialogs.json || true)",
-    "verify": "yarn lint && yarn typecheck",
-    "clasp:login": "clasp login",
-    "clasp:push": "yarn verify && yarn build:gas && clasp push"
+    "site:dev": "bash scripts/dev.sh",
+    "site:build": "bash scripts/build.sh",
+    "site:lint": "eslint site/ scripts/build.sh scripts/dev.sh",
+    "site:lint:fix": "eslint site/ --fix",
+    "site:typecheck": "tsc --noEmit -p tsconfig.json",
+    "gas:dev": "tsx scripts/dev-gas.ts",
+    "gas:build": "tsx scripts/build-gas.ts",
+    "gas:push": "tsx scripts/push.ts",
+    "gas:login": "clasp login",
+    "gas:lint": "eslint src/gas/ scripts/build-gas.ts scripts/dev-gas.ts scripts/push.ts",
+    "gas:lint:fix": "eslint src/gas/ scripts/build-gas.ts scripts/dev-gas.ts scripts/push.ts --fix",
+    "gas:typecheck": "tsx scripts/typecheck-gas.ts",
+    "verify": "tsx scripts/verify.ts",
+    "verify:fix": "tsx scripts/verify-fix.ts"
   },
   "repository": {
     "type": "git",
@@ -36,6 +41,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "marked": "^17.0.4",
     "mermaid": "^11.13.0"
   }
 }

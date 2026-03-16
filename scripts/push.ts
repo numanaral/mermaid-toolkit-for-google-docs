@@ -1,0 +1,84 @@
+import { execSync } from "child_process";
+import crypto from "crypto";
+import fs from "fs";
+import path from "path";
+
+const CACHE_FILE = ".gas-push-cache.json";
+const GAS_SRC = "src/gas";
+const DIST = "dist/gas";
+
+interface PushCache {
+  sourceHash: string;
+  verified: boolean;
+  built: boolean;
+}
+
+const readCache = (): PushCache | null => {
+  try {
+    return JSON.parse(fs.readFileSync(CACHE_FILE, "utf8"));
+  } catch {
+    return null;
+  }
+};
+
+const writeCache = (cache: PushCache): void => {
+  fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2) + "\n");
+};
+
+const hashDirectory = (dir: string): string => {
+  const hash = crypto.createHash("sha256");
+  const walk = (d: string): void => {
+    for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+      const full = path.join(d, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+      } else {
+        hash.update(full);
+        hash.update(fs.readFileSync(full));
+      }
+    }
+  };
+  walk(dir);
+  return hash.digest("hex").slice(0, 16);
+};
+
+const run = (cmd: string): void => {
+  execSync(cmd, { stdio: "inherit" });
+};
+
+const main = (): void => {
+  const t0 = Date.now();
+  const sourceHash = hashDirectory(GAS_SRC);
+  const cache = readCache();
+  const isCurrent = cache?.sourceHash === sourceHash;
+
+  console.log(`[push] Source hash: ${sourceHash}`);
+
+  if (isCurrent && cache.verified) {
+    console.log("[push] Verify: skipped (no changes since last verify)");
+  } else {
+    console.log("[push] Verify: running...\n");
+    run("tsx scripts/verify.ts");
+    writeCache({ sourceHash, verified: true, built: false });
+    console.log("");
+  }
+
+  const distExists = fs.existsSync(DIST) && fs.readdirSync(DIST).length > 0;
+
+  if (isCurrent && cache.built && distExists) {
+    console.log("[push] Build: skipped (no changes since last build)");
+  } else {
+    console.log("[push] Build: running...\n");
+    run("tsx scripts/build-gas.ts");
+    writeCache({ sourceHash, verified: true, built: true });
+    console.log("");
+  }
+
+  console.log("[push] Pushing to Apps Script...\n");
+  run("clasp push");
+
+  const elapsed = ((Date.now() - t0) / 1000).toFixed(2);
+  console.log(`\n[push] Done in ${elapsed}s`);
+};
+
+main();

@@ -13,7 +13,7 @@ const rebuild = (): void => {
   building = true;
   console.log("\n[dev-gas] Rebuilding...\n");
   try {
-    execSync("npx tsx scripts/build-gas.ts", { stdio: "inherit" });
+    execSync("tsx scripts/build-gas.ts", { stdio: "inherit" });
     console.log("\n[dev-gas] Ready. Watching for changes...");
   } catch {
     console.error("\n[dev-gas] Build failed. Watching for changes...");
