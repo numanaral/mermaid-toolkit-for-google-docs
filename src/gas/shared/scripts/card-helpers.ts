@@ -16,9 +16,17 @@ export const setCardStatus = (
 ): void => {
   const el = document.getElementById("card-status-" + idx);
   if (!el) return;
+  el.classList.remove("done", "failed", "pending");
   if (spinning) {
+    el.classList.add("pending");
     el.innerHTML = '<span class="spinner-status"></span>' + text;
   } else {
+    const lower = text.toLowerCase();
+    if (lower === "error" || lower === "failed") {
+      el.classList.add("failed");
+    } else if (lower === "inserted" || lower === "replaced" || lower === "done") {
+      el.classList.add("done");
+    }
     el.textContent = text;
   }
 };
