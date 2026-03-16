@@ -1,0 +1,224 @@
+@use "base/variables";
+@use "base/shared";
+@use "base/animations";
+@use "base/responsive";
+@use "layout/nav";
+@use "layout/footer";
+@use "layout/hero";
+
+.limitations-content {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem 2rem 5rem;
+}
+
+.limitations-intro {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+.limitation-card {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border-faint);
+  border-radius: 12px;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: var(--border-dim);
+  }
+}
+
+.limitation-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &.warn {
+    background: rgba(249, 171, 0, 0.12);
+    svg {
+      stroke: #f9ab00;
+    }
+  }
+
+  &.info {
+    background: var(--accent-tint);
+    svg {
+      stroke: var(--accent);
+    }
+  }
+
+  &.solved {
+    background: rgba(52, 168, 83, 0.12);
+    svg {
+      stroke: #34a853;
+    }
+  }
+}
+
+.limitation-body {
+  flex: 1;
+  min-width: 0;
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+}
+
+.limitation-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.tag-api {
+  color: var(--accent);
+  background: var(--accent-tint);
+  border: 1px solid var(--border-accent-dim);
+}
+
+.tag-impact {
+  color: var(--accent2);
+  background: var(--accent2-tint);
+  border: 1px solid var(--accent2-border);
+}
+
+.limitation-body p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.limitation-body code {
+  font-family: "Space Mono", monospace;
+  font-size: 0.82em;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-faint);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+.limitation-detail {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid var(--border-accent-dim);
+  border-radius: 0 6px 6px 0;
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  code {
+    font-family: "Space Mono", monospace;
+    font-size: 0.88em;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-faint);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+}
+
+.limitations-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-faintest);
+  text-align: center;
+
+  p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: var(--accent-hover);
+    }
+  }
+}
+
+.workarounds-heading,
+.solved-heading {
+  margin-top: 3rem;
+  margin-bottom: 0.5rem;
+  font-family: "Space Mono", monospace;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.tag-solved {
+  color: #34a853;
+  background: rgba(52, 168, 83, 0.1);
+  border: 1px solid rgba(52, 168, 83, 0.25);
+}
+
+.workaround-steps {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  kbd {
+    display: inline-block;
+    padding: 0.1em 0.4em;
+    font-family: "Space Mono", monospace;
+    font-size: 0.8em;
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .limitation-card {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+  }
+
+  .limitation-icon {
+    margin-top: 0;
+  }
+}
