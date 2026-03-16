@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>/* BUILD:INLINE_CSS */</style>
+</head>
+<body>
+  <script>(function(){var t=document.createElement('div');t.tabIndex=0;t.style.cssText='position:fixed;opacity:0;width:0;height:0;overflow:hidden';t.setAttribute('aria-hidden','true');document.body.insertBefore(t,document.body.firstChild);function f(){t.focus({preventScroll:true})}var d=[0,50,100,150,200,300,500,800,1200];for(var i=0;i<d.length;i++)setTimeout(f,d[i]);setTimeout(function(){t.tabIndex=-1},1500)})();</script>
+
+  <div class="tool-grid">
+    <button class="tool-card" id="btn-inspector">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div class="tool-label">Document Inspector</div>
+      <div class="tool-desc">View the full document structure from both DocumentApp and Docs API perspectives.</div>
+    </button>
+    <button class="tool-card" id="btn-checkbox">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </div>
+      <div class="tool-label">Test Checkboxes</div>
+      <div class="tool-desc">Insert test checkbox content to verify native checkbox creation via Docs API.</div>
+      <div class="tool-warn">Replaces document content</div>
+    </button>
+  </div>
+
+  <div id="loading" class="loading" style="display:none">
+    <div class="spinner"></div>
+    <p id="loading-msg">Running...</p>
+    <p class="loading-hint">This may take a moment.</p>
+  </div>
+
+  <div id="status"></div>
+
+  <script>/* BUILD:INLINE_JS */</script>
+</body>
+</html>
