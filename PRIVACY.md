@@ -18,11 +18,11 @@ This add-on does **not** collect, store, or transmit any user data. Specifically
 
 ## How Your Data Is Processed
 
-All diagram rendering happens **client-side** in your browser using the [mermaid.js](https://mermaid.js.org/) library. When you use this add-on:
+All diagram rendering happens **client-side** in your browser using the [Mermaid.js](https://mermaid.js.org/) library. When you use this add-on:
 
 1. Your Mermaid code is read from the Google Docs™ document
-2. The diagram is rendered locally in your browser via mermaid.js
-3. The rendered image is inserted back into your Google Docs™ document
+2. The diagram is rendered locally in your browser via Mermaid.js
+3. The rendered diagram is inserted back into your Google Docs™ document
 
 **No diagram content, document text, or any other data is sent to any external server.**
 
@@ -32,18 +32,16 @@ This add-on requests the following Google OAuth scopes:
 
 | Scope | Why It's Needed |
 |---|---|
-| `https://www.googleapis.com/auth/userinfo.email` | Included by default by Google for all add-ons. Not used by this add-on |
-| `https://www.googleapis.com/auth/userinfo.profile` | Included by default by Google for all add-ons. Not used by this add-on |
-| `https://www.googleapis.com/auth/documents.currentonly` | Read Mermaid code snippets from the current document and insert rendered diagram images back into it |
-| `https://www.googleapis.com/auth/script.container.ui` | Display dialog windows (editor, preview) within Google Docs™ |
+| `https://www.googleapis.com/auth/documents` | Read Mermaid code snippets from the document, insert rendered diagrams, and create native checkboxes via the Docs API |
+| `https://www.googleapis.com/auth/script.container.ui` | Display dialog windows (editor, preview, import/export) within Google Docs™ |
 
-These are the minimum scopes required for the add-on to function. The `documents.currentonly` scope limits access to only the document you have open — the add-on cannot access any other files in your Google Drive™.
+These are the minimum scopes required for the add-on to function. The `documents` scope is required because the add-on uses the Docs Advanced Service (REST API) for features like native checkbox creation, which is not available through the more restrictive `documents.currentonly` scope.
 
 ## Third-Party Services
 
-This add-on loads the [mermaid.js](https://mermaid.js.org/) library from **jsDelivr** (`cdn.jsdelivr.net`), a public open-source CDN. This is the only external network request the add-on makes.
+This add-on loads the [Mermaid.js](https://mermaid.js.org/) library from **jsDelivr** (`cdn.jsdelivr.net`), a public open-source CDN. This is the only external network request the add-on makes.
 
-- The request fetches the mermaid.js script file — **no user data, document content, or diagram code is sent to jsDelivr**.
+- The request fetches the Mermaid.js script file — **no user data, document content, or diagram code is sent to jsDelivr**.
 - jsDelivr may log standard HTTP metadata (IP address, user-agent) as part of normal CDN operation. This is outside the add-on's control. See [jsDelivr's privacy policy](https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net) for details.
 - All diagram rendering happens locally in your browser after the library is loaded.
 

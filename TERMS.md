@@ -26,13 +26,19 @@ IN NO EVENT SHALL THE DEVELOPER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
 
 - You are responsible for the content of your diagrams and documents.
 - You are responsible for maintaining backups of your documents.
-- The add-on modifies document content (inserting or replacing images) at your direction — please review changes before saving.
+- The add-on modifies document content (inserting or replacing diagrams) at your direction — please review changes before saving.
+
+## Third-Party Components
+
+This add-on depends on the following third-party components:
+
+- **[Mermaid.js](https://mermaid.js.org/)** — An open-source diagramming library, loaded at runtime from **jsDelivr** (`cdn.jsdelivr.net`). The add-on depends on this CDN to deliver the rendering library to your browser. No user data is transmitted to jsDelivr; only the library script is fetched.
 
 ## No Affiliation
 
 This add-on is an independent project. It is **not** affiliated with, endorsed by, or sponsored by:
 
-- **Google** — Google Docs™, Google Workspace™, and related trademarks are property of Google LLC
+- **Google** — Google Docs™, Google Drive™, Google Workspace™, and related trademarks are property of Google LLC
 - **Mermaid.js** — Mermaid is an open-source project maintained by its own contributors
 
 ## Availability
@@ -49,4 +55,4 @@ If you have questions about these terms, please visit our [Support page](https:/
 
 ---
 
-<sub>Google Docs™ and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</sub>
+<sub>Google Docs™, Google Drive™, and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</sub>
