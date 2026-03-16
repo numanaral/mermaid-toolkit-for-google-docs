@@ -20,7 +20,10 @@ const syncInputGutter = (): void => {
 };
 
 const syncOutputGutter = (text: string | null): void => {
-  if (!text) { outputLn.innerHTML = ""; return; }
+  if (!text) {
+    outputLn.innerHTML = "";
+    return;
+  }
   updateGutter(outputLn, text.split("\n").length);
 };
 
@@ -36,7 +39,9 @@ let currentView = "normal";
 
 document.querySelectorAll<HTMLButtonElement>(".tab").forEach((tab) => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+    document
+      .querySelectorAll(".tab")
+      .forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
     currentView = tab.dataset.view || "normal";
     normalView.classList.toggle("visible", currentView === "normal");
@@ -55,20 +60,24 @@ const renderDiff = (oldText: string, newText: string): void => {
   const newLines = newText.split("\n");
 
   const lcs = (a: string[], b: string[]): Array<{ oi: number; ni: number }> => {
-    const m = a.length, n = b.length;
+    const m = a.length,
+      n = b.length;
     const dp = Array.from({ length: m + 1 }, () => new Uint16Array(n + 1));
     for (let i = 1; i <= m; i++)
       for (let j = 1; j <= n; j++)
-        dp[i][j] = a[i - 1] === b[j - 1]
-          ? dp[i - 1][j - 1] + 1
-          : Math.max(dp[i - 1][j], dp[i][j - 1]);
+        dp[i][j] =
+          a[i - 1] === b[j - 1]
+            ? dp[i - 1][j - 1] + 1
+            : Math.max(dp[i - 1][j], dp[i][j - 1]);
 
     const result: Array<{ oi: number; ni: number }> = [];
-    let i = m, j = n;
+    let i = m,
+      j = n;
     while (i > 0 && j > 0) {
       if (a[i - 1] === b[j - 1]) {
         result.unshift({ oi: i - 1, ni: j - 1 });
-        i--; j--;
+        i--;
+        j--;
       } else if (dp[i - 1][j] >= dp[i][j - 1]) {
         i--;
       } else {
@@ -101,7 +110,8 @@ const renderDiff = (oldText: string, newText: string): void => {
     return div;
   };
 
-  let oi = 0, ni = 0;
+  let oi = 0,
+    ni = 0;
 
   for (const c of common) {
     const delCount = c.oi - oi;
@@ -167,7 +177,8 @@ const fixTableBlock = (match: string): string | null => {
   return "```mermaid\n" + body + "\n```";
 };
 
-const BACKTICK_BLOCK_RE = /````\s*```mermaid\s*````[^\n]*\n([\s\S]*?)````\s*```\s*````/g;
+const BACKTICK_BLOCK_RE =
+  /````\s*```mermaid\s*````[^\n]*\n([\s\S]*?)````\s*```\s*````/g;
 
 const fixBacktickBlock = (_match: string, body: string): string => {
   const lines = body.split("\n").map((line) => {
@@ -191,7 +202,10 @@ const fixMarkdown = (input: string): { text: string; count: number } => {
 
   fixed = fixed.replace(TABLE_BLOCK_RE, (match) => {
     const result = fixTableBlock(match);
-    if (result) { count++; return result; }
+    if (result) {
+      count++;
+      return result;
+    }
     return match;
   });
 
@@ -205,6 +219,13 @@ inputEl.addEventListener("input", () => {
   syncInputGutter();
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(processInput, 150);
+});
+
+inputEl.addEventListener("paste", () => {
+  setTimeout(() => {
+    syncInputGutter();
+    processInput();
+  }, 0);
 });
 
 syncInputGutter();
@@ -236,7 +257,8 @@ const processInput = (): void => {
   renderDiff(raw, text);
 
   if (count > 0) {
-    statusEl.textContent = "Fixed " + count + " mermaid block" + (count > 1 ? "s" : "");
+    statusEl.textContent =
+      "Fixed " + count + " mermaid block" + (count > 1 ? "s" : "");
     statusEl.className = "status ok";
   } else {
     statusEl.textContent = "No mermaid table blocks detected";
@@ -249,7 +271,9 @@ copyBtn.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(lastFixed);
     copyBtn.textContent = "Copied!";
-    setTimeout(() => { copyBtn.textContent = "Copy Fixed Markdown"; }, 1500);
+    setTimeout(() => {
+      copyBtn.textContent = "Copy Fixed Markdown";
+    }, 1500);
   } catch {
     const ta = document.createElement("textarea");
     ta.value = lastFixed;
@@ -260,7 +284,9 @@ copyBtn.addEventListener("click", async () => {
     document.execCommand("copy");
     document.body.removeChild(ta);
     copyBtn.textContent = "Copied!";
-    setTimeout(() => { copyBtn.textContent = "Copy Fixed Markdown"; }, 1500);
+    setTimeout(() => {
+      copyBtn.textContent = "Copy Fixed Markdown";
+    }, 1500);
   }
 });
 
@@ -275,8 +301,12 @@ pasteBtn.addEventListener("click", async () => {
       processInput();
       return;
     }
-  } catch { /* clipboard API not available */ }
+  } catch {
+    /* clipboard API blocked in sandboxed iframe */
+  }
   inputEl.focus();
+  statusEl.textContent = "Use Ctrl+V (or Cmd+V) to paste into the text area.";
+  statusEl.className = "status";
 });
 
 inputEl.focus();

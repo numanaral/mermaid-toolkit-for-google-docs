@@ -1,8 +1,14 @@
 import { loadScript } from "../../shared/scripts/load-script";
 import { svgToPngBase64 } from "../../shared/scripts/svg-to-png";
-import { MERMAID_CDN_URL, MERMAID_CONFIG } from "../../shared/scripts/mermaid-init";
+import {
+  MERMAID_CDN_URL,
+  MERMAID_CONFIG,
+} from "../../shared/scripts/mermaid-init";
 
-declare const mermaid: { initialize(config: unknown): void; render(id: string, src: string): Promise<{ svg: string }> };
+declare const mermaid: {
+  initialize(config: unknown): void;
+  render(id: string, src: string): Promise<{ svg: string }>;
+};
 declare const mermaidSource: string;
 declare const startIdx: number;
 declare const endIdx: number;
@@ -26,7 +32,10 @@ closeBtn.addEventListener("click", () => {
   try {
     await loadScript(MERMAID_CDN_URL);
   } catch (e) {
-    showError("Failed to load mermaid.js: " + (e instanceof Error ? e.message : String(e)));
+    showError(
+      "Failed to load mermaid.js: " +
+        (e instanceof Error ? e.message : String(e)),
+    );
     return;
   }
 
@@ -41,18 +50,18 @@ closeBtn.addEventListener("click", () => {
     return;
   }
 
-  messageEl.textContent = "Converting to image...";
+  messageEl.textContent = "Converting to PNG...";
 
   let base64: string | null;
   try {
     base64 = await svgToPngBase64(rendered.svg);
   } catch {
-    showError("Image conversion failed.");
+    showError("PNG conversion failed.");
     return;
   }
 
   if (!base64) {
-    showError("Image conversion returned empty result.");
+    showError("PNG conversion returned empty result.");
     return;
   }
 

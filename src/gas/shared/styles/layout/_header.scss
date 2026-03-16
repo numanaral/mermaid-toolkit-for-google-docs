@@ -5,7 +5,6 @@
   padding: 14px 20px;
   background: var(--surface-container);
   box-shadow: var(--elevation-1);
-  border-top: 3px solid var(--brand-teal);
   flex-shrink: 0;
 }
 
@@ -44,7 +43,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   flex-shrink: 0;
 
   &:hover {

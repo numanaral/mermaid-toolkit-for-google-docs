@@ -1,6 +1,6 @@
-@use '../../shared/styles/base/variables';
-@use '../../shared/styles/base/reset';
-@use '../../shared/styles/components/buttons';
+@use "../../shared/styles/base/variables";
+@use "../../shared/styles/base/reset";
+@use "../../shared/styles/components/buttons";
 
 body {
   display: flex;
@@ -26,7 +26,9 @@ body {
   border: 1px solid var(--outline-variant);
   background: var(--bg);
   font-family: inherit;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 
   &:first-child {
     border-radius: 12px 0 0 12px;
@@ -53,16 +55,11 @@ body {
 
 // --- Panes ---
 .panes {
-  display: flex;
+  display: none;
   flex: 1;
   gap: 12px;
   padding: 12px 16px;
   min-height: 0;
-
-  &#normalView,
-  &#diffView {
-    display: none;
-  }
 
   &.visible {
     display: flex;
@@ -121,7 +118,7 @@ $ln-color: #b0b3b8;
   flex-shrink: 0;
   padding: 10px 0;
   text-align: right;
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: "Roboto Mono", "Courier New", monospace;
   font-size: 10px;
   line-height: $line-h;
   color: $ln-color;
@@ -139,7 +136,7 @@ $ln-color: #b0b3b8;
 
 textarea {
   flex: 1;
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: "Roboto Mono", "Courier New", monospace;
   font-size: 12px;
   line-height: $line-h;
   padding: 10px;
@@ -154,7 +151,7 @@ textarea {
 
 .output-content {
   flex: 1;
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: "Roboto Mono", "Courier New", monospace;
   font-size: 12px;
   line-height: $line-h;
   padding: 10px;
@@ -165,7 +162,7 @@ textarea {
 
   &.empty {
     color: var(--outline);
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: "Roboto", Arial, sans-serif;
     font-style: italic;
     white-space: normal;
   }
@@ -196,7 +193,7 @@ textarea {
 // --- Diff view ---
 .diff-content {
   flex: 1;
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: "Roboto Mono", "Courier New", monospace;
   font-size: 12px;
   line-height: $line-h;
   padding: 10px 0;

@@ -28,7 +28,7 @@ const buildCard = (index: number, info: typeof imageInfos[0], previewHtml: strin
   const summaryHtml =
     '<div class="card-summary">' +
     '<span class="card-chevron">&#9654;</span>' +
-    '<span class="card-title">Image ' + (index + 1) + "</span>" +
+    '<span class="card-title">Diagram ' + (index + 1) + "</span>" +
     thumbHtml +
     '<span class="card-spacer"></span>' +
     '<span class="card-status" id="card-status-' + index + '"></span>' +
@@ -190,7 +190,7 @@ toggleBtn.addEventListener("click", () => {
     buildCard(i, imageInfos[i], previewHtml, thumbBase64);
   }
 
-  statusEl.textContent = imageInfos.length + " Mermaid image(s) found. Choose an action.";
+  statusEl.textContent = imageInfos.length + " Mermaid diagram(s) found. Choose an action.";
   insertAllB.disabled = false;
   replaceAllB.disabled = false;
   if (imageInfos.length > 1) toggleBtn.style.display = "";
