@@ -4,7 +4,7 @@
   <style>/* BUILD:INLINE_CSS */</style>
 </head>
 <body>
-  <div tabindex="-1" autofocus style="position:absolute;width:0;height:0;overflow:hidden"></div>
+  <script>(function(){var t=document.createElement('div');t.tabIndex=0;t.style.cssText='position:fixed;opacity:0;width:0;height:0;overflow:hidden';t.setAttribute('aria-hidden','true');document.body.insertBefore(t,document.body.firstChild);function f(){t.focus({preventScroll:true})}var d=[0,50,100,150,200,300,500,800,1200];for(var i=0;i<d.length;i++)setTimeout(f,d[i]);setTimeout(function(){t.tabIndex=-1},1500)})();</script>
   <div class="toolbar">
     <button class="btn btn-outlined" id="tpl-btn">Templates</button>
     <div class="toolbar-spacer"></div>
@@ -16,21 +16,30 @@
   <div class="template-row" id="tpl-row">
     <button data-tpl="flowchart">Flowchart</button>
     <button data-tpl="sequence">Sequence</button>
-    <button data-tpl="gantt">Gantt</button>
     <button data-tpl="class">Class</button>
-    <button data-tpl="er">ER</button>
     <button data-tpl="state">State</button>
+    <button data-tpl="er">ER</button>
+    <button data-tpl="gantt">Gantt</button>
     <button data-tpl="pie">Pie</button>
     <button data-tpl="mindmap">Mindmap</button>
     <button data-tpl="timeline">Timeline</button>
     <button data-tpl="journey">Journey</button>
     <button data-tpl="gitgraph">Git Graph</button>
-    <button data-tpl="sankey">Sankey</button>
     <button data-tpl="xychart">XY Chart</button>
-    <button data-tpl="block">Block</button>
+    <button data-tpl="sankey">Sankey</button>
     <button data-tpl="quadrant">Quadrant</button>
+    <button data-tpl="block">Block</button>
+    <button data-tpl="packet">Packet</button>
+    <button data-tpl="architecture">Architecture</button>
+    <button data-tpl="kanban">Kanban</button>
     <button data-tpl="requirement">Requirement</button>
-    <button data-tpl="c4">C4 Context</button>
+    <button data-tpl="zenuml">ZenUML</button>
+    <button data-tpl="c4context">C4 Context</button>
+    <button data-tpl="c4container">C4 Container</button>
+    <button data-tpl="c4component">C4 Component</button>
+    <button data-tpl="c4dynamic">C4 Dynamic</button>
+    <button data-tpl="c4deployment">C4 Deployment</button>
+    <button data-tpl="radar">Radar</button>
   </div>
 
   <div class="panels">
@@ -47,7 +56,7 @@
     </div>
   </div>
 
-  <div id="status">Loading mermaid.js...</div>
+  <div id="status"><span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>Loading mermaid.js...</div>
 
   <script>
     var initialSource = <?!= JSON.stringify(initialSource || "") ?>;

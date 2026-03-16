@@ -37,13 +37,13 @@ const TEMPLATES: Record<string, string> = {
     "flowchart TD\n    A[Start] --> B{Decision}\n    B -->|Yes| C[Do something]\n    B -->|No| D[Do something else]\n    C --> E[End]\n    D --> E",
   sequence:
     "sequenceDiagram\n    participant A as Alice\n    participant B as Bob\n    A->>B: Hello Bob\n    B-->>A: Hi Alice\n    A->>B: How are you?\n    B-->>A: Great!",
-  gantt:
-    "gantt\n    title Project Timeline\n    dateFormat YYYY-MM-DD\n    section Phase 1\n    Task A :a1, 2026-01-01, 14d\n    Task B :a2, after a1, 10d\n    section Phase 2\n    Task C :b1, after a2, 7d\n    Task D :b2, after b1, 14d",
   class:
     "classDiagram\n    class Animal {\n        +String name\n        +int age\n        +makeSound()\n    }\n    class Dog {\n        +fetch()\n    }\n    class Cat {\n        +purr()\n    }\n    Animal <|-- Dog\n    Animal <|-- Cat",
-  er: 'erDiagram\n    CUSTOMER ||--o{ ORDER : places\n    ORDER ||--|{ LINE_ITEM : contains\n    PRODUCT ||--o{ LINE_ITEM : "is in"',
   state:
     "stateDiagram-v2\n    [*] --> Idle\n    Idle --> Processing : submit\n    Processing --> Done : complete\n    Processing --> Error : fail\n    Error --> Idle : retry\n    Done --> [*]",
+  er: 'erDiagram\n    CUSTOMER ||--o{ ORDER : places\n    ORDER ||--|{ LINE_ITEM : contains\n    PRODUCT ||--o{ LINE_ITEM : "is in"',
+  gantt:
+    "gantt\n    title Project Timeline\n    dateFormat YYYY-MM-DD\n    section Phase 1\n    Task A :a1, 2026-01-01, 14d\n    Task B :a2, after a1, 10d\n    section Phase 2\n    Task C :b1, after a2, 7d\n    Task D :b2, after b1, 14d",
   pie: 'pie title Favorite Pets\n    "Dogs" : 45\n    "Cats" : 30\n    "Birds" : 15\n    "Fish" : 10',
   mindmap:
     "mindmap\n  root((Project))\n    Planning\n      Research\n      Requirements\n    Development\n      Frontend\n      Backend\n    Testing\n      Unit Tests\n      Integration",
@@ -53,17 +53,36 @@ const TEMPLATES: Record<string, string> = {
     "journey\n    title User Onboarding\n    section Sign Up\n      Visit site: 5: User\n      Create account: 3: User\n    section First Use\n      Complete tutorial: 4: User\n      Create first item: 5: User",
   gitgraph:
     "gitGraph\n    commit\n    commit\n    branch develop\n    checkout develop\n    commit\n    commit\n    checkout main\n    merge develop\n    commit",
-  sankey:
-    "sankey-beta\n\nAgricultural waste,Bio-conversion,124.729\nBio-conversion,Liquid,0.597\nBio-conversion,Losses,26.862\nBio-conversion,Solid,280.322\nBio-conversion,Gas,81.144",
   xychart:
     'xychart-beta\n    title "Sales Revenue"\n    x-axis [jan, feb, mar, apr, may]\n    y-axis "Revenue (k$)" 0 --> 150\n    bar [52, 78, 65, 120, 95]\n    line [52, 78, 65, 120, 95]',
-  block:
-    'block-beta\n  columns 3\n  a["Frontend"]:2 b["Backend"]\n  c["Database"] d["Cache"] e["Queue"]',
+  sankey:
+    "sankey-beta\n\nAgricultural waste,Bio-conversion,124.729\nBio-conversion,Liquid,0.597\nBio-conversion,Losses,26.862\nBio-conversion,Solid,280.322\nBio-conversion,Gas,81.144",
   quadrant:
     "quadrantChart\n    title Reach and engagement\n    x-axis Low Reach --> High Reach\n    y-axis Low Engagement --> High Engagement\n    quadrant-1 We should expand\n    quadrant-2 Need to promote\n    quadrant-3 Re-evaluate\n    quadrant-4 May be improved\n    Campaign A: [0.3, 0.6]\n    Campaign B: [0.45, 0.23]\n    Campaign C: [0.57, 0.69]\n    Campaign D: [0.78, 0.34]",
+  block:
+    'block-beta\n  columns 3\n  a["Frontend"]:2 b["Backend"]\n  c["Database"] d["Cache"] e["Queue"]',
+  packet:
+    'packet-beta\n  0-15: "Source Port"\n  16-31: "Destination Port"\n  32-63: "Sequence Number"\n  64-95: "Acknowledgment Number"\n  96-99: "Data Offset"\n  100-105: "Reserved"\n  106-111: "Flags"\n  112-127: "Window Size"\n  128-143: "Checksum"\n  144-159: "Urgent Pointer"\n  160-191: "Options and Padding"',
+  architecture:
+    "architecture-beta\n    group api(cloud)[API]\n\n    service db(database)[Database] in api\n    service disk1(disk)[Storage] in api\n    service disk2(disk)[Backup] in api\n    service server(server)[Server] in api\n\n    db:L -- R:server\n    disk1:T -- B:server\n    disk2:T -- B:db",
+  kanban:
+    "kanban\n  Todo\n    id1[Design homepage]\n    id2[Write tests]\n  In Progress\n    id3[Implement API]\n  Done\n    id4[Setup CI/CD]",
   requirement:
     "requirementDiagram\n    requirement test_req {\n      id: 1\n      text: the test text\n      risk: high\n      verifymethod: test\n    }\n    element test_entity {\n      type: simulation\n    }\n    test_entity - satisfies -> test_req",
-  c4: 'C4Context\n    title System Context diagram\n    Person(customerA, "Customer A", "A customer")\n    System(systemAA, "System A", "Main system")\n    System_Ext(systemC, "External System", "An external system")\n    Rel(customerA, systemAA, "Uses")\n    Rel(systemAA, systemC, "Sends data", "HTTPS")',
+  c4context:
+    'C4Context\n    title System Context diagram\n    Person(customerA, "Customer A", "A customer")\n    System(systemAA, "System A", "Main system")\n    System_Ext(systemC, "External System", "An external system")\n    Rel(customerA, systemAA, "Uses")\n    Rel(systemAA, systemC, "Sends data", "HTTPS")',
+  c4container:
+    'C4Container\n    title Container diagram for System A\n    Person(customerA, "Customer A", "A customer")\n    System_Boundary(c1, "System A") {\n      Container(web_app, "Web Application", "React", "Delivers content")\n      Container(api, "API", "Node.js", "Handles requests")\n      ContainerDb(db, "Database", "PostgreSQL", "Stores data")\n    }\n    Rel(customerA, web_app, "Uses", "HTTPS")\n    Rel(web_app, api, "Calls", "JSON/HTTPS")\n    Rel(api, db, "Reads/Writes", "SQL")',
+  c4component:
+    'C4Component\n    title Component diagram for API\n    Container_Boundary(api, "API Application") {\n      Component(auth, "Auth Controller", "Node.js", "Handles authentication")\n      Component(orders, "Orders Controller", "Node.js", "Handles orders")\n      Component(repo, "Repository", "Node.js", "Data access")\n    }\n    ContainerDb(db, "Database", "PostgreSQL")\n    Rel(auth, repo, "Uses")\n    Rel(orders, repo, "Uses")\n    Rel(repo, db, "Reads/Writes")',
+  c4dynamic:
+    'C4Dynamic\n    title Dynamic diagram for System A\n    ContainerDb(db, "Database", "PostgreSQL")\n    Container(api, "API", "Node.js")\n    Container(web, "Web App", "React")\n    Person(user, "User")\n    Rel(user, web, "1. Visits")\n    Rel(web, api, "2. Calls", "JSON/HTTPS")\n    Rel(api, db, "3. Reads/Writes", "SQL")',
+  c4deployment:
+    'C4Deployment\n    title Deployment Diagram\n    Deployment_Node(cloud, "AWS", "Amazon Web Services") {\n      Deployment_Node(ec2, "EC2 Instance") {\n        Container(api, "API", "Node.js", "Handles requests")\n      }\n      Deployment_Node(rds, "RDS") {\n        ContainerDb(db, "Database", "PostgreSQL")\n      }\n    }\n    Rel(api, db, "Reads/Writes", "SQL")',
+  zenuml:
+    "zenuml\n    title Order Service\n    @Actor Client\n    @Boundary OrderController\n    @Entity OrderService\n    Client->OrderController.placeOrder() {\n      OrderService.create() {\n        return id\n      }\n    }",
+  radar:
+    'radar-beta\n  title Skills Assessment\n  axis f["Frontend"], b["Backend"], d["DevOps"], t["Testing"], u["Design"]\n  curve a["Developer A"]{4, 3, 2, 5, 1}\n  curve b["Developer B"]{2, 5, 4, 2, 3}\n  max 5',
 };
 
 const doRender = async (): Promise<void> => {
@@ -180,7 +199,7 @@ replaceBtn.addEventListener("click", () => {
   if (!currentBase64 || imageChildIndex < 0) return;
   replaceBtn.disabled = true;
   replaceBtn.innerHTML = '<span class="spinner-inline"></span>Replacing...';
-  statusEl.textContent = "Replacing image...";
+  statusEl.textContent = "Replacing diagram...";
 
   google.script.run
     .withSuccessHandler(() => {
