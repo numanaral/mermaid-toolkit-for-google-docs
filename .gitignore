@@ -3,6 +3,13 @@ _site/
 dist/
 backup/
 .gas-build-tmp/
+.gas-push-cache.json
 .env
 .clasp.json
 .DS_Store
+
+# Test and temp files
+test-*.html
+temp-test/
+test.md
+src/*.paste
