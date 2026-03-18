@@ -2,6 +2,8 @@
 @use "../../shared/styles/base/reset";
 @use "../../shared/styles/components/buttons";
 @use "../../shared/styles/components/spinner";
+@use "../../shared/styles/components/paste-btn";
+@use "../../shared/styles/components/fullscreen";
 
 body {
   display: flex;
@@ -19,7 +21,6 @@ body {
   align-items: center;
   flex-wrap: wrap;
   flex-shrink: 0;
-  border-top: 3px solid var(--brand-teal);
   box-shadow: var(--elevation-1);
 }
 
@@ -45,6 +46,8 @@ body {
 }
 
 .panel-label {
+  display: flex;
+  align-items: center;
   font-size: 12px;
   font-weight: 500;
   color: var(--outline);
@@ -89,6 +92,7 @@ textarea {
   font-style: italic;
   padding: 24px 0;
   text-align: center;
+  cursor: default;
 }
 
 // --- Rendered markdown preview styles ---

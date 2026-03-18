@@ -8,13 +8,15 @@
   <div class="toolbar">
     <div class="toolbar-spacer"></div>
     <button class="btn btn-filled-secondary" id="replace-btn" disabled>Replace Document</button>
-    <button class="btn btn-filled-primary" id="insert-btn" disabled>Insert at Cursor</button>
+    <button class="btn btn-filled-primary" id="insert-btn" disabled>Insert into Document</button>
   </div>
 
   <div class="panels">
     <div class="panel">
-      <div class="panel-label">Markdown</div>
-      <textarea id="source" spellcheck="false" placeholder="Paste your markdown here — mermaid diagrams will be rendered automatically..."></textarea>
+      <div class="panel-label">Markdown <button class="paste-hint" id="pasteBtn">Paste</button></div>
+      <div class="input-wrap">
+        <textarea id="source" spellcheck="false" placeholder="Paste your markdown here — mermaid diagrams will be rendered automatically..."></textarea>
+      </div>
     </div>
     <div class="panel">
       <div class="panel-label">Preview</div>

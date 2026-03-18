@@ -5,6 +5,7 @@ import {
   MERMAID_CDN_URL,
   MERMAID_CONFIG,
 } from "../../shared/scripts/mermaid-init";
+import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
 
 const MARKED_CDN_URL =
   "https://cdn.jsdelivr.net/npm/marked@17/lib/marked.umd.js";
@@ -401,6 +402,8 @@ const renderPreview = async (): Promise<void> => {
         if (base64) {
           mermaidImages.set(idx, base64);
           slot.innerHTML = `<img src="data:image/png;base64,${base64}" />`;
+          const img = slot.querySelector("img");
+          if (img) wrapImgWithFullscreen(img);
           renderedCount++;
         } else {
           slot.innerHTML =
@@ -458,6 +461,7 @@ insertBtn.addEventListener("click", () => {
     })
     .withFailureHandler((err: Error) => {
       insertBtn.textContent = "Insert into Document";
+      insertBtn.classList.remove("done", "failed");
       insertBtn.className = "btn btn-filled-primary";
       insertBtn.disabled = false;
       replaceBtn.disabled = false;
@@ -487,6 +491,22 @@ replaceBtn.addEventListener("click", () => {
       statusEl.textContent = "Error: " + err;
     })
     .importMarkdownReplace(JSON.stringify(payload));
+});
+
+const pasteBtn = document.getElementById("pasteBtn")!;
+pasteBtn.addEventListener("click", async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text && text.trim()) {
+      sourceEl.value = text;
+      renderPreview();
+      return;
+    }
+  } catch {
+    /* clipboard API blocked in sandboxed iframe */
+  }
+  sourceEl.focus();
+  statusEl.textContent = "Use Ctrl+V (or Cmd+V) to paste into the text area.";
 });
 
 (async () => {
