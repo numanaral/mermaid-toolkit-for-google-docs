@@ -4,6 +4,7 @@
 @use "base/responsive";
 @use "layout/nav";
 @use "layout/footer";
+@use "components/pending";
 
 .features-detail {
   padding: 2rem 2rem 5rem;
@@ -58,10 +59,12 @@
   color: var(--text) !important;
   margin-top: 1rem !important;
 }
-.feature-media svg {
+.feature-media svg,
+.feature-media img {
   width: 100%;
   height: auto;
   border-radius: 12px;
+  border: 1px solid var(--border-accent-dim);
 }
 
 .feature-block-highlight {

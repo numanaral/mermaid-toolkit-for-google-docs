@@ -13,21 +13,12 @@
 @use "components/pending";
 
 @media (max-width: 768px) {
-  .hero-two-col {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .hero-demo {
-    order: -1;
-  }
   .hero h1 {
     font-size: 2.5rem;
   }
-  .bento-grid {
+  .bento-row,
+  .bento-row-flip {
     grid-template-columns: 1fr;
-  }
-  .bento-card.wide {
-    grid-column: span 1;
   }
   .why-grid {
     grid-template-columns: 1fr;

@@ -6,13 +6,16 @@ pageDescription: "Explore every feature of Mermaid Toolkit for Google Docs — f
 pageCss: features
 sitemapPriority: 0.9
 ---
-{% macro placeholder(label) %}
-<svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{{ label }} screenshot placeholder">
-  <rect width="480" height="300" rx="12" fill="#111818"/>
-  <rect x="1" y="1" width="478" height="298" rx="11" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
-  <text x="240" y="155" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: {{ label }} screenshot</text>
-</svg>
-{% endmacro %}
+{% set screenshotMap = {
+  "convert-all": "/assets/screenshots/convert-all.png",
+  "convert-selected": "/assets/screenshots/convert-selected.png",
+  "editor": "/assets/screenshots/editor.png",
+  "edit-in-place": "/assets/screenshots/edit-in-place.png",
+  "edit-all": "/assets/screenshots/edit-all.png",
+  "import-markdown": "/assets/screenshots/import-markdown.png",
+  "export-markdown": "/assets/screenshots/export-markdown.png",
+  "image-to-code": "/assets/screenshots/image-to-code.png"
+} %}
   <main>
   <section class="page-hero">
     <h1>Features</h1>
@@ -22,8 +25,9 @@ sitemapPriority: 0.9
   <section class="features-detail">
     <div class="features-inner">
 
+      {% set fns = { i: 0 } %}
       {% for feat in features %}{% if feat.showOnFeaturesPage and feat.id != 'fix-markdown' %}
-      <div class="feature-block{{ ' feature-block-reverse' if feat.reverse }} reveal" id="{{ feat.id }}">
+      <div class="feature-block{{ ' feature-block-reverse' if fns.i % 2 == 1 }} reveal" id="{{ feat.id }}">
         <div class="feature-text">
           <div class="feature-tag">{{ feat.tag }}</div>
           <h2>{{ feat.title }}</h2>
@@ -31,9 +35,12 @@ sitemapPriority: 0.9
           <p class="feature-menu"><strong>{{ feat.menu }}</strong>{% if feat.menuAlt %}<br><strong>{{ feat.menuAlt }}</strong>{% endif %}</p>
         </div>
         <div class="feature-media">
-          {{ placeholder(feat.id) | safe }}
+          {% if screenshotMap[feat.id] %}
+          <img src="{{ screenshotMap[feat.id] }}" alt="{{ feat.title }}" loading="lazy">
+          {% endif %}
         </div>
       </div>
+      {% set fns = { i: fns.i + 1 } %}
       {% endif %}{% endfor %}
 
       <!-- FIX MARKDOWN — THE BIG STORY -->

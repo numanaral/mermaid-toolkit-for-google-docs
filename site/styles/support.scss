@@ -5,6 +5,7 @@
 @use "layout/nav";
 @use "layout/footer";
 @use "layout/hero";
+@use "components/pending";
 
 .support-grid {
   display: grid;

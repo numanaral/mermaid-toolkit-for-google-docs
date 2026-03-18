@@ -5,6 +5,7 @@
 @use "layout/nav";
 @use "layout/footer";
 @use "layout/hero";
+@use "components/pending";
 
 .limitations-content {
   max-width: 820px;

@@ -38,7 +38,7 @@
     "keyword": "stateDiagram-v2",
     "docsUrl": "https://mermaid.js.org/syntax/stateDiagram.html",
     "code": "stateDiagram-v2\n    [*] --> Idle\n    Idle --> Processing : Start\n    Processing --> Done : Complete\n    Processing --> Error : Fail\n    Error --> Idle : Reset\n    Done --> [*]",
-    "hasCard": true
+    "hasCard": false
   },
   {
     "name": "stateDiagram",
@@ -215,6 +215,6 @@
     "keyword": "radar-beta",
     "docsUrl": "https://mermaid.js.org/syntax/radar.html",
     "code": "radar-beta\n  title Skills Assessment\n  axis f[\"Frontend\"], b[\"Backend\"], d[\"DevOps\"], t[\"Testing\"], u[\"Design\"]\n  curve a[\"Developer A\"]{4, 3, 2, 5, 1}\n  curve b[\"Developer B\"]{2, 5, 4, 2, 3}\n  max 5",
-    "hasCard": true
+    "hasCard": false
   }
 ]

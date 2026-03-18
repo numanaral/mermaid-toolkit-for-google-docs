@@ -3,6 +3,7 @@
 @use "base/responsive";
 @use "layout/nav";
 @use "layout/footer";
+@use "components/pending";
 
 .legal {
   max-width: 800px;

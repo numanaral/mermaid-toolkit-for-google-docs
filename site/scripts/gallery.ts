@@ -10,9 +10,7 @@ document
   });
 
 let counter = 0;
-const items = document.querySelectorAll<HTMLElement>(
-  ".gallery-item[data-mermaid]",
-);
+const items = document.querySelectorAll<HTMLElement>(".gallery-item");
 
 async function loadMermaid() {
   const { default: mermaid } = await import("mermaid");
@@ -28,7 +26,8 @@ const observer = new IntersectionObserver(
       if (!entry.isIntersecting) return;
       const item = entry.target as HTMLElement;
       observer.unobserve(item);
-      const code = item.getAttribute("data-mermaid");
+      const srcEl = item.querySelector<HTMLScriptElement>(".mermaid-src");
+      const code = srcEl?.textContent?.trim();
       const container = item.querySelector<HTMLElement>(".gallery-item-render");
       if (!code || !container) return;
 

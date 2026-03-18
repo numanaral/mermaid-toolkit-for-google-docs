@@ -13,6 +13,6 @@ test-*.html
 temp-test/
 test.md
 src/*.paste
-screenshots/
+/screenshots/
 .playwright-chrome-profile/
 .playwright-state.json

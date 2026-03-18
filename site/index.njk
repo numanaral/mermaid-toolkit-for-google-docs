@@ -28,33 +28,37 @@ sitemapPriority: 1.0
       Currently undergoing branding verification by Google's Trust &amp; Safety team. The Marketplace listing will be submitted for review once verification is complete. Install link coming soon!
     </div>
     <hr class="hero-divider">
-    <div class="hero-two-col">
-      <div class="hero-content">
-        <div class="hero-badge"><img src="/assets/brand/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
-        <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
-        <p>Write Mermaid syntax in Google Docs™, render it as a polished diagram. Everything stays in your browser.</p>
-        <div class="hero-actions">
-          {# TODO: Replace # with actual Marketplace URL once published #}
-          <a href="#" class="btn-accent">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Install from Marketplace
-          </a>
-          <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs" class="btn-dim" target="_blank" rel="noopener">GitHub →</a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat"><div class="val">0</div><div class="label">Data collected</div></div>
-          <div class="stat"><div class="val">100%</div><div class="label">Client-side</div></div>
-          {% set diagramCount = [] %}{% for d in diagrams %}{% if not d.isAlias %}{% set _ = diagramCount.push(1) %}{% endif %}{% endfor %}<div class="stat"><div class="val">{{ diagramCount | length }}</div><div class="label">Diagram types</div></div>
-        </div>
+    <div class="hero-center">
+      <div class="hero-badge"><img src="/assets/brand/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
+      <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
+      <p>Write Mermaid syntax in Google Docs™, render it as a polished diagram. Everything stays in your browser.</p>
+      <div class="hero-actions">
+        {# TODO: Replace # with actual Marketplace URL once published #}
+        <a href="#" class="btn-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Install from Marketplace
+        </a>
+        <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs" class="btn-dim" target="_blank" rel="noopener">GitHub →</a>
       </div>
-      <div class="hero-demo">
-        <svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Demo video placeholder">
-          <rect width="560" height="380" rx="16" fill="#111818"/>
-          <rect x="1" y="1" width="558" height="378" rx="15" fill="none" stroke="rgba(74,234,204,0.15)" stroke-width="1"/>
-          <circle cx="280" cy="175" r="36" fill="none" stroke="rgba(74,234,204,0.4)" stroke-width="2"/>
-          <polygon points="270,158 300,175 270,192" fill="rgba(74,234,204,0.5)"/>
-          <text x="280" y="240" text-anchor="middle" fill="rgba(74,234,204,0.5)" font-family="Space Mono,monospace" font-size="13">TODO: demo video</text>
-        </svg>
+      <div class="hero-stats">
+        <div class="stat"><div class="val">0</div><div class="label">Data collected</div></div>
+        <div class="stat"><div class="val">100%</div><div class="label">Client-side</div></div>
+        {% set diagramCount = [] %}{% for d in diagrams %}{% if not d.isAlias %}{% set _ = diagramCount.push(1) %}{% endif %}{% endfor %}<div class="stat"><div class="val">{{ diagramCount | length }}</div><div class="label">Diagram types</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="demo-section" id="demo">
+    <div class="demo-inner">
+      <div class="section-header reveal">
+        <div class="tag">See it in action</div>
+        <h2>From code to diagram in one click.</h2>
+      </div>
+      <div class="demo-video reveal">
+        <video autoplay loop muted playsinline controls poster="/assets/screenshots/editor.png">
+          <source src="/assets/screenshots/demo.webm" type="video/webm">
+        </video>
       </div>
     </div>
   </section>
@@ -105,12 +109,16 @@ sitemapPriority: 1.0
   <section class="bento" id="features">
     <div class="bento-inner">
       <div class="section-header reveal">
-        <div class="tag">Features</div>
+        <div class="tag">What it does</div>
         <h2>Built for speed and privacy.</h2>
       </div>
       <div class="bento-grid reveal-stagger">
+        {% set ns = { i: 0 } %}
         {% for feat in features %}{% if feat.showInBento %}
-        <div class="card bento-card{{ ' wide' if feat.wide }}"><div class="card-icon">{{ feat.icon }}</div><h3>{{ feat.title }}</h3><p>{{ feat.shortDesc | safe }}</p></div>
+        {% if ns.i % 2 == 0 %}<div class="bento-row{{ ' bento-row-flip' if (ns.i / 2) | round(0, 'floor') % 2 == 1 }}">{% endif %}
+        <div class="card bento-card"><div class="card-icon">{{ feat.icon }}</div><h3>{{ feat.title }}</h3><p>{{ feat.shortDesc | safe }}</p></div>
+        {% if ns.i % 2 == 1 or loop.last %}</div>{% endif %}
+        {% set ns = { i: ns.i + 1 } %}
         {% endif %}{% endfor %}
       </div>
     </div>
@@ -132,10 +140,7 @@ sitemapPriority: 1.0
         {% for workflow in howto %}
         <div class="how-panel{{ ' active' if loop.first }}" id="how-panel-{{ workflow.id }}">
           <div class="how-panel-screenshot">
-            <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{{ workflow.subtitle }} screenshot">
-              <rect width="480" height="300" fill="#1a2222"/>
-              <text x="240" y="155" text-anchor="middle" fill="#7a9090" font-family="Space Mono,monospace" font-size="14">TODO: screenshot</text>
-            </svg>
+            <img src="{{ workflow.screenshot }}" alt="{{ workflow.subtitle }}" loading="lazy">
           </div>
           <div class="how-panel-content">
             <p class="how-panel-desc">{{ workflow.desc }}</p>

@@ -5,6 +5,7 @@
 @use "layout/nav";
 @use "layout/footer";
 @use "layout/hero";
+@use "components/pending";
 
 .gallery-grid {
   max-width: 1100px;

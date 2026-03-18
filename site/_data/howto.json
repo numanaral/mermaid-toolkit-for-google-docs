@@ -2,6 +2,7 @@
   {
     "id": "render-all",
     "subtitle": "Convert code to diagrams",
+    "screenshot": "/assets/screenshots/convert-all.png",
     "desc": "Already have Mermaid code in your doc? Render everything in one click.",
     "steps": [
       {
@@ -21,6 +22,7 @@
   {
     "id": "editor",
     "subtitle": "Use the built-in editor",
+    "screenshot": "/assets/screenshots/editor.png",
     "desc": "Write diagrams from scratch with live preview and templates.",
     "steps": [
       {
@@ -40,6 +42,7 @@
   {
     "id": "edit-in-place",
     "subtitle": "Edit diagrams in place",
+    "screenshot": "/assets/screenshots/edit-in-place.png",
     "desc": "Click any diagram to edit its source — no copy-paste needed.",
     "steps": [
       {
@@ -59,6 +62,7 @@
   {
     "id": "image-to-code",
     "subtitle": "Convert diagrams back to code",
+    "screenshot": "/assets/screenshots/image-to-code.png",
     "desc": "Extract the original Mermaid source from any diagram.",
     "steps": [
       {
@@ -78,6 +82,7 @@
   {
     "id": "fix-markdown",
     "subtitle": "Fix native \"Copy as Markdown\"",
+    "screenshot": "/assets/screenshots/fix-markdown.png",
     "desc": "Copied Mermaid code from a markdown file? Google Docs corrupts it. Fix it in one step.",
     "steps": [
       {

@@ -71,31 +71,29 @@
   }
 }
 
-.hero-two-col {
-  position: relative;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
-  max-width: 1100px;
-  width: 100%;
-}
-.hero-content {
+.hero-center {
   position: relative;
   z-index: 10;
   max-width: 750px;
 }
-.hero-demo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+/* ---------- Demo section (below hero) ---------- */
+
+.demo-section {
+  padding: 3rem 2rem 5rem;
+  background: var(--surface);
 }
-.hero-demo svg {
+.demo-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+.demo-video video {
   width: 100%;
-  max-width: 560px;
   height: auto;
   border-radius: 16px;
+  border: 1px solid rgba(74, 234, 204, 0.15);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
 }
 
 .hero-badge {
