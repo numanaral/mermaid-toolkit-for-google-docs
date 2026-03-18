@@ -1,0 +1,27 @@
+.input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  min-height: 0;
+}
+
+.paste-hint {
+  font-size: 11px;
+  color: var(--primary);
+  cursor: pointer;
+  background: var(--bg);
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-family: inherit;
+  font-weight: 500;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+  margin-left: auto;
+  white-space: nowrap;
+  line-height: 1.4;
+
+  &:hover {
+    opacity: 1;
+  }
+}

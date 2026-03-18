@@ -1,0 +1,114 @@
+.action-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 12px 16px;
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-radius: 16px;
+  box-shadow: var(--elevation-1);
+  font-family: inherit;
+  color: var(--on-surface);
+  width: 155px;
+  flex: 0 0 155px;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s,
+    transform 0.1s;
+
+  &:hover {
+    box-shadow: var(--elevation-2);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+button.action-card {
+  cursor: pointer;
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--elevation-1);
+  }
+}
+
+div.action-card {
+  cursor: default;
+}
+
+.action-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  color: var(--primary);
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.action-label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.action-desc {
+  font-size: 11px;
+  color: var(--outline);
+  line-height: 1.4;
+}
+
+.action-link {
+  display: inline-block;
+  position: relative;
+  font-size: 11px;
+  color: var(--brand-teal);
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 8px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--brand-teal);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &::after {
+    content: "\2192";
+    margin-left: 4px;
+    transition: margin-left 0.25s ease-out;
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  &:hover::after {
+    margin-left: 8px;
+  }
+}

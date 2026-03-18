@@ -1,0 +1,36 @@
+.img-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.fullscreen-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition:
+    background 0.15s,
+    opacity 0.15s;
+  z-index: 1;
+  padding: 0;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.75);
+    opacity: 1;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
