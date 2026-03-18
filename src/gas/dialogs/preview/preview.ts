@@ -8,10 +8,8 @@ import {
 import {
   markBtn,
   setLoading,
-  setCardStatus,
   batchAction,
 } from "../../shared/scripts/card-helpers";
-import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
 
 declare const mermaid: {
   initialize(config: unknown): void;
@@ -22,6 +20,12 @@ declare const blockInfos: Array<{
   startIdx: number;
   endIdx: number;
 }>;
+
+const OPEN_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+  '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
+  '<polyline points="15 3 21 3 21 9"/>' +
+  '<line x1="10" y1="14" x2="21" y2="3"/></svg>';
 
 interface RenderResult {
   definition: string;
@@ -39,10 +43,8 @@ const insertAllB = document.getElementById(
 const replaceAllB = document.getElementById(
   "replace-all-btn",
 ) as HTMLButtonElement;
-const toggleBtn = document.getElementById("toggle-btn") as HTMLButtonElement;
 
 const results: RenderResult[] = [];
-let allExpanded = false;
 const cardEls: HTMLElement[] = [];
 
 const buildCard = (index: number, result: RenderResult): void => {
@@ -50,73 +52,76 @@ const buildCard = (index: number, result: RenderResult): void => {
   card.className = "card";
   cardEls.push(card);
 
-  const thumbHtml = result.base64
-    ? '<img class="card-thumb" src="data:image/png;base64,' +
-      result.base64 +
-      '" />'
+  const thumbSrc = result.base64
+    ? "data:image/png;base64," + result.base64
     : "";
 
-  const summaryHtml =
-    '<div class="card-summary">' +
+  let rowHtml =
+    '<div class="card-row">' +
     '<span class="card-chevron">&#9654;</span>' +
-    '<span class="card-title">Diagram ' +
+    '<span class="card-num">' +
     (index + 1) +
-    "</span>" +
-    thumbHtml +
-    '<span class="card-spacer"></span>' +
-    '<span class="card-status" id="card-status-' +
-    index +
-    '">' +
-    (result.error ? '<span class="error">Error</span>' : "") +
-    "</span></div>";
+    "</span>";
 
-  let bodyHtml = '<div class="card-body">';
+  if (thumbSrc) {
+    rowHtml +=
+      '<div class="thumb-hover" data-src="' +
+      thumbSrc +
+      '">' +
+      '<img class="card-thumb" src="' +
+      thumbSrc +
+      '" />' +
+      '<div class="open-badge">' +
+      OPEN_SVG +
+      "</div></div>";
+  }
+
+  rowHtml += '<span class="card-spacer"></span>';
+  rowHtml += '<div class="header-actions">';
 
   if (result.base64) {
-    bodyHtml +=
-      '<div class="card-buttons">' +
-      '<button class="btn btn-tonal-primary" id="src-' +
-      index +
-      '">Show Source</button>' +
+    rowHtml +=
       '<button class="btn btn-filled-primary" id="ins-' +
       index +
       '">Insert After</button>' +
       '<button class="btn btn-filled-secondary" id="rep-' +
       index +
-      '">Replace</button>' +
-      "</div>" +
-      '<div class="source-wrap" id="source-wrap-' +
-      index +
-      '"><pre class="source-block">' +
-      escapeHtml(result.definition) +
-      "</pre></div>" +
-      '<img src="data:image/png;base64,' +
-      result.base64 +
-      '" />';
+      '">Replace</button>';
   } else {
-    bodyHtml +=
-      '<p class="error">' +
-      escapeHtml(result.error || "Unknown error") +
-      "</p>" +
-      "<pre>" +
-      escapeHtml(result.definition) +
-      "</pre>";
+    rowHtml +=
+      '<span class="card-status failed">Error</span>';
   }
 
-  bodyHtml += "</div>";
-  card.innerHTML = summaryHtml + bodyHtml;
+  rowHtml += "</div></div>";
+
+  let sourceHtml =
+    '<div class="source-wrap" id="source-wrap-' +
+    index +
+    '"><pre class="source-block">' +
+    escapeHtml(result.definition) +
+    "</pre></div>";
+
+  card.innerHTML = rowHtml + sourceHtml;
   cardsEl.appendChild(card);
 
-  card.querySelector(".card-summary")!.addEventListener("click", () => {
+  const row = card.querySelector(".card-row")!;
+  row.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest(".header-actions, .thumb-hover"))
+      return;
     card.classList.toggle("expanded");
+    const wrap = card.querySelector(".source-wrap");
+    if (wrap) wrap.classList.toggle("visible");
   });
 
-  const imgEl = card.querySelector<HTMLImageElement>(".card-body > img");
-  if (imgEl) wrapImgWithFullscreen(imgEl);
+  const thumbEl = card.querySelector(".thumb-hover");
+  if (thumbEl) {
+    thumbEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const src = thumbEl.getAttribute("data-src");
+      if (src) window.open(src, "_blank");
+    });
+  }
 
-  const srcBtn = document.getElementById(
-    "src-" + index,
-  ) as HTMLButtonElement | null;
   const insBtn = document.getElementById(
     "ins-" + index,
   ) as HTMLButtonElement | null;
@@ -124,30 +129,27 @@ const buildCard = (index: number, result: RenderResult): void => {
     "rep-" + index,
   ) as HTMLButtonElement | null;
 
-  if (srcBtn) {
-    srcBtn.addEventListener("click", () => {
-      const wrap = document.getElementById("source-wrap-" + index);
-      if (!wrap) return;
-      const isVisible = wrap.classList.contains("visible");
-      wrap.classList.toggle("visible", !isVisible);
-      srcBtn.textContent = isVisible ? "Show Source" : "Hide Source";
-    });
-  }
-  if (insBtn) insBtn.addEventListener("click", () => doInsert(index));
-  if (repBtn) repBtn.addEventListener("click", () => doReplace(index));
+  if (insBtn) insBtn.addEventListener("click", (e) => { e.stopPropagation(); doInsert(index); });
+  if (repBtn) repBtn.addEventListener("click", (e) => { e.stopPropagation(); doReplace(index); });
 };
 
 const doInsert = (idx: number): void => {
   const btn = document.getElementById("ins-" + idx) as HTMLButtonElement;
   setLoading(btn, "Inserting...");
+  disableCard(idx);
 
   google.script.run
     .withSuccessHandler(() => {
       markBtn(btn, true);
-      setCardStatus(idx, "Inserted");
+      btn.textContent = "Inserted ✓";
+      enableCard(idx);
     })
     .withFailureHandler((err: Error) => {
       markBtn(btn, false);
+      btn.textContent = "Retry Insert";
+      btn.disabled = false;
+      btn.onclick = () => doInsert(idx);
+      enableCard(idx);
       statusEl.textContent = "Error: " + err;
     })
     .insertDiagramAfterText(
@@ -162,21 +164,27 @@ const doInsert = (idx: number): void => {
 const doReplace = (idx: number): void => {
   const btn = document.getElementById("rep-" + idx) as HTMLButtonElement;
   setLoading(btn, "Replacing...");
+  disableCard(idx);
 
   google.script.run
     .withSuccessHandler(() => {
       markBtn(btn, true);
-      setCardStatus(idx, "Replaced");
+      btn.textContent = "Replaced ✓";
       const insBtn = document.getElementById(
         "ins-" + idx,
       ) as HTMLButtonElement | null;
       if (insBtn) {
         insBtn.disabled = true;
-        insBtn.textContent = "N/A";
+        insBtn.style.opacity = "0.3";
       }
+      enableCard(idx);
     })
     .withFailureHandler((err: Error) => {
       markBtn(btn, false);
+      btn.textContent = "Retry Replace";
+      btn.disabled = false;
+      btn.onclick = () => doReplace(idx);
+      enableCard(idx);
       statusEl.textContent = "Error: " + err;
     })
     .replaceDiagramText(
@@ -186,6 +194,25 @@ const doReplace = (idx: number): void => {
       idx,
       results[idx].definition,
     );
+};
+
+const disableCard = (idx: number): void => {
+  const card = cardEls[idx];
+  if (!card) return;
+  card.querySelectorAll<HTMLButtonElement>(".header-actions .btn").forEach(
+    (b) => { b.disabled = true; },
+  );
+};
+
+const enableCard = (idx: number): void => {
+  const card = cardEls[idx];
+  if (!card) return;
+  card.querySelectorAll<HTMLButtonElement>(".header-actions .btn").forEach(
+    (b) => {
+      if (!b.classList.contains("done") && !b.classList.contains("failed"))
+        b.disabled = false;
+    },
+  );
 };
 
 insertAllB.addEventListener("click", () => {
@@ -224,14 +251,6 @@ replaceAllB.addEventListener("click", () => {
       results[idx].definition,
     ],
   );
-});
-
-toggleBtn.addEventListener("click", () => {
-  allExpanded = !allExpanded;
-  for (const card of cardEls) {
-    card.classList.toggle("expanded", allExpanded);
-  }
-  toggleBtn.textContent = allExpanded ? "Collapse All" : "Expand All";
 });
 
 (async () => {
@@ -301,9 +320,5 @@ toggleBtn.addEventListener("click", () => {
   if (successCount > 0) {
     insertAllB.disabled = false;
     replaceAllB.disabled = false;
-  }
-
-  if (blockInfos.length > 1) {
-    toggleBtn.style.display = "";
   }
 })();

@@ -1,3 +1,4 @@
+// ── Card shell ──
 .card {
   border-radius: 16px;
   margin: 10px 0;
@@ -7,6 +8,7 @@
   background-image: linear-gradient(var(--surface-tint), var(--surface-tint));
 }
 
+// ── Chevron ──
 .card-chevron {
   font-size: 12px;
   color: var(--outline);
@@ -14,6 +16,30 @@
   flex-shrink: 0;
 }
 
+.card.expanded .card-chevron {
+  transform: rotate(90deg);
+}
+
+// ── Card row (flat layout for preview/extract) ──
+.card-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.card.expanded > .card-row {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+// ── Card summary (legacy, used by old expand/collapse pattern) ──
 .card-summary {
   display: flex;
   align-items: center;
@@ -28,34 +54,96 @@
   }
 }
 
-.card.expanded {
-  .card-summary {
-    background: rgba(0, 0, 0, 0.04);
-  }
-
-  .card-chevron {
-    transform: rotate(90deg);
-  }
+.card.expanded .card-summary {
+  background: rgba(0, 0, 0, 0.04);
 }
 
+// ── Card number ──
+.card-num {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--outline);
+  flex-shrink: 0;
+  min-width: 18px;
+  text-align: center;
+}
+
+// ── Title & spacer ──
 .card-title {
   font-weight: 500;
   font-size: 14px;
   flex-shrink: 0;
 }
 
+.card-spacer {
+  flex: 1;
+}
+
+// ── Thumbnail ──
 .card-thumb {
   max-height: 40px;
   max-width: 120px;
   border: 1px solid var(--outline-variant);
   border-radius: 8px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
-.card-spacer {
-  flex: 1;
+// ── BC2 hoverable thumbnail with corner badge ──
+.thumb-hover {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  .card-thumb {
+    transition: border-color 0.15s;
+  }
+
+  .open-badge {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 20px;
+    height: 20px;
+    border-radius: 0 8px 0 6px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s;
+
+    svg {
+      width: 11px;
+      height: 11px;
+    }
+  }
+
+  &:hover .card-thumb {
+    border-color: var(--primary);
+  }
+
+  &:hover .open-badge {
+    opacity: 1;
+  }
 }
 
+// ── Header actions (buttons in card row) ──
+.header-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+
+  .btn {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+}
+
+// ── Status badge ──
 .card-status {
   font-size: 12px;
   flex-shrink: 0;
@@ -83,6 +171,7 @@
   }
 }
 
+// ── Card body (legacy expand/collapse) ──
 .card-body {
   display: none;
   padding: 0 20px 20px;
@@ -106,6 +195,7 @@
   flex-wrap: wrap;
 }
 
+// ── Source expand (grid animation) ──
 .source-wrap {
   display: grid;
   grid-template-rows: 0fr;
@@ -128,17 +218,122 @@ pre.source-block {
   font-size: 12px;
   white-space: pre-wrap;
   word-break: break-word;
-  border-radius: 8px;
+  border-radius: 0;
   transition:
     padding 0.3s ease-out,
-    border-width 0.3s ease-out,
-    margin 0.3s ease-out;
+    border-width 0.3s ease-out;
 
   .source-wrap.visible & {
-    padding: 12px 16px;
-    border-width: 1px;
-    margin-bottom: 8px;
+    padding: 12px 20px;
+    border-top-width: 1px;
     max-height: 160px;
     overflow-y: auto;
+  }
+}
+
+// ── Inline editor (grid animation, for Edit All dialog) ──
+.editor-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease-out;
+
+  &.visible {
+    grid-template-rows: 1fr;
+  }
+}
+
+.editor-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.inline-panels {
+  display: flex;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.inline-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  & + & {
+    border-left: 1px solid var(--outline-variant);
+  }
+}
+
+.inline-panel-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--outline);
+  padding: 8px 16px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(0, 0, 0, 0.02);
+  flex-shrink: 0;
+}
+
+.inline-panel textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 150px;
+  resize: none;
+  font-family: "Roboto Mono", "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 16px;
+  border: none;
+  outline: none;
+  color: var(--on-surface);
+  background: var(--surface);
+}
+
+.inline-panel .preview-scroll {
+  flex: 1;
+  overflow: auto;
+  background: var(--surface);
+  padding: 10px 16px;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: 100%;
+    border: 1px solid var(--outline-variant);
+    border-radius: 12px;
+    background: #fff;
+  }
+}
+
+.inline-panel .error-bar {
+  font-size: 12px;
+  color: var(--error);
+  padding: 6px 16px;
+  background: var(--error-container);
+  border-top: 1px solid rgba(217, 48, 37, 0.15);
+  flex-shrink: 0;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.editor-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--outline-variant);
+  background: rgba(0, 0, 0, 0.02);
+
+  .spacer {
+    flex: 1;
+  }
+
+  .btn {
+    padding: 6px 16px;
+    font-size: 12px;
   }
 }

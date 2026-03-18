@@ -3,7 +3,6 @@
 @use "../../shared/styles/components/buttons";
 @use "../../shared/styles/components/cards";
 @use "../../shared/styles/components/spinner";
-@use "../../shared/styles/components/fullscreen";
 @use "../../shared/styles/layout/typography";
 
 body {
@@ -45,15 +44,4 @@ body {
 .footer-spacer {
   flex: 1;
   min-width: 8px;
-}
-
-.footer-actions {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.preview-area {
-  margin-top: 8px;
-  min-height: 40px;
 }

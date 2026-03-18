@@ -8,16 +8,20 @@ import {
 import {
   markBtn,
   setLoading,
-  setCardStatus,
   batchAction,
 } from "../../shared/scripts/card-helpers";
-import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
 
 declare const mermaid: {
   initialize(config: unknown): void;
   render(id: string, src: string): Promise<{ svg: string }>;
 };
 declare const imageInfos: Array<{ source: string; childIndex: number }>;
+
+const OPEN_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+  '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
+  '<polyline points="15 3 21 3 21 9"/>' +
+  '<line x1="10" y1="14" x2="21" y2="3"/></svg>';
 
 const cardsEl = document.getElementById("cards")!;
 const statusEl = document.getElementById("status")!;
@@ -27,102 +31,111 @@ const insertAllB = document.getElementById(
 const replaceAllB = document.getElementById(
   "replace-all-btn",
 ) as HTMLButtonElement;
-const toggleBtn = document.getElementById("toggle-btn") as HTMLButtonElement;
 
-let allExpanded = false;
 const cardEls: HTMLElement[] = [];
+const thumbs: (string | null)[] = [];
 
 const buildCard = (
   index: number,
   info: (typeof imageInfos)[0],
-  previewHtml: string,
   thumbBase64: string | null,
 ): void => {
   const card = document.createElement("div");
   card.className = "card";
   cardEls.push(card);
+  thumbs.push(thumbBase64);
 
-  const thumbHtml = thumbBase64
-    ? '<img class="card-thumb" src="data:image/png;base64,' +
-      thumbBase64 +
-      '" />'
+  const thumbSrc = thumbBase64
+    ? "data:image/png;base64," + thumbBase64
     : "";
 
-  const summaryHtml =
-    '<div class="card-summary">' +
+  let rowHtml =
+    '<div class="card-row">' +
     '<span class="card-chevron">&#9654;</span>' +
-    '<span class="card-title">Diagram ' +
+    '<span class="card-num">' +
     (index + 1) +
-    "</span>" +
-    thumbHtml +
-    '<span class="card-spacer"></span>' +
-    '<span class="card-status" id="card-status-' +
-    index +
-    '"></span>' +
-    "</div>";
+    "</span>";
 
-  const bodyHtml =
-    '<div class="card-body">' +
-    '<div class="card-buttons">' +
-    '<button class="btn btn-tonal-primary" id="src-' +
-    index +
-    '">Show Source</button>' +
+  if (thumbSrc) {
+    rowHtml +=
+      '<div class="thumb-hover" data-src="' +
+      thumbSrc +
+      '">' +
+      '<img class="card-thumb" src="' +
+      thumbSrc +
+      '" />' +
+      '<div class="open-badge">' +
+      OPEN_SVG +
+      "</div></div>";
+  }
+
+  rowHtml += '<span class="card-spacer"></span>';
+  rowHtml += '<div class="header-actions">';
+  rowHtml +=
     '<button class="btn btn-filled-primary" id="ins-' +
     index +
-    '">Insert Code After</button>' +
+    '">Insert After</button>' +
     '<button class="btn btn-filled-secondary" id="rep-' +
     index +
-    '">Replace with Code</button>' +
-    "</div>" +
+    '">Replace</button>';
+  rowHtml += "</div></div>";
+
+  const sourceHtml =
     '<div class="source-wrap" id="source-wrap-' +
     index +
     '"><pre class="source-block">' +
     escapeHtml(info.source) +
-    "</pre></div>" +
-    '<div class="preview-area" id="preview-' +
-    index +
-    '">' +
-    previewHtml +
-    "</div>" +
-    "</div>";
+    "</pre></div>";
 
-  card.innerHTML = summaryHtml + bodyHtml;
+  card.innerHTML = rowHtml + sourceHtml;
   cardsEl.appendChild(card);
 
-  card.querySelector(".card-summary")!.addEventListener("click", () => {
+  const row = card.querySelector(".card-row")!;
+  row.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest(".header-actions, .thumb-hover"))
+      return;
     card.classList.toggle("expanded");
+    const wrap = card.querySelector(".source-wrap");
+    if (wrap) wrap.classList.toggle("visible");
   });
 
-  const previewImg = card.querySelector<HTMLImageElement>(".preview-area img");
-  if (previewImg) wrapImgWithFullscreen(previewImg);
-
-  const srcBtn = document.getElementById("src-" + index) as HTMLButtonElement;
-  const insBtn = document.getElementById("ins-" + index) as HTMLButtonElement;
-  const repBtn = document.getElementById("rep-" + index) as HTMLButtonElement;
-  if (srcBtn) {
-    srcBtn.addEventListener("click", () => {
-      const wrap = document.getElementById("source-wrap-" + index);
-      if (!wrap) return;
-      const isVisible = wrap.classList.contains("visible");
-      wrap.classList.toggle("visible", !isVisible);
-      srcBtn.textContent = isVisible ? "Show Source" : "Hide Source";
+  const thumbEl = card.querySelector(".thumb-hover");
+  if (thumbEl) {
+    thumbEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const src = thumbEl.getAttribute("data-src");
+      if (src) window.open(src, "_blank");
     });
   }
-  insBtn.addEventListener("click", () => doInsert(index));
-  repBtn.addEventListener("click", () => doReplace(index));
+
+  const insBtn = document.getElementById(
+    "ins-" + index,
+  ) as HTMLButtonElement;
+  const repBtn = document.getElementById(
+    "rep-" + index,
+  ) as HTMLButtonElement;
+
+  insBtn.addEventListener("click", (e) => { e.stopPropagation(); doInsert(index); });
+  repBtn.addEventListener("click", (e) => { e.stopPropagation(); doReplace(index); });
 };
 
 const doInsert = (idx: number): void => {
   const btn = document.getElementById("ins-" + idx) as HTMLButtonElement;
   setLoading(btn, "Inserting...");
+  disableCard(idx);
 
   google.script.run
     .withSuccessHandler(() => {
       markBtn(btn, true);
-      setCardStatus(idx, "Inserted");
+      btn.textContent = "Inserted ✓";
+      enableCard(idx);
     })
     .withFailureHandler((err: Error) => {
       markBtn(btn, false);
+      btn.textContent = "Retry Insert";
+      btn.disabled = false;
+      btn.onclick = () => doInsert(idx);
+      enableCard(idx);
       statusEl.textContent = "Error: " + err;
     })
     .insertCodeBlockAfterImage(
@@ -134,27 +147,52 @@ const doInsert = (idx: number): void => {
 const doReplace = (idx: number): void => {
   const btn = document.getElementById("rep-" + idx) as HTMLButtonElement;
   setLoading(btn, "Replacing...");
+  disableCard(idx);
 
   google.script.run
     .withSuccessHandler(() => {
       markBtn(btn, true);
-      setCardStatus(idx, "Replaced");
+      btn.textContent = "Replaced ✓";
       const insBtn = document.getElementById(
         "ins-" + idx,
       ) as HTMLButtonElement | null;
       if (insBtn) {
         insBtn.disabled = true;
-        insBtn.textContent = "N/A";
+        insBtn.style.opacity = "0.3";
       }
+      enableCard(idx);
     })
     .withFailureHandler((err: Error) => {
       markBtn(btn, false);
+      btn.textContent = "Retry Replace";
+      btn.disabled = false;
+      btn.onclick = () => doReplace(idx);
+      enableCard(idx);
       statusEl.textContent = "Error: " + err;
     })
     .replaceImageWithCodeBlock(
       imageInfos[idx].source,
       imageInfos[idx].childIndex,
     );
+};
+
+const disableCard = (idx: number): void => {
+  const card = cardEls[idx];
+  if (!card) return;
+  card.querySelectorAll<HTMLButtonElement>(".header-actions .btn").forEach(
+    (b) => { b.disabled = true; },
+  );
+};
+
+const enableCard = (idx: number): void => {
+  const card = cardEls[idx];
+  if (!card) return;
+  card.querySelectorAll<HTMLButtonElement>(".header-actions .btn").forEach(
+    (b) => {
+      if (!b.classList.contains("done") && !b.classList.contains("failed"))
+        b.disabled = false;
+    },
+  );
 };
 
 insertAllB.addEventListener("click", () => {
@@ -183,30 +221,16 @@ replaceAllB.addEventListener("click", () => {
   );
 });
 
-toggleBtn.addEventListener("click", () => {
-  allExpanded = !allExpanded;
-  for (const card of cardEls) {
-    card.classList.toggle("expanded", allExpanded);
-  }
-  toggleBtn.textContent = allExpanded ? "Collapse All" : "Expand All";
-});
-
 (async () => {
   try {
     await loadScript(MERMAID_CDN_URL);
   } catch {
     statusEl.textContent = "Previews unavailable (mermaid.js failed to load).";
     for (let i = 0; i < imageInfos.length; i++) {
-      buildCard(
-        i,
-        imageInfos[i],
-        '<span class="placeholder">Preview unavailable</span>',
-        null,
-      );
+      buildCard(i, imageInfos[i], null);
     }
     insertAllB.disabled = false;
     replaceAllB.disabled = false;
-    if (imageInfos.length > 1) toggleBtn.style.display = "";
     return;
   }
 
@@ -227,7 +251,6 @@ toggleBtn.addEventListener("click", () => {
       imageInfos.length +
       "...";
 
-    let previewHtml = "";
     let thumbBase64: string | null = null;
 
     try {
@@ -237,24 +260,17 @@ toggleBtn.addEventListener("click", () => {
       );
       const base64 = await svgToPngBase64(rendered.svg);
       if (base64) {
-        previewHtml = '<img src="data:image/png;base64,' + base64 + '" />';
         thumbBase64 = base64;
-      } else {
-        previewHtml = '<span class="error">Preview render failed</span>';
       }
-    } catch (e) {
-      previewHtml =
-        '<span class="error">' +
-        escapeHtml(e instanceof Error ? e.message : String(e)) +
-        "</span>";
+    } catch {
+      // thumbnail not available, still show the card
     }
 
-    buildCard(i, imageInfos[i], previewHtml, thumbBase64);
+    buildCard(i, imageInfos[i], thumbBase64);
   }
 
   statusEl.textContent =
     imageInfos.length + " Mermaid diagram(s) found. Choose an action.";
   insertAllB.disabled = false;
   replaceAllB.disabled = false;
-  if (imageInfos.length > 1) toggleBtn.style.display = "";
 })();
