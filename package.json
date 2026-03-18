@@ -23,7 +23,8 @@
     "test:gdocs": "tsx scripts/test-gdocs.ts",
     "test:iframe": "node scripts/test-iframe.js",
     "test:edit": "node scripts/test-edit-flow.js",
-    "test:mouse": "node scripts/test-mouse.js"
+    "test:mouse": "node scripts/test-mouse.js",
+    "test:cursor": "node scripts/test-cursor-in-dialog.js"
   },
   "repository": {
     "type": "git",

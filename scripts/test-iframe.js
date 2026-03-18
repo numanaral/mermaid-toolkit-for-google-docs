@@ -147,35 +147,116 @@ const shot = async (page, name) => {
   }
 };
 
-const ensureCursor = async (page) => {
-  await page.evaluate((style) => {
-    if (document.getElementById("pw-cursor")) return;
-    const d = document.createElement("div");
-    d.id = "pw-cursor";
-    d.style.cssText = style;
-    document.documentElement.appendChild(d);
-  }, CURSOR_STYLE).catch(() => {});
+const injectCursorInFrame = async (frame) => {
+  await frame
+    .evaluate((style) => {
+      if (document.getElementById("pw-cursor")) return;
+      const d = document.createElement("div");
+      d.id = "pw-cursor";
+      d.style.cssText = style;
+      document.documentElement.appendChild(d);
+    }, CURSOR_STYLE)
+    .catch(() => {});
 };
 
-const setCursorPos = async (page, x, y) => {
-  await page.evaluate(([cx, cy]) => {
-    const el = document.getElementById("pw-cursor");
-    if (el) { el.style.left = cx + "px"; el.style.top = cy + "px"; }
-  }, [x, y]).catch(() => {});
+const ensureCursor = async (page) => {
+  await injectCursorInFrame(page);
+  const f = page.frame("userHtmlFrame");
+  if (f) await injectCursorInFrame(f);
+};
+
+const hideCursorIn = async (frame) => {
+  await frame
+    .evaluate(() => {
+      const el = document.getElementById("pw-cursor");
+      if (el) {
+        el.style.left = "-100px";
+        el.style.top = "-100px";
+      }
+    })
+    .catch(() => {});
+};
+
+const setCursorIn = async (frame, x, y) => {
+  await frame
+    .evaluate(
+      ([cx, cy]) => {
+        const el = document.getElementById("pw-cursor");
+        if (el) {
+          el.style.left = cx + "px";
+          el.style.top = cy + "px";
+        }
+      },
+      [x, y],
+    )
+    .catch(() => {});
+};
+
+const getIframeOffset = async (page) => {
+  return page
+    .evaluate(() => {
+      let el = document.querySelector('iframe[name="userHtmlFrame"]');
+      if (!el) {
+        let best = null,
+          bestArea = 0;
+        for (const f of document.querySelectorAll("iframe")) {
+          const r = f.getBoundingClientRect();
+          const area = r.width * r.height;
+          if (area > bestArea && r.width > 200 && r.height > 200) {
+            best = f;
+            bestArea = area;
+          }
+        }
+        el = best;
+      }
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { x: r.x, y: r.y, w: r.width, h: r.height };
+    })
+    .catch(() => null);
+};
+
+const updateCursorAllFrames = async (page, px, py) => {
+  const iframeFrame = page.frame("userHtmlFrame");
+  if (!iframeFrame) {
+    await setCursorIn(page, px, py);
+    return;
+  }
+
+  const offset = await getIframeOffset(page);
+  const overIframe =
+    offset &&
+    px >= offset.x &&
+    px <= offset.x + offset.w &&
+    py >= offset.y &&
+    py <= offset.y + offset.h;
+
+  if (overIframe) {
+    await hideCursorIn(page);
+    await setCursorIn(iframeFrame, px - offset.x, py - offset.y);
+  } else {
+    await hideCursorIn(iframeFrame);
+    await setCursorIn(page, px, py);
+  }
 };
 
 const glide = async (page, x, y, steps = 20) => {
-  const from = await page.evaluate(() => {
-    const el = document.getElementById("pw-cursor");
-    if (!el) return { x: 0, y: 0 };
-    return { x: parseFloat(el.style.left) || 0, y: parseFloat(el.style.top) || 0 };
-  }).catch(() => ({ x: 0, y: 0 }));
+  const from = await page
+    .evaluate(() => {
+      const el = document.getElementById("pw-cursor");
+      if (!el) return { x: 0, y: 0 };
+      return {
+        x: parseFloat(el.style.left) || 0,
+        y: parseFloat(el.style.top) || 0,
+      };
+    })
+    .catch(() => ({ x: 0, y: 0 }));
 
   for (let i = 1; i <= steps; i++) {
     const px = from.x + ((x - from.x) * i) / steps;
     const py = from.y + ((y - from.y) * i) / steps;
     await page.mouse.move(px, py);
-    await setCursorPos(page, px, py);
+    await updateCursorAllFrames(page, px, py);
   }
   await sleep(60);
 };
@@ -193,7 +274,6 @@ const clickSmooth = async (page, locator, opts = {}) => {
   await locator.click({ timeout: 5000, ...opts });
   await sleep(150);
 };
-
 
 const closeDialog = async (page) => {
   if (!(await isDialogOpen(page))) return;
@@ -314,6 +394,8 @@ const waitDialogAndInjectCursor = async (page) => {
   await waitForDialog(page);
   await sleep(800);
   await ensureCursor(page);
+  const f = page.frame("userHtmlFrame");
+  if (f) await injectCursorInFrame(f);
   await sleep(200);
 };
 
@@ -574,7 +656,12 @@ const waitDialogAndInjectCursor = async (page) => {
       await shot(page, "02-code2diag");
 
       const hasCards2 = await poll(
-        () => frame2.locator(".card-row").first().isVisible().catch(() => false),
+        () =>
+          frame2
+            .locator(".card-row")
+            .first()
+            .isVisible()
+            .catch(() => false),
         5000,
       );
       if (hasCards2) {
@@ -582,7 +669,11 @@ const waitDialogAndInjectCursor = async (page) => {
         const chevron2 = frame2.locator(".card-chevron").first();
         const chevBox2 = await chevron2.boundingBox().catch(() => null);
         if (chevBox2) {
-          await glide(page, chevBox2.x + chevBox2.width / 2, chevBox2.y + chevBox2.height / 2);
+          await glide(
+            page,
+            chevBox2.x + chevBox2.width / 2,
+            chevBox2.y + chevBox2.height / 2,
+          );
           await sleep(100);
           await chevron2.click({ timeout: 5000 });
           await sleep(1000);
@@ -616,7 +707,12 @@ const waitDialogAndInjectCursor = async (page) => {
       await shot(page, "03-diag2code");
 
       const hasCards3 = await poll(
-        () => frame3.locator(".card-row").first().isVisible().catch(() => false),
+        () =>
+          frame3
+            .locator(".card-row")
+            .first()
+            .isVisible()
+            .catch(() => false),
         5000,
       );
       if (hasCards3) {
@@ -624,7 +720,11 @@ const waitDialogAndInjectCursor = async (page) => {
         const chevron3 = frame3.locator(".card-chevron").first();
         const chevBox3 = await chevron3.boundingBox().catch(() => null);
         if (chevBox3) {
-          await glide(page, chevBox3.x + chevBox3.width / 2, chevBox3.y + chevBox3.height / 2);
+          await glide(
+            page,
+            chevBox3.x + chevBox3.width / 2,
+            chevBox3.y + chevBox3.height / 2,
+          );
           await sleep(100);
           await chevron3.click({ timeout: 5000 });
           await sleep(1000);
@@ -658,7 +758,11 @@ const waitDialogAndInjectCursor = async (page) => {
       await shot(page, "03b-editdiags");
 
       const hasEdit3b = await poll(
-        () => frame3b.locator("#edit-0").isVisible().catch(() => false),
+        () =>
+          frame3b
+            .locator("#edit-0")
+            .isVisible()
+            .catch(() => false),
         5000,
       );
       if (hasEdit3b) {
@@ -666,7 +770,11 @@ const waitDialogAndInjectCursor = async (page) => {
         const editBtn3b = frame3b.locator("#edit-0");
         const editBox3b = await editBtn3b.boundingBox().catch(() => null);
         if (editBox3b) {
-          await glide(page, editBox3b.x + editBox3b.width / 2, editBox3b.y + editBox3b.height / 2);
+          await glide(
+            page,
+            editBox3b.x + editBox3b.width / 2,
+            editBox3b.y + editBox3b.height / 2,
+          );
           await sleep(100);
           await editBtn3b.click({ timeout: 5000 });
           await sleep(1500);
