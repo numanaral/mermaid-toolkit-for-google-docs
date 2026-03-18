@@ -46,6 +46,7 @@ export const onOpen = (): void => {
   DocumentApp.getUi()
     .createMenu("Mermaid Toolkit")
     .addItem("Insert Mermaid Diagram", "openEditor")
+    .addItem("Edit All Mermaid Diagrams", "openEditDiagrams")
     .addItem("Edit Selected Mermaid Diagram", "editSelectedMermaidImage")
     .addSeparator()
     .addItem("Convert All Code to Diagrams", "scanAndRender")
@@ -164,6 +165,24 @@ export const editSelectedMermaidImage = (): void => {
     "Selection is not a Mermaid diagram.\n\n" +
       "Only diagrams inserted by this add-on contain embedded Mermaid source code.",
   );
+};
+
+export const openEditDiagrams = (): void => {
+  const images = findMermaidImages();
+
+  if (images.length === 0) {
+    DocumentApp.getUi().alert(
+      "No Mermaid diagrams found.\n\n" +
+        "Only diagrams inserted by this add-on contain embedded Mermaid source code.",
+    );
+    return;
+  }
+
+  const template = HtmlService.createTemplateFromFile("EditDiagrams");
+  template.imageInfos = JSON.stringify(images);
+
+  const html = template.evaluate().setWidth(800).setHeight(600);
+  DocumentApp.getUi().showModalDialog(html, "Edit All Mermaid Diagrams");
 };
 
 export const extractMermaidFromImages = (): void => {
@@ -364,15 +383,15 @@ export const openFixMarkdown = (): void => {
 
 export const showQuickGuide = (): void => {
   const html = HtmlService.createHtmlOutputFromFile("QuickGuide")
-    .setWidth(440)
-    .setHeight(600);
+    .setWidth(560)
+    .setHeight(460);
   DocumentApp.getUi().showModalDialog(html, "Quick Guide");
 };
 
 export const openDevTools = (): void => {
   const html = HtmlService.createHtmlOutputFromFile("DevTools")
-    .setWidth(440)
-    .setHeight(380);
+    .setWidth(560)
+    .setHeight(460);
   DocumentApp.getUi().showModalDialog(html, "Dev Tools");
 };
 
@@ -381,6 +400,25 @@ export const showAbout = (): void => {
     .setWidth(320)
     .setHeight(280);
   DocumentApp.getUi().showModalDialog(html, "About");
+};
+
+export const getDocumentInfo = (): string => {
+  const doc = DocumentApp.getActiveDocument();
+  const { body, tabId, isFirstTab } = getActiveBody(doc);
+  const n = body.getNumChildren();
+  const images = findMermaidImages();
+  const snippets = findMermaidSnippets();
+
+  const lines = [
+    "Document ID: " + doc.getId(),
+    "Name: " + doc.getName(),
+    "Tab: " + (isFirstTab ? "#1 (primary)" : tabId),
+    "Children: " + n,
+    "Mermaid Diagrams: " + images.length,
+    "Mermaid Code Blocks: " + snippets.length,
+    "URL: " + doc.getUrl(),
+  ];
+  return lines.join("\n");
 };
 
 export const debugDocStructure = (): void => {
@@ -649,38 +687,44 @@ export const debugDocStructure = (): void => {
 
 const INSPECTOR_HTML = `<!DOCTYPE html>
 <html><head><style>
-*{box-sizing:border-box}
-body{font-family:'Google Sans',Arial,sans-serif;padding:0;margin:0;font-size:12px;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:#fff}
-.header{display:flex;align-items:center;padding:14px 20px;background:#f5f5f5;box-shadow:0 1px 2px rgba(0,0,0,.1);flex-shrink:0}
-.header-dot{width:8px;height:8px;border-radius:50%;background:#00897b;flex-shrink:0;margin-right:10px}
-.header h3{margin:0;font-size:18px;font-weight:500;color:#1c1b1f;flex:1}
-.stat{display:inline-block;background:#e8eaed;padding:3px 8px;border-radius:12px;margin:0 4px;font-size:11px;color:#444746}
-#copy-btn{padding:6px 16px;background:#00897b;color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:12px;font-weight:500;letter-spacing:.02em;transition:background .2s}
-#copy-btn:hover{background:#00796b}
-#copy-btn.copied{background:#0f9d58}
-.tabs{display:flex;border-bottom:1px solid #e0e0e0;flex-shrink:0;background:#fff;padding:0 12px}
-.tab{padding:10px 16px;cursor:pointer;font-size:12px;font-weight:500;color:#747775;border-bottom:2px solid transparent;transition:color .2s}
-.tab:hover{color:#1c1b1f}
-.tab.active{color:#00897b;border-bottom-color:#00897b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Google Sans','Roboto',Arial,sans-serif;font-size:12px;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:#fff;color:#1b1b1f}
+.toolbar{display:flex;gap:8px;padding:10px 16px;background:#f2f4f5;background-image:linear-gradient(rgba(26,115,232,0.05),rgba(26,115,232,0.05));align-items:center;flex-wrap:wrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.05),0 1px 3px rgba(0,0,0,0.08)}
+.toolbar-spacer{flex:1}
+.stat{display:inline-block;background:#e8eaed;padding:3px 10px;border-radius:12px;font-size:11px;color:#747579;font-weight:500}
+.btn{padding:8px 20px;font-size:13px;border-radius:12px;font-family:inherit;font-weight:500;cursor:pointer;border:none;white-space:nowrap;transition:box-shadow .2s,background .2s,opacity .2s}
+.btn-primary{background:#1a73e8;color:#fff;box-shadow:0 1px 2px rgba(0,0,0,0.05),0 1px 3px rgba(0,0,0,0.08)}
+.btn-primary:hover{box-shadow:0 2px 6px rgba(0,0,0,0.07),0 4px 12px rgba(0,0,0,0.06)}
+.btn-primary.copied{background:#1e8e3e}
+.tabs{display:inline-flex;margin:10px 16px 0}
+.tab{padding:6px 16px;font-size:13px;font-weight:500;color:#747579;cursor:pointer;border:1px solid #c4c6cf;background:#fff;font-family:inherit;transition:background .15s,color .15s}
+.tab:first-child{border-radius:12px 0 0 12px}
+.tab:last-child{border-radius:0 12px 12px 0}
+.tab+.tab{border-left:none}
+.tab:hover{background:#f2f4f5;color:#1b1b1f}
+.tab.active{background:#d3e3fd;color:#1a73e8}
 .tab-content{flex:1;overflow:auto;display:none}
 .tab-content.active{display:block}
 table{width:100%;border-collapse:collapse;font-size:11px}
-th{text-align:left;background:#f5f5f5;padding:6px 8px;border:1px solid #e0e0e0;white-space:nowrap;position:sticky;top:0;z-index:1;color:#444746;font-weight:500}
-td{padding:4px 8px;border:1px solid #e8eaed;vertical-align:top;color:#1c1b1f}
+th{text-align:left;background:#f2f4f5;padding:6px 8px;border:1px solid #c4c6cf;white-space:nowrap;position:sticky;top:0;z-index:1;color:#747579;font-weight:500}
+td{padding:4px 8px;border:1px solid #e8eaed;vertical-align:top}
 td.mono{font-family:'Roboto Mono',monospace;font-size:10px;white-space:pre-wrap;word-break:break-all;max-width:400px}
 tr:nth-child(even){background:#fafafa}
 tr.cb{background:#e6f4ea}
-tr.heading{background:#e8f0fe}
+tr.heading{background:#d3e3fd}
 tr.table-row{background:#fef7e0}
 tr.section{background:#f3e8fd}
-pre.lists{font:11px/1.4 'Roboto Mono',monospace;white-space:pre-wrap;padding:12px;margin:0}
+.json-view{font-family:'Roboto Mono',monospace;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-all;padding:16px 20px;margin:0;background:rgba(0,0,0,0.02);color:#1b1b1f}
+.json-key{color:#1a73e8}
+.json-str{color:#1e8e3e}
+.json-num{color:#e8710a}
+.json-null{color:#747579}
 </style></head><body>
-<div class="header">
-<span class="header-dot"></span>
-<h3>Document Body Inspector</h3>
+<div class="toolbar">
 <span class="stat" id="stat-children"></span>
 <span class="stat" id="stat-tab"></span>
-<button id="copy-btn">Copy Active Tab</button>
+<span class="toolbar-spacer"></span>
+<button class="btn btn-primary" id="copy-btn">Copy Active Tab</button>
 </div>
 <div class="tabs">
 <div class="tab active" data-tab="docapp">DocumentApp Children</div>
@@ -703,7 +747,6 @@ tabs[i].classList.add('active');panes[i].classList.add('active');
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 function trunc(s,n){return s.length>n?s.substring(0,n)+'...':s}
 var copyParts={docapp:[],docsapi:[],lists:[]};
-/* DocumentApp tab */
 var h='<table><tr><th>#</th><th>Type</th><th>Heading</th><th>Glyph</th><th>Nest</th><th>Font</th><th>Text</th></tr>';
 copyParts.docapp.push('# DocumentApp Children');
 copyParts.docapp.push('idx|type|heading|glyph|nest|font|text');
@@ -713,7 +756,6 @@ var cls=c.type==='TABLE'?'table-row':c.heading&&c.heading!=='NORMAL'?'heading':'
 h+='<tr class="'+cls+'"><td>'+c.idx+'</td><td>'+c.type+'</td><td>'+esc(c.heading)+'</td><td>'+esc(c.glyph)+'</td><td>'+(c.nest>=0?c.nest:'')+'</td><td>'+esc(c.font)+'</td><td class="mono">'+esc(trunc(c.text,200))+'</td></tr>';
 copyParts.docapp.push(c.idx+'|'+c.type+'|'+c.heading+'|'+c.glyph+'|'+(c.nest>=0?c.nest:'')+'|'+c.font+'|'+c.text.replace(/\\n/g,'\\\\n'))}
 h+='</table>';document.getElementById('tc-docapp').innerHTML=h;
-/* Docs API tab */
 var h2='<table><tr><th>#</th><th>Type</th><th>ListId</th><th>Nest</th><th>Indent</th><th>GlyphType</th><th>GlyphSym</th><th>Strike</th><th>Bullet (raw)</th><th>TextStyle (raw)</th><th>Text</th></tr>';
 copyParts.docsapi.push('# Docs API Blocks');
 copyParts.docsapi.push('idx|type|listId|nest|indent|glyphType|glyphSym|strike|bulletRaw|textStyleRaw|text');
@@ -723,68 +765,13 @@ var cls2=b.type.indexOf('SECTION')>=0?'section':b.type.indexOf('TABLE')>=0?'tabl
 h2+='<tr class="'+cls2+'"><td>'+b.idx+'</td><td>'+esc(b.type)+'</td><td class="mono">'+esc(b.listId)+'</td><td>'+(b.nestLevel>=0?b.nestLevel:'')+'</td><td>'+esc(b.indent)+'</td><td>'+esc(b.glyphType)+'</td><td>'+esc(b.glyphSymbol)+'</td><td>'+(b.strikethrough?'YES':'')+'</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">'+esc(b.bulletRaw||'')+'</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">'+esc(b.textStyleRaw||'')+'</td><td class="mono">'+esc(trunc(b.text,200))+'</td></tr>';
 copyParts.docsapi.push(b.idx+'|'+b.type+'|'+b.listId+'|'+(b.nestLevel>=0?b.nestLevel:'')+'|'+b.indent+'|'+b.glyphType+'|'+b.glyphSymbol+'|'+(b.strikethrough?'YES':'')+' |'+(b.bulletRaw||'')+'|'+(b.textStyleRaw||'')+'|'+b.text.replace(/\\n/g,'\\\\n'))}
 h2+='</table>';document.getElementById('tc-docsapi').innerHTML=h2;
-/* Lists tab */
 copyParts.lists.push('# Lists Definitions');
 copyParts.lists.push(data.listsJson);
-document.getElementById('tc-lists').innerHTML='<pre class="lists">'+esc(data.listsJson)+'</pre>';
-/* Copy */
+function syntaxHL(json){return json.replace(/("(?:\\\\.|[^"])*")\\s*:/g,'<span class="json-key">$1</span>:').replace(/:\\s*("(?:\\\\.|[^"])*")/g,': <span class="json-str">$1</span>').replace(/:\\s*(\\d+\\.?\\d*)/g,': <span class="json-num">$1</span>').replace(/:\\s*(null|true|false)/g,': <span class="json-null">$1</span>')}
+document.getElementById('tc-lists').innerHTML='<div class="json-view">'+syntaxHL(esc(data.listsJson))+'</div>';
 document.getElementById('copy-btn').onclick=function(){
 var active='docapp';for(var k=0;k<tabs.length;k++){if(tabs[k].classList.contains('active')){active=tabs[k].getAttribute('data-tab');break}}
 var text=copyParts[active].join('\\n');var btn=document.getElementById('copy-btn');
-navigator.clipboard.writeText(text).then(function(){btn.textContent='Copied!';btn.className='copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className=''},1500)}).catch(function(){
-var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.textContent='Copied!';btn.className='copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className=''},1500)})};
+navigator.clipboard.writeText(text).then(function(){btn.textContent='Copied!';btn.className='btn btn-primary copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className='btn btn-primary'},1500)}).catch(function(){
+var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.textContent='Copied!';btn.className='btn btn-primary copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className='btn btn-primary'},1500)})};
 </script></body></html>`;
-
-export const testCheckboxGist = (): void => {
-  const t0 = Date.now();
-  const lap = (label: string) =>
-    Logger.log("[timing] " + label + " +" + (Date.now() - t0) + "ms");
-
-  const doc = DocumentApp.getActiveDocument();
-  const docId = doc.getId();
-  const { body, tabId, isFirstTab } = getActiveBody(doc);
-  lap("getActiveBody (isFirst=" + isFirstTab + ")");
-
-  body.clear();
-  body
-    .appendParagraph("Timing Test")
-    .setHeading(DocumentApp.ParagraphHeading.HEADING3);
-  const texts = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
-  const indices = texts.map(
-    (t) => body.getChildIndex(body.appendParagraph(t)) + 1,
-  );
-  if (body.getChild(0).asText().getText() === "") {
-    body.removeChild(body.getChild(0));
-    for (let i = 0; i < indices.length; i++) indices[i]--;
-  }
-  lap("appendParagraphs");
-
-  doc.saveAndClose();
-  lap("saveAndClose");
-
-  if (typeof Docs === "undefined" || !Docs?.Documents) return;
-
-  const content = getTabContent(docId, tabId, isFirstTab);
-  if (!content) return;
-  lap("Docs.get (read content)");
-
-  const cbRequests = indices.map((id) => ({
-    createParagraphBullets: {
-      bulletPreset: "BULLET_CHECKBOX",
-      range: {
-        startIndex: content[id].startIndex!,
-        endIndex: content[id].endIndex!,
-        ...(tabId ? { tabId } : {}),
-      },
-    },
-  }));
-  Docs.Documents.batchUpdate(
-    {
-      requests: cbRequests,
-    } as GoogleAppsScript.Docs.Schema.BatchUpdateDocumentRequest,
-    docId,
-  );
-  lap("batchUpdate (checkboxes)");
-
-  Logger.log("testCheckboxGist: done");
-};

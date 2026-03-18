@@ -11,6 +11,7 @@ const DIALOG_NAME_MAP: Record<string, string> = {
   about: "About",
   convert: "Convert",
   devtools: "DevTools",
+  editdiagrams: "EditDiagrams",
   editor: "Editor",
   exportmd: "ExportMarkdown",
   extract: "Extract",

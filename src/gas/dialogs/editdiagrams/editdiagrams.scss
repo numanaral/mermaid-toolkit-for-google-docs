@@ -1,0 +1,59 @@
+@use "../../shared/styles/base/variables";
+@use "../../shared/styles/base/reset";
+@use "../../shared/styles/components/buttons";
+@use "../../shared/styles/components/cards";
+@use "../../shared/styles/components/spinner";
+@use "../../shared/styles/components/fullscreen";
+@use "../../shared/styles/layout/typography";
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 12px;
+}
+
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface-container);
+  border-top: 1px solid var(--outline-variant);
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.footer-status {
+  color: var(--outline);
+  font-style: italic;
+  font-size: 13px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.footer-spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.preview-area {
+  margin-top: 8px;
+  min-height: 40px;
+}
