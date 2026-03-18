@@ -1,12 +1,27 @@
 import { loadScript } from "../../shared/scripts/load-script";
 import { svgToPngBase64 } from "../../shared/scripts/svg-to-png";
 import { escapeHtml } from "../../shared/scripts/escape-html";
-import { MERMAID_CDN_URL, MERMAID_CONFIG } from "../../shared/scripts/mermaid-init";
-import { markBtn, setLoading, setCardStatus, batchAction } from "../../shared/scripts/card-helpers";
-import { openInNewTab } from "../../shared/scripts/dom-utils";
+import {
+  MERMAID_CDN_URL,
+  MERMAID_CONFIG,
+} from "../../shared/scripts/mermaid-init";
+import {
+  markBtn,
+  setLoading,
+  setCardStatus,
+  batchAction,
+} from "../../shared/scripts/card-helpers";
+import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
 
-declare const mermaid: { initialize(config: unknown): void; render(id: string, src: string): Promise<{ svg: string }> };
-declare const blockInfos: Array<{ definition: string; startIdx: number; endIdx: number }>;
+declare const mermaid: {
+  initialize(config: unknown): void;
+  render(id: string, src: string): Promise<{ svg: string }>;
+};
+declare const blockInfos: Array<{
+  definition: string;
+  startIdx: number;
+  endIdx: number;
+}>;
 
 interface RenderResult {
   definition: string;
@@ -18,8 +33,12 @@ interface RenderResult {
 
 const cardsEl = document.getElementById("cards")!;
 const statusEl = document.getElementById("status")!;
-const insertAllB = document.getElementById("insert-all-btn") as HTMLButtonElement;
-const replaceAllB = document.getElementById("replace-all-btn") as HTMLButtonElement;
+const insertAllB = document.getElementById(
+  "insert-all-btn",
+) as HTMLButtonElement;
+const replaceAllB = document.getElementById(
+  "replace-all-btn",
+) as HTMLButtonElement;
 const toggleBtn = document.getElementById("toggle-btn") as HTMLButtonElement;
 
 const results: RenderResult[] = [];
@@ -32,16 +51,22 @@ const buildCard = (index: number, result: RenderResult): void => {
   cardEls.push(card);
 
   const thumbHtml = result.base64
-    ? '<img class="card-thumb" src="data:image/png;base64,' + result.base64 + '" />'
+    ? '<img class="card-thumb" src="data:image/png;base64,' +
+      result.base64 +
+      '" />'
     : "";
 
   const summaryHtml =
     '<div class="card-summary">' +
     '<span class="card-chevron">&#9654;</span>' +
-    '<span class="card-title">Diagram ' + (index + 1) + "</span>" +
+    '<span class="card-title">Diagram ' +
+    (index + 1) +
+    "</span>" +
     thumbHtml +
     '<span class="card-spacer"></span>' +
-    '<span class="card-status" id="card-status-' + index + '">' +
+    '<span class="card-status" id="card-status-' +
+    index +
+    '">' +
     (result.error ? '<span class="error">Error</span>' : "") +
     "</span></div>";
 
@@ -50,18 +75,32 @@ const buildCard = (index: number, result: RenderResult): void => {
   if (result.base64) {
     bodyHtml +=
       '<div class="card-buttons">' +
-      '<button class="btn btn-tonal-primary" id="prev-' + index + '">Preview</button>' +
-      '<button class="btn btn-filled-primary" id="ins-' + index + '">Insert After</button>' +
-      '<button class="btn btn-filled-secondary" id="rep-' + index + '">Replace</button>' +
+      '<button class="btn btn-tonal-primary" id="src-' +
+      index +
+      '">Show Source</button>' +
+      '<button class="btn btn-filled-primary" id="ins-' +
+      index +
+      '">Insert After</button>' +
+      '<button class="btn btn-filled-secondary" id="rep-' +
+      index +
+      '">Replace</button>' +
       "</div>" +
-      '<img src="data:image/png;base64,' + result.base64 + '" />' +
-      "<details><summary>Show source</summary>" +
-      "<pre>" + escapeHtml(result.definition) + "</pre>" +
-      "</details>";
+      '<div class="source-wrap" id="source-wrap-' +
+      index +
+      '"><pre class="source-block">' +
+      escapeHtml(result.definition) +
+      "</pre></div>" +
+      '<img src="data:image/png;base64,' +
+      result.base64 +
+      '" />';
   } else {
     bodyHtml +=
-      '<p class="error">' + escapeHtml(result.error || "Unknown error") + "</p>" +
-      "<pre>" + escapeHtml(result.definition) + "</pre>";
+      '<p class="error">' +
+      escapeHtml(result.error || "Unknown error") +
+      "</p>" +
+      "<pre>" +
+      escapeHtml(result.definition) +
+      "</pre>";
   }
 
   bodyHtml += "</div>";
@@ -72,11 +111,28 @@ const buildCard = (index: number, result: RenderResult): void => {
     card.classList.toggle("expanded");
   });
 
-  const prevBtn = document.getElementById("prev-" + index) as HTMLButtonElement | null;
-  const insBtn = document.getElementById("ins-" + index) as HTMLButtonElement | null;
-  const repBtn = document.getElementById("rep-" + index) as HTMLButtonElement | null;
+  const imgEl = card.querySelector<HTMLImageElement>(".card-body > img");
+  if (imgEl) wrapImgWithFullscreen(imgEl);
 
-  if (prevBtn) prevBtn.addEventListener("click", () => openInNewTab(results[index].base64!));
+  const srcBtn = document.getElementById(
+    "src-" + index,
+  ) as HTMLButtonElement | null;
+  const insBtn = document.getElementById(
+    "ins-" + index,
+  ) as HTMLButtonElement | null;
+  const repBtn = document.getElementById(
+    "rep-" + index,
+  ) as HTMLButtonElement | null;
+
+  if (srcBtn) {
+    srcBtn.addEventListener("click", () => {
+      const wrap = document.getElementById("source-wrap-" + index);
+      if (!wrap) return;
+      const isVisible = wrap.classList.contains("visible");
+      wrap.classList.toggle("visible", !isVisible);
+      srcBtn.textContent = isVisible ? "Show Source" : "Hide Source";
+    });
+  }
   if (insBtn) insBtn.addEventListener("click", () => doInsert(index));
   if (repBtn) repBtn.addEventListener("click", () => doReplace(index));
 };
@@ -95,7 +151,11 @@ const doInsert = (idx: number): void => {
       statusEl.textContent = "Error: " + err;
     })
     .insertDiagramAfterText(
-      results[idx].base64, results[idx].startIdx, results[idx].endIdx, idx, results[idx].definition,
+      results[idx].base64,
+      results[idx].startIdx,
+      results[idx].endIdx,
+      idx,
+      results[idx].definition,
     );
 };
 
@@ -107,15 +167,24 @@ const doReplace = (idx: number): void => {
     .withSuccessHandler(() => {
       markBtn(btn, true);
       setCardStatus(idx, "Replaced");
-      const insBtn = document.getElementById("ins-" + idx) as HTMLButtonElement | null;
-      if (insBtn) { insBtn.disabled = true; insBtn.textContent = "N/A"; }
+      const insBtn = document.getElementById(
+        "ins-" + idx,
+      ) as HTMLButtonElement | null;
+      if (insBtn) {
+        insBtn.disabled = true;
+        insBtn.textContent = "N/A";
+      }
     })
     .withFailureHandler((err: Error) => {
       markBtn(btn, false);
       statusEl.textContent = "Error: " + err;
     })
     .replaceDiagramText(
-      results[idx].base64, results[idx].startIdx, results[idx].endIdx, idx, results[idx].definition,
+      results[idx].base64,
+      results[idx].startIdx,
+      results[idx].endIdx,
+      idx,
+      results[idx].definition,
     );
 };
 
@@ -128,7 +197,13 @@ insertAllB.addEventListener("click", () => {
     insertAllB,
     replaceAllB,
     (item) => (item as RenderResult).startIdx,
-    (idx) => [results[idx].base64, results[idx].startIdx, results[idx].endIdx, idx, results[idx].definition],
+    (idx) => [
+      results[idx].base64,
+      results[idx].startIdx,
+      results[idx].endIdx,
+      idx,
+      results[idx].definition,
+    ],
   );
 });
 
@@ -141,7 +216,13 @@ replaceAllB.addEventListener("click", () => {
     insertAllB,
     replaceAllB,
     (item) => (item as RenderResult).startIdx,
-    (idx) => [results[idx].base64, results[idx].startIdx, results[idx].endIdx, idx, results[idx].definition],
+    (idx) => [
+      results[idx].base64,
+      results[idx].startIdx,
+      results[idx].endIdx,
+      idx,
+      results[idx].definition,
+    ],
   );
 });
 
@@ -157,7 +238,9 @@ toggleBtn.addEventListener("click", () => {
   try {
     await loadScript(MERMAID_CDN_URL);
   } catch (e) {
-    statusEl.textContent = "Failed to load mermaid.js: " + (e instanceof Error ? e.message : String(e));
+    statusEl.textContent =
+      "Failed to load mermaid.js: " +
+      (e instanceof Error ? e.message : String(e));
     return;
   }
 
@@ -165,14 +248,20 @@ toggleBtn.addEventListener("click", () => {
 
   statusEl.innerHTML =
     '<span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>' +
-    "Rendering " + blockInfos.length + " diagram(s)...";
+    "Rendering " +
+    blockInfos.length +
+    " diagram(s)...";
 
   let successCount = 0;
 
   for (let i = 0; i < blockInfos.length; i++) {
     statusEl.innerHTML =
       '<span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>' +
-      "Rendering diagram " + (i + 1) + " of " + blockInfos.length + "...";
+      "Rendering diagram " +
+      (i + 1) +
+      " of " +
+      blockInfos.length +
+      "...";
 
     const info = blockInfos[i];
     const result: RenderResult = {
@@ -184,7 +273,10 @@ toggleBtn.addEventListener("click", () => {
     };
 
     try {
-      const rendered = await mermaid.render("mermaid-svg-" + i, info.definition);
+      const rendered = await mermaid.render(
+        "mermaid-svg-" + i,
+        info.definition,
+      );
       const base64 = await svgToPngBase64(rendered.svg);
       if (base64) {
         result.base64 = base64;
@@ -200,7 +292,11 @@ toggleBtn.addEventListener("click", () => {
     buildCard(i, result);
   }
 
-  statusEl.textContent = successCount + " of " + blockInfos.length + " diagram(s) rendered. Choose an action.";
+  statusEl.textContent =
+    successCount +
+    " of " +
+    blockInfos.length +
+    " diagram(s) rendered. Choose an action.";
 
   if (successCount > 0) {
     insertAllB.disabled = false;
