@@ -25,14 +25,6 @@
     "hasCard": true
   },
   {
-    "name": "ZenUML",
-    "slug": "zenuml",
-    "keyword": "zenuml",
-    "docsUrl": "https://mermaid.js.org/syntax/zenuml.html",
-    "code": "zenuml\n    title Order Service\n    @Actor Client\n    @Boundary OrderController\n    @Entity OrderService\n    @Database OrderRepository\n    Client->OrderController.placeOrder(items) {\n      OrderController->OrderService.create(items) {\n        OrderService->OrderRepository.save(order)\n      }\n    }",
-    "hasCard": false
-  },
-  {
     "name": "Class Diagram",
     "slug": "class",
     "keyword": "classDiagram",

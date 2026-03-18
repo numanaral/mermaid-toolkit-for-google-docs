@@ -12,12 +12,17 @@
     "gas:dev": "tsx scripts/dev-gas.ts",
     "gas:build": "tsx scripts/build-gas.ts",
     "gas:push": "tsx scripts/push.ts",
+    "gas:preview": "tsx scripts/build-gas.ts && tsx scripts/preview-gas.ts",
     "gas:login": "clasp login",
     "gas:lint": "eslint src/gas/ scripts/build-gas.ts scripts/dev-gas.ts scripts/push.ts",
     "gas:lint:fix": "eslint src/gas/ scripts/build-gas.ts scripts/dev-gas.ts scripts/push.ts --fix",
     "gas:typecheck": "tsx scripts/typecheck-gas.ts",
     "verify": "tsx scripts/verify.ts",
-    "verify:fix": "tsx scripts/verify-fix.ts"
+    "verify:fix": "tsx scripts/verify-fix.ts",
+    "test:login": "tsx scripts/test-gdocs.ts --login",
+    "test:gdocs": "tsx scripts/test-gdocs.ts",
+    "test:iframe": "node scripts/test-iframe.js",
+    "test:edit": "node scripts/test-edit-flow.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +41,7 @@
     "esbuild": "^0.27.3",
     "eslint": "^10.0.3",
     "jiti": "^2.6.1",
+    "playwright": "^1.58.2",
     "sass": "^1.97.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"

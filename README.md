@@ -117,7 +117,6 @@ The add-on detects code blocks that start with any of the following keywords:
 |---|---|
 | Flowchart | `flowchart` / `graph` |
 | Sequence Diagram | `sequenceDiagram` |
-| ZenUML | `zenuml` |
 | Class Diagram | `classDiagram` |
 | State Diagram | `stateDiagram` |
 | ER Diagram | `erDiagram` |

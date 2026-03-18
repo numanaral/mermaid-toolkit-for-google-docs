@@ -103,6 +103,23 @@ sitemapPriority: 0.5
       </div>
     </div>
 
+    <div class="limitation-card">
+      <div class="limitation-icon info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </div>
+      <div class="limitation-body">
+        <h2>ZenUML Diagrams Not Supported</h2>
+        <div class="limitation-tags">
+          <span class="tag tag-api">Apps Script Sandbox</span>
+          <span class="tag tag-impact">ZenUML</span>
+        </div>
+        <p>ZenUML is an external Mermaid module (<code>@mermaid-js/mermaid-zenuml</code>) that requires ES module loading and explicit registration. The Google Apps Script sandbox uses UMD script loading and its Content Security Policy does not permit dynamic ES module imports, making ZenUML integration infeasible without a server-side component.</p>
+        <div class="limitation-detail">
+          <strong>Why:</strong> Unlike built-in Mermaid diagram types, ZenUML ships as a separate package that must be imported via <code>import()</code> and registered with <code>mermaid.registerExternalDiagrams()</code>. The GAS iframe's CSP blocks dynamic module imports, and bundling the UMD version introduces significant payload size for a single diagram type.
+        </div>
+      </div>
+    </div>
+
     <h2 class="solved-heading" id="solved">Solved Challenges</h2>
     <p class="limitations-intro">Some browser and platform restrictions looked like deal-breakers — until we found a way around them. These are challenges we've fully solved while keeping everything client-side.</p>
 
