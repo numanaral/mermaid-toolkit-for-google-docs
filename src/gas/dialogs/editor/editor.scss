@@ -1,7 +1,8 @@
-@use '../../shared/styles/base/variables';
-@use '../../shared/styles/base/reset';
-@use '../../shared/styles/components/buttons';
-@use '../../shared/styles/components/spinner';
+@use "../../shared/styles/base/variables";
+@use "../../shared/styles/base/reset";
+@use "../../shared/styles/components/buttons";
+@use "../../shared/styles/components/spinner";
+@use "../../shared/styles/components/fullscreen";
 
 body {
   display: flex;
@@ -20,7 +21,6 @@ body {
   align-items: center;
   flex-wrap: wrap;
   flex-shrink: 0;
-  border-top: 3px solid var(--brand-teal);
   box-shadow: var(--elevation-1);
 }
 
@@ -51,7 +51,10 @@ body {
     cursor: pointer;
     font-family: inherit;
     font-weight: 500;
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s;
 
     &:hover {
       background: var(--surface-container);
@@ -102,7 +105,7 @@ textarea {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: "Roboto Mono", "Courier New", monospace;
   font-size: 13px;
   line-height: 1.5;
   color: var(--on-surface);
@@ -128,6 +131,7 @@ textarea {
   font-style: italic;
   padding: 24px 0;
   text-align: center;
+  cursor: default;
 }
 
 .error-bar {

@@ -4,7 +4,6 @@ export const MERMAID_KEYWORDS = [
   "flowchart",
   "graph",
   "sequencediagram",
-  "zenuml",
   "classdiagram",
   "statediagram",
   "erdiagram",

@@ -249,22 +249,17 @@ export const exportDocAsMarkdown = (
         continue;
       }
 
-      const plainText = para.editAsText().getText();
-      const cbInfo = checkboxMap.get(plainText);
-      if (cbInfo) {
-        const md = textToMarkdown(para.editAsText());
-        const indent = "  ".repeat(cbInfo.nestingDepth);
-        lines.push(`${indent}- [ ] ${md}`);
-        prevWasListItem = true;
-        continue;
-      }
-
       const md = textToMarkdown(para.editAsText());
 
       if (level > 0) {
         lines.push("");
         lines.push("#".repeat(level) + " " + md);
         lines.push("");
+      } else if (checkboxMap.has(para.editAsText().getText())) {
+        const cbInfo = checkboxMap.get(para.editAsText().getText())!;
+        const indent = "  ".repeat(cbInfo.nestingDepth);
+        lines.push(`${indent}- [ ] ${md}`);
+        prevWasListItem = true;
       } else if (md.trim() === "") {
         lines.push("");
       } else {

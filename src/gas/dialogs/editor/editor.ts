@@ -4,7 +4,7 @@ import {
   MERMAID_CDN_URL,
   MERMAID_CONFIG,
 } from "../../shared/scripts/mermaid-init";
-import { openInNewTab } from "../../shared/scripts/dom-utils";
+import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
 
 declare const mermaid: {
   initialize(config: unknown): void;
@@ -19,7 +19,6 @@ const errorBar = document.getElementById("error-bar")!;
 const statusEl = document.getElementById("status")!;
 const insertBtn = document.getElementById("insert-btn") as HTMLButtonElement;
 const replaceBtn = document.getElementById("replace-btn") as HTMLButtonElement;
-const previewBtn = document.getElementById("preview-btn") as HTMLButtonElement;
 const tplBtn = document.getElementById("tpl-btn") as HTMLButtonElement;
 const tplRow = document.getElementById("tpl-row")!;
 
@@ -30,6 +29,7 @@ let renderCounter = 0;
 
 if (imageChildIndex >= 0) {
   replaceBtn.style.display = "";
+  insertBtn.style.display = "none";
 }
 
 const TEMPLATES: Record<string, string> = {
@@ -79,8 +79,6 @@ const TEMPLATES: Record<string, string> = {
     'C4Dynamic\n    title Dynamic diagram for System A\n    ContainerDb(db, "Database", "PostgreSQL")\n    Container(api, "API", "Node.js")\n    Container(web, "Web App", "React")\n    Person(user, "User")\n    Rel(user, web, "1. Visits")\n    Rel(web, api, "2. Calls", "JSON/HTTPS")\n    Rel(api, db, "3. Reads/Writes", "SQL")',
   c4deployment:
     'C4Deployment\n    title Deployment Diagram\n    Deployment_Node(cloud, "AWS", "Amazon Web Services") {\n      Deployment_Node(ec2, "EC2 Instance") {\n        Container(api, "API", "Node.js", "Handles requests")\n      }\n      Deployment_Node(rds, "RDS") {\n        ContainerDb(db, "Database", "PostgreSQL")\n      }\n    }\n    Rel(api, db, "Reads/Writes", "SQL")',
-  zenuml:
-    "zenuml\n    title Order Service\n    @Actor Client\n    @Boundary OrderController\n    @Entity OrderService\n    Client->OrderController.placeOrder() {\n      OrderService.create() {\n        return id\n      }\n    }",
   radar:
     'radar-beta\n  title Skills Assessment\n  axis f["Frontend"], b["Backend"], d["DevOps"], t["Testing"], u["Design"]\n  curve a["Developer A"]{4, 3, 2, 5, 1}\n  curve b["Developer B"]{2, 5, 4, 2, 3}\n  max 5',
 };
@@ -94,7 +92,6 @@ const doRender = async (): Promise<void> => {
     errorBar.textContent = "";
     insertBtn.disabled = true;
     replaceBtn.disabled = true;
-    previewBtn.disabled = true;
     statusEl.textContent = "Ready.";
     return;
   }
@@ -110,9 +107,10 @@ const doRender = async (): Promise<void> => {
       currentBase64 = base64;
       previewEl.innerHTML =
         '<img src="data:image/png;base64,' + base64 + '" />';
+      const img = previewEl.querySelector("img");
+      if (img) wrapImgWithFullscreen(img);
       insertBtn.disabled = false;
       if (imageChildIndex >= 0) replaceBtn.disabled = false;
-      previewBtn.disabled = false;
       errorBar.className = "error-bar";
       errorBar.textContent = "";
       statusEl.textContent = "Preview up to date.";
@@ -170,10 +168,6 @@ sourceEl.addEventListener("keydown", (e) => {
     sourceEl.selectionStart = sourceEl.selectionEnd = start + 4;
     scheduleRender();
   }
-});
-
-previewBtn.addEventListener("click", () => {
-  if (currentBase64) openInNewTab(currentBase64);
 });
 
 insertBtn.addEventListener("click", () => {

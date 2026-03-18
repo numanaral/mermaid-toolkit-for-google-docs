@@ -1,6 +1,7 @@
-@use '../../shared/styles/base/variables';
-@use '../../shared/styles/base/reset';
-@use '../../shared/styles/layout/typography';
+@use "../../shared/styles/base/variables";
+@use "../../shared/styles/base/reset";
+@use "../../shared/styles/layout/typography";
+@use "../../shared/styles/components/action-cards";
 
 body {
   padding: 20px 24px;
@@ -9,54 +10,14 @@ body {
   height: 100vh;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.feat {
-  padding: 14px;
-  background: var(--surface-container);
-  background-image: linear-gradient(var(--surface-tint), var(--surface-tint));
-  border-radius: 16px;
-  box-shadow: var(--elevation-1);
-  transition: box-shadow 0.15s;
-
-  &:hover {
-    box-shadow: var(--elevation-2);
-  }
-}
-
-.feat-icon {
-  font-size: 20px;
-  margin-bottom: 6px;
-}
-
-.feat-title {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--on-surface);
-  margin-bottom: 4px;
-}
-
-.feat-desc {
-  font-size: 12px;
-  color: var(--outline);
-  line-height: 1.5;
-}
-
-.feat-menu {
-  font-size: 11px;
-  color: var(--outline);
-  margin-top: 6px;
-  opacity: 0.7;
+.action-grid {
+  flex: 1;
 }
 
 .link-row {
   text-align: center;
-  margin-bottom: 14px;
+  padding: 10px 0;
+  flex-shrink: 0;
 
   a {
     font-size: 13px;

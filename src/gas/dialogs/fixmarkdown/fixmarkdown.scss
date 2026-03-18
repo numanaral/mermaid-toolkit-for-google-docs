@@ -1,6 +1,7 @@
 @use "../../shared/styles/base/variables";
 @use "../../shared/styles/base/reset";
 @use "../../shared/styles/components/buttons";
+@use "../../shared/styles/components/paste-btn";
 
 body {
   display: flex;
@@ -9,16 +10,28 @@ body {
   overflow: hidden;
 }
 
-// --- Tabs (M3 tab bar) ---
+.toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--surface-container);
+  background-image: linear-gradient(var(--surface-tint), var(--surface-tint));
+  align-items: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  box-shadow: var(--elevation-1);
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
 .tabs {
   display: inline-flex;
-  padding: 12px 16px 0;
-  flex-shrink: 0;
-  border-top: 3px solid var(--brand-teal);
 }
 
 .tab {
-  padding: 8px 20px;
+  padding: 6px 16px;
   font-size: 13px;
   font-weight: 500;
   color: var(--outline);
@@ -53,112 +66,70 @@ body {
   }
 }
 
-// --- Panes ---
-.panes {
+.panels {
   display: none;
   flex: 1;
-  gap: 12px;
-  padding: 12px 16px;
   min-height: 0;
+  overflow: hidden;
 
   &.visible {
     display: flex;
   }
 }
 
-.pane {
+.panel {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  overflow: hidden;
+
+  & + & {
+    border-left: 1px solid var(--outline-variant);
+  }
 }
 
-.pane-label {
+.panel-label {
+  display: flex;
+  align-items: center;
   font-size: 12px;
   font-weight: 500;
+  color: var(--outline);
+  padding: 8px 16px 6px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--outline);
-  margin-bottom: 6px;
-}
-
-// --- Code boxes ---
-.input-wrap {
-  flex: 1;
-  position: relative;
-  display: flex;
-  min-height: 0;
-}
-
-.code-box {
-  flex: 1;
-  display: flex;
-  border: 1px solid var(--outline-variant);
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--surface-container);
-  min-height: 0;
-
-  &.out-style {
-    background: var(--bg);
-  }
-
-  &:focus-within {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.12);
-  }
-}
-
-$ln-width: 36px;
-$line-h: 18px;
-$ln-color: #b0b3b8;
-
-.ln-gutter {
-  width: $ln-width;
+  background: rgba(0, 0, 0, 0.02);
   flex-shrink: 0;
-  padding: 10px 0;
-  text-align: right;
-  font-family: "Roboto Mono", "Courier New", monospace;
-  font-size: 10px;
-  line-height: $line-h;
-  color: $ln-color;
-  user-select: none;
-  overflow: hidden;
-  border-right: 1px solid var(--outline-variant);
-  background: var(--surface-container);
-
-  span {
-    display: block;
-    padding-right: 6px;
-    height: $line-h;
-  }
 }
 
 textarea {
   flex: 1;
-  font-family: "Roboto Mono", "Courier New", monospace;
-  font-size: 12px;
-  line-height: $line-h;
-  padding: 10px;
+  width: 100%;
+  padding: 10px 16px;
   border: none;
-  resize: none;
-  background: transparent;
-  color: var(--on-surface);
-  white-space: pre;
-  overflow: auto;
   outline: none;
+  resize: none;
+  font-family: "Roboto Mono", "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--on-surface);
+  background: var(--bg);
+}
+
+.output-scroll {
+  flex: 1;
+  overflow: auto;
+  background: var(--surface);
 }
 
 .output-content {
-  flex: 1;
   font-family: "Roboto Mono", "Courier New", monospace;
-  font-size: 12px;
-  line-height: $line-h;
-  padding: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 16px;
   white-space: pre;
-  overflow: auto;
   color: var(--on-surface);
   cursor: default;
+  min-height: 100%;
 
   &.empty {
     color: var(--outline);
@@ -168,44 +139,25 @@ textarea {
   }
 }
 
-.paste-hint {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 12px;
-  color: var(--primary);
-  cursor: pointer;
-  background: var(--bg);
-  border: 1px solid var(--outline-variant);
-  border-radius: 12px;
-  padding: 4px 10px;
-  font-family: inherit;
-  font-weight: 500;
-  opacity: 0.85;
-  transition: opacity 0.15s;
-  z-index: 1;
-
-  &:hover {
-    opacity: 1;
-  }
+.diff-scroll {
+  flex: 1;
+  overflow: auto;
+  background: var(--surface);
 }
 
-// --- Diff view ---
 .diff-content {
-  flex: 1;
   font-family: "Roboto Mono", "Courier New", monospace;
-  font-size: 12px;
-  line-height: $line-h;
+  font-size: 13px;
+  line-height: 1.5;
   padding: 10px 0;
   white-space: pre;
-  overflow: auto;
   color: var(--on-surface);
   cursor: default;
+  min-height: 100%;
 }
 
 .diff-line {
-  padding: 0 10px;
-  height: $line-h;
+  padding: 0 16px;
 
   &.add {
     background: #e6ffec;
@@ -225,30 +177,21 @@ textarea {
   width: 28px;
   text-align: right;
   padding-right: 8px;
-  color: $ln-color;
+  color: #b0b3b8;
   font-size: 10px;
   user-select: none;
 }
 
-// --- Footer ---
-.footer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px 14px;
-  flex-shrink: 0;
-}
-
 .status {
-  flex: 1;
   font-size: 13px;
   color: var(--outline);
+  white-space: nowrap;
 
   &.ok {
     color: var(--secondary);
   }
 
-  &.err {
-    color: var(--error);
+  &.warn {
+    color: var(--tertiary);
   }
 }

@@ -1,39 +1,11 @@
 const inputEl = document.getElementById("input") as HTMLTextAreaElement;
-const inputLn = document.getElementById("inputLn")!;
 const outputEl = document.getElementById("output")!;
-const outputLn = document.getElementById("outputLn")!;
 const diffBeforeEl = document.getElementById("diffBefore")!;
 const diffAfterEl = document.getElementById("diffAfter")!;
 const statusEl = document.getElementById("status")!;
 const copyBtn = document.getElementById("copyBtn") as HTMLButtonElement;
 const normalView = document.getElementById("normalView")!;
 const diffView = document.getElementById("diffView")!;
-
-const updateGutter = (gutter: HTMLElement, count: number): void => {
-  let html = "";
-  for (let i = 1; i <= count; i++) html += "<span>" + i + "</span>";
-  gutter.innerHTML = html;
-};
-
-const syncInputGutter = (): void => {
-  updateGutter(inputLn, inputEl.value.split("\n").length);
-};
-
-const syncOutputGutter = (text: string | null): void => {
-  if (!text) {
-    outputLn.innerHTML = "";
-    return;
-  }
-  updateGutter(outputLn, text.split("\n").length);
-};
-
-inputEl.addEventListener("scroll", () => {
-  inputLn.style.marginTop = -inputEl.scrollTop + "px";
-});
-
-outputEl.addEventListener("scroll", () => {
-  outputLn.style.marginTop = -outputEl.scrollTop + "px";
-});
 
 let currentView = "normal";
 
@@ -149,18 +121,22 @@ const renderDiff = (oldText: string, newText: string): void => {
   diffAfterEl.appendChild(afterFrag);
 
   let syncing = false;
-  diffBeforeEl.onscroll = () => {
+  diffBeforeEl.parentElement!.onscroll = () => {
     if (syncing) return;
     syncing = true;
-    diffAfterEl.scrollTop = diffBeforeEl.scrollTop;
-    diffAfterEl.scrollLeft = diffBeforeEl.scrollLeft;
+    diffAfterEl.parentElement!.scrollTop =
+      diffBeforeEl.parentElement!.scrollTop;
+    diffAfterEl.parentElement!.scrollLeft =
+      diffBeforeEl.parentElement!.scrollLeft;
     syncing = false;
   };
-  diffAfterEl.onscroll = () => {
+  diffAfterEl.parentElement!.onscroll = () => {
     if (syncing) return;
     syncing = true;
-    diffBeforeEl.scrollTop = diffAfterEl.scrollTop;
-    diffBeforeEl.scrollLeft = diffAfterEl.scrollLeft;
+    diffBeforeEl.parentElement!.scrollTop =
+      diffAfterEl.parentElement!.scrollTop;
+    diffBeforeEl.parentElement!.scrollLeft =
+      diffAfterEl.parentElement!.scrollLeft;
     syncing = false;
   };
 };
@@ -216,19 +192,15 @@ let debounceTimer: ReturnType<typeof setTimeout>;
 let lastFixed = "";
 
 inputEl.addEventListener("input", () => {
-  syncInputGutter();
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(processInput, 150);
 });
 
 inputEl.addEventListener("paste", () => {
   setTimeout(() => {
-    syncInputGutter();
     processInput();
   }, 0);
 });
-
-syncInputGutter();
 
 const processInput = (): void => {
   const raw = inputEl.value;
@@ -236,7 +208,6 @@ const processInput = (): void => {
   if (!raw.trim()) {
     outputEl.textContent = "Output will appear here";
     outputEl.className = "output-content empty";
-    syncOutputGutter(null);
     diffBeforeEl.innerHTML = "";
     diffAfterEl.innerHTML = "";
     statusEl.textContent = "";
@@ -251,7 +222,6 @@ const processInput = (): void => {
 
   outputEl.textContent = text;
   outputEl.className = "output-content";
-  syncOutputGutter(text);
   copyBtn.disabled = false;
 
   renderDiff(raw, text);
@@ -261,8 +231,8 @@ const processInput = (): void => {
       "Fixed " + count + " mermaid block" + (count > 1 ? "s" : "");
     statusEl.className = "status ok";
   } else {
-    statusEl.textContent = "No mermaid table blocks detected";
-    statusEl.className = "status err";
+    statusEl.textContent = "No broken mermaid blocks detected";
+    statusEl.className = "status warn";
   }
 };
 
@@ -297,7 +267,6 @@ pasteBtn.addEventListener("click", async () => {
     const text = await navigator.clipboard.readText();
     if (text && text.trim()) {
       inputEl.value = text;
-      syncInputGutter();
       processInput();
       return;
     }

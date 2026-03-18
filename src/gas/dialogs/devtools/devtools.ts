@@ -1,14 +1,12 @@
 const btnInspector = document.getElementById(
   "btn-inspector",
 ) as HTMLButtonElement;
-const btnCheckbox = document.getElementById(
-  "btn-checkbox",
-) as HTMLButtonElement;
+const btnDocInfo = document.getElementById("btn-doc-info") as HTMLButtonElement;
 const devLoading = document.getElementById("loading") as HTMLDivElement;
 const devLoadingMsg = document.getElementById(
   "loading-msg",
 ) as HTMLParagraphElement;
-const devToolGrid = document.querySelector(".tool-grid") as HTMLDivElement;
+const devToolGrid = document.querySelector(".action-grid") as HTMLDivElement;
 const devStatus = document.getElementById("status") as HTMLDivElement;
 
 const showLoading = (msg: string): void => {
@@ -20,49 +18,44 @@ const showLoading = (msg: string): void => {
 
 const showError = (e: Error): void => {
   devLoading.style.display = "none";
-  devToolGrid.style.display = "grid";
+  devToolGrid.style.display = "flex";
   devStatus.textContent = "Error: " + (e?.message ?? String(e));
   devStatus.style.color = "var(--error)";
 };
 
-const disableAll = (disabled: boolean): void => {
-  btnInspector.disabled = disabled;
-  btnCheckbox.disabled = disabled;
+const showSuccess = (msg: string): void => {
+  devLoading.style.display = "none";
+  devToolGrid.style.display = "flex";
+  devStatus.textContent = msg;
+  devStatus.style.color = "var(--secondary)";
 };
 
 btnInspector.addEventListener("click", () => {
   showLoading("Loading document structure...");
-  disableAll(true);
+  btnInspector.disabled = true;
   google.script.run
     .withSuccessHandler(() => {
       google.script.host.close();
     })
     .withFailureHandler((e: Error) => {
       showError(e);
-      disableAll(false);
+      btnInspector.disabled = false;
     })
     .debugDocStructure();
 });
 
-btnCheckbox.addEventListener("click", () => {
-  if (
-    !confirm(
-      "This will replace the current document content with test data. Continue?",
-    )
-  )
-    return;
-  showLoading("Inserting test checkboxes...");
-  disableAll(true);
+btnDocInfo.addEventListener("click", () => {
+  showLoading("Gathering document info...");
+  btnDocInfo.disabled = true;
   google.script.run
-    .withSuccessHandler(() => {
-      devLoading.style.display = "none";
-      devToolGrid.style.display = "grid";
-      devStatus.textContent = "Test checkboxes inserted.";
-      disableAll(false);
+    .withSuccessHandler((info: string) => {
+      showSuccess("Info retrieved");
+      alert(info);
+      btnDocInfo.disabled = false;
     })
     .withFailureHandler((e: Error) => {
       showError(e);
-      disableAll(false);
+      btnDocInfo.disabled = false;
     })
-    .testCheckboxGist();
+    .getDocumentInfo();
 });
