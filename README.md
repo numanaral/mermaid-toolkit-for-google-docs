@@ -44,6 +44,7 @@
 - **Convert Selected Code to Diagram** — Render a single selected code block without scanning the whole document
 - **Insert Mermaid Diagram** — Side-by-side editor with real-time preview, syntax highlighting, and starter templates
 - **Edit Selected Mermaid Diagram** — Click any diagram and edit its source in place
+- **Edit All Mermaid Diagrams** — Browse every diagram in your document, expand any card to edit its source inline with a live preview, and save changes in place
 - **Convert Diagram to Code** — Extract the original Mermaid source from any diagram inserted by this add-on (single or bulk)
 - **Import from Markdown** — Paste raw markdown with Mermaid code blocks, preview it, and insert formatted content with rendered diagrams into your doc
 - **Export as Markdown** — Convert your Google Doc content back to markdown, including extracting Mermaid source from diagram alt text
@@ -101,6 +102,7 @@
 
 - **Convert Selected Code to Diagram** — Select text and render just that as a diagram
 - **Edit Selected Mermaid Diagram** — Click a diagram and edit its source
+- **Edit All Mermaid Diagrams** — Browse and edit every diagram in your document with inline live preview
 - **Convert Selected Diagram to Code** — Extract Mermaid source from a single diagram
 - **Convert All Diagrams to Code** — Extract source from all diagrams in the document
 - **Import from Markdown** — Import markdown content with auto-rendered Mermaid diagrams
