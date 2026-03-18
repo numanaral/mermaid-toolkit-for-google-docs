@@ -22,7 +22,8 @@
     "test:login": "tsx scripts/test-gdocs.ts --login",
     "test:gdocs": "tsx scripts/test-gdocs.ts",
     "test:iframe": "node scripts/test-iframe.js",
-    "test:edit": "node scripts/test-edit-flow.js"
+    "test:edit": "node scripts/test-edit-flow.js",
+    "test:mouse": "node scripts/test-mouse.js"
   },
   "repository": {
     "type": "git",
