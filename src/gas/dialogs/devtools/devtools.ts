@@ -23,6 +23,7 @@ const showError = (e: Error): void => {
   devStatus.style.color = "var(--error)";
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const showSuccess = (msg: string): void => {
   devLoading.style.display = "none";
   devToolGrid.style.display = "flex";
@@ -45,17 +46,15 @@ btnInspector.addEventListener("click", () => {
 });
 
 btnDocInfo.addEventListener("click", () => {
-  showLoading("Gathering document info...");
+  showLoading("Opening document info...");
   btnDocInfo.disabled = true;
   google.script.run
-    .withSuccessHandler((info: string) => {
-      showSuccess("Info retrieved");
-      alert(info);
-      btnDocInfo.disabled = false;
+    .withSuccessHandler(() => {
+      google.script.host.close();
     })
     .withFailureHandler((e: Error) => {
       showError(e);
       btnDocInfo.disabled = false;
     })
-    .getDocumentInfo();
+    .openDocumentInfo();
 });

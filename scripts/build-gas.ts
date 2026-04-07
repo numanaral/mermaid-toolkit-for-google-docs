@@ -11,12 +11,14 @@ const DIALOG_NAME_MAP: Record<string, string> = {
   about: "About",
   convert: "Convert",
   devtools: "DevTools",
+  docinfo: "DocInfo",
   editdiagrams: "EditDiagrams",
   editor: "Editor",
   exportmd: "ExportMarkdown",
   extract: "Extract",
   fixmarkdown: "FixMarkdown",
   importmd: "ImportMarkdown",
+  inspector: "Inspector",
   preview: "Preview",
   quickguide: "QuickGuide",
 };
@@ -195,11 +197,11 @@ const assembleDialogs = (assets: DialogAssets[]): void => {
 
     let html = fs.readFileSync(htmlFile, "utf8");
 
-    html = html.replace("/* BUILD:INLINE_CSS */", css);
+    html = html.replace("/* BUILD:INLINE_CSS */", () => css);
     const safeJs = js.replace(/<\//g, "<\\/").replace(/<!--/g, "<\\!--");
-    html = html.replace("/* BUILD:INLINE_JS */", safeJs);
-    html = html.replace("<!-- BUILD:FOOTER -->", footerHtml);
-    html = html.replace("<!-- BUILD:VERSION -->", version);
+    html = html.replace("/* BUILD:INLINE_JS */", () => safeJs);
+    html = html.replace("<!-- BUILD:FOOTER -->", () => footerHtml);
+    html = html.replace("<!-- BUILD:VERSION -->", () => version);
 
     fs.writeFileSync(path.join(DIST, `${gasName}.html`), html);
     console.log(`    ${name}.html -> ${gasName}.html`);

@@ -20,6 +20,18 @@ const showPreviewDialog = (blockInfos: MermaidSnippet[]): void => {
   DocumentApp.getUi().showModalDialog(html, "Convert Code to Diagrams");
 };
 
+const makeUniqueDiagramBlob = (
+  base64Data: string,
+): GoogleAppsScript.Base.Blob => {
+  const stamp = Date.now();
+  const id = Utilities.getUuid().slice(0, 8);
+  return Utilities.newBlob(
+    Utilities.base64Decode(base64Data),
+    "image/png",
+    `mermaid-diagram-${stamp}-${id}.png`,
+  );
+};
+
 const openEditorForImage = (source: string, imageChildIndex: number): void => {
   const template = HtmlService.createTemplateFromFile("Editor");
   template.initialSource = source;
@@ -273,11 +285,7 @@ export const insertImageAtCursor = (
   const doc = DocumentApp.getActiveDocument();
   const cursor = doc.getCursor();
   const body = doc.getBody();
-  const blob = Utilities.newBlob(
-    Utilities.base64Decode(base64Data),
-    "image/png",
-    "mermaid-diagram.png",
-  );
+  const blob = makeUniqueDiagramBlob(base64Data);
 
   if (cursor) {
     const el = cursor.getElement();
@@ -309,11 +317,7 @@ export const replaceImageInPlace = (
   mermaidSource: string,
 ): { success: boolean } => {
   const body = DocumentApp.getActiveDocument().getBody();
-  const blob = Utilities.newBlob(
-    Utilities.base64Decode(base64Data),
-    "image/png",
-    "mermaid-diagram.png",
-  );
+  const blob = makeUniqueDiagramBlob(base64Data);
 
   const image = body.insertImage(childIndex, blob);
   body.removeChild(body.getChild(childIndex + 1));
@@ -390,8 +394,8 @@ export const showQuickGuide = (): void => {
 
 export const openDevTools = (): void => {
   const html = HtmlService.createHtmlOutputFromFile("DevTools")
-    .setWidth(560)
-    .setHeight(460);
+    .setWidth(400)
+    .setHeight(320);
   DocumentApp.getUi().showModalDialog(html, "Dev Tools");
 };
 
@@ -402,23 +406,29 @@ export const showAbout = (): void => {
   DocumentApp.getUi().showModalDialog(html, "About");
 };
 
-export const getDocumentInfo = (): string => {
+export const openDocumentInfo = (): void => {
   const doc = DocumentApp.getActiveDocument();
   const { body, tabId, isFirstTab } = getActiveBody(doc);
   const n = body.getNumChildren();
   const images = findMermaidImages();
   const snippets = findMermaidSnippets();
 
-  const lines = [
-    "Document ID: " + doc.getId(),
-    "Name: " + doc.getName(),
-    "Tab: " + (isFirstTab ? "#1 (primary)" : tabId),
-    "Children: " + n,
-    "Mermaid Diagrams: " + images.length,
-    "Mermaid Code Blocks: " + snippets.length,
-    "URL: " + doc.getUrl(),
-  ];
-  return lines.join("\n");
+  const data = {
+    rows: [
+      ["Document ID", doc.getId()],
+      ["Name", doc.getName()],
+      ["Tab", isFirstTab ? "#1 (primary)" : tabId],
+      ["Children", String(n)],
+      ["Mermaid Diagrams", String(images.length)],
+      ["Mermaid Code Blocks", String(snippets.length)],
+      ["URL", doc.getUrl()],
+    ],
+  };
+
+  const template = HtmlService.createTemplateFromFile("DocInfo");
+  template.data = JSON.stringify(data);
+  const html = template.evaluate().setWidth(500).setHeight(350);
+  DocumentApp.getUi().showModalDialog(html, "Document Info");
 };
 
 export const debugDocStructure = (): void => {
@@ -501,7 +511,6 @@ export const debugDocStructure = (): void => {
     textStyleRaw: string;
   }
   const apiBlocks: ApiBlock[] = [];
-  let listsJson = "{}";
 
   if (typeof Docs !== "undefined" && Docs?.Documents) {
     try {
@@ -537,8 +546,6 @@ export const debugDocStructure = (): void => {
       const content = raw?.body?.content ?? [];
       const lists =
         (raw as unknown as { lists?: Record<string, unknown> })?.lists ?? {};
-      listsJson = JSON.stringify(lists, null, 2);
-
       const listGlyphs: Record<
         string,
         { glyphType: string; glyphSymbol: string }
@@ -676,102 +683,10 @@ export const debugDocStructure = (): void => {
     isFirstTab,
     children,
     apiBlocks,
-    listsJson,
   };
 
-  const template = HtmlService.createTemplate(INSPECTOR_HTML);
+  const template = HtmlService.createTemplateFromFile("Inspector");
   template.data = JSON.stringify(data);
   const html = template.evaluate().setWidth(1100).setHeight(700);
   DocumentApp.getUi().showModalDialog(html, "Document Body Inspector");
 };
-
-const INSPECTOR_HTML = `<!DOCTYPE html>
-<html><head><style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Google Sans','Roboto',Arial,sans-serif;font-size:12px;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:#fff;color:#1b1b1f}
-.toolbar{display:flex;gap:8px;padding:10px 16px;background:#f2f4f5;background-image:linear-gradient(rgba(26,115,232,0.05),rgba(26,115,232,0.05));align-items:center;flex-wrap:wrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.05),0 1px 3px rgba(0,0,0,0.08)}
-.toolbar-spacer{flex:1}
-.stat{display:inline-block;background:#e8eaed;padding:3px 10px;border-radius:12px;font-size:11px;color:#747579;font-weight:500}
-.btn{padding:8px 20px;font-size:13px;border-radius:12px;font-family:inherit;font-weight:500;cursor:pointer;border:none;white-space:nowrap;transition:box-shadow .2s,background .2s,opacity .2s}
-.btn-primary{background:#1a73e8;color:#fff;box-shadow:0 1px 2px rgba(0,0,0,0.05),0 1px 3px rgba(0,0,0,0.08)}
-.btn-primary:hover{box-shadow:0 2px 6px rgba(0,0,0,0.07),0 4px 12px rgba(0,0,0,0.06)}
-.btn-primary.copied{background:#1e8e3e}
-.tabs{display:inline-flex;margin:10px 16px 0}
-.tab{padding:6px 16px;font-size:13px;font-weight:500;color:#747579;cursor:pointer;border:1px solid #c4c6cf;background:#fff;font-family:inherit;transition:background .15s,color .15s}
-.tab:first-child{border-radius:12px 0 0 12px}
-.tab:last-child{border-radius:0 12px 12px 0}
-.tab+.tab{border-left:none}
-.tab:hover{background:#f2f4f5;color:#1b1b1f}
-.tab.active{background:#d3e3fd;color:#1a73e8}
-.tab-content{flex:1;overflow:auto;display:none}
-.tab-content.active{display:block}
-table{width:100%;border-collapse:collapse;font-size:11px}
-th{text-align:left;background:#f2f4f5;padding:6px 8px;border:1px solid #c4c6cf;white-space:nowrap;position:sticky;top:0;z-index:1;color:#747579;font-weight:500}
-td{padding:4px 8px;border:1px solid #e8eaed;vertical-align:top}
-td.mono{font-family:'Roboto Mono',monospace;font-size:10px;white-space:pre-wrap;word-break:break-all;max-width:400px}
-tr:nth-child(even){background:#fafafa}
-tr.cb{background:#e6f4ea}
-tr.heading{background:#d3e3fd}
-tr.table-row{background:#fef7e0}
-tr.section{background:#f3e8fd}
-.json-view{font-family:'Roboto Mono',monospace;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-all;padding:16px 20px;margin:0;background:rgba(0,0,0,0.02);color:#1b1b1f}
-.json-key{color:#1a73e8}
-.json-str{color:#1e8e3e}
-.json-num{color:#e8710a}
-.json-null{color:#747579}
-</style></head><body>
-<div class="toolbar">
-<span class="stat" id="stat-children"></span>
-<span class="stat" id="stat-tab"></span>
-<span class="toolbar-spacer"></span>
-<button class="btn btn-primary" id="copy-btn">Copy Active Tab</button>
-</div>
-<div class="tabs">
-<div class="tab active" data-tab="docapp">DocumentApp Children</div>
-<div class="tab" data-tab="docsapi">Docs API Blocks</div>
-<div class="tab" data-tab="lists">Lists Definitions</div>
-</div>
-<div class="tab-content active" id="tc-docapp"></div>
-<div class="tab-content" id="tc-docsapi"></div>
-<div class="tab-content" id="tc-lists"></div>
-<script>
-var data=JSON.parse(<?!= JSON.stringify(data) ?>);
-document.getElementById('stat-children').textContent='Children: '+data.numChildren;
-document.getElementById('stat-tab').textContent='Tab: '+(data.isFirstTab?'#1 (primary)':data.tabId);
-var tabs=document.querySelectorAll('.tab');
-var panes=document.querySelectorAll('.tab-content');
-for(var ti=0;ti<tabs.length;ti++){(function(i){tabs[i].onclick=function(){
-for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('active');panes[j].classList.remove('active')}
-tabs[i].classList.add('active');panes[i].classList.add('active');
-}})(ti)}
-function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
-function trunc(s,n){return s.length>n?s.substring(0,n)+'...':s}
-var copyParts={docapp:[],docsapi:[],lists:[]};
-var h='<table><tr><th>#</th><th>Type</th><th>Heading</th><th>Glyph</th><th>Nest</th><th>Font</th><th>Text</th></tr>';
-copyParts.docapp.push('# DocumentApp Children');
-copyParts.docapp.push('idx|type|heading|glyph|nest|font|text');
-copyParts.docapp.push('---|----|----|-----|----|----|----');
-for(var i=0;i<data.children.length;i++){var c=data.children[i];
-var cls=c.type==='TABLE'?'table-row':c.heading&&c.heading!=='NORMAL'?'heading':'';
-h+='<tr class="'+cls+'"><td>'+c.idx+'</td><td>'+c.type+'</td><td>'+esc(c.heading)+'</td><td>'+esc(c.glyph)+'</td><td>'+(c.nest>=0?c.nest:'')+'</td><td>'+esc(c.font)+'</td><td class="mono">'+esc(trunc(c.text,200))+'</td></tr>';
-copyParts.docapp.push(c.idx+'|'+c.type+'|'+c.heading+'|'+c.glyph+'|'+(c.nest>=0?c.nest:'')+'|'+c.font+'|'+c.text.replace(/\\n/g,'\\\\n'))}
-h+='</table>';document.getElementById('tc-docapp').innerHTML=h;
-var h2='<table><tr><th>#</th><th>Type</th><th>ListId</th><th>Nest</th><th>Indent</th><th>GlyphType</th><th>GlyphSym</th><th>Strike</th><th>Bullet (raw)</th><th>TextStyle (raw)</th><th>Text</th></tr>';
-copyParts.docsapi.push('# Docs API Blocks');
-copyParts.docsapi.push('idx|type|listId|nest|indent|glyphType|glyphSym|strike|bulletRaw|textStyleRaw|text');
-copyParts.docsapi.push('---|----|----|----|----|---------|--------|------|---------|------------|----');
-for(var j=0;j<data.apiBlocks.length;j++){var b=data.apiBlocks[j];
-var cls2=b.type.indexOf('SECTION')>=0?'section':b.type.indexOf('TABLE')>=0?'table-row':b.glyphType==='GLYPH_TYPE_UNSPECIFIED'?'cb':b.type.indexOf('HEADING')>=0?'heading':'';
-h2+='<tr class="'+cls2+'"><td>'+b.idx+'</td><td>'+esc(b.type)+'</td><td class="mono">'+esc(b.listId)+'</td><td>'+(b.nestLevel>=0?b.nestLevel:'')+'</td><td>'+esc(b.indent)+'</td><td>'+esc(b.glyphType)+'</td><td>'+esc(b.glyphSymbol)+'</td><td>'+(b.strikethrough?'YES':'')+'</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">'+esc(b.bulletRaw||'')+'</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">'+esc(b.textStyleRaw||'')+'</td><td class="mono">'+esc(trunc(b.text,200))+'</td></tr>';
-copyParts.docsapi.push(b.idx+'|'+b.type+'|'+b.listId+'|'+(b.nestLevel>=0?b.nestLevel:'')+'|'+b.indent+'|'+b.glyphType+'|'+b.glyphSymbol+'|'+(b.strikethrough?'YES':'')+' |'+(b.bulletRaw||'')+'|'+(b.textStyleRaw||'')+'|'+b.text.replace(/\\n/g,'\\\\n'))}
-h2+='</table>';document.getElementById('tc-docsapi').innerHTML=h2;
-copyParts.lists.push('# Lists Definitions');
-copyParts.lists.push(data.listsJson);
-function syntaxHL(json){return json.replace(/("(?:\\\\.|[^"])*")\\s*:/g,'<span class="json-key">$1</span>:').replace(/:\\s*("(?:\\\\.|[^"])*")/g,': <span class="json-str">$1</span>').replace(/:\\s*(\\d+\\.?\\d*)/g,': <span class="json-num">$1</span>').replace(/:\\s*(null|true|false)/g,': <span class="json-null">$1</span>')}
-document.getElementById('tc-lists').innerHTML='<div class="json-view">'+syntaxHL(esc(data.listsJson))+'</div>';
-document.getElementById('copy-btn').onclick=function(){
-var active='docapp';for(var k=0;k<tabs.length;k++){if(tabs[k].classList.contains('active')){active=tabs[k].getAttribute('data-tab');break}}
-var text=copyParts[active].join('\\n');var btn=document.getElementById('copy-btn');
-navigator.clipboard.writeText(text).then(function(){btn.textContent='Copied!';btn.className='btn btn-primary copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className='btn btn-primary'},1500)}).catch(function(){
-var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.textContent='Copied!';btn.className='btn btn-primary copied';setTimeout(function(){btn.textContent='Copy Active Tab';btn.className='btn btn-primary'},1500)})};
-</script></body></html>`;

@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Google Sans", "Roboto", Arial, sans-serif;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+  color: #1b1b1f;
+}
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f2f4f5;
+  background-image: linear-gradient(
+    rgba(26, 115, 232, 0.05),
+    rgba(26, 115, 232, 0.05)
+  );
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 4px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.btn {
+  padding: 8px 20px;
+  font-size: 13px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  transition:
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+.btn-primary {
+  background: #1a73e8;
+  color: #fff;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.07),
+      0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  &.copied {
+    background: #1e8e3e;
+  }
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  background: #f2f4f5;
+  padding: 8px 12px;
+  border: 1px solid #c4c6cf;
+  white-space: nowrap;
+  color: #747579;
+  font-weight: 500;
+  width: 180px;
+  font-size: 12px;
+}
+
+td {
+  padding: 8px 12px;
+  border: 1px solid #e8eaed;
+  vertical-align: top;
+  font-family: "Roboto Mono", monospace;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+tr:nth-child(even) {
+  background: #fafafa;
+}
