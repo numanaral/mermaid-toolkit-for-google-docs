@@ -1,18 +1,17 @@
+# Build output
 node_modules/
 _site/
 dist/
-backup/
+.DS_Store
+.env
+temp/
+
+# Google Apps Script
+.clasp.json
 .gas-build-tmp/
 .gas-push-cache.json
-.env
-.clasp.json
-.DS_Store
 
-# Test and temp files
-test-*.html
-temp-test/
-test.md
-src/*.paste
-/screenshots/
+# Playwright
 .playwright-chrome-profile/
 .playwright-state.json
+.playwright-run-seq.json
