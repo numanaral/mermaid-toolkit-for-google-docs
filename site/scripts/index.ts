@@ -13,11 +13,29 @@ document.addEventListener("DOMContentLoaded", () => {
     howTabs.forEach((tab) => {
       tab.addEventListener("click", () => {
         const target = tab.getAttribute("data-tab");
-        howTabs.forEach((t) => t.classList.remove("active"));
+        howTabs.forEach((t) => {
+          t.classList.remove("active");
+          t.setAttribute("aria-selected", "false");
+        });
         howPanels.forEach((p) => p.classList.remove("active"));
         tab.classList.add("active");
+        tab.setAttribute("aria-selected", "true");
         const panel = document.getElementById(`how-panel-${target}`);
-        if (panel) panel.classList.add("active");
+        if (panel) {
+          panel.classList.add("active");
+          const gifPlayer = panel.querySelector(".gif-player");
+          if (gifPlayer) {
+            gifPlayer.classList.remove("gif-slide-in");
+            void (gifPlayer as HTMLElement).offsetWidth;
+            gifPlayer.classList.add("gif-slide-in");
+            const img = gifPlayer.querySelector<HTMLImageElement>("img");
+            if (img) {
+              const src = img.src;
+              img.src = "";
+              img.src = src;
+            }
+          }
+        }
       });
     });
   }
@@ -100,6 +118,76 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelectorAll(".gallery-item")
     .forEach((el) => el.classList.add("reveal"));
+
+  const gifModal = document.createElement("div");
+  gifModal.className = "gif-modal-overlay";
+  gifModal.innerHTML = `<img src="" alt="">
+    <div class="gif-modal-controls">
+      <button class="gif-modal-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+      <button class="gif-modal-close" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>`;
+  document.body.appendChild(gifModal);
+
+  const modalImg = gifModal.querySelector<HTMLImageElement>("img")!;
+  const modalReset =
+    gifModal.querySelector<HTMLButtonElement>(".gif-modal-reset")!;
+  const modalClose =
+    gifModal.querySelector<HTMLButtonElement>(".gif-modal-close")!;
+
+  const closeGifModal = () => gifModal.classList.remove("visible");
+
+  modalClose.addEventListener("click", closeGifModal);
+  gifModal.addEventListener("click", (e) => {
+    if (e.target === gifModal) closeGifModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && gifModal.classList.contains("visible"))
+      closeGifModal();
+  });
+  modalReset.addEventListener("click", () => {
+    const s = modalImg.src;
+    modalImg.src = "";
+    modalImg.src = s;
+  });
+
+  document.querySelectorAll<HTMLElement>(".gif-player").forEach((player) => {
+    const img = player.querySelector<HTMLImageElement>("img");
+    if (!img) return;
+
+    const skeleton = document.createElement("div");
+    skeleton.className = "gif-skeleton";
+    if (!img.complete) {
+      img.setAttribute("data-loading", "true");
+      player.insertBefore(skeleton, img);
+      img.addEventListener(
+        "load",
+        () => {
+          img.removeAttribute("data-loading");
+          skeleton.remove();
+        },
+        { once: true },
+      );
+    }
+
+    const resetBtn = player.querySelector<HTMLButtonElement>(".gif-reset");
+    const fsBtn = player.querySelector<HTMLButtonElement>(".gif-fullscreen");
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        const src = img.src;
+        img.src = "";
+        img.src = src;
+      });
+    }
+    if (fsBtn) {
+      fsBtn.addEventListener("click", () => {
+        modalImg.src = "";
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        gifModal.classList.add("visible");
+      });
+    }
+  });
 
   const reveals = document.querySelectorAll(".reveal, .reveal-stagger");
   if (reveals.length) {

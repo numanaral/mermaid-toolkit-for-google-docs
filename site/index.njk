@@ -31,7 +31,7 @@ sitemapPriority: 1.0
     <div class="hero-center">
       <div class="hero-badge"><img src="/assets/brand/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
       <h1>Code to <span class="gradient">diagram</span> in seconds.</h1>
-      <p>Write Mermaid syntax in Google Docs™, render it as a polished diagram. Everything stays in your browser.</p>
+      <p>Turn plain-text Mermaid code into polished diagrams — right inside Google Docs™. No servers, no data collection, no hassle.</p>
       <div class="hero-actions">
         {# TODO: Replace # with actual Marketplace URL once published #}
         <a href="#" class="btn-accent">
@@ -57,69 +57,109 @@ sitemapPriority: 1.0
       </div>
       <div class="demo-video reveal">
         <video autoplay loop muted playsinline controls poster="/assets/screenshots/editor.png">
-          <source src="/assets/screenshots/demo.webm" type="video/webm">
+          <source src="/assets/demo/demo.webm" type="video/webm">
         </video>
       </div>
     </div>
   </section>
 
-  <!-- WHY MERMAID TOOLKIT -->
-  <section class="why" id="why">
-    <div class="why-inner">
+  <!-- THE BIGGER PICTURE — Before/After -->
+  <section class="pitch" id="pitch">
+    <div class="pitch-inner">
       <div class="section-header reveal">
-        <div class="tag">Why Mermaid Toolkit</div>
-        <h2>Diagrams that work everywhere.</h2>
+        <div class="tag">The bigger picture</div>
+        <h2>Diagrams in Google Docs™ — before and after.</h2>
       </div>
-      <div class="why-grid reveal-stagger">
-        <div class="card why-card">
-          <div class="why-icon">🤖</div>
-          <h3>AI-Friendly Workflows</h3>
-          <p>Mermaid diagrams are plain text. Copy them between Google Docs, your IDE, and AI tools without dealing with images or format issues.</p>
+      <div class="ba-cols reveal">
+        <div class="card ba-col ba-before">
+          <h3>Without this toolkit</h3>
+          <ul class="ba-list">
+            <li><span class="ba-x">✕</span><span>Create diagrams in an external tool, export as PNG, paste into Docs</span></li>
+            <li><span class="ba-x">✕</span><span>Diagram source is lost — the image is a dead end</span></li>
+            <li><span class="ba-x">✕</span><span>Spec changes? Re-draw, re-export, re-paste. Every. Time.</span></li>
+            <li><span class="ba-x">✕</span><span>No way to import markdown with diagrams into Google Docs™</span></li>
+            <li><span class="ba-x">✕</span><span>Copy as Markdown corrupts Mermaid syntax silently</span></li>
+          </ul>
         </div>
-        <div class="card why-card">
-          <div class="why-icon">📋</div>
-          <h3>Markdown Interop</h3>
-          <p>Export as markdown, paste into GitHub, Notion, or any markdown editor. Import back into Google Docs and re-render — no conversion needed.</p>
-        </div>
-        <div class="card why-card">
-          <div class="why-icon">🔒</div>
-          <h3>Zero Data Collection</h3>
-          <p>Everything renders client-side via Mermaid.js — even for complex diagram types that trigger browser security restrictions. No servers, no analytics, no cookies. Your diagrams never leave your browser.</p>
-        </div>
-        <div class="card why-card">
-          <div class="why-icon">🔄</div>
-          <h3>Round-Trip Editing</h3>
-          <p>Every diagram stores its source code. Click any diagram to edit, update, or extract the original Mermaid syntax.</p>
-        </div>
-        <div class="card why-card">
-          <div class="why-icon">⚡</div>
-          <h3>Bulk Operations</h3>
-          <p>Scan your entire document and convert all code blocks to diagrams in one click. Or extract all diagrams back to code.</p>
-        </div>
-        <div class="card why-card">
-          <div class="why-icon">🛠️</div>
-          <h3>Fix Native "Copy as Markdown"</h3>
-          <p>Google Docs' "Copy as Markdown" mangles Mermaid syntax. The built-in fixer repairs vertical tabs, stray backticks, and formatting artifacts automatically.</p>
+        <div class="ba-divider"><span>→</span></div>
+        <div class="card ba-col ba-after">
+          <h3>With Mermaid Toolkit</h3>
+          <ul class="ba-list">
+            <li><span class="ba-check">✓</span><span>Write Mermaid code directly in Docs, render with one click</span></li>
+            <li><span class="ba-check">✓</span><span>Every diagram stores its source — click to edit anytime</span></li>
+            <li><span class="ba-check">✓</span><span>Edit in place, re-render instantly. No external tools needed.</span></li>
+            <li><span class="ba-check">✓</span><span>Import markdown from AI tools — diagrams render automatically</span></li>
+            <li><span class="ba-check">✓</span><span>Export back to markdown with diagram source intact</span></li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BENTO FEATURES -->
-  <section class="bento" id="features">
-    <div class="bento-inner">
+  <!-- WORKFLOW PIPELINE -->
+  <section class="pipeline" id="pipeline">
+    <div class="pipeline-inner">
       <div class="section-header reveal">
-        <div class="tag">What it does</div>
-        <h2>Built for speed and privacy.</h2>
+        <div class="tag">The full round-trip</div>
+        <h2>No dead ends.</h2>
       </div>
-      <div class="bento-grid reveal-stagger">
-        {% set ns = { i: 0 } %}
-        {% for feat in features %}{% if feat.showInBento %}
-        {% if ns.i % 2 == 0 %}<div class="bento-row{{ ' bento-row-flip' if (ns.i / 2) | round(0, 'floor') % 2 == 1 }}">{% endif %}
-        <div class="card bento-card"><div class="card-icon">{{ feat.icon }}</div><h3>{{ feat.title }}</h3><p>{{ feat.shortDesc | safe }}</p></div>
-        {% if ns.i % 2 == 1 or loop.last %}</div>{% endif %}
-        {% set ns = { i: ns.i + 1 } %}
-        {% endif %}{% endfor %}
+      <div class="cycle reveal">
+        <div class="cycle-ring">
+          <div class="cycle-node cycle-pos-1">
+            <div class="cycle-circle">1</div>
+            <h4>Write</h4>
+            <p>Draft docs with Mermaid diagrams in your IDE, AI tool, or any markdown source</p>
+          </div>
+          <div class="cycle-node cycle-pos-2">
+            <div class="cycle-circle">2</div>
+            <h4>Import</h4>
+            <p>Paste markdown into Google Docs™ — diagrams render automatically</p>
+          </div>
+          <div class="cycle-node cycle-pos-3">
+            <div class="cycle-circle">3</div>
+            <h4>Collaborate</h4>
+            <p>Team reviews with visual diagrams. Edit any diagram in place.</p>
+          </div>
+          <div class="cycle-node cycle-pos-4">
+            <div class="cycle-circle">4</div>
+            <h4>Export</h4>
+            <p>Export back to markdown with Mermaid source intact</p>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline-summary reveal">
+        <p><strong>No format lock-in.</strong> Diagrams stay as code at every step — readable by humans, AI, and dev tools alike.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY MERMAID TOOLKIT (Text + Feature List) -->
+  <section class="why" id="why">
+    <div class="why-inner">
+      <div class="tag reveal">Why Mermaid Toolkit</div>
+      <div class="why-split reveal">
+        <div class="why-text">
+          <h2>AI writes the spec.<br>Your team reads it in Docs.<br><em>This is the missing link.</em></h2>
+          <p>PRDs, design docs, and architecture specs are increasingly generated as markdown — by ChatGPT, Claude, Copilot, and coding agents. Mermaid diagrams inside those specs describe complex flows in plain text. But Google Docs™ can't render any of it.</p>
+        </div>
+        <ul class="why-features">
+          <li>
+            <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+            <div><h4>Import markdown from AI tools</h4><p>Paste markdown with Mermaid blocks. Diagrams render. Headings, lists, tables — all formatted.</p></div>
+          </li>
+          <li>
+            <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+            <div><h4>Edit diagrams without leaving Docs</h4><p>Click any diagram to edit its Mermaid source with live preview. Re-render in place.</p></div>
+          </li>
+          <li>
+            <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <div><h4>Export back to markdown</h4><p>When the spec is ready, export the whole doc. Diagrams become fenced code blocks.</p></div>
+          </li>
+          <li>
+            <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <div><h4>Nothing leaves your browser</h4><p>100% client-side rendering. No servers, no analytics, no data collection.</p></div>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -129,18 +169,24 @@ sitemapPriority: 1.0
     <div class="how-inner">
       <div class="section-header reveal">
         <div class="tag">Getting Started</div>
-        <h2>Five ways to work with diagrams.</h2>
+        <h2>Get started in minutes.</h2>
       </div>
-      <div class="how-tabs reveal">
+      <div class="how-tabs reveal" role="tablist" aria-label="Getting started workflows">
         {% for workflow in howto %}
-        <button class="how-tab{{ ' active' if loop.first }}" data-tab="{{ workflow.id }}">{{ workflow.subtitle }}</button>
+        <button class="how-tab{{ ' active' if loop.first }}" data-tab="{{ workflow.id }}" role="tab" aria-selected="{{ 'true' if loop.first else 'false' }}" aria-controls="how-panel-{{ workflow.id }}" id="how-tab-{{ workflow.id }}">{{ workflow.subtitle }}</button>
         {% endfor %}
       </div>
       <div class="how-panels">
         {% for workflow in howto %}
-        <div class="how-panel{{ ' active' if loop.first }}" id="how-panel-{{ workflow.id }}">
+        <div class="how-panel{{ ' active' if loop.first }}" id="how-panel-{{ workflow.id }}" role="tabpanel" aria-labelledby="how-tab-{{ workflow.id }}">
           <div class="how-panel-screenshot">
-            <img src="{{ workflow.screenshot }}" alt="{{ workflow.subtitle }}" loading="lazy">
+            <div class="gif-player">
+              <img src="{{ workflow.screenshot }}" alt="{{ workflow.subtitle }}" loading="lazy">
+              <div class="gif-controls">
+                <button class="gif-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+                <button class="gif-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+              </div>
+            </div>
           </div>
           <div class="how-panel-content">
             <p class="how-panel-desc">{{ workflow.desc }}</p>
@@ -171,8 +217,8 @@ sitemapPriority: 1.0
           </div>
         </div>
       </div>
-      <div class="callout reveal">
-        <strong>Tip:</strong> New to the add-on? Open <strong>Extensions → Mermaid Toolkit → Quick Guide</strong> for an interactive walkthrough right inside Google Docs.
+      <div class="how-footer reveal">
+        <a href="/features" class="btn-dim">See all features →</a>
       </div>
     </div>
   </section>

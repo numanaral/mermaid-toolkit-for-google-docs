@@ -1,48 +1,87 @@
 /* ============================================================
-   HOME: WHY MERMAID TOOLKIT
+   HOME: WHY MERMAID TOOLKIT (Text + Feature List — Option F)
    ============================================================ */
 
 .why {
   padding: 5rem 2rem;
 }
-
 .why-inner {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-.why-grid {
+.why-split {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.why-text h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+.why-text h2 em {
+  font-style: normal;
+  color: var(--accent);
+}
+.why-text p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.why-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.why-features li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
   gap: 1rem;
+  align-items: flex-start;
 }
-
-.why-card {
-  padding: 2rem;
-  position: relative;
+.why-features li:last-child {
+  border: none;
 }
-
-.why-card .why-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+.why-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--accent-tint);
+  border: 1px solid var(--border-accent-dim);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  margin-bottom: 1.2rem;
-  background: var(--accent-tint);
-  border: 1px solid var(--border-accent-dim);
+  flex-shrink: 0;
 }
-
-.why-card h3 {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+.why-icon-box svg {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
 }
-
-.why-card p {
-  font-size: 0.88rem;
+.why-features h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.why-features p {
+  font-size: 0.82rem;
   color: var(--text-dim);
-  line-height: 1.6;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .why-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .why-text h2 {
+    font-size: 1.4rem;
+  }
 }

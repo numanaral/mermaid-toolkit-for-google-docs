@@ -5,22 +5,19 @@
 @use "layout/nav";
 @use "layout/footer";
 @use "layout/hero";
-@use "components/bento";
+@use "components/pitch";
 @use "components/why";
 @use "components/showcase";
 @use "components/how";
 @use "components/diagrams";
 @use "components/pending";
+@use "components/gif-player";
 
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2.5rem;
   }
-  .bento-row,
-  .bento-row-flip {
-    grid-template-columns: 1fr;
-  }
-  .why-grid {
+  .why-split {
     grid-template-columns: 1fr;
   }
   .how-panel.active {

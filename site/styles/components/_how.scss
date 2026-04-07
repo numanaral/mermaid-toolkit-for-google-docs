@@ -4,6 +4,7 @@
 
 .how {
   padding: 5rem 2rem;
+  background: var(--surface);
 }
 .how-inner {
   max-width: 1000px;
@@ -225,6 +226,11 @@
 .code-line.hl-bad {
   background: var(--accent2-tint-faint);
   color: var(--accent2);
+}
+
+.how-footer {
+  text-align: center;
+  margin-top: 2.5rem;
 }
 
 /* --- Responsive --- */

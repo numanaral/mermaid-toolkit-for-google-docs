@@ -1,0 +1,230 @@
+/* ============================================================
+   HOME: THE BIGGER PICTURE — Before/After (B) + Pipeline (C)
+   ============================================================ */
+
+.pitch {
+  padding: 5rem 2rem;
+}
+.pitch-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.ba-cols {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+.ba-col {
+  padding: 2rem;
+}
+.ba-before {
+  border-color: rgba(255, 107, 101, 0.18);
+}
+.ba-before:hover {
+  border-color: rgba(255, 107, 101, 0.6);
+}
+.ba-before h3 {
+  color: var(--accent2, #ff7a65);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+.ba-after h3 {
+  color: var(--accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+.ba-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ba-list li {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.ba-list li:last-child {
+  border: none;
+}
+.ba-x {
+  color: var(--accent2, #ff7a65);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  margin-top: 0.1rem;
+}
+.ba-check {
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  margin-top: 0.1rem;
+}
+.ba-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--accent);
+  font-weight: 700;
+  padding-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .ba-cols {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .ba-divider {
+    padding: 0;
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================================================
+   WORKFLOW CYCLE — 4 nodes on a dashed circle (option A)
+   ============================================================ */
+
+.pipeline {
+  padding: 4rem 2rem;
+  background: var(--surface);
+}
+.pipeline-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.cycle-ring {
+  position: relative;
+  width: 480px;
+  height: 480px;
+  margin: 0 auto;
+  border: 2px dashed rgba(74, 234, 204, 0.2);
+  border-radius: 50%;
+}
+
+.cycle-node {
+  position: absolute;
+  text-align: center;
+  width: 170px;
+  z-index: 1;
+  background: var(--surface);
+  padding: 1rem 0.5rem;
+  border-radius: 10px;
+}
+.cycle-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2.5px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.4rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.cycle-node h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
+}
+.cycle-node p {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.cycle-pos-1 {
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.cycle-pos-2 {
+  right: -85px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.cycle-pos-3 {
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.cycle-pos-4 {
+  left: -85px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.pipeline-summary {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--accent-tint);
+  border: 1px solid var(--border-accent);
+  border-radius: 12px;
+}
+.pipeline-summary p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+}
+.pipeline-summary strong {
+  color: var(--accent);
+}
+
+@media (max-width: 700px) {
+  .cycle-ring {
+    position: static;
+    width: 100%;
+    height: auto;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cycle-node {
+    position: static;
+    transform: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: left;
+    padding: 0.75rem 0 0.75rem 1.25rem;
+    border-left: 2px dashed var(--border-accent-dim);
+    border-radius: 0;
+    background: none;
+  }
+  .cycle-node:last-child {
+    border-image: linear-gradient(
+        to bottom,
+        var(--border-accent-dim) 60%,
+        transparent
+      )
+      1;
+  }
+  .cycle-node h4,
+  .cycle-node p {
+    text-align: left;
+  }
+  .cycle-circle {
+    width: 42px;
+    height: 42px;
+    font-size: 0.8rem;
+    margin: 0;
+    flex-shrink: 0;
+  }
+}
