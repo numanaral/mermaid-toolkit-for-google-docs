@@ -1,9 +1,9 @@
 # Playwright Testing for Google Apps Script Add-ons
 
 A practical guide for automating and testing Google Apps Script (GAS) add-ons
-inside Google Docs using [Playwright](https://playwright.dev/). Built from
+inside Google Docs™ using [Playwright](https://playwright.dev/). Built from
 real-world experience developing
-[Mermaid Toolkit for Google Docs](https://github.com/numanaral/mermaid-toolkit-for-google-docs).
+[Mermaid Toolkit for Google Docs™](https://github.com/numanaral/mermaid-toolkit-for-google-docs).
 
 ---
 
@@ -12,7 +12,7 @@ real-world experience developing
 - [Architecture Overview](#architecture-overview)
 - [Setup](#setup)
 - [Session Management (Persistent Login)](#session-management-persistent-login)
-- [Navigating Google Docs UI](#navigating-google-docs-ui)
+- [Navigating Google Docs™ UI](#navigating-google-docs-ui)
 - [Working with GAS Dialogs](#working-with-gas-dialogs)
 - [Interacting Inside Sandboxed Iframes](#interacting-inside-sandboxed-iframes)
 - [Closing Dialogs Reliably](#closing-dialogs-reliably)
@@ -20,7 +20,7 @@ real-world experience developing
 - [Handling Native Browser Dialogs](#handling-native-browser-dialogs)
 - [Screenshots and Video Recording](#screenshots-and-video-recording)
 - [Visual Cursor for Demos](#visual-cursor-for-demos)
-- [Local Dialog Preview (Without Google Docs)](#local-dialog-preview-without-google-docs)
+- [Local Dialog Preview (Without Google Docs™)](#local-dialog-preview-without-google-docs)
 - [Common Pitfalls](#common-pitfalls)
 - [Full Snippets](#full-snippets)
 
@@ -31,7 +31,7 @@ real-world experience developing
 Google Apps Script add-on dialogs run inside a **triple-nested iframe** structure:
 
 ```
-Google Docs page
+Google Docs™ page
 └── Dialog overlay (WizDialog-dialog)
     └── Outer iframe (Google's wrapper)
         └── Inner iframe#userHtmlFrame (your sandboxed HTML)
@@ -57,11 +57,11 @@ Security Policy (CSP) rules that affect what works at runtime.
 ### Dependencies
 
 ```bash
-npm install --save-dev playwright
+yarn add -D playwright
 # Install browser binaries (only needed once)
-npx playwright install chromium
+yarn playwright install chromium
 # Required for video recording
-npx playwright install ffmpeg
+yarn playwright install ffmpeg
 ```
 
 ### Dry-Run URL
@@ -81,7 +81,10 @@ https://docs.google.com/document/d/<DOC_ID>/edit?addon_dry_run=<TOKEN>&tab=t.0
   "scripts": {
     "test:login": "tsx scripts/test-gdocs.ts --login",
     "test:gdocs": "tsx scripts/test-gdocs.ts",
-    "test:iframe": "node scripts/test-iframe.js"
+    "test:iframe": "node scripts/test-iframe.js",
+    "test:edit": "node scripts/test-edit-flow.js",
+    "test:mouse": "node scripts/test-mouse.js",
+    "test:cursor": "node scripts/test-cursor-in-dialog.js"
   }
 }
 ```
@@ -90,7 +93,7 @@ https://docs.google.com/document/d/<DOC_ID>/edit?addon_dry_run=<TOKEN>&tab=t.0
 
 ## Session Management (Persistent Login)
 
-Google Docs requires authentication. Re-logging in every run is painful.
+Google Docs™ requires authentication. Re-logging in every run is painful.
 Playwright's `storageState` persists cookies and localStorage across runs.
 
 ### First-Time Login
@@ -136,7 +139,7 @@ console.log("Session saved for reuse.");
 ```gitignore
 .playwright-state.json
 .playwright-chrome-profile/
-screenshots/
+temp/
 ```
 
 > **Tip**: The state file contains session cookies. Never commit it.
@@ -150,11 +153,11 @@ The `--disable-blink-features=AutomationControlled` flag removes the
 
 ---
 
-## Navigating Google Docs UI
+## Navigating Google Docs™ UI
 
 ### Opening the Extensions Menu
 
-Google Docs menus are custom DOM elements, not native `<select>` elements.
+Google Docs™ menus are custom DOM elements, not native `<select>` elements.
 
 ```js
 // Wait for the Extensions menu to exist
@@ -566,7 +569,7 @@ await page.evaluate(CURSOR_INJECT).catch(() => {});
 
 ---
 
-## Local Dialog Preview (Without Google Docs)
+## Local Dialog Preview (Without Google Docs™)
 
 Testing dialog HTML locally avoids repeated `clasp push` cycles. The challenge
 is that GAS HTML files use server-side template tags (`<?!= ... ?>`) and depend
@@ -700,7 +703,7 @@ iframes due to CSP. Use externally hosted HTTPS URLs instead:
 
 ### 4. Menu Navigation Is Flaky
 
-Google Docs menus can be in a transient state after server operations. Always:
+Google Docs™ menus can be in a transient state after server operations. Always:
 
 - Poll for the Extensions menu element before clicking
 - Use a retry loop (3 attempts) for submenu expansion
@@ -757,7 +760,7 @@ const fs = require("fs");
 
 const DOC_URL = "https://docs.google.com/document/d/YOUR_DOC/edit?addon_dry_run=YOUR_TOKEN";
 const STATE_FILE = path.resolve(".playwright-state.json");
-const SCREENSHOTS_DIR = path.resolve("screenshots");
+const SCREENSHOTS_DIR = path.resolve("temp/demo");
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

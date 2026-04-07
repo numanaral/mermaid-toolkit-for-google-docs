@@ -382,7 +382,7 @@ const buildGalleryPage = (): string => {
 <html>
 <head>
 <meta charset="utf-8">
-<title>Mermaid Toolkit - Google Docs</title>
+<title>Mermaid Toolkit - Google Docs™</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -561,12 +561,12 @@ button.gd-menubar-item{border:none;background:none;font:inherit;color:inherit}
   <div class="gd-page-area">
     <div class="gd-page">
       <div class="gd-page-accent"></div>
-      <h1>PRD: Mermaid Toolkit for Google Docs</h1>
+      <h1>PRD: Mermaid Toolkit for Google Docs™</h1>
       <h2>Overview</h2>
-      <p>Mermaid Toolkit is a Google Docs add-on that lets users write Mermaid diagram syntax directly in their documents and render it as high-quality PNG images. Everything runs client-side in the browser &mdash; no servers, no data collection, no cookies.</p>
+      <p>Mermaid Toolkit is a Google Docs™ add-on that lets users write Mermaid diagram syntax directly in their documents and render it as high-quality PNG images. Everything runs client-side in the browser &mdash; no servers, no data collection, no cookies.</p>
       <h2>Architecture &amp; Diagrams</h2>
       <h3>System Architecture</h3>
-      <p>The add-on runs entirely within Google Docs. The GAS server handles document manipulation (finding code blocks, inserting/replacing images), while each dialog runs in a sandboxed iframe that loads mermaid.js from jsDelivr to render diagrams client-side.</p>
+      <p>The add-on runs entirely within Google Docs™. The GAS server handles document manipulation (finding code blocks, inserting/replacing images), while each dialog runs in a sandboxed iframe that loads mermaid.js from jsDelivr to render diagrams client-side.</p>
       <div class="mock-img">[ Architecture Diagram ]</div>
       <h2>Rendering Pipeline</h2>
       <p>The rendering pipeline uses a multi-pass approach to convert SVG to PNG entirely in the browser, handling browser security restrictions around tainted canvases and foreignObject elements.</p>

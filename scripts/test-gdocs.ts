@@ -1,3 +1,4 @@
+import "dotenv/config";
 import {
   chromium,
   type BrowserContext,
@@ -7,9 +8,13 @@ import {
 import path from "path";
 import fs from "fs";
 
-const DOC_URL =
-  "https://docs.google.com/document/d/1FpKtpbxZhZQPx4ldReg9eE3RXOsVO3rqFEmzhYN8S3c/edit?addon_dry_run=AAnXSK9hwlvF3XFY0Z5-uzyti5SRvmoq4f9edRcTyc37whjoxSV8rMsiPrE1VRYSXDucre5vv1hsqB912qoLkA5ukSbLvzhHxWEq4LIBH2WFIQZP2SW2vmzGlGk5xrFAetIeaZgMsuSM&tab=t.0";
-const SCREENSHOTS_DIR = path.resolve("screenshots");
+if (!process.env.DOC_URL) {
+  throw new Error(
+    "DOC_URL is not set. Copy .env.example to .env and fill it in.",
+  );
+}
+const DOC_URL = process.env.DOC_URL;
+const SCREENSHOTS_DIR = path.resolve("temp/demo");
 const STATE_FILE = path.resolve(".playwright-state.json");
 
 interface MenuItem {
@@ -143,7 +148,7 @@ async function waitForDocLoaded(context: BrowserContext, page: Page) {
     console.log("  Logged in!");
   }
 
-  console.log("  Waiting for Google Docs to fully load...");
+  console.log("  Waiting for Google Docs™ to fully load...");
   await page.waitForSelector("#docs-editor", { timeout: 30000 }).catch(() => {
     console.log("  (docs-editor not found)");
   });
@@ -199,7 +204,7 @@ const main = async () => {
 
   const page = await context.newPage();
 
-  console.log("Navigating to Google Doc...");
+  console.log("Navigating to Google Doc™...");
   await page.goto(DOC_URL, { waitUntil: "domcontentloaded", timeout: 60000 });
   await sleep(3000);
 

@@ -2,7 +2,7 @@
   "name": "mermaid-toolkit-for-google-docs",
   "version": "1.0.0",
   "private": true,
-  "description": "Render Mermaid diagrams as images directly in Google Docs.",
+  "description": "Render Mermaid diagrams as images directly in Google Docs™.",
   "scripts": {
     "site:dev": "bash scripts/dev.sh",
     "site:build": "bash scripts/build.sh",
@@ -21,10 +21,12 @@
     "verify:fix": "tsx scripts/verify-fix.ts",
     "test:login": "tsx scripts/test-gdocs.ts --login",
     "test:gdocs": "tsx scripts/test-gdocs.ts",
-    "test:iframe": "node scripts/test-iframe.js",
-    "test:edit": "node scripts/test-edit-flow.js",
-    "test:mouse": "node scripts/test-mouse.js",
-    "test:cursor": "node scripts/test-cursor-in-dialog.js"
+    "demo:record": "tsx scripts/demo/recorder.ts",
+    "demo:analyze": "tsx scripts/demo/analyze-clips.ts",
+    "demo:split": "tsx scripts/demo/split-clips.ts",
+    "demo:gif": "tsx scripts/demo/to-gif.ts",
+    "demo:site-video": "tsx scripts/demo/site-video.ts",
+    "demo:demo-gif": "tsx scripts/demo/demo-gif.ts"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "@typescript-eslint/eslint-plugin": "^8.57.0",
     "@typescript-eslint/parser": "^8.57.0",
     "concurrently": "^9.2.1",
+    "dotenv": "^17.4.1",
     "esbuild": "^0.27.3",
     "eslint": "^10.0.3",
     "jiti": "^2.6.1",
@@ -49,7 +52,6 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "marked": "^17.0.4",
     "mermaid": "^11.13.0"
   }
 }
