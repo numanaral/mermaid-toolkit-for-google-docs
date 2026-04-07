@@ -1,3 +1,6 @@
+// GAS limitation: export can be slow for large documents because the entire
+// document body must be traversed server-side via DocumentApp. There is no
+// way to stream or paginate this in Apps Script.
 import { MERMAID_ALT_TITLE } from "./constants";
 import { decodeMermaidSource } from "./doc-utils";
 
@@ -181,8 +184,8 @@ const buildCheckboxMap = (
 
       map.set(plainText, { nestingDepth });
     }
-  } catch (e) {
-    Logger.log("buildCheckboxMap error: " + e);
+  } catch {
+    // Docs API unavailable; fall back to unchecked checkboxes
   }
 
   return map;
@@ -200,6 +203,15 @@ export const exportDocAsMarkdown = (
   const n = body.getNumChildren();
   const lines: string[] = [];
   let prevWasListItem = false;
+  let prevListId: string | null = null;
+  let prevNestLevel = -1;
+  const orderedCounters: number[] = [];
+
+  const resetListState = (): void => {
+    prevListId = null;
+    prevNestLevel = -1;
+    orderedCounters.length = 0;
+  };
 
   for (let i = 0; i < n; i++) {
     const child = body.getChild(i);
@@ -258,7 +270,7 @@ export const exportDocAsMarkdown = (
       } else if (checkboxMap.has(para.editAsText().getText())) {
         const cbInfo = checkboxMap.get(para.editAsText().getText())!;
         const indent = "  ".repeat(cbInfo.nestingDepth);
-        lines.push(`${indent}- [ ] ${md}`);
+        lines.push(`${indent}* [ ] ${md}`);
         prevWasListItem = true;
       } else if (md.trim() === "") {
         lines.push("");
@@ -283,19 +295,32 @@ export const exportDocAsMarkdown = (
         glyph === DocumentApp.GlyphType.ROMAN_UPPER ||
         glyph === DocumentApp.GlyphType.ROMAN_LOWER;
 
+      const listId = li.getListId();
+      if (listId !== prevListId) {
+        orderedCounters.length = 0;
+      } else if (nestLevel < prevNestLevel) {
+        for (let l = nestLevel + 1; l < orderedCounters.length; l++) {
+          orderedCounters[l] = 0;
+        }
+      }
+      prevListId = listId;
+      prevNestLevel = nestLevel;
+
       const cbInfo = checkboxMap.get(plainText);
       if (cbInfo) {
         const cbIndent = "  ".repeat(cbInfo.nestingDepth);
-        lines.push(`${cbIndent}- [ ] ${md}`);
+        lines.push(`${cbIndent}* [ ] ${md}`);
       } else if (md.startsWith("✓ ")) {
-        lines.push(`${indent}- [x] ${md.substring(2)}`);
+        lines.push(`${indent}* [x] ${md.substring(2)}`);
       } else if (md.startsWith("☐ ")) {
-        lines.push(`${indent}- [ ] ${md.substring(2)}`);
+        lines.push(`${indent}* [ ] ${md.substring(2)}`);
       } else if (md.startsWith("☑ ")) {
-        lines.push(`${indent}- [x] ${md.substring(2)}`);
+        lines.push(`${indent}* [x] ${md.substring(2)}`);
+      } else if (isOrdered) {
+        orderedCounters[nestLevel] = (orderedCounters[nestLevel] || 0) + 1;
+        lines.push(indent + orderedCounters[nestLevel] + ". " + md);
       } else {
-        const prefix = isOrdered ? "1. " : "- ";
-        lines.push(indent + prefix + md);
+        lines.push(indent + "* " + md);
       }
       prevWasListItem = true;
       continue;
@@ -304,6 +329,7 @@ export const exportDocAsMarkdown = (
     if (prevWasListItem) {
       lines.push("");
       prevWasListItem = false;
+      resetListState();
     }
 
     if (type === DocumentApp.ElementType.TABLE) {

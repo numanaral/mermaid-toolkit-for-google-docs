@@ -135,17 +135,9 @@ const appendListItems = (
 };
 
 const applyChecklists = (): void => {
-  Logger.log(
-    "applyChecklists called, pending=" +
-      pendingChecklists.length +
-      ", tabId=" +
-      pendingTabId,
-  );
-
   if (pendingChecklists.length === 0) return;
 
   if (typeof Docs === "undefined" || !Docs?.Documents) {
-    Logger.log("Docs API not available — skipping checkboxes");
     pendingChecklists.length = 0;
     return;
   }
@@ -157,12 +149,9 @@ const applyChecklists = (): void => {
 
   const content = getTabContent(docId, pendingTabId, pendingIsFirstTab);
   if (!content) {
-    Logger.log("no content from Docs API for tab " + pendingTabId);
     pendingChecklists.length = 0;
     return;
   }
-
-  Logger.log("content blocks=" + content.length);
 
   const checkboxRequests: object[] = [];
   const indentRequests: object[] = [];
@@ -170,10 +159,7 @@ const applyChecklists = (): void => {
 
   for (const item of pendingChecklists) {
     const block = content[item.contentIdx];
-    if (!block || !block.paragraph || block.startIndex == null) {
-      Logger.log("SKIP idx=" + item.contentIdx + " (no paragraph)");
-      continue;
-    }
+    if (!block || !block.paragraph || block.startIndex == null) continue;
     const range = {
       startIndex: block.startIndex,
       endIndex: block.endIndex,
@@ -200,13 +186,6 @@ const applyChecklists = (): void => {
     }
   }
 
-  Logger.log(
-    "checkboxRequests=" +
-      checkboxRequests.length +
-      " indentRequests=" +
-      indentRequests.length,
-  );
-
   if (checkboxRequests.length > 0) {
     try {
       Docs.Documents.batchUpdate(
@@ -215,9 +194,8 @@ const applyChecklists = (): void => {
         } as GoogleAppsScript.Docs.Schema.BatchUpdateDocumentRequest,
         docId,
       );
-      Logger.log("checkbox batchUpdate OK");
-    } catch (e) {
-      Logger.log("checkbox batchUpdate FAIL: " + e);
+    } catch {
+      // checkbox API call failed; non-fatal
     }
   }
 
@@ -229,9 +207,8 @@ const applyChecklists = (): void => {
         } as GoogleAppsScript.Docs.Schema.BatchUpdateDocumentRequest,
         docId,
       );
-      Logger.log("indent batchUpdate OK");
-    } catch (e) {
-      Logger.log("indent batchUpdate FAIL: " + e);
+    } catch {
+      // indent API call failed; non-fatal
     }
   }
 
@@ -335,7 +312,12 @@ const appendElements = (
 export const importMarkdownAtCursor = (
   payloadJson: string,
 ): { success: boolean } => {
-  const elements: ImportElement[] = JSON.parse(payloadJson);
+  let elements: ImportElement[];
+  try {
+    elements = JSON.parse(payloadJson);
+  } catch {
+    throw new Error("Invalid import payload. Please try again.");
+  }
   const doc = DocumentApp.getActiveDocument();
   const { body, tabId, isFirstTab } = getActiveBody(doc);
 
@@ -350,7 +332,12 @@ export const importMarkdownAtCursor = (
 export const importMarkdownReplace = (
   payloadJson: string,
 ): { success: boolean } => {
-  const elements: ImportElement[] = JSON.parse(payloadJson);
+  let elements: ImportElement[];
+  try {
+    elements = JSON.parse(payloadJson);
+  } catch {
+    throw new Error("Invalid import payload. Please try again.");
+  }
   const doc = DocumentApp.getActiveDocument();
   const { body, tabId, isFirstTab } = getActiveBody(doc);
 
