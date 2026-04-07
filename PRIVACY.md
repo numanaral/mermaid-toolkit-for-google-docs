@@ -39,13 +39,16 @@ These are the minimum scopes required for the add-on to function. The `documents
 
 ## Third-Party Services
 
-This add-on loads the [Mermaid.js](https://mermaid.js.org/) library from **jsDelivr** (`cdn.jsdelivr.net`), a public open-source CDN. This is the only external network request the add-on makes.
+This add-on loads the following open-source libraries from **jsDelivr** (`cdn.jsdelivr.net`), a public open-source CDN:
 
-- The request fetches the Mermaid.js script file — **no user data, document content, or diagram code is sent to jsDelivr**.
-- jsDelivr may log standard HTTP metadata (IP address, user-agent) as part of normal CDN operation. This is outside the add-on's control. See [jsDelivr's privacy policy](https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net) for details.
-- All diagram rendering happens locally in your browser after the library is loaded.
+- **[Mermaid.js](https://mermaid.js.org/)** — diagram rendering (used by all features)
+- **[Marked.js](https://marked.js.org/)** — Markdown parsing (used by Import from Markdown)
 
-No other third-party services, APIs, or servers are used.
+These are the only external network requests the add-on makes. **No user data, document content, or diagram code is sent to jsDelivr** — only the library scripts are fetched.
+
+jsDelivr may log standard HTTP metadata (IP address, user-agent) as part of normal CDN operation. This is outside the add-on's control. See [jsDelivr's privacy policy](https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net) for details.
+
+All rendering and parsing happens locally in your browser after the libraries are loaded. No other third-party services, APIs, or servers are used.
 
 ## Data Sharing
 

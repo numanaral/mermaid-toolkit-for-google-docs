@@ -1,8 +1,8 @@
-# PRD: Mermaid Toolkit for Google Docs
+# PRD: Mermaid Toolkit for Google Docs™
 
 ## Overview
 
-Mermaid Toolkit is a Google Docs add-on that lets users write Mermaid diagram syntax directly in their documents and render it as high-quality PNG images. Everything runs client-side in the browser — no servers, no data collection, no cookies.
+Mermaid Toolkit is a Google Docs™ add-on that lets users write Mermaid diagram syntax directly in their documents and render it as high-quality PNG images. Everything runs client-side in the browser — no servers, no data collection, no cookies.
 
 ---
 
@@ -10,7 +10,7 @@ Mermaid Toolkit is a Google Docs add-on that lets users write Mermaid diagram sy
 
 ### System Architecture
 
-The add-on runs entirely within Google Docs. The GAS server handles document manipulation (finding code blocks, inserting/replacing images), while each dialog runs in a sandboxed iframe that loads mermaid.js from jsDelivr to render diagrams client-side. Communication between dialogs and server happens via `google.script.run`.
+The add-on runs entirely within Google Docs™. The GAS server handles document manipulation (finding code blocks, inserting/replacing images), while each dialog runs in a sandboxed iframe that loads mermaid.js from jsDelivr to render diagrams client-side. Communication between dialogs and server happens via `google.script.run`.
 
 ```mermaid
 graph TD
@@ -30,8 +30,12 @@ graph TD
         Editor["Editor Dialog"]
         Preview["Preview Dialog"]
         Extract["Extract Dialog"]
+        EditDiag["Edit Diagrams Dialog"]
         Convert["Convert Dialog"]
+        ImportMD["Import Markdown Dialog"]
+        ExportMD["Export Markdown Dialog"]
         FixMD["Fix Markdown Dialog"]
+        DevTools["Dev Tools Dialog"]
         QuickGuide["Quick Guide"]
         About["About"]
     end
@@ -262,6 +266,10 @@ flowchart TD
         ExtractHTML["Extract.html"]
         ConvertHTML["Convert.html"]
         FixMDHTML["FixMarkdown.html"]
+        ImportHTML["ImportMarkdown.html"]
+        ExportHTML["ExportMarkdown.html"]
+        EditDiagHTML["EditDiagrams.html"]
+        DevToolsHTML["DevTools.html"]
         QGHTML["QuickGuide.html"]
         Manifest["appsscript.json"]
     end
@@ -281,6 +289,10 @@ flowchart TD
     Assemble --> ExtractHTML
     Assemble --> ConvertHTML
     Assemble --> FixMDHTML
+    Assemble --> ImportHTML
+    Assemble --> ExportHTML
+    Assemble --> EditDiagHTML
+    Assemble --> DevToolsHTML
     Assemble --> QGHTML
     CodeGS --> Stamp
 ```
@@ -360,7 +372,7 @@ sequenceDiagram
 
 ### Source Preservation (Alt Text Encoding)
 
-Google Docs strips newline characters from image alt descriptions. To preserve multi-line mermaid source code, we encode `\n` as the literal two-character sequence `\n` (and escape existing backslashes as `\\`) before storing. On read, we decode back. This ensures the original source with proper line breaks survives the round-trip through Google Docs' storage.
+Google Docs™ strips newline characters from image alt descriptions. To preserve multi-line mermaid source code, we encode `\n` as the literal two-character sequence `\n` (and escape existing backslashes as `\\`) before storing. On read, we decode back. This ensures the original source with proper line breaks survives the round-trip through Google Docs™' storage.
 
 ```mermaid
 flowchart LR
@@ -479,7 +491,7 @@ classDiagram
 
 ### Code Detection Logic
 
-The scanner walks every child element of the document body. It recognizes mermaid code in three formats: native Google Docs code snippets (where the first line must be a diagram keyword), fenced blocks within a single paragraph or table cell, and multi-paragraph fences that span several elements. Non-mermaid code blocks, plain text, and other elements are skipped.
+The scanner walks every child element of the document body. It recognizes mermaid code in three formats: native Google Docs™ code snippets (where the first line must be a diagram keyword), fenced blocks within a single paragraph or table cell, and multi-paragraph fences that span several elements. Non-mermaid code blocks, plain text, and other elements are skipped.
 
 ```mermaid
 flowchart TD
@@ -518,7 +530,7 @@ flowchart TD
 flowchart LR
     Dev["Developer"] -->|yarn gas:push| Lint["ESLint + TypeScript"]
     Lint -->|pass| Build["yarn gas:build"]
-    Build --> Dist["dist/gas/\n12 files"]
+    Build --> Dist["dist/gas/\n13 files"]
     Dist -->|clasp push| GAS["Google Apps Script"]
     GAS -->|Refresh doc| Addon["Add-on in Google Docs"]
 ```
@@ -552,7 +564,7 @@ graph TD
 
 ### State Diagram: Fix Markdown Dialog
 
-The Fix Markdown dialog handles corrupted mermaid syntax caused by Google Docs mangling pasted markdown (vertical tabs replacing newlines, stray backticks, formatting artifacts). The user pastes broken content, the dialog detects and repairs mermaid blocks, and presents both a cleaned output and a diff view.
+The Fix Markdown dialog handles corrupted mermaid syntax caused by Google Docs™ mangling pasted markdown (vertical tabs replacing newlines, stray backticks, formatting artifacts). The user pastes broken content, the dialog detects and repairs mermaid blocks, and presents both a cleaned output and a diff view.
 
 ```mermaid
 stateDiagram-v2
@@ -591,45 +603,47 @@ All features are accessed via **Extensions → Mermaid Toolkit**:
 | Edit Selected Mermaid Diagram | Editor | Click a diagram image, run this command — the editor opens with the source pre-loaded for in-place editing. |
 | Convert All Code to Diagrams | Preview | Scans the entire document for Mermaid code blocks, renders all of them, and lets you insert or replace each one. |
 | Convert Selected Code to Diagram | Convert | Select a single code block or fenced ```` ```mermaid ```` block and convert it to an image. |
+| Edit All Mermaid Diagrams | EditDiagrams | Browse every diagram in the document, expand any card to edit its source inline with a live preview, and save changes in place. |
 | Convert All Diagrams to Code | Extract | Finds all Mermaid diagram images in the document and lets you extract each one back to code. |
 | Convert Selected Diagram to Code | — | Extracts the Mermaid source from a selected diagram image and inserts it as a fenced code block. |
 | Import from Markdown | ImportMarkdown | Paste raw markdown with Mermaid code blocks, preview it, and insert formatted content with rendered diagrams. |
 | Export as Markdown | ExportMarkdown | Convert document content back to markdown, extracting Mermaid source from diagram alt text. |
-| Fix Native "Copy as Markdown" | FixMarkdown | Repairs corrupted Mermaid syntax caused by Google Docs' native "Copy as Markdown" (vertical tabs, stray backticks, formatting artifacts). |
+| Fix Native "Copy as Markdown" | FixMarkdown | Repairs corrupted Mermaid syntax caused by Google Docs™' native "Copy as Markdown" (vertical tabs, stray backticks, formatting artifacts). |
 | Quick Guide | QuickGuide | Interactive walkthrough of the add-on's features. |
 | Dev Tools | DevTools | Document inspector and debug utilities. |
 | About | About | Version info, links, and credits. |
 
-### Dialogs (10 total)
+### Dialogs (11 total)
 
 | Dialog | Size | Key Behavior |
 |--------|------|-------------|
 | **Editor** | 1000×700 | Two-panel: code editor (left) + live preview (right). Template selector with 26 diagram types. Buttons: Insert into Document, Replace Diagram. |
 | **Preview** | 800×600 | Card list of all detected diagrams with thumbnails. Expandable cards show full preview + source. Buttons per card: Preview, Insert After, Replace. Batch: Insert All, Replace All, Expand All. |
 | **Extract** | 800×600 | Card list of all Mermaid diagrams. Buttons per card: Insert Code After, Replace with Code, Open in Editor. |
+| **EditDiagrams** | 800×600 | Card list of all Mermaid diagrams with inline editing. Expand a card to edit source with live preview. Save & Replace per card. |
 | **Convert** | 360×180 | Auto-rendering dialog — renders selected code, replaces it with the image, and closes automatically. Shows spinner during render. |
 | **ImportMarkdown** | 1000×700 | Paste markdown, preview rendered content with diagrams. Buttons: Insert at Cursor, Replace Document. |
 | **ExportMarkdown** | 900×600 | Shows document content as markdown. Button: Copy to Clipboard. |
 | **FixMarkdown** | 900×600 | Two tabs: Fixed Output and Diff. Left pane: paste area with line numbers. Right pane: cleaned output or side-by-side diff. |
-| **DevTools** | 440×380 | Card-based action picker for Document Inspector and debug utilities. |
+| **DevTools** | 400×320 | Card-based action picker for Document Inspector and debug utilities. |
 | **QuickGuide** | 440×600 | Feature grid with icons and descriptions. Links to website. |
 | **About** | 320×280 | Brand card with icon (base64 inlined), version, privacy info, external links. |
 
 ### Supported Diagram Types (26)
 
-flowchart, graph, sequenceDiagram, zenuml, classDiagram, stateDiagram, erDiagram, gantt, pie, gitGraph, journey, mindmap, timeline, sankey, xychart, block-beta, packet-beta, quadrantChart, architecture-beta, kanban, requirementDiagram, c4context, c4container, c4component, c4dynamic, c4deployment, radar-beta
+flowchart, graph, sequenceDiagram, classDiagram, stateDiagram, erDiagram, gantt, pie, gitGraph, journey, mindmap, timeline, sankey, xychart, block-beta, packet-beta, quadrantChart, architecture-beta, kanban, requirementDiagram, c4context, c4container, c4component, c4dynamic, c4deployment, radar-beta
 
 ### Code Detection
 
 The add-on detects Mermaid code in three formats:
 
-1. **Google Docs Code Snippet** (Insert → Code block) — first line must be a diagram keyword
+1. **Google Docs™ Code Snippet** (Insert → Code block) — first line must be a diagram keyword
 2. **Fenced code blocks** — ```` ```mermaid ... ``` ```` in a single paragraph or table cell
 3. **Multi-paragraph fences** — ```` ```mermaid ```` on one paragraph, code on subsequent paragraphs, ```` ``` ```` on the closing paragraph
 
 ### Source Preservation
 
-Every diagram image stores its Mermaid source in the image's alt description. Newlines are encoded as literal `\n` (and backslashes as `\\`) to survive Google Docs' alt text processing. This enables round-trip editing: image → code → edit → image.
+Every diagram image stores its Mermaid source in the image's alt description. Newlines are encoded as literal `\n` (and backslashes as `\\`) to survive Google Docs™' alt text processing. This enables round-trip editing: image → code → edit → image.
 
 ### Rendering Pipeline (Detail)
 
@@ -678,7 +692,7 @@ All dialogs follow a consistent M3-inspired design:
 
 ### Homepage Sections (in order)
 
-1. **Hero** — Tagline, install CTA (pending verification), GitHub link, stats (0 data collected, 100% client-side, 17 diagram types), demo video placeholder
+1. **Hero** — Tagline, install CTA (pending verification), GitHub link, stats (0 data collected, 100% client-side, 26 diagram types), demo video
 2. **Why Mermaid Toolkit** — 6 icon cards: AI-Friendly Workflows, Markdown Interop, Zero Data Collection, Round-Trip Editing, Bulk Operations, Fix Broken Markdown
 3. **Features** — Bento grid of 8 feature cards from `features.json`
 4. **Getting Started** — Tabbed showcase (Option A) with 5 workflows: Convert code to diagrams, Use the built-in editor, Edit diagrams in place, Convert images back to code, Fix pasted markdown. Each tab: screenshot (left 60%) + numbered steps (right 40%) with staggered slide-in animation.
@@ -694,7 +708,7 @@ All dialogs follow a consistent M3-inspired design:
 
 ## Build System
 
-### GAS Build (`yarn build:gas`)
+### GAS Build (`yarn gas:build`)
 
 1. **Server**: esbuild compiles `Code.ts` → `Code.gs` (IIFE, post-processed to GAS-compatible function declarations)
 2. **Styles**: Sass compiles each dialog's SCSS (with shared partials) → minified CSS
@@ -703,7 +717,7 @@ All dialogs follow a consistent M3-inspired design:
 5. **Version stamp**: Build timestamp (`YYYYMMDD.HHmm`) injected into menu title for testing
 6. **Manifest**: `appsscript.json` copied to `dist/gas/`
 
-### Site Build (`yarn build`)
+### Site Build (`yarn site:build`)
 
 Eleventy + Sass + esbuild. Outputs to `_site/`.
 
@@ -743,9 +757,13 @@ src/gas/
   dialogs/
     about/               # about.html, about.scss
     convert/             # convert.html, convert.ts, convert.scss
+    devtools/            # devtools.html, devtools.ts, devtools.scss
+    editdiagrams/        # editdiagrams.html, editdiagrams.ts, editdiagrams.scss
     editor/              # editor.html, editor.ts, editor.scss
+    exportmd/            # exportmd.html, exportmd.ts, exportmd.scss
     extract/             # extract.html, extract.ts, extract.scss
     fixmarkdown/         # fixmarkdown.html, fixmarkdown.ts, fixmarkdown.scss
+    importmd/            # importmd.html, importmd.ts, importmd.scss
     preview/             # preview.html, preview.ts, preview.scss
     quickguide/          # quickguide.html, quickguide.scss
   shared/
@@ -760,6 +778,7 @@ src/gas/
       mermaid-init.ts    # CDN URL + mermaid config
       card-helpers.ts    # Card/button state management
       dom-utils.ts       # DOM helpers
+      fullscreen.ts      # Fullscreen/open-in-new-tab button
     templates/
       footer.html        # Shared footer markup
   appsscript.json
@@ -815,7 +834,7 @@ dist/gas/                # Built GAS output (clasp pushes from here)
 
 ### Code Detection Formats
 
-- [ ] Google Docs Code Snippet (Insert → Code block)
+- [ ] Google Docs™ Code Snippet (Insert → Code block)
 - [ ] Single-paragraph fenced block (```` ```mermaid ... ``` ````)
 - [ ] Multi-paragraph fenced block (opening fence, code paragraphs, closing fence)
 - [ ] Table cell with fenced block
@@ -835,7 +854,7 @@ dist/gas/                # Built GAS output (clasp pushes from here)
 - [ ] Getting Started tabs switch correctly, all 5 workflows show
 - [ ] Gallery renders all diagram types (mermaid v11)
 - [ ] Features page shows correct feature names (Edit Selected Mermaid Diagram, not Image)
-- [ ] Nav links work (no broken #showcase link)
+- [ ] Nav links work (no broken links, Getting Started → #how)
 - [ ] Mobile responsive layout
 
 ### Testing Nested Checklist, code and links and bold and italic etc.

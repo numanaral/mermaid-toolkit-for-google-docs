@@ -30,9 +30,12 @@ IN NO EVENT SHALL THE DEVELOPER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
 
 ## Third-Party Components
 
-This add-on depends on the following third-party components:
+This add-on depends on the following third-party components, loaded at runtime from **jsDelivr** (`cdn.jsdelivr.net`):
 
-- **[Mermaid.js](https://mermaid.js.org/)** — An open-source diagramming library, loaded at runtime from **jsDelivr** (`cdn.jsdelivr.net`). The add-on depends on this CDN to deliver the rendering library to your browser. No user data is transmitted to jsDelivr; only the library script is fetched.
+- **[Mermaid.js](https://mermaid.js.org/)** — An open-source diagramming library for rendering diagrams
+- **[Marked.js](https://marked.js.org/)** — An open-source Markdown parser used by the Import from Markdown feature
+
+No user data is transmitted to jsDelivr; only the library scripts are fetched.
 
 ## No Affiliation
 

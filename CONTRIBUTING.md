@@ -1,4 +1,4 @@
-# Contributing to Mermaid Toolkit for Google Docs
+# Contributing to Mermaid Toolkit for Google Docs™
 
 Thanks for your interest in contributing! This guide covers everything you need to get started.
 
@@ -6,7 +6,7 @@ Thanks for your interest in contributing! This guide covers everything you need 
 
 - [Node.js](https://nodejs.org/) 18+
 - [Yarn](https://classic.yarnpkg.com/) v1 (Classic)
-- A Google account with access to Google Docs
+- A Google account with access to Google Docs™
 
 ## Getting Started
 
@@ -24,23 +24,18 @@ cp .env.example .env
 
 ## Setting Up the Add-on for Testing
 
-You'll need your own Apps Script project to test changes in Google Docs.
+You'll need your own Apps Script project to test changes in Google Docs™.
 
 ### Create a test Apps Script project
 
-1. Open a Google Doc (or create a new one)
+1. Open a Google Doc™ (or create a new one)
 2. Go to **Extensions > Apps Script**
 3. In the Apps Script editor, go to **Project Settings** (gear icon)
 4. Copy the **Script ID**
 
 ### Configure clasp
 
-1. Paste your Script ID into `.env`:
-   ```
-   CLASP_SCRIPT_ID=your-script-id-here
-   ```
-
-2. Create `.clasp.json` in the repo root:
+1. Create `.clasp.json` in the repo root with your Script ID:
    ```json
    {
      "scriptId": "your-script-id-here",
@@ -48,12 +43,23 @@ You'll need your own Apps Script project to test changes in Google Docs.
    }
    ```
 
-3. Enable the Apps Script API at https://script.google.com/home/usersettings
+2. Enable the Apps Script API at https://script.google.com/home/usersettings
 
-4. Log in to clasp:
+3. Log in to clasp:
    ```bash
    yarn gas:login
    ```
+
+### Configure `.env`
+
+The `.env` file (created from `.env.example` during setup) contains `DOC_URL` — the Google Docs™ URL with an `addon_dry_run` token, used by Playwright demo recording and test scripts.
+
+To get this URL:
+1. Open your test Google Doc™ with the add-on installed
+2. Use the add-on's dry-run URL (the full URL including `?addon_dry_run=...`)
+3. Paste it into `.env` as `DOC_URL=...`
+
+This is only needed if you plan to run `yarn demo:record` or `yarn test:gdocs`.
 
 ### Deploy and test
 
@@ -64,7 +70,7 @@ yarn gas:push
 # This runs: lint -> typecheck -> build -> clasp push
 ```
 
-After pushing, reload your Google Doc. The add-on appears under **Extensions > Mermaid Toolkit**.
+After pushing, reload your Google Doc™. The add-on appears under **Extensions > Mermaid Toolkit**.
 
 ### Development workflow
 
@@ -102,12 +108,23 @@ yarn gas:push
 │       ├── styles/        # SCSS (base, components, layout)
 │       ├── scripts/       # Shared TypeScript utilities
 │       └── templates/     # Shared HTML partials (footer)
-├── scripts/               # Build tooling (TypeScript)
+├── scripts/               # Build tooling and automation (TypeScript)
 │   ├── build-gas.ts       # GAS build pipeline
 │   ├── dev-gas.ts         # GAS file watcher
 │   ├── push.ts            # Verify + build + clasp push
 │   ├── verify.ts          # ESLint + typecheck
-│   └── verify-fix.ts      # ESLint fix + typecheck
+│   ├── verify-fix.ts      # ESLint fix + typecheck
+│   ├── test-gdocs.ts      # Standalone Playwright smoke test
+│   └── demo/              # Demo recording pipeline
+│       ├── recorder.ts    # Orchestrator — launches browser, runs steps
+│       ├── helpers.ts     # Shared constants and Playwright utilities
+│       ├── steps/         # Individual demo step scripts (00-reset … 11-about)
+│       ├── split-clips.ts # Split full recording into per-step clips
+│       ├── to-gif.ts      # Convert clips to optimized GIFs
+│       ├── demo-gif.ts    # Generate combined demo GIF (skip reset)
+│       ├── site-video.ts  # Cut and copy demo video to site assets
+│       ├── analyze-clips.ts # Diagnose clip timing drift
+│       └── PLAYWRIGHT-GUIDE.md # Playwright cookbook / reference
 ├── dist/gas/              # Built GAS output (gitignored)
 └── _site/                 # Built site output (gitignored)
 ```
@@ -126,6 +143,13 @@ yarn gas:push
 | `yarn verify:fix` | Run ESLint fix + TypeScript checks |
 | `yarn site:lint` | Run ESLint on site code |
 | `yarn gas:lint` | Run ESLint on GAS code |
+| `yarn demo:record` | Record a full-feature Playwright demo |
+| `yarn demo:split` | Split recording into per-step clips |
+| `yarn demo:gif` | Convert clips to optimized GIFs |
+| `yarn demo:demo-gif` | Generate combined demo GIF (skip reset) |
+| `yarn demo:site-video` | Cut demo video for the marketing site |
+| `yarn demo:analyze` | Diagnose clip timing drift |
+| `yarn test:gdocs` | Run Playwright smoke test against Google Docs™ |
 
 ## Code Style
 
@@ -150,7 +174,7 @@ The build pipeline (`scripts/build-gas.ts`) does the following:
 2. Make your changes
 3. Run `yarn verify` to ensure lint and types pass
 4. Run `yarn gas:build` to verify the build succeeds
-5. Test in Google Docs if your change affects the add-on
+5. Test in Google Docs™ if your change affects the add-on
 6. Open a PR with a clear description of what changed and why
 
 ## Reporting Issues
