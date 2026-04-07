@@ -5,7 +5,14 @@ import {
   MERMAID_CDN_URL,
   MERMAID_CONFIG,
 } from "../../shared/scripts/mermaid-init";
-import { markBtn, setLoading } from "../../shared/scripts/card-helpers";
+import {
+  markBtn,
+  setLoading,
+  setBtnLoading,
+} from "../../shared/scripts/card-helpers";
+import { openDataUriInNewTab } from "../../shared/scripts/dom-utils";
+import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
+import { OPEN_SVG } from "../../shared/scripts/icons";
 
 declare const mermaid: {
   initialize(config: unknown): void;
@@ -13,19 +20,34 @@ declare const mermaid: {
 };
 declare const imageInfos: Array<{ source: string; childIndex: number }>;
 
-const OPEN_SVG =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-  '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
-  '<polyline points="15 3 21 3 21 9"/>' +
-  '<line x1="10" y1="14" x2="21" y2="3"/></svg>';
-
 const cardsEl = document.getElementById("cards")!;
 const statusEl = document.getElementById("status")!;
 
 const cardEls: HTMLElement[] = [];
 const sources: string[] = [];
+const renderedBase64s: Array<string | null> = [];
+const latestRenderIds: number[] = [];
 let renderCounter = 0;
 let debounceTimers: Record<number, number> = {};
+
+const getSaveBtn = (index: number): HTMLButtonElement | null =>
+  document.getElementById("save-" + index) as HTMLButtonElement | null;
+
+const setSaveEnabled = (
+  index: number,
+  enabled: boolean,
+  loading?: boolean,
+): void => {
+  const saveBtn = getSaveBtn(index);
+  if (!saveBtn || saveBtn.classList.contains("done")) return;
+  saveBtn.disabled = !enabled;
+  setBtnLoading(saveBtn, loading ?? false);
+};
+
+const invalidateCardRender = (index: number): void => {
+  renderedBase64s[index] = null;
+  setSaveEnabled(index, false);
+};
 
 const buildCard = (
   index: number,
@@ -36,10 +58,9 @@ const buildCard = (
   card.className = "card";
   cardEls.push(card);
   sources[index] = info.source;
+  renderedBase64s[index] = thumbBase64;
 
-  const thumbSrc = thumbBase64
-    ? "data:image/png;base64," + thumbBase64
-    : "";
+  const thumbSrc = thumbBase64 ? "data:image/png;base64," + thumbBase64 : "";
 
   let rowHtml =
     '<div class="card-row">' +
@@ -64,9 +85,9 @@ const buildCard = (
   rowHtml += '<span class="card-spacer"></span>';
   rowHtml += '<div class="header-actions">';
   rowHtml +=
-    '<button class="btn btn-filled-primary" id="edit-' +
+    '<button class="btn btn-filled-secondary" id="save-' +
     index +
-    '">Edit</button>';
+    '" style="display:none">Save &amp; Replace</button>';
   rowHtml += "</div></div>";
 
   const editorHtml =
@@ -85,6 +106,9 @@ const buildCard = (
     "</div>" +
     '<div class="inline-panel">' +
     '<div class="inline-panel-label">Preview</div>' +
+    '<div class="error-bar" id="err-' +
+    index +
+    '"></div>' +
     '<div class="preview-scroll" id="pv-' +
     index +
     '">' +
@@ -92,16 +116,7 @@ const buildCard = (
       ? '<img src="data:image/png;base64,' + thumbBase64 + '" />'
       : '<span style="color:var(--outline)">Rendering...</span>') +
     "</div>" +
-    '<div class="error-bar" id="err-' +
-    index +
-    '"></div>' +
     "</div>" +
-    "</div>" +
-    '<div class="editor-footer">' +
-    '<span class="spacer"></span>' +
-    '<button class="btn btn-filled-secondary" id="save-' +
-    index +
-    '">Save &amp; Replace</button>' +
     "</div>" +
     "</div>" +
     "</div>";
@@ -116,20 +131,12 @@ const buildCard = (
     toggleEditor(index);
   });
 
-  const editBtn = document.getElementById(
-    "edit-" + index,
-  ) as HTMLButtonElement;
-  editBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggleEditor(index);
-  });
-
   const thumbEl = card.querySelector(".thumb-hover");
   if (thumbEl) {
     thumbEl.addEventListener("click", (e) => {
       e.stopPropagation();
       const src = thumbEl.getAttribute("data-src");
-      if (src) window.open(src, "_blank");
+      if (src) openDataUriInNewTab(src);
     });
   }
 
@@ -138,35 +145,56 @@ const buildCard = (
   ) as HTMLTextAreaElement;
   textarea.addEventListener("input", () => {
     sources[index] = textarea.value;
+    const saveBtn = document.getElementById(
+      "save-" + index,
+    ) as HTMLButtonElement;
+    if (
+      saveBtn.classList.contains("done") ||
+      saveBtn.classList.contains("failed")
+    ) {
+      saveBtn.classList.remove("done", "failed");
+      saveBtn.className = "btn btn-filled-secondary";
+      saveBtn.textContent = "Save & Replace";
+      saveBtn.onclick = null;
+      invalidateCardRender(index);
+      setSaveEnabled(index, false, true);
+    } else if (!saveBtn.disabled) {
+      invalidateCardRender(index);
+      setSaveEnabled(index, false, true);
+    }
     schedulePreview(index);
   });
 
-  const saveBtn = document.getElementById(
-    "save-" + index,
-  ) as HTMLButtonElement;
+  const saveBtn = document.getElementById("save-" + index) as HTMLButtonElement;
   saveBtn.addEventListener("click", () => doSave(index));
+
+  const pvInitImg = card.querySelector<HTMLImageElement>(".preview-scroll img");
+  if (pvInitImg) wrapImgWithFullscreen(pvInitImg);
 };
 
 const toggleEditor = (index: number): void => {
   const card = cardEls[index];
   const wrap = document.getElementById("editor-wrap-" + index);
+  const saveBtn = document.getElementById(
+    "save-" + index,
+  ) as HTMLButtonElement | null;
   if (!card || !wrap) return;
 
   const isOpen = card.classList.contains("expanded");
   card.classList.toggle("expanded", !isOpen);
   wrap.classList.toggle("visible", !isOpen);
 
+  if (saveBtn) saveBtn.style.display = isOpen ? "none" : "";
+
   if (!isOpen) {
+    setSaveEnabled(index, !!renderedBase64s[index]);
     schedulePreview(index, 0);
   }
 };
 
 const schedulePreview = (index: number, delay = 400): void => {
   if (debounceTimers[index]) clearTimeout(debounceTimers[index]);
-  debounceTimers[index] = window.setTimeout(
-    () => renderPreview(index),
-    delay,
-  );
+  debounceTimers[index] = window.setTimeout(() => renderPreview(index), delay);
 };
 
 const renderPreview = async (index: number): Promise<void> => {
@@ -179,22 +207,34 @@ const renderPreview = async (index: number): Promise<void> => {
     pvEl.innerHTML =
       '<span style="color:var(--outline)">Enter Mermaid code</span>';
     errEl.textContent = "";
+    invalidateCardRender(index);
     return;
   }
 
-  const id = "live-svg-" + index + "-" + ++renderCounter;
+  setSaveEnabled(index, false, true);
+  errEl.textContent = "";
+  const requestId = ++renderCounter;
+  latestRenderIds[index] = requestId;
+  const id = "live-svg-" + index + "-" + requestId;
   try {
     const rendered = await mermaid.render(id, src);
     const base64 = await svgToPngBase64(rendered.svg);
+    if (latestRenderIds[index] !== requestId) return;
     if (base64) {
-      pvEl.innerHTML =
-        '<img src="data:image/png;base64,' + base64 + '" />';
+      renderedBase64s[index] = base64;
+      pvEl.innerHTML = '<img src="data:image/png;base64,' + base64 + '" />';
+      const img = pvEl.querySelector("img");
+      if (img) wrapImgWithFullscreen(img);
+      setSaveEnabled(index, true);
     } else {
+      invalidateCardRender(index);
       pvEl.innerHTML =
         '<span style="color:var(--outline)">Render failed</span>';
     }
     errEl.textContent = "";
   } catch (e) {
+    if (latestRenderIds[index] !== requestId) return;
+    invalidateCardRender(index);
     errEl.textContent = e instanceof Error ? e.message : String(e);
     const broken = document.getElementById(id);
     if (broken) broken.remove();
@@ -203,81 +243,59 @@ const renderPreview = async (index: number): Promise<void> => {
 
 const doSave = (idx: number): void => {
   const btn = document.getElementById("save-" + idx) as HTMLButtonElement;
+  const base64 = renderedBase64s[idx];
+  if (!base64) {
+    statusEl.textContent = "Fix diagram errors before saving.";
+    btn.disabled = true;
+    return;
+  }
   setLoading(btn, "Saving...");
   disableCard(idx);
 
   const newSource = sources[idx];
 
-  const renderAndReplace = async (): Promise<void> => {
-    try {
-      const rendered = await mermaid.render(
-        "save-svg-" + idx + "-" + ++renderCounter,
-        newSource,
-      );
-      const base64 = await svgToPngBase64(rendered.svg);
-      if (!base64) throw new Error("PNG conversion failed");
+  google.script.run
+    .withSuccessHandler(() => {
+      markBtn(btn, true);
+      btn.textContent = "Saved ✓";
+      enableCard(idx);
 
-      google.script.run
-        .withSuccessHandler(() => {
-          markBtn(btn, true);
-          btn.textContent = "Saved ✓";
-          enableCard(idx);
-
-          const thumb = cardEls[idx].querySelector<HTMLImageElement>(
-            ".card-thumb",
-          );
-          if (thumb) thumb.src = "data:image/png;base64," + base64;
-          const thumbWrap = cardEls[idx].querySelector(".thumb-hover");
-          if (thumbWrap)
-            thumbWrap.setAttribute(
-              "data-src",
-              "data:image/png;base64," + base64,
-            );
-        })
-        .withFailureHandler((err: Error) => {
-          markBtn(btn, false);
-          btn.textContent = "Retry Save";
-          btn.disabled = false;
-          btn.onclick = () => doSave(idx);
-          enableCard(idx);
-          statusEl.textContent = "Error: " + err;
-        })
-        .replaceImageInPlace(
-          base64,
-          imageInfos[idx].childIndex,
-          newSource,
-        );
-    } catch (e) {
+      const thumb = cardEls[idx].querySelector<HTMLImageElement>(".card-thumb");
+      if (thumb) thumb.src = "data:image/png;base64," + base64;
+      const thumbWrap = cardEls[idx].querySelector(".thumb-hover");
+      if (thumbWrap)
+        thumbWrap.setAttribute("data-src", "data:image/png;base64," + base64);
+    })
+    .withFailureHandler((err: Error) => {
       markBtn(btn, false);
       btn.textContent = "Retry Save";
       btn.disabled = false;
       btn.onclick = () => doSave(idx);
       enableCard(idx);
-      statusEl.textContent =
-        "Render error: " + (e instanceof Error ? e.message : String(e));
-    }
-  };
-
-  renderAndReplace();
+      statusEl.textContent = "Error: " + err;
+    })
+    .replaceImageInPlace(base64, imageInfos[idx].childIndex, newSource);
 };
 
 const disableCard = (idx: number): void => {
   const card = cardEls[idx];
   if (!card) return;
-  card.querySelectorAll<HTMLButtonElement>(".btn").forEach(
-    (b) => { b.disabled = true; },
-  );
+  card.querySelectorAll<HTMLButtonElement>(".btn").forEach((b) => {
+    b.disabled = true;
+  });
 };
 
 const enableCard = (idx: number): void => {
   const card = cardEls[idx];
   if (!card) return;
-  card.querySelectorAll<HTMLButtonElement>(".btn").forEach(
-    (b) => {
-      if (!b.classList.contains("done") && !b.classList.contains("failed"))
-        b.disabled = false;
-    },
-  );
+  card.querySelectorAll<HTMLButtonElement>(".btn").forEach((b) => {
+    if (b.classList.contains("done") || b.classList.contains("failed")) return;
+    if (b.id === "save-" + idx) {
+      b.disabled = !renderedBase64s[idx];
+      return;
+    }
+    b.disabled = false;
+  });
 };
 
 (async () => {
@@ -322,5 +340,5 @@ const enableCard = (idx: number): void => {
   }
 
   statusEl.textContent =
-    imageInfos.length + " diagram(s) found. Click Edit to modify.";
+    imageInfos.length + " diagram(s) found. Click a card to edit.";
 })();

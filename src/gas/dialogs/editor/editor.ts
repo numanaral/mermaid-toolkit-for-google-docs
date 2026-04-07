@@ -5,6 +5,7 @@ import {
   MERMAID_CONFIG,
 } from "../../shared/scripts/mermaid-init";
 import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
+import { setBtnLoading } from "../../shared/scripts/card-helpers";
 
 declare const mermaid: {
   initialize(config: unknown): void;
@@ -12,6 +13,10 @@ declare const mermaid: {
 };
 declare const initialSource: string;
 declare const imageChildIndex: number;
+
+type FocusTrapWindow = Window & {
+  __dialogFocusTrapDone?: boolean;
+};
 
 const sourceEl = document.getElementById("source") as HTMLTextAreaElement;
 const previewEl = document.getElementById("preview-area")!;
@@ -26,6 +31,41 @@ let currentBase64: string | null = null;
 let mermaidReady = false;
 let renderTimer: ReturnType<typeof setTimeout> | null = null;
 let renderCounter = 0;
+
+const setActionButtonsEnabled = (enabled: boolean, loading?: boolean): void => {
+  insertBtn.disabled = !enabled;
+  if (imageChildIndex >= 0) replaceBtn.disabled = !enabled;
+  const showSpinner = loading ?? !enabled;
+  setBtnLoading(insertBtn, showSpinner);
+  if (imageChildIndex >= 0) setBtnLoading(replaceBtn, showSpinner);
+};
+
+const invalidateRenderedState = (statusText?: string): void => {
+  currentBase64 = null;
+  setActionButtonsEnabled(false, !!statusText);
+  if (statusText) {
+    statusEl.innerHTML = '<span class="spinner-inline"></span> ' + statusText;
+  }
+};
+
+const waitForFocusTrapDone = async (): Promise<void> => {
+  const focusTrapWindow = window as FocusTrapWindow;
+  if (focusTrapWindow.__dialogFocusTrapDone !== false) return;
+  await new Promise<void>((resolve) => {
+    const onDone = (): void => {
+      window.removeEventListener("dialog-focus-trap-done", onDone);
+      resolve();
+    };
+    window.addEventListener("dialog-focus-trap-done", onDone, { once: true });
+  });
+};
+
+const focusSourceWhenReady = async (): Promise<void> => {
+  await waitForFocusTrapDone();
+  sourceEl.focus({ preventScroll: true });
+  const pos = sourceEl.value.length;
+  sourceEl.selectionStart = sourceEl.selectionEnd = pos;
+};
 
 if (imageChildIndex >= 0) {
   replaceBtn.style.display = "";
@@ -90,33 +130,35 @@ const doRender = async (): Promise<void> => {
       '<div class="placeholder">Start typing to see a live preview.</div>';
     errorBar.className = "error-bar";
     errorBar.textContent = "";
-    insertBtn.disabled = true;
-    replaceBtn.disabled = true;
+    invalidateRenderedState();
     statusEl.textContent = "Ready.";
     return;
   }
   if (!mermaidReady) return;
 
-  renderCounter++;
-  const id = "editor-svg-" + renderCounter;
+  const requestId = ++renderCounter;
+  const id = "editor-svg-" + requestId;
+  invalidateRenderedState("Rendering preview...");
 
   try {
     const rendered = await mermaid.render(id, src);
     const base64 = await svgToPngBase64(rendered.svg);
+    if (requestId !== renderCounter) return;
     if (base64) {
       currentBase64 = base64;
       previewEl.innerHTML =
         '<img src="data:image/png;base64,' + base64 + '" />';
       const img = previewEl.querySelector("img");
       if (img) wrapImgWithFullscreen(img);
-      insertBtn.disabled = false;
-      if (imageChildIndex >= 0) replaceBtn.disabled = false;
+      setActionButtonsEnabled(true);
       errorBar.className = "error-bar";
       errorBar.textContent = "";
       statusEl.textContent = "Preview up to date.";
     }
   } catch (e) {
+    if (requestId !== renderCounter) return;
     const msg = e instanceof Error ? e.message : String(e);
+    invalidateRenderedState();
     errorBar.textContent = msg;
     errorBar.className = "error-bar visible";
     statusEl.textContent = "Syntax error — showing last valid preview.";
@@ -152,6 +194,7 @@ const updateTemplateHighlight = (): void => {
 };
 
 sourceEl.addEventListener("input", () => {
+  if (!insertBtn.disabled) invalidateRenderedState("Rendering preview...");
   scheduleRender();
   updateTemplateHighlight();
 });
@@ -166,6 +209,7 @@ sourceEl.addEventListener("keydown", (e) => {
       "    " +
       sourceEl.value.substring(end);
     sourceEl.selectionStart = sourceEl.selectionEnd = start + 4;
+    invalidateRenderedState("Rendering preview...");
     scheduleRender();
   }
 });
@@ -218,6 +262,7 @@ for (const btn of tplBtns) {
     const key = btn.getAttribute("data-tpl")!;
     if (TEMPLATES[key]) {
       sourceEl.value = TEMPLATES[key];
+      invalidateRenderedState("Rendering preview...");
       updateTemplateHighlight();
       doRender();
     }
@@ -236,6 +281,7 @@ for (const btn of tplBtns) {
     } else {
       statusEl.textContent = "Ready — start typing.";
     }
+    void focusSourceWhenReady();
   } catch (e) {
     statusEl.textContent =
       "Failed to load mermaid.js: " +

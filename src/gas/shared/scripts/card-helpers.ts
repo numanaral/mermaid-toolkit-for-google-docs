@@ -1,3 +1,17 @@
+const SPINNER_HTML = '<span class="spinner-inline btn-spinner"></span>';
+
+export const setBtnLoading = (
+  btn: HTMLButtonElement,
+  loading: boolean,
+): void => {
+  const existing = btn.querySelector(".btn-spinner");
+  if (loading && !existing) {
+    btn.insertAdjacentHTML("afterbegin", SPINNER_HTML);
+  } else if (!loading && existing) {
+    existing.remove();
+  }
+};
+
 export const markBtn = (btn: HTMLButtonElement, ok: boolean): void => {
   btn.disabled = true;
   btn.innerHTML = ok ? "Done &#10003;" : "Failed";
@@ -24,7 +38,11 @@ export const setCardStatus = (
     const lower = text.toLowerCase();
     if (lower === "error" || lower === "failed") {
       el.classList.add("failed");
-    } else if (lower === "inserted" || lower === "replaced" || lower === "done") {
+    } else if (
+      lower === "inserted" ||
+      lower === "replaced" ||
+      lower === "done"
+    ) {
       el.classList.add("done");
     }
     el.textContent = text;
@@ -41,14 +59,30 @@ export const batchAction = <T extends { base64?: string | null }>(
   getSortKey: (item: T, idx: number) => number,
   getArgs: (idx: number) => unknown[],
 ): void => {
+  const isReplace = actionName === "replace";
+  const btnPrefix = isReplace ? "rep-" : "ins-";
+
   const queue: number[] = [];
   for (let i = 0; i < items.length; i++) {
-    if (items[i].base64 !== undefined ? items[i].base64 : true) queue.push(i);
+    const hasBase64 = items[i].base64 !== undefined ? items[i].base64 : true;
+    if (!hasBase64) continue;
+    const btn = document.getElementById(
+      btnPrefix + i,
+    ) as HTMLButtonElement | null;
+    if (btn?.classList.contains("done")) continue;
+    queue.push(i);
+  }
+
+  if (queue.length === 0) {
+    statusEl.textContent =
+      "All items have already been " +
+      (isReplace ? "replaced" : "inserted") +
+      ".";
+    return;
   }
 
   queue.sort((a, b) => getSortKey(items[b], b) - getSortKey(items[a], a));
 
-  const isReplace = actionName === "replace";
   const activeBtn = isReplace ? replaceAllBtn : insertAllBtn;
 
   insertAllBtn.disabled = true;
@@ -77,6 +111,20 @@ export const batchAction = <T extends { base64?: string | null }>(
       total +
       "...";
     setCardStatus(idx, label + "...", true);
+
+    const curIns = document.getElementById(
+      "ins-" + idx,
+    ) as HTMLButtonElement | null;
+    const curRep = document.getElementById(
+      "rep-" + idx,
+    ) as HTMLButtonElement | null;
+    if (isReplace && curRep) {
+      setLoading(curRep, "Replacing...");
+      if (curIns) curIns.disabled = true;
+    } else if (!isReplace && curIns) {
+      setLoading(curIns, "Inserting...");
+      if (curRep) curRep.disabled = true;
+    }
 
     const runner = google.script.run
       .withSuccessHandler(() => {

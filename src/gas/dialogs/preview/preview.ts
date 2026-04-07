@@ -8,8 +8,11 @@ import {
 import {
   markBtn,
   setLoading,
+  setBtnLoading,
   batchAction,
 } from "../../shared/scripts/card-helpers";
+import { openDataUriInNewTab } from "../../shared/scripts/dom-utils";
+import { OPEN_SVG } from "../../shared/scripts/icons";
 
 declare const mermaid: {
   initialize(config: unknown): void;
@@ -20,12 +23,6 @@ declare const blockInfos: Array<{
   startIdx: number;
   endIdx: number;
 }>;
-
-const OPEN_SVG =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-  '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
-  '<polyline points="15 3 21 3 21 9"/>' +
-  '<line x1="10" y1="14" x2="21" y2="3"/></svg>';
 
 interface RenderResult {
   definition: string;
@@ -88,8 +85,7 @@ const buildCard = (index: number, result: RenderResult): void => {
       index +
       '">Replace</button>';
   } else {
-    rowHtml +=
-      '<span class="card-status failed">Error</span>';
+    rowHtml += '<span class="card-status failed">Error</span>';
   }
 
   rowHtml += "</div></div>";
@@ -118,7 +114,7 @@ const buildCard = (index: number, result: RenderResult): void => {
     thumbEl.addEventListener("click", (e) => {
       e.stopPropagation();
       const src = thumbEl.getAttribute("data-src");
-      if (src) window.open(src, "_blank");
+      if (src) openDataUriInNewTab(src);
     });
   }
 
@@ -129,8 +125,16 @@ const buildCard = (index: number, result: RenderResult): void => {
     "rep-" + index,
   ) as HTMLButtonElement | null;
 
-  if (insBtn) insBtn.addEventListener("click", (e) => { e.stopPropagation(); doInsert(index); });
-  if (repBtn) repBtn.addEventListener("click", (e) => { e.stopPropagation(); doReplace(index); });
+  if (insBtn)
+    insBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      doInsert(index);
+    });
+  if (repBtn)
+    repBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      doReplace(index);
+    });
 };
 
 const doInsert = (idx: number): void => {
@@ -143,6 +147,7 @@ const doInsert = (idx: number): void => {
       markBtn(btn, true);
       btn.textContent = "Inserted ✓";
       enableCard(idx);
+      updateStatusCount();
     })
     .withFailureHandler((err: Error) => {
       markBtn(btn, false);
@@ -178,6 +183,7 @@ const doReplace = (idx: number): void => {
         insBtn.style.opacity = "0.3";
       }
       enableCard(idx);
+      updateStatusCount();
     })
     .withFailureHandler((err: Error) => {
       markBtn(btn, false);
@@ -196,23 +202,39 @@ const doReplace = (idx: number): void => {
     );
 };
 
+const updateStatusCount = (): void => {
+  let remaining = 0;
+  for (let i = 0; i < cardEls.length; i++) {
+    const rep = document.getElementById("rep-" + i) as HTMLButtonElement | null;
+    if (rep && !rep.classList.contains("done")) remaining++;
+  }
+  if (remaining === 0) {
+    statusEl.textContent = "All diagrams processed. Choose an action or close.";
+  } else {
+    statusEl.textContent =
+      remaining + " of " + results.length + " diagram(s) remaining.";
+  }
+};
+
 const disableCard = (idx: number): void => {
   const card = cardEls[idx];
   if (!card) return;
-  card.querySelectorAll<HTMLButtonElement>(".header-actions .btn").forEach(
-    (b) => { b.disabled = true; },
-  );
+  card
+    .querySelectorAll<HTMLButtonElement>(".header-actions .btn")
+    .forEach((b) => {
+      b.disabled = true;
+    });
 };
 
 const enableCard = (idx: number): void => {
   const card = cardEls[idx];
   if (!card) return;
-  card.querySelectorAll<HTMLButtonElement>(".header-actions .btn").forEach(
-    (b) => {
+  card
+    .querySelectorAll<HTMLButtonElement>(".header-actions .btn")
+    .forEach((b) => {
       if (!b.classList.contains("done") && !b.classList.contains("failed"))
         b.disabled = false;
-    },
-  );
+    });
 };
 
 insertAllB.addEventListener("click", () => {
@@ -265,6 +287,8 @@ replaceAllB.addEventListener("click", () => {
 
   mermaid.initialize(MERMAID_CONFIG);
 
+  setBtnLoading(insertAllB, true);
+  setBtnLoading(replaceAllB, true);
   statusEl.innerHTML =
     '<span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>' +
     "Rendering " +
@@ -317,6 +341,8 @@ replaceAllB.addEventListener("click", () => {
     blockInfos.length +
     " diagram(s) rendered. Choose an action.";
 
+  setBtnLoading(insertAllB, false);
+  setBtnLoading(replaceAllB, false);
   if (successCount > 0) {
     insertAllB.disabled = false;
     replaceAllB.disabled = false;

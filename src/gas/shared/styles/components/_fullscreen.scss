@@ -5,32 +5,43 @@
 
 .fullscreen-btn {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 32px;
-  height: 32px;
+  top: -1px;
+  right: -1px;
+  width: 26px;
+  height: 26px;
   border: none;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0 8px 0 6px;
+  background: rgba(0, 0, 0, 0.35);
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.85;
+  opacity: 0.6;
   transition:
-    background 0.15s,
-    opacity 0.15s;
+    opacity 0.2s,
+    width 0.2s,
+    height 0.2s;
   z-index: 1;
   padding: 0;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.75);
     opacity: 1;
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.55);
   }
 
   svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
+    transition:
+      width 0.2s,
+      height 0.2s;
+  }
+
+  &:hover svg {
+    width: 17px;
+    height: 17px;
   }
 }

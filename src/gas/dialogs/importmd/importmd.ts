@@ -6,6 +6,7 @@ import {
   MERMAID_CONFIG,
 } from "../../shared/scripts/mermaid-init";
 import { wrapImgWithFullscreen } from "../../shared/scripts/fullscreen";
+import { setBtnLoading } from "../../shared/scripts/card-helpers";
 
 const MARKED_CDN_URL =
   "https://cdn.jsdelivr.net/npm/marked@17/lib/marked.umd.js";
@@ -171,7 +172,10 @@ const renderInlineTokens = (tokens: Token[]): string => {
   return html;
 };
 
-const renderListHtml = (list: Token): string => marked.parse(list.raw);
+const renderListHtml = (list: Token): string => {
+  const raw = list.raw.replace(/^(\s*(?:[-*+]|\d+\.)\s+)\[x\]/gim, "$1[ ]");
+  return marked.parse(raw);
+};
 
 const renderTokenToHtml = (token: Token, idx: number): string => {
   switch (token.type) {
@@ -363,6 +367,14 @@ const renderPreview = async (): Promise<void> => {
     return;
   }
 
+  if (typeof marked === "undefined" || !marked.lexer) {
+    statusEl.innerHTML =
+      '<span class="spinner-inline"></span> Waiting for libraries to load...';
+    insertBtn.disabled = true;
+    replaceBtn.disabled = true;
+    return;
+  }
+
   parsedTokens = marked.lexer(md);
   mermaidImages = new Map();
 
@@ -379,9 +391,14 @@ const renderPreview = async (): Promise<void> => {
   }
 
   previewEl.innerHTML = `<div class="md-preview">${htmlParts.join("")}</div>`;
-  statusEl.textContent = "Rendering mermaid diagrams...";
+  insertBtn.disabled = true;
+  replaceBtn.disabled = true;
 
   if (mermaidReady) {
+    setBtnLoading(insertBtn, true);
+    setBtnLoading(replaceBtn, true);
+    statusEl.innerHTML =
+      '<span class="spinner-inline"></span> Rendering mermaid diagrams...';
     let diagramCount = 0;
     let renderedCount = 0;
 
@@ -428,10 +445,18 @@ const renderPreview = async (): Promise<void> => {
 
   insertBtn.disabled = false;
   replaceBtn.disabled = false;
+  setBtnLoading(insertBtn, false);
+  setBtnLoading(replaceBtn, false);
 };
 
 const scheduleRender = (): void => {
   if (renderTimer) clearTimeout(renderTimer);
+  if (!insertBtn.disabled) {
+    insertBtn.disabled = true;
+    replaceBtn.disabled = true;
+    setBtnLoading(insertBtn, true);
+    setBtnLoading(replaceBtn, true);
+  }
   renderTimer = setTimeout(renderPreview, 500);
 };
 
@@ -517,16 +542,18 @@ pasteBtn.addEventListener("click", async () => {
       })
       .isActiveTabFirst();
 
-    await Promise.all([
-      loadScript(MERMAID_CDN_URL),
-      loadScript(MARKED_CDN_URL),
-    ]);
+    await loadScript(MARKED_CDN_URL);
+    await loadScript(MERMAID_CDN_URL);
+
     mermaid.initialize(MERMAID_CONFIG);
     mermaidReady = true;
-    statusEl.textContent = "Ready — paste markdown to preview.";
-  } catch (e) {
+    if (sourceEl.value.trim()) {
+      renderPreview();
+    } else {
+      statusEl.textContent = "Ready — paste markdown to preview.";
+    }
+  } catch {
     statusEl.textContent =
-      "Failed to load dependencies: " +
-      (e instanceof Error ? e.message : String(e));
+      "Failed to load libraries. Please reopen the dialog.";
   }
 })();

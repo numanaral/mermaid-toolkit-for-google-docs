@@ -141,6 +141,54 @@ const renderDiff = (oldText: string, newText: string): void => {
   };
 };
 
+const MERMAID_KEYWORDS = [
+  "flowchart", "graph", "sequencediagram", "classdiagram", "statediagram",
+  "erdiagram", "gantt", "pie", "gitgraph", "journey", "mindmap", "timeline",
+  "sankey", "xychart", "block-beta", "packet-beta", "quadrantchart",
+  "architecture-beta", "kanban", "requirementdiagram",
+  "c4context", "c4container", "c4component", "c4dynamic", "c4deployment",
+  "radar-beta",
+];
+
+const getMermaidKeyword = (text: string): string | null => {
+  const first = text.trim().split(/[\s-]/)[0].toLowerCase();
+  return MERMAID_KEYWORDS.find(
+    (kw) => first === kw || first === kw.replace("-", ""),
+  ) ?? null;
+};
+
+/**
+ * When Google Docs™ "Copy as Markdown" collapses newlines into spaces,
+ * the body arrives as a single line where `\n` + indentation became
+ * runs of 2+ spaces. Split those back into newlines.
+ *
+ * Only applied when the content is effectively a single non-trivial line
+ * that starts with a recognized mermaid keyword.
+ */
+const restoreNewlines = (body: string): string => {
+  body = body.replace(/\v/g, "\n");
+  const lines = body.split("\n").filter((l) => l.trim());
+  if (lines.length > 1) return body;
+
+  const single = lines[0] ?? "";
+  if (!getMermaidKeyword(single)) return body;
+
+  const parts = single.split(/\s{2,}/);
+  if (parts.length <= 1) return body;
+
+  const result: string[] = [];
+  for (const part of parts) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+    if (getMermaidKeyword(trimmed) || result.length === 0) {
+      result.push(trimmed);
+    } else {
+      result.push("    " + trimmed);
+    }
+  }
+  return result.join("\n");
+};
+
 const TABLE_BLOCK_RE = /\|[^\n]*````[^\n]*````[^\n]*\|\s*\n\|\s*:?[-]+:?\s*\|/g;
 
 const fixTableBlock = (match: string): string | null => {
@@ -149,7 +197,7 @@ const fixTableBlock = (match: string): string | null => {
   content = content.replace(/^`{4}\s*/, "").replace(/\s*`{4}$/, "");
   const m = content.match(/^```mermaid\s+([\s\S]*?)\s*```$/);
   if (!m) return null;
-  const body = m[1].replace(/\v/g, "\n");
+  const body = restoreNewlines(m[1]);
   return "```mermaid\n" + body + "\n```";
 };
 
@@ -164,7 +212,9 @@ const fixBacktickBlock = (_match: string, body: string): string => {
   });
   while (lines.length && !lines[0].trim()) lines.shift();
   while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
-  return "```mermaid\n" + lines.join("\n") + "\n```";
+  const joined = lines.join("\n");
+  const restored = restoreNewlines(joined);
+  return "```mermaid\n" + restored + "\n```";
 };
 
 const fixMarkdown = (input: string): { text: string; count: number } => {
