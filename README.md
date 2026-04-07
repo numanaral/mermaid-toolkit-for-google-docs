@@ -1,6 +1,6 @@
-&nbsp;  
-&nbsp;  
-&nbsp;  
+   
+   
+   
 
 ---
 
@@ -8,76 +8,81 @@
 
 ---
 
-&nbsp;  
-&nbsp;  
-&nbsp;  
+   
+   
+   
 
-<p align="center">
-  <img src="site/assets/brand/icon-128.png" alt="Mermaid Toolkit for Google Docs™" width="128" height="128" />
-</p>
 
-<h1 align="center">Mermaid Toolkit for Google Docs™</h1>
 
-<p align="center">
-  Render Mermaid diagrams as images directly in Google Docs™.<br/>
-  Client-side rendering — no data leaves your browser.
-</p>
+# Mermaid Toolkit for Google Docs™
 
-<p align="center">
-  <!-- TODO: Replace with actual Marketplace URL once published -->
-  <a href="#installation"><img src="https://img.shields.io/badge/Google%20Workspace-Install%20Add--on-4285F4?logo=google&logoColor=white" alt="Install from Google Workspace Marketplace" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License" /></a>
-</p>
+Render Mermaid diagrams as images directly in Google Docs™.  
+Client-side rendering — no data leaves your browser.
+
+![Demo](site/assets/demo/demo.gif)
 
 ---
 
 ## Why Mermaid Toolkit?
 
-- **AI-friendly workflows** — Mermaid diagrams are plain text. Copy them between Google Docs, your IDE, and AI tools (ChatGPT, Copilot, Claude) without dealing with images or format issues
-- **Markdown interop** — Export as markdown, paste into GitHub, Notion, or any markdown editor. Import back into Google Docs and re-render — no conversion needed
+- **AI-friendly workflows** — Mermaid diagrams are plain text. Copy them between Google Docs™, your IDE, and AI tools (ChatGPT, Claude, Copilot) without dealing with images or format issues
+- **Markdown interop** — Export as markdown, paste into GitHub, Notion, or any markdown editor. Import back into Google Docs™ and re-render — no conversion needed
 - **Zero data collection** — Everything renders client-side via mermaid.js. No servers, no analytics, no cookies
 - **Round-trip editing** — Every diagram stores its source code. Click any diagram to edit, update, or extract the original Mermaid syntax
 
 ## Features
 
+- **Insert Mermaid Diagram** — Side-by-side editor with real-time preview, syntax highlighting, and starter templates
 - **Convert All Code to Diagrams** — Scans your entire document for Mermaid code blocks and renders them all as high-quality diagrams in one click
 - **Convert Selected Code to Diagram** — Render a single selected code block without scanning the whole document
-- **Insert Mermaid Diagram** — Side-by-side editor with real-time preview, syntax highlighting, and starter templates
 - **Edit Selected Mermaid Diagram** — Click any diagram and edit its source in place
 - **Edit All Mermaid Diagrams** — Browse every diagram in your document, expand any card to edit its source inline with a live preview, and save changes in place
 - **Convert Diagram to Code** — Extract the original Mermaid source from any diagram inserted by this add-on (single or bulk)
 - **Import from Markdown** — Paste raw markdown with Mermaid code blocks, preview it, and insert formatted content with rendered diagrams into your doc
-- **Export as Markdown** — Convert your Google Doc content back to markdown, including extracting Mermaid source from diagram alt text
-- **Fix Native "Copy as Markdown"** — Repairs corrupted Mermaid syntax caused by Google Docs' native copy feature (vertical tabs, stray backticks, formatting artifacts). [Learn more](https://mermaid.numanaral.dev/features?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit#fix-markdown)
+- **Export as Markdown** — Convert your Google Docs™ content back to markdown, including extracting Mermaid source from diagram alt text
+- **Fix Native "Copy as Markdown"** — Repairs corrupted Mermaid syntax caused by Google Docs™' native copy feature (vertical tabs, stray backticks, formatting artifacts). [Learn more](https://mermaid.numanaral.dev/features?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit#fix-markdown)
 - **100% client-side** — All rendering happens in your browser via [mermaid.js](https://mermaid.js.org/), including a multi-pass SVG-to-PNG pipeline that handles browser security restrictions (tainted canvas, CSS-driven layouts) without sending data to any server
 
 ## Screenshots
 
-### Live Editor
-<img src="site/assets/screenshots/example-editor.png" alt="Mermaid Editor — side-by-side code and preview" width="800" />
+### Insert Mermaid Diagram
 
-### Render Preview (single diagram)
-<img src="site/assets/screenshots/example-render-all-for-one.png" alt="Render preview for a single diagram" width="800" />
+![Insert Mermaid Diagram](site/assets/gifs/01-insert.gif)
 
-### Render Preview (all diagrams)
-<img src="site/assets/screenshots/example-render-all-for-all.png" alt="Render preview for all diagrams with bulk actions" width="800" />
+### Edit Selected Diagram
 
-### Extensions Menu
-<img src="site/assets/screenshots/example-menu.png" alt="Extensions menu showing Mermaid Toolkit options" width="800" />
+![Edit Selected Diagram](site/assets/gifs/02-edit-selected.gif)
+
+### Edit All Diagrams
+
+![Edit All Diagrams](site/assets/gifs/03-edit-all.gif)
+
+### Convert Code to Diagrams
+
+![Convert Code to Diagrams](site/assets/gifs/05-code-to-diagrams.gif)
+
+### Convert Diagrams to Code
+
+![Convert Diagrams to Code](site/assets/gifs/04-diagrams-to-code.gif)
+
+### Import from Markdown
+
+![Import from Markdown](site/assets/gifs/06-import.gif)
 
 ## Installation
 
-<!-- TODO: Replace # with actual Marketplace URL once published -->
+
+
 1. Visit the [Google Workspace Marketplace™ listing](#)
 2. Click **Install**
 3. Grant the required permissions (see [Privacy](#privacy))
-4. Open any Google Doc — the add-on appears under **Extensions → Mermaid Toolkit**
+4. Open any Google Doc™ — the add-on appears under **Extensions → Mermaid Toolkit**
 
 ## How to Use
 
 ### Render existing Mermaid code
 
-1. In your Google Doc, insert a code block: **Insert → Building blocks → Code block**
+1. In your Google Doc™, insert a code block: **Insert → Building blocks → Code block**
 2. Write your Mermaid syntax inside the code block
 3. Go to **Extensions → Mermaid Toolkit → Convert All Code to Diagrams**
 4. A preview dialog shows each detected diagram — click **Insert** or **Replace**
@@ -115,29 +120,31 @@
 
 The add-on detects code blocks that start with any of the following keywords:
 
-| Diagram | Keyword |
-|---|---|
-| Flowchart | `flowchart` / `graph` |
-| Sequence Diagram | `sequenceDiagram` |
-| Class Diagram | `classDiagram` |
-| State Diagram | `stateDiagram` |
-| ER Diagram | `erDiagram` |
-| Gantt Chart | `gantt` |
-| Pie Chart | `pie` |
-| Git Graph | `gitGraph` |
-| User Journey | `journey` |
-| Mindmap | `mindmap` |
-| Timeline | `timeline` |
-| Sankey | `sankey` |
-| XY Chart | `xychart` |
-| Block Diagram | `block-beta` |
-| Packet | `packet-beta` |
-| Quadrant Chart | `quadrantChart` |
-| Architecture | `architecture-beta` |
-| Kanban | `kanban` |
-| Requirement Diagram | `requirementDiagram` |
-| C4 Diagrams | `c4context` / `c4container` / `c4component` / `c4dynamic` / `c4deployment` |
-| Radar | `radar-beta` |
+
+| Diagram             | Keyword                                                                    |
+| ------------------- | -------------------------------------------------------------------------- |
+| Flowchart           | `flowchart` / `graph`                                                      |
+| Sequence Diagram    | `sequenceDiagram`                                                          |
+| Class Diagram       | `classDiagram`                                                             |
+| State Diagram       | `stateDiagram`                                                             |
+| ER Diagram          | `erDiagram`                                                                |
+| Gantt Chart         | `gantt`                                                                    |
+| Pie Chart           | `pie`                                                                      |
+| Git Graph           | `gitGraph`                                                                 |
+| User Journey        | `journey`                                                                  |
+| Mindmap             | `mindmap`                                                                  |
+| Timeline            | `timeline`                                                                 |
+| Sankey              | `sankey`                                                                   |
+| XY Chart            | `xychart`                                                                  |
+| Block Diagram       | `block-beta`                                                               |
+| Packet              | `packet-beta`                                                              |
+| Quadrant Chart      | `quadrantChart`                                                            |
+| Architecture        | `architecture-beta`                                                        |
+| Kanban              | `kanban`                                                                   |
+| Requirement Diagram | `requirementDiagram`                                                       |
+| C4 Diagrams         | `c4context` / `c4container` / `c4component` / `c4dynamic` / `c4deployment` |
+| Radar               | `radar-beta`                                                               |
+
 
 See the [mermaid.js docs](https://mermaid.js.org/) for syntax details on each type.
 
@@ -146,6 +153,7 @@ See the [mermaid.js docs](https://mermaid.js.org/) for syntax details on each ty
 This add-on **does not collect, store, or transmit any data**. All diagram rendering happens locally in your browser. No analytics, no tracking, no cookies.
 
 The add-on requests only two OAuth scopes:
+
 - `documents` — to read code snippets, insert diagrams, and create native checkboxes via the Docs API
 - `script.container.ui` — to display dialog windows
 
@@ -174,6 +182,12 @@ yarn gas:dev         # watch GAS source and rebuild on change
 yarn gas:build       # build the GAS add-on → dist/gas/
 yarn gas:push        # verify, build, and push to Apps Script
 yarn verify          # run ESLint + TypeScript checks
+yarn demo:record     # record a full-feature Playwright demo
+yarn demo:gif        # convert clips to optimized GIFs
+yarn demo:demo-gif   # generate combined demo GIF (skip reset)
+yarn demo:site-video # cut demo video for the marketing site
+yarn demo:split      # split recording into per-step clips
+yarn demo:analyze    # diagnose clip timing drift
 ```
 
 The site uses [Eleventy](https://www.11ty.dev/) for templating, [Sass](https://sass-lang.com/) for styles, [esbuild](https://esbuild.github.io/) for TypeScript bundling, and [Mermaid.js](https://mermaid.js.org/) for diagram rendering.
@@ -188,8 +202,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full setup guide, including how t
 
 ---
 
-<p align="center">
-  Created by <a href="https://numanaral.dev?utm_source=mermaid-github&utm_medium=readme&utm_campaign=mermaid_toolkit">Numan Aral</a>
-</p>
+Created by [Numan Aral](https://numanaral.dev?utm_source=mermaid-github&utm_medium=readme&utm_campaign=mermaid_toolkit)
 
-<sub>Google Docs™, Google Drive™, and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.</sub>
+Google Docs™, Google Drive™, and Google Workspace™ are trademarks of Google LLC. This add-on is not affiliated with or endorsed by Google.
