@@ -182,7 +182,7 @@
   margin-bottom: 0.5rem;
   font-family: "Space Mono", monospace;
   font-size: 1.5rem;
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 .tag-solved {
@@ -206,7 +206,7 @@
     padding: 0.1em 0.4em;
     font-family: "Space Mono", monospace;
     font-size: 0.8em;
-    background: var(--bg-card);
+    background: var(--surface);
     border: 1px solid var(--border-dim);
     border-radius: 4px;
   }

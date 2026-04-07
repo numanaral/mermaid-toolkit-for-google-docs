@@ -1,7 +1,9 @@
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("site/assets");
   eleventyConfig.addPassthroughCopy("site/robots.txt");
-  eleventyConfig.addPassthroughCopy({ "site/favicon.ico": "favicon.ico" });
+  eleventyConfig.addPassthroughCopy({
+    "site/assets/brand/favicon.ico": "favicon.ico",
+  });
 
   eleventyConfig.addGlobalData("env", process.env.NODE_ENV || "development");
 

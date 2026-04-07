@@ -5,6 +5,7 @@
 @use "layout/nav";
 @use "layout/footer";
 @use "components/pending";
+@use "components/gif-player";
 
 .features-detail {
   padding: 2rem 2rem 5rem;
@@ -39,6 +40,22 @@
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
+  position: relative;
+}
+.anchor-hash {
+  position: absolute;
+  left: -1.2em;
+  color: var(--accent);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.feature-text h2:hover .anchor-hash {
+  opacity: 0.6;
+}
+.anchor-hash:hover {
+  opacity: 1 !important;
+  text-decoration: none;
 }
 .feature-text p {
   font-size: 0.92rem;

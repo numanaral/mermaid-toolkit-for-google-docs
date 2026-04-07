@@ -10,7 +10,7 @@ const sharedRules: Linter.RulesRecord = {
 
 const config: Linter.Config[] = [
   {
-    ignores: ["node_modules/**", "dist/**", "_site/**", "backup/**"],
+    ignores: ["node_modules/**", "dist/**", "_site/**", "temp/**"],
   },
 
   // --- Site scripts (browser) ---

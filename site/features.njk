@@ -2,7 +2,7 @@
 permalink: /features/
 layout: base.njk
 pageTitle: Features
-pageDescription: "Explore every feature of Mermaid Toolkit for Google Docs — from one-click rendering to markdown import/export."
+pageDescription: "Explore every feature of Mermaid Toolkit for Google Docs™ — from one-click rendering to markdown import/export."
 pageCss: features
 sitemapPriority: 0.9
 ---
@@ -15,6 +15,15 @@ sitemapPriority: 0.9
   "import-markdown": "/assets/screenshots/import-markdown.png",
   "export-markdown": "/assets/screenshots/export-markdown.png",
   "image-to-code": "/assets/screenshots/image-to-code.png"
+} %}
+{% set gifMap = {
+  "editor": "/assets/gifs/01-insert.gif",
+  "edit-in-place": "/assets/gifs/02-edit-selected.gif",
+  "edit-all": "/assets/gifs/03-edit-all.gif",
+  "image-to-code": "/assets/gifs/04-diagrams-to-code.gif",
+  "convert-all": "/assets/gifs/05-code-to-diagrams.gif",
+  "import-markdown": "/assets/gifs/06-import.gif",
+  "export-markdown": "/assets/gifs/07-export.gif"
 } %}
   <main>
   <section class="page-hero">
@@ -30,12 +39,20 @@ sitemapPriority: 0.9
       <div class="feature-block{{ ' feature-block-reverse' if fns.i % 2 == 1 }} reveal" id="{{ feat.id }}">
         <div class="feature-text">
           <div class="feature-tag">{{ feat.tag }}</div>
-          <h2>{{ feat.title }}</h2>
+          <h2><a href="#{{ feat.id }}" class="anchor-hash" aria-label="Link to {{ feat.title }}">#</a>{{ feat.title }}</h2>
           <p>{{ feat.longDesc | safe }}</p>
           <p class="feature-menu"><strong>{{ feat.menu }}</strong>{% if feat.menuAlt %}<br><strong>{{ feat.menuAlt }}</strong>{% endif %}</p>
         </div>
         <div class="feature-media">
-          {% if screenshotMap[feat.id] %}
+          {% if gifMap[feat.id] %}
+          <div class="gif-player">
+            <img src="{{ gifMap[feat.id] }}" alt="{{ feat.title }}" loading="lazy">
+            <div class="gif-controls">
+              <button class="gif-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+              <button class="gif-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+            </div>
+          </div>
+          {% elif screenshotMap[feat.id] %}
           <img src="{{ screenshotMap[feat.id] }}" alt="{{ feat.title }}" loading="lazy">
           {% endif %}
         </div>
@@ -48,12 +65,12 @@ sitemapPriority: 0.9
         <div class="feature-highlight-header">
           <div class="feature-tag">Utility</div>
           <h2>Fix Native "Copy as Markdown"</h2>
-          <p class="feature-highlight-lead">The one feature you didn't know you needed — until Google Docs breaks your diagrams.</p>
+          <p class="feature-highlight-lead">The one feature you didn't know you needed — until Google Docs™ breaks your diagrams.</p>
         </div>
 
         <div class="problem-story">
           <h3>The Code Snippet Problem</h3>
-          <p>Google Docs has a built-in <strong>Code Snippet</strong> block (Insert → Code block). It looks great for displaying code, but it has a critical flaw: when you copy text from a markdown file, a README, or any external source and paste it into a Code Snippet, Google Docs silently corrupts the content.</p>
+          <p>Google Docs™ has a built-in <strong>Code Snippet</strong> block (Insert → Code block). It looks great for displaying code, but it has a critical flaw: when you copy text from a markdown file, a README, or any external source and paste it into a Code Snippet, Google Docs™ silently corrupts the content.</p>
           <div class="problem-list">
             <div class="problem-item">
               <div class="problem-icon">⚡</div>
@@ -90,6 +107,16 @@ sitemapPriority: 0.9
           </ol>
           <p>Copy the fixed result and paste it back into your doc — it's now valid Mermaid syntax, ready to render.</p>
           <p class="feature-menu"><strong>Extensions → Mermaid Toolkit → Fix Native "Copy as Markdown"</strong></p>
+        </div>
+
+        <div class="feature-media">
+          <div class="gif-player">
+            <img src="/assets/gifs/08-fix-markdown.gif" alt="Fix Native Copy as Markdown" loading="lazy">
+            <div class="gif-controls">
+              <button class="gif-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+              <button class="gif-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+            </div>
+          </div>
         </div>
       </div>
 
