@@ -2,7 +2,7 @@
   {
     "id": "editor",
     "subtitle": "Use the built-in editor",
-    "screenshot": "/assets/gifs/01-insert.gif",
+    "screenshot": "/assets/gifs/editor.gif",
     "desc": "Write diagrams from scratch with live preview and templates.",
     "steps": [
       {
@@ -22,8 +22,8 @@
   {
     "id": "render-all",
     "subtitle": "Convert code to diagrams",
-    "screenshot": "/assets/gifs/05-code-to-diagrams.gif",
-    "desc": "Already have Mermaid code in your doc? Render everything in one click.",
+    "screenshot": "/assets/gifs/code-to-diagram-for-all.gif",
+    "desc": "Already have Mermaid code in your doc? Render everything without leaving docs.",
     "steps": [
       {
         "title": "Write Mermaid syntax",
@@ -40,9 +40,9 @@
     ]
   },
   {
-    "id": "edit-in-place",
+    "id": "edit-selected",
     "subtitle": "Edit diagrams in place",
-    "screenshot": "/assets/gifs/02-edit-selected.gif",
+    "screenshot": "/assets/gifs/edit-selected.gif",
     "desc": "Click any diagram to edit its source — no copy-paste needed.",
     "steps": [
       {
@@ -60,9 +60,9 @@
     ]
   },
   {
-    "id": "image-to-code",
+    "id": "diagram-to-code",
     "subtitle": "Convert diagrams back to code",
-    "screenshot": "/assets/gifs/04-diagrams-to-code.gif",
+    "screenshot": "/assets/gifs/diagram-to-code-for-all.gif",
     "desc": "Extract the original Mermaid source from any diagram.",
     "steps": [
       {
@@ -82,7 +82,7 @@
   {
     "id": "import-export",
     "subtitle": "Import and export markdown",
-    "screenshot": "/assets/gifs/06-import.gif",
+    "screenshot": "/assets/gifs/import-markdown.gif",
     "desc": "Bring markdown into Google Docs™ or export your document back to markdown.",
     "steps": [
       {

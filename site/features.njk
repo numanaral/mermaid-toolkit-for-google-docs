@@ -2,28 +2,20 @@
 permalink: /features/
 layout: base.njk
 pageTitle: Features
-pageDescription: "Explore every feature of Mermaid Toolkit for Google Docs™ — from one-click rendering to markdown import/export."
+pageDescription: "Render Mermaid diagrams directly in Google Docs™. Edit in place, import/export markdown, and batch convert."
 pageCss: features
 sitemapPriority: 0.9
 ---
-{% set screenshotMap = {
-  "convert-all": "/assets/screenshots/convert-all.png",
-  "convert-selected": "/assets/screenshots/convert-selected.png",
-  "editor": "/assets/screenshots/editor.png",
-  "edit-in-place": "/assets/screenshots/edit-in-place.png",
-  "edit-all": "/assets/screenshots/edit-all.png",
-  "import-markdown": "/assets/screenshots/import-markdown.png",
-  "export-markdown": "/assets/screenshots/export-markdown.png",
-  "image-to-code": "/assets/screenshots/image-to-code.png"
-} %}
 {% set gifMap = {
-  "editor": "/assets/gifs/01-insert.gif",
-  "edit-in-place": "/assets/gifs/02-edit-selected.gif",
-  "edit-all": "/assets/gifs/03-edit-all.gif",
-  "image-to-code": "/assets/gifs/04-diagrams-to-code.gif",
-  "convert-all": "/assets/gifs/05-code-to-diagrams.gif",
-  "import-markdown": "/assets/gifs/06-import.gif",
-  "export-markdown": "/assets/gifs/07-export.gif"
+  "editor": "/assets/gifs/editor.gif",
+  "edit-all": "/assets/gifs/edit-all.gif",
+  "edit-selected": "/assets/gifs/edit-selected.gif",
+  "code-to-diagram-for-all": "/assets/gifs/code-to-diagram-for-all.gif",
+  "code-to-diagram-for-one": "/assets/gifs/code-to-diagram-for-one.gif",
+  "diagram-to-code-for-all": "/assets/gifs/diagram-to-code-for-all.gif",
+  "diagram-to-code-for-one": "/assets/gifs/diagram-to-code-for-one.gif",
+  "import-markdown": "/assets/gifs/import-markdown.gif",
+  "export-markdown": "/assets/gifs/export-markdown.gif"
 } %}
   <main>
   <section class="page-hero">
@@ -39,7 +31,7 @@ sitemapPriority: 0.9
       <div class="feature-block{{ ' feature-block-reverse' if fns.i % 2 == 1 }} reveal" id="{{ feat.id }}">
         <div class="feature-text">
           <div class="feature-tag">{{ feat.tag }}</div>
-          <h2><a href="#{{ feat.id }}" class="anchor-hash" aria-label="Link to {{ feat.title }}">#</a>{{ feat.title }}</h2>
+          <h2>{{ feat.title }}</h2>
           <p>{{ feat.longDesc | safe }}</p>
           <p class="feature-menu"><strong>{{ feat.menu }}</strong>{% if feat.menuAlt %}<br><strong>{{ feat.menuAlt }}</strong>{% endif %}</p>
         </div>
@@ -52,8 +44,6 @@ sitemapPriority: 0.9
               <button class="gif-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
             </div>
           </div>
-          {% elif screenshotMap[feat.id] %}
-          <img src="{{ screenshotMap[feat.id] }}" alt="{{ feat.title }}" loading="lazy">
           {% endif %}
         </div>
       </div>
@@ -111,7 +101,7 @@ sitemapPriority: 0.9
 
         <div class="feature-media">
           <div class="gif-player">
-            <img src="/assets/gifs/08-fix-markdown.gif" alt="Fix Native Copy as Markdown" loading="lazy">
+            <img src="/assets/gifs/fix-markdown.gif" alt="Fix Native Copy as Markdown" loading="lazy">
             <div class="gif-controls">
               <button class="gif-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
               <button class="gif-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
@@ -127,7 +117,7 @@ sitemapPriority: 0.9
   <section class="features-privacy reveal">
     <div class="features-privacy-inner">
       <h2>🔒 Privacy by design</h2>
-      <p>Zero data collection. Zero cookies. Zero telemetry. Zero servers. Your documents never leave your browser — rendering is 100% client-side via <a href="https://mermaid.js.org/" target="_blank" rel="noopener">Mermaid.js</a>. The only external request is loading the library from <a href="https://www.jsdelivr.com/" target="_blank" rel="noopener">jsDelivr</a>.</p>
+      <p>Zero data collection. Zero cookies. Zero telemetry. Zero servers. Your documents never leave your browser — rendering is 100% client-side via <a href="https://mermaid.js.org/" target="_blank" rel="noopener">Mermaid.js</a> and <a href="https://marked.js.org/" target="_blank" rel="noopener">Marked.js</a>. The only external requests are loading these libraries from <a href="https://www.jsdelivr.com/" target="_blank" rel="noopener">jsDelivr</a>.</p>
       <a href="/privacy" class="btn-dim">Read Privacy Policy →</a>
     </div>
   </section>

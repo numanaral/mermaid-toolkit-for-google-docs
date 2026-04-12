@@ -55,7 +55,7 @@
     "keyword": "erDiagram",
     "docsUrl": "https://mermaid.js.org/syntax/entityRelationshipDiagram.html",
     "code": "erDiagram\n    CUSTOMER ||--o{ ORDER : places\n    ORDER ||--|{ LINE-ITEM : contains\n    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses",
-    "hasCard": true
+    "hasCard": false
   },
   {
     "name": "Gantt Chart",
@@ -215,6 +215,6 @@
     "keyword": "radar-beta",
     "docsUrl": "https://mermaid.js.org/syntax/radar.html",
     "code": "radar-beta\n  title Skills Assessment\n  axis f[\"Frontend\"], b[\"Backend\"], d[\"DevOps\"], t[\"Testing\"], u[\"Design\"]\n  curve a[\"Developer A\"]{4, 3, 2, 5, 1}\n  curve b[\"Developer B\"]{2, 5, 4, 2, 3}\n  max 5",
-    "hasCard": false
+    "hasCard": true
   }
 ]

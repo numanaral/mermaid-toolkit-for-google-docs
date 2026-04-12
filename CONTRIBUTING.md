@@ -118,7 +118,7 @@ yarn gas:push
 │   └── demo/              # Demo recording pipeline
 │       ├── recorder.ts    # Orchestrator — launches browser, runs steps
 │       ├── helpers.ts     # Shared constants and Playwright utilities
-│       ├── steps/         # Individual demo step scripts (00-reset … 11-about)
+│       ├── steps/         # Individual demo step scripts (00-reset … 13-about)
 │       ├── split-clips.ts # Split full recording into per-step clips
 │       ├── to-gif.ts      # Convert clips to optimized GIFs
 │       ├── demo-gif.ts    # Generate combined demo GIF (skip reset)

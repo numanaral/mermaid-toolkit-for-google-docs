@@ -36,7 +36,7 @@ End-to-end pipeline for recording, processing, and publishing demo assets.
 |---|---|
 | `demo/recorder.ts` | Orchestrator — launches Playwright browser, runs all step scripts in order, captures video + screenshots + timestamps |
 | `demo/helpers.ts` | Shared constants (`DOC_URL`, `SCREENSHOTS_DIR`, viewport dimensions) and Playwright utility functions |
-| `demo/steps/` | Individual step scripts (`00-reset.ts` through `11-about.ts`) — each demonstrates one add-on feature |
+| `demo/steps/` | Individual step scripts (`00-reset.ts` through `13-about.ts`) — each demonstrates one add-on feature |
 | `demo/split-clips.ts` | Splits the full recording into per-step `.webm` clips using timestamps |
 | `demo/to-gif.ts` | Converts per-step clips to optimized GIFs (palette-based, scaled to 720px) |
 | `demo/demo-gif.ts` | Generates a single combined demo GIF from the full recording, skipping the reset step |

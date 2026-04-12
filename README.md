@@ -33,7 +33,7 @@ Client-side rendering — no data leaves your browser.
 ## Features
 
 - **Insert Mermaid Diagram** — Side-by-side editor with real-time preview, syntax highlighting, and starter templates
-- **Convert All Code to Diagrams** — Scans your entire document for Mermaid code blocks and renders them all as high-quality diagrams in one click
+- **Convert All Code to Diagrams** — Scans your entire document for Mermaid code blocks and renders them all as high-quality diagrams without leaving docs
 - **Convert Selected Code to Diagram** — Render a single selected code block without scanning the whole document
 - **Edit Selected Mermaid Diagram** — Click any diagram and edit its source in place
 - **Edit All Mermaid Diagrams** — Browse every diagram in your document, expand any card to edit its source inline with a live preview, and save changes in place
@@ -47,27 +47,27 @@ Client-side rendering — no data leaves your browser.
 
 ### Insert Mermaid Diagram
 
-![Insert Mermaid Diagram](site/assets/gifs/01-insert.gif)
+![Insert Mermaid Diagram](site/assets/gifs/editor.gif)
 
 ### Edit Selected Diagram
 
-![Edit Selected Diagram](site/assets/gifs/02-edit-selected.gif)
+![Edit Selected Diagram](site/assets/gifs/edit-selected.gif)
 
 ### Edit All Diagrams
 
-![Edit All Diagrams](site/assets/gifs/03-edit-all.gif)
+![Edit All Diagrams](site/assets/gifs/edit-all.gif)
 
 ### Convert Code to Diagrams
 
-![Convert Code to Diagrams](site/assets/gifs/05-code-to-diagrams.gif)
+![Convert Code to Diagrams](site/assets/gifs/code-to-diagram-for-all.gif)
 
 ### Convert Diagrams to Code
 
-![Convert Diagrams to Code](site/assets/gifs/04-diagrams-to-code.gif)
+![Convert Diagrams to Code](site/assets/gifs/diagram-to-code-for-all.gif)
 
 ### Import from Markdown
 
-![Import from Markdown](site/assets/gifs/06-import.gif)
+![Import from Markdown](site/assets/gifs/import-markdown.gif)
 
 ## Installation
 
