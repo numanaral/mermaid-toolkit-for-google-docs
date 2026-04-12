@@ -2,6 +2,7 @@
 permalink: /
 layout: base.njk
 pageCss: index
+pageDescription: "Turn text into flowcharts, sequence diagrams, Gantt charts, and 20+ diagram types — directly in Google Docs™. Import markdown, export back. Free, open source, 100% client-side."
 sitemapPriority: 1.0
 ---
 <script type="application/ld+json">
@@ -10,11 +11,61 @@ sitemapPriority: 1.0
   "@type": "SoftwareApplication",
   "name": "{{ site.title }}",
   "url": "{{ site.url }}/",
-  "description": "{{ site.description }}",
+  "description": "{{ pageDescription }}",
   "applicationCategory": "Productivity",
+  "applicationSubCategory": "Diagramming",
   "operatingSystem": "Web",
+  "softwareRequirements": "Google Docs™",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "author": { "@type": "Person", "name": "{{ site.author.name }}", "url": "{{ site.author.url }}" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I create a diagram in Google Docs™?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Install Mermaid Toolkit for Google Docs™, then go to Extensions → Mermaid Toolkit → Insert Mermaid Diagram. Write your diagram in the built-in editor with live preview, then click Insert into Document."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What diagram types are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mermaid Toolkit for Google Docs™ supports flowcharts, sequence diagrams, class diagrams, Gantt charts, mindmaps, pie charts, and 20+ other types — all from Mermaid syntax."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Mermaid Toolkit for Google Docs™ free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The add-on is free and open source. It renders diagrams 100% client-side in your browser — no servers, no data collection, no account required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I import markdown with diagrams into Google Docs™?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the Import from Markdown feature to paste markdown containing Mermaid diagram blocks. The add-on parses headings, lists, tables, and renders all diagrams as images in your document."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does my data leave the browser?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Mermaid Toolkit for Google Docs™ runs entirely client-side inside the Apps Script sandbox. Your document content is never sent to external servers."
+      }
+    }
+  ]
 }
 </script>
   <main>
