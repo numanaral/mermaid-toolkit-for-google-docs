@@ -1,0 +1,59 @@
+---
+permalink: /faq/
+layout: base.njk
+pageTitle: FAQ
+pageDescription: "Frequently asked questions about Mermaid Toolkit for Google Docs™ — setup, diagram types, markdown import/export, permissions, and troubleshooting."
+pageCss: legal
+sitemapPriority: 0.7
+---
+  <main>
+  <section class="page-hero">
+    <h1>Frequently Asked Questions</h1>
+    <p>Everything you need to know about {{ site.title }}.</p>
+  </section>
+  <div class="legal">
+
+    <h2>How do I create a diagram in Google Docs™?</h2>
+    <p>Install Mermaid Toolkit for Google Docs™, then go to <strong>Extensions → Mermaid Toolkit → Insert Mermaid Diagram</strong>. Write your diagram in the built-in editor with live preview, then click Insert into Document.</p>
+
+    <h2>What diagram types are supported?</h2>
+    <p>Mermaid Toolkit for Google Docs™ supports flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, pie charts, mindmaps, timelines, git graphs, C4 diagrams, and more — over 20 diagram types. See the <a href="/gallery">full gallery</a>.</p>
+
+    <h2>Is Mermaid Toolkit for Google Docs™ free?</h2>
+    <p>Yes. The add-on is free and open source. It renders diagrams 100% client-side in your browser — no servers, no data collection, no account required.</p>
+
+    <h2>Can I import markdown with diagrams into Google Docs™?</h2>
+    <p>Yes. Use the Import from Markdown feature to paste markdown containing Mermaid diagram blocks. The add-on parses headings, lists, tables, and renders all diagrams as images in your document.</p>
+
+    <h2>Can I export my Google Doc™ back to markdown?</h2>
+    <p>Yes. Use Extract to Markdown to convert your document — including all Mermaid diagrams — back into clean markdown. The original Mermaid code is preserved alongside the document content.</p>
+
+    <h2>Does my data leave the browser?</h2>
+    <p>No. Mermaid Toolkit for Google Docs™ runs entirely client-side inside the Apps Script sandbox. Your document content is never sent to external servers. See our <a href="/privacy">Privacy Policy</a> for full details.</p>
+
+    <h2>My Mermaid code isn't being detected</h2>
+    <p>The first line of your code block must start with a supported diagram keyword (e.g. <code>graph TD</code>, <code>sequenceDiagram</code>, <code>erDiagram</code>). Comments (<code>%%</code>) on the first line will prevent detection. Move any comments below the keyword line.</p>
+
+    <h2>What permissions does the add-on need?</h2>
+    <p>The add-on uses two OAuth scopes:</p>
+    <ul>
+      <li><code>documents</code> — to read code snippets, insert diagrams, and create native checkboxes via the Docs API</li>
+      <li><code>script.container.ui</code> — to display the editor and preview dialogs</li>
+    </ul>
+    <p>It cannot access other files in your Google Drive™.</p>
+
+    <h2>The add-on isn't showing in the Extensions menu</h2>
+    <p>Try refreshing the page (Ctrl+R / Cmd+R). If it still doesn't appear, go to <strong>Extensions → Add-ons → Manage add-ons</strong> and verify that {{ site.title }} is installed and enabled.</p>
+
+    <h2>Can I edit a diagram after inserting it?</h2>
+    <p>Yes. Click on the diagram image in your document, then use <strong>Extensions → Mermaid Toolkit → Edit Mermaid Diagram</strong>. The editor opens with the original Mermaid code so you can modify and re-render it.</p>
+
+    <h2>Can I convert all diagrams in my document at once?</h2>
+    <p>Yes. Use the Preview All Diagrams feature to scan your entire document for Mermaid code blocks and render them all as images in one batch.</p>
+
+    <h2>What happens to the Mermaid code after rendering?</h2>
+    <p>The code block is replaced by the rendered diagram image. The original Mermaid source is stored in the image's alt text, so you can always edit it later or extract it back to markdown.</p>
+
+    <p style="margin-top: 3rem; color: var(--text-dim);">Still have questions? <a href="/support">Contact us</a> or <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs/discussions" target="_blank" rel="noopener">start a discussion</a>.</p>
+  </div>
+  </main>
