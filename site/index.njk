@@ -80,7 +80,7 @@ sitemapPriority: 1.0
     </div>
     <hr class="hero-divider">
     <div class="hero-center">
-      <div class="hero-badge"><img src="/assets/brand/icon-32.png" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
+      <div class="hero-badge"><img src="/assets/brand/icon-48.png" width="24" height="24" alt=""> <span class="dot"></span> Google Docs™ Add-on</div>
       <h1>Diagrams in <span class="gradient">Google Docs™</span>, powered by markdown.</h1>
       <p>Turn text into flowcharts, sequence diagrams, Gantt charts, and 20+ diagram types. Powered by Mermaid syntax. No external tools, no servers, no data leaves your browser.</p>
       <div class="hero-actions">
@@ -107,7 +107,7 @@ sitemapPriority: 1.0
         <h2>Mermaid for Google Docs™ without the context switch.</h2>
       </div>
       <div class="demo-video reveal">
-        <video autoplay loop muted playsinline controls poster="/assets/demo/demo-poster.png">
+        <video autoplay loop muted playsinline controls poster="/assets/demo/demo-poster.webp">
           <source src="/assets/demo/demo.webm" type="video/webm">
         </video>
       </div>
@@ -158,22 +158,22 @@ sitemapPriority: 1.0
         <div class="cycle-ring">
           <div class="cycle-node cycle-pos-1">
             <div class="cycle-circle">1</div>
-            <h4>Write</h4>
+            <h3>Write</h3>
             <p>Draft docs with Mermaid diagrams in your IDE, AI tool, or any markdown source</p>
           </div>
           <div class="cycle-node cycle-pos-2">
             <div class="cycle-circle">2</div>
-            <h4>Import</h4>
+            <h3>Import</h3>
             <p>Paste markdown into Google Docs™ — diagrams render automatically</p>
           </div>
           <div class="cycle-node cycle-pos-3">
             <div class="cycle-circle">3</div>
-            <h4>Collaborate</h4>
+            <h3>Collaborate</h3>
             <p>Team reviews with visual diagrams. Edit any diagram in place.</p>
           </div>
           <div class="cycle-node cycle-pos-4">
             <div class="cycle-circle">4</div>
-            <h4>Export</h4>
+            <h3>Export</h3>
             <p>Export back to markdown with Mermaid source intact</p>
           </div>
         </div>
@@ -196,19 +196,19 @@ sitemapPriority: 1.0
         <ul class="why-features">
           <li>
             <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-            <div><h4>Import markdown from AI tools</h4><p>Paste markdown with Mermaid blocks. Diagrams render. Headings, lists, tables — all formatted.</p></div>
+            <div><h3>Import markdown from AI tools</h3><p>Paste markdown with Mermaid blocks. Diagrams render. Headings, lists, tables — all formatted.</p></div>
           </li>
           <li>
             <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
-            <div><h4>Edit diagrams without leaving docs</h4><p>Click any diagram to edit its Mermaid source with live preview. Re-render in place.</p></div>
+            <div><h3>Edit diagrams without leaving docs</h3><p>Click any diagram to edit its Mermaid source with live preview. Re-render in place.</p></div>
           </li>
           <li>
             <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-            <div><h4>Export back to markdown</h4><p>When the spec is ready, export the whole doc. Diagrams become fenced code blocks.</p></div>
+            <div><h3>Export back to markdown</h3><p>When the spec is ready, export the whole doc. Diagrams become fenced code blocks.</p></div>
           </li>
           <li>
             <div class="why-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
-            <div><h4>Nothing leaves your browser</h4><p>100% client-side rendering. No servers, no analytics, no data collection.</p></div>
+            <div><h3>Nothing leaves your browser</h3><p>100% client-side rendering. No servers, no analytics, no data collection.</p></div>
           </li>
         </ul>
       </div>
@@ -245,7 +245,7 @@ sitemapPriority: 1.0
               {% for step in workflow.steps %}
               <li>
                 <div>
-                  <h4>{{ step.title }}</h4>
+                  <h3>{{ step.title }}</h3>
                   <p>{{ step.desc | safe }}</p>
                 </div>
               </li>
@@ -282,7 +282,7 @@ sitemapPriority: 1.0
       <div class="diagram-cards reveal-stagger">
         {% for d in diagrams %}{% if d.hasCard %}
         <a href="{{ d.docsUrl }}" class="card diagram-card" target="_blank" rel="noopener">
-          <picture><source srcset="/assets/diagrams/diagram-{{ d.slug }}.webp" type="image/webp"><img src="/assets/diagrams/diagram-{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy"></picture>
+          <picture><source srcset="/assets/diagrams/diagram-{{ d.slug }}.webp" type="image/webp"><img src="/assets/diagrams/diagram-{{ d.slug }}.png" alt="" loading="lazy"></picture>
           <span>{{ d.name }}</span>
         </a>
         {% endif %}{% endfor %}

@@ -71,18 +71,22 @@ const main = (): void => {
 
   const POSTER_OFFSET_SEC = 1.4;
   const posterSec = (step1.startMs / 1000 + POSTER_OFFSET_SEC).toFixed(3);
-  const posterFile = path.join(SITE_ASSETS, "demo-poster.png");
+  const posterPng = path.join(SITE_ASSETS, "demo-poster.png");
+  const posterWebp = path.join(SITE_ASSETS, "demo-poster.webp");
 
   console.log(
     `\nExtracting poster frame at ${posterSec}s (step 01 + ${POSTER_OFFSET_SEC}s)...`,
   );
   execSync(
-    `ffmpeg -y -ss ${posterSec} -i "${videoFile}" -frames:v 1 -q:v 2 "${posterFile}"`,
+    `ffmpeg -y -ss ${posterSec} -i "${videoFile}" -frames:v 1 -q:v 2 "${posterPng}"`,
     { stdio: "inherit" },
   );
+  execSync(`cwebp -q 80 "${posterPng}" -o "${posterWebp}"`, {
+    stdio: "inherit",
+  });
 
-  const posterKB = (fs.statSync(posterFile).size / 1024).toFixed(0);
-  console.log(`Poster saved to ${posterFile} (${posterKB} KB)`);
+  const posterKB = (fs.statSync(posterWebp).size / 1024).toFixed(0);
+  console.log(`Poster saved to ${posterWebp} (${posterKB} KB)`);
 };
 
 main();
