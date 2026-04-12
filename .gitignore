@@ -6,6 +6,9 @@ dist/
 .env
 temp/
 
+# Scratch / paste files
+src/*.paste
+
 # Google Apps Script
 .clasp.json
 .gas-build-tmp/
