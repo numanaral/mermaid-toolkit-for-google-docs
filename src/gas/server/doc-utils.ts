@@ -121,6 +121,39 @@ export const insertFencedCode = (
   return table;
 };
 
+export const extractMermaidAtCursor = (
+  doc: GoogleAppsScript.Document.Document,
+): { text: string; startIdx: number; endIdx: number } | null => {
+  const cursor = doc.getCursor();
+  if (!cursor) return null;
+
+  let el: GoogleAppsScript.Document.Element | null = cursor.getElement();
+  let table: GoogleAppsScript.Document.Table | null = null;
+  while (el) {
+    if (el.getType() === DocumentApp.ElementType.TABLE) {
+      table = el as GoogleAppsScript.Document.Table;
+      break;
+    }
+    el = el.getParent();
+  }
+  if (!table) return null;
+
+  try {
+    const body = doc.getBody();
+    const idx = body.getChildIndex(table);
+    const cellText = table.getRow(0).getCell(0).editAsText().getText();
+    const definition = stripFences(cellText);
+    if (!definition) return null;
+
+    const firstLine = definition.split("\n")[0];
+    if (!isMermaidFirstLine(firstLine)) return null;
+
+    return { text: definition, startIdx: idx, endIdx: idx };
+  } catch {
+    return null;
+  }
+};
+
 export const extractSelectedText = (
   selection: GoogleAppsScript.Document.Range,
   body: GoogleAppsScript.Document.Body,

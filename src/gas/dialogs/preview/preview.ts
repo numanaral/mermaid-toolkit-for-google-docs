@@ -9,7 +9,6 @@ import {
   markBtn,
   setLoading,
   setBtnLoading,
-  batchAction,
 } from "../../shared/scripts/card-helpers";
 import { openDataUriInNewTab } from "../../shared/scripts/dom-utils";
 import { OPEN_SVG } from "../../shared/scripts/icons";
@@ -237,43 +236,111 @@ const enableCard = (idx: number): void => {
     });
 };
 
-insertAllB.addEventListener("click", () => {
-  batchAction(
-    results,
-    "insert",
-    "insertDiagramAfterText",
-    statusEl,
-    insertAllB,
-    replaceAllB,
-    (item) => (item as RenderResult).startIdx,
-    (idx) => [
-      results[idx].base64,
-      results[idx].startIdx,
-      results[idx].endIdx,
-      idx,
-      results[idx].definition,
-    ],
-  );
-});
+interface BatchResult {
+  index: number;
+  ok: boolean;
+  error?: string;
+}
 
-replaceAllB.addEventListener("click", () => {
-  batchAction(
-    results,
-    "replace",
-    "replaceDiagramText",
-    statusEl,
-    insertAllB,
-    replaceAllB,
-    (item) => (item as RenderResult).startIdx,
-    (idx) => [
-      results[idx].base64,
-      results[idx].startIdx,
-      results[idx].endIdx,
-      idx,
-      results[idx].definition,
-    ],
-  );
-});
+const doBatchDiagrams = (action: "insert" | "replace"): void => {
+  const isReplace = action === "replace";
+  const btnPrefix = isReplace ? "rep-" : "ins-";
+  const serverFn = isReplace ? "batchReplaceDiagrams" : "batchInsertDiagrams";
+
+  const queue: number[] = [];
+  for (let i = 0; i < results.length; i++) {
+    if (!results[i].base64) continue;
+    const btn = document.getElementById(
+      btnPrefix + i,
+    ) as HTMLButtonElement | null;
+    if (btn?.classList.contains("done")) continue;
+    queue.push(i);
+  }
+
+  if (queue.length === 0) {
+    statusEl.textContent =
+      "All items have already been " +
+      (isReplace ? "replaced" : "inserted") +
+      ".";
+    return;
+  }
+
+  queue.sort((a, b) => results[b].startIdx - results[a].startIdx);
+
+  insertAllB.disabled = true;
+  replaceAllB.disabled = true;
+  const activeBtn = isReplace ? replaceAllB : insertAllB;
+  activeBtn.innerHTML =
+    '<span class="spinner-inline"></span>' +
+    (isReplace ? "Replacing..." : "Inserting...");
+  statusEl.innerHTML =
+    '<span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>' +
+    (isReplace ? "Replacing" : "Inserting") +
+    " " +
+    queue.length +
+    " diagram(s)...";
+
+  for (const idx of queue) disableCard(idx);
+
+  const items = queue.map((idx) => ({
+    base64: results[idx].base64!,
+    startIdx: results[idx].startIdx,
+    endIdx: results[idx].endIdx,
+    index: idx,
+    definition: results[idx].definition,
+  }));
+
+  google.script.run
+    .withSuccessHandler((batchResults: BatchResult[]) => {
+      let okCount = 0;
+      let errCount = 0;
+      for (const r of batchResults) {
+        const insBtn = document.getElementById(
+          "ins-" + r.index,
+        ) as HTMLButtonElement | null;
+        const repBtn = document.getElementById(
+          "rep-" + r.index,
+        ) as HTMLButtonElement | null;
+        if (r.ok) {
+          okCount++;
+          if (isReplace) {
+            if (repBtn) markBtn(repBtn, true);
+            if (insBtn) {
+              insBtn.disabled = true;
+              insBtn.textContent = "N/A";
+            }
+          } else {
+            if (insBtn) markBtn(insBtn, true);
+          }
+        } else {
+          errCount++;
+          const btn = isReplace ? repBtn : insBtn;
+          if (btn) markBtn(btn, false);
+        }
+        enableCard(r.index);
+      }
+      updateStatusCount();
+      if (errCount > 0) {
+        statusEl.textContent = okCount + " succeeded, " + errCount + " failed.";
+        activeBtn.textContent = isReplace ? "Replace All" : "Insert All";
+        insertAllB.disabled = false;
+        replaceAllB.disabled = false;
+      } else {
+        google.script.host.close();
+      }
+    })
+    .withFailureHandler((err: Error) => {
+      statusEl.textContent = "Batch error: " + err;
+      for (const idx of queue) enableCard(idx);
+      insertAllB.disabled = false;
+      replaceAllB.disabled = false;
+      activeBtn.textContent = isReplace ? "Replace All" : "Insert All";
+    })
+    [serverFn](items);
+};
+
+insertAllB.addEventListener("click", () => doBatchDiagrams("insert"));
+replaceAllB.addEventListener("click", () => doBatchDiagrams("replace"));
 
 (async () => {
   try {

@@ -9,7 +9,6 @@ import {
   markBtn,
   setLoading,
   setBtnLoading,
-  batchAction,
 } from "../../shared/scripts/card-helpers";
 import { openDataUriInNewTab } from "../../shared/scripts/dom-utils";
 import { OPEN_SVG } from "../../shared/scripts/icons";
@@ -210,31 +209,110 @@ const enableCard = (idx: number): void => {
     });
 };
 
-insertAllB.addEventListener("click", () => {
-  batchAction(
-    imageInfos.map((info) => ({ ...info, base64: "placeholder" })),
-    "insert",
-    "insertCodeBlockAfterImage",
-    statusEl,
-    insertAllB,
-    replaceAllB,
-    (_item, idx) => imageInfos[idx].childIndex,
-    (idx) => [imageInfos[idx].source, imageInfos[idx].childIndex],
-  );
-});
+interface BatchResult {
+  index: number;
+  ok: boolean;
+  error?: string;
+}
 
-replaceAllB.addEventListener("click", () => {
-  batchAction(
-    imageInfos.map((info) => ({ ...info, base64: "placeholder" })),
-    "replace",
-    "replaceImageWithCodeBlock",
-    statusEl,
-    insertAllB,
-    replaceAllB,
-    (_item, idx) => imageInfos[idx].childIndex,
-    (idx) => [imageInfos[idx].source, imageInfos[idx].childIndex],
-  );
-});
+const doBatchCodeBlocks = (action: "insert" | "replace"): void => {
+  const isReplace = action === "replace";
+  const btnPrefix = isReplace ? "rep-" : "ins-";
+  const serverFn = isReplace
+    ? "batchReplaceWithCodeBlocks"
+    : "batchInsertCodeBlocks";
+
+  const queue: number[] = [];
+  for (let i = 0; i < imageInfos.length; i++) {
+    const btn = document.getElementById(
+      btnPrefix + i,
+    ) as HTMLButtonElement | null;
+    if (btn?.classList.contains("done")) continue;
+    queue.push(i);
+  }
+
+  if (queue.length === 0) {
+    statusEl.textContent =
+      "All items have already been " +
+      (isReplace ? "replaced" : "inserted") +
+      ".";
+    return;
+  }
+
+  queue.sort((a, b) => imageInfos[b].childIndex - imageInfos[a].childIndex);
+
+  insertAllB.disabled = true;
+  replaceAllB.disabled = true;
+  const activeBtn = isReplace ? replaceAllB : insertAllB;
+  activeBtn.innerHTML =
+    '<span class="spinner-inline"></span>' +
+    (isReplace ? "Replacing..." : "Inserting...");
+  statusEl.innerHTML =
+    '<span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>' +
+    (isReplace ? "Replacing" : "Inserting") +
+    " " +
+    queue.length +
+    " diagram(s)...";
+
+  for (const idx of queue) disableCard(idx);
+
+  const items = queue.map((idx) => ({
+    source: imageInfos[idx].source,
+    childIndex: imageInfos[idx].childIndex,
+    index: idx,
+  }));
+
+  google.script.run
+    .withSuccessHandler((batchResults: BatchResult[]) => {
+      let okCount = 0;
+      let errCount = 0;
+      for (const r of batchResults) {
+        const insBtn = document.getElementById(
+          "ins-" + r.index,
+        ) as HTMLButtonElement | null;
+        const repBtn = document.getElementById(
+          "rep-" + r.index,
+        ) as HTMLButtonElement | null;
+        if (r.ok) {
+          okCount++;
+          if (isReplace) {
+            if (repBtn) markBtn(repBtn, true);
+            if (insBtn) {
+              insBtn.disabled = true;
+              insBtn.textContent = "N/A";
+            }
+          } else {
+            if (insBtn) markBtn(insBtn, true);
+          }
+        } else {
+          errCount++;
+          const btn = isReplace ? repBtn : insBtn;
+          if (btn) markBtn(btn, false);
+        }
+        enableCard(r.index);
+      }
+      updateStatusCount();
+      if (errCount > 0) {
+        statusEl.textContent = okCount + " succeeded, " + errCount + " failed.";
+        activeBtn.textContent = isReplace ? "Replace All" : "Insert All";
+        insertAllB.disabled = false;
+        replaceAllB.disabled = false;
+      } else {
+        google.script.host.close();
+      }
+    })
+    .withFailureHandler((err: Error) => {
+      statusEl.textContent = "Batch error: " + err;
+      for (const idx of queue) enableCard(idx);
+      insertAllB.disabled = false;
+      replaceAllB.disabled = false;
+      activeBtn.textContent = isReplace ? "Replace All" : "Insert All";
+    })
+    [serverFn](items);
+};
+
+insertAllB.addEventListener("click", () => doBatchCodeBlocks("insert"));
+replaceAllB.addEventListener("click", () => doBatchCodeBlocks("replace"));
 
 (async () => {
   try {

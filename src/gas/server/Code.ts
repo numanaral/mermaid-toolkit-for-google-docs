@@ -1,5 +1,6 @@
 import type { MermaidSnippet } from "./types";
 import {
+  extractMermaidAtCursor,
   extractSelectedText,
   insertFencedCode,
   makeBlob,
@@ -33,6 +34,11 @@ const makeUniqueDiagramBlob = (
 };
 
 const openEditorForImage = (source: string, imageChildIndex: number): void => {
+  // Access the document before template evaluation to ensure the
+  // OAuth authorization prompt fires when permissions haven't been granted yet.
+  // Without this, createTemplateFromFile().evaluate() fails silently.
+  DocumentApp.getActiveDocument();
+
   const template = HtmlService.createTemplateFromFile("Editor");
   template.initialSource = source;
   template.imageChildIndex = imageChildIndex;
@@ -125,18 +131,28 @@ export const convertSelectedCodeToDiagram = (): void => {
   const doc = DocumentApp.getActiveDocument();
   const selection = doc.getSelection();
 
-  if (!selection) {
-    DocumentApp.getUi().alert(
-      "No text selected.\n\n" +
-        "Select a mermaid code block or fenced ```mermaid block and try again.",
-    );
-    return;
-  }
+  let text: string;
+  let startIdx: number;
+  let endIdx: number;
 
-  const { text, startIdx, endIdx } = extractSelectedText(
-    selection,
-    doc.getBody(),
-  );
+  if (selection) {
+    const extracted = extractSelectedText(selection, doc.getBody());
+    text = extracted.text;
+    startIdx = extracted.startIdx;
+    endIdx = extracted.endIdx;
+  } else {
+    const fromCursor = extractMermaidAtCursor(doc);
+    if (!fromCursor) {
+      DocumentApp.getUi().alert(
+        "No mermaid code selected.\n\n" +
+          "Select a mermaid code block or place your cursor inside one, then try again.",
+      );
+      return;
+    }
+    text = fromCursor.text;
+    startIdx = fromCursor.startIdx;
+    endIdx = fromCursor.endIdx;
+  }
 
   if (!text) {
     DocumentApp.getUi().alert("Selected text is empty.");
@@ -227,8 +243,12 @@ export const convertSelectedImageToCode = (): void => {
   for (const re of selection.getRangeElements()) {
     const result = findMermaidImageIn(re.getElement(), body);
     if (result) {
-      insertFencedCode(body, result.childIndex, result.source);
-      body.removeChild(body.getChild(result.childIndex + 1));
+      const template = HtmlService.createTemplateFromFile("DiagramToCode");
+      template.source = result.source;
+      template.imageIdx = result.childIndex;
+
+      const html = template.evaluate().setWidth(360).setHeight(180);
+      DocumentApp.getUi().showModalDialog(html, "Converting...");
       return;
     }
   }
@@ -338,10 +358,116 @@ export const replaceImageWithCodeBlock = (
   source: string,
   imageIdx: number,
 ): { success: boolean } => {
-  const body = DocumentApp.getActiveDocument().getBody();
-  insertFencedCode(body, imageIdx, source);
+  const doc = DocumentApp.getActiveDocument();
+  const body = doc.getBody();
+  const table = insertFencedCode(body, imageIdx, source);
   body.removeChild(body.getChild(imageIdx + 1));
+  doc.setCursor(
+    doc.newPosition(table.getRow(0).getCell(0).editAsText(), 0),
+  );
   return { success: true };
+};
+
+// --- Batch operations (single round-trip for Replace All / Insert All) ---
+// Items MUST arrive pre-sorted descending by position so later edits
+// don't shift earlier indices.
+
+interface BatchDiagramItem {
+  base64: string;
+  startIdx: number;
+  endIdx: number;
+  index: number;
+  definition: string;
+}
+
+interface BatchResult {
+  index: number;
+  ok: boolean;
+  error?: string;
+}
+
+export const batchInsertDiagrams = (
+  items: BatchDiagramItem[],
+): BatchResult[] => {
+  const body = DocumentApp.getActiveDocument().getBody();
+  const results: BatchResult[] = [];
+  for (const item of items) {
+    try {
+      const blob = makeBlob(item.base64, item.index);
+      const image =
+        item.endIdx >= 0
+          ? body.insertImage(item.endIdx + 1, blob)
+          : body.appendImage(blob);
+      if (item.definition) setMermaidAlt(image, item.definition);
+      results.push({ index: item.index, ok: true });
+    } catch (e) {
+      results.push({ index: item.index, ok: false, error: String(e) });
+    }
+  }
+  return results;
+};
+
+export const batchReplaceDiagrams = (
+  items: BatchDiagramItem[],
+): BatchResult[] => {
+  const body = DocumentApp.getActiveDocument().getBody();
+  const results: BatchResult[] = [];
+  for (const item of items) {
+    try {
+      if (item.startIdx < 0 || item.endIdx < 0) {
+        throw new Error("Cannot replace: code block position unknown.");
+      }
+      const blob = makeBlob(item.base64, item.index);
+      const image = body.insertImage(item.startIdx, blob);
+      for (let i = item.endIdx + 1; i > item.startIdx; i--) {
+        body.removeChild(body.getChild(i));
+      }
+      if (item.definition) setMermaidAlt(image, item.definition);
+      results.push({ index: item.index, ok: true });
+    } catch (e) {
+      results.push({ index: item.index, ok: false, error: String(e) });
+    }
+  }
+  return results;
+};
+
+interface BatchCodeBlockItem {
+  source: string;
+  childIndex: number;
+  index: number;
+}
+
+export const batchInsertCodeBlocks = (
+  items: BatchCodeBlockItem[],
+): BatchResult[] => {
+  const body = DocumentApp.getActiveDocument().getBody();
+  const results: BatchResult[] = [];
+  for (const item of items) {
+    try {
+      insertFencedCode(body, item.childIndex + 1, item.source);
+      results.push({ index: item.index, ok: true });
+    } catch (e) {
+      results.push({ index: item.index, ok: false, error: String(e) });
+    }
+  }
+  return results;
+};
+
+export const batchReplaceWithCodeBlocks = (
+  items: BatchCodeBlockItem[],
+): BatchResult[] => {
+  const body = DocumentApp.getActiveDocument().getBody();
+  const results: BatchResult[] = [];
+  for (const item of items) {
+    try {
+      insertFencedCode(body, item.childIndex, item.source);
+      body.removeChild(body.getChild(item.childIndex + 1));
+      results.push({ index: item.index, ok: true });
+    } catch (e) {
+      results.push({ index: item.index, ok: false, error: String(e) });
+    }
+  }
+  return results;
 };
 
 export const openEditorWithSource = (source: string): void => {
