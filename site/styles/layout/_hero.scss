@@ -58,19 +58,6 @@
   animation-delay: -10s;
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(30px, -20px) scale(1.05);
-  }
-  66% {
-    transform: translate(-20px, 15px) scale(0.95);
-  }
-}
-
 .hero-center {
   position: relative;
   z-index: 10;
@@ -81,7 +68,6 @@
 
 .demo-section {
   padding: 3rem 2rem 5rem;
-  background: var(--surface);
 }
 .demo-inner {
   max-width: 960px;

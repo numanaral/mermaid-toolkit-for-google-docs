@@ -96,9 +96,12 @@
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
-  display: flex;
+  display: none;
   gap: 0.5rem;
   z-index: 10000;
+}
+.gif-modal-overlay.visible .gif-modal-controls {
+  display: flex;
 }
 .gif-modal-controls button {
   width: 40px;

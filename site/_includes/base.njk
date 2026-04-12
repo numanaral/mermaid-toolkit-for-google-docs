@@ -3,8 +3,13 @@
 <head>
 {%- include "head.njk" %}
   <link rel="stylesheet" href="/styles/{{ pageCss }}.css">
+  <noscript><style>.reveal,.gallery-item,.reveal-stagger>*{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
 </head>
 <body>
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+  </div>
 {%- include "nav.njk" %}
 {{ content | safe }}
 {%- include "footer.njk" %}

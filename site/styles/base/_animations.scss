@@ -30,6 +30,16 @@
 .js .reveal-stagger.visible > * {
   animation: fadeInUp 0.5s ease forwards;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .gallery-item,
+  .js .reveal-stagger > * {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
 .reveal-stagger.visible > *:nth-child(1) {
   animation-delay: 0s;
 }
@@ -47,16 +57,6 @@
 }
 .reveal-stagger.visible > *:nth-child(6) {
   animation-delay: 0.4s;
-}
-
-.js .hero-center {
-  animation: fadeInUp 0.8s ease 0.2s both;
-}
-.js .pending-banner {
-  animation: fadeInUp 0.6s ease 0s both;
-}
-.js .hero-divider {
-  animation: fadeInUp 0.5s ease 0.1s both;
 }
 
 @keyframes heartbeat {

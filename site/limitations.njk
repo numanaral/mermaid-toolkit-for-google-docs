@@ -2,22 +2,20 @@
 permalink: /limitations/
 layout: base.njk
 pageTitle: Known Limitations
-pageDescription: "Known limitations of Mermaid Toolkit for Google Docs™ due to Google Apps Script and Docs API constraints."
+pageDescription: "Known limitations of rendering Mermaid diagrams in Google Docs™ — Apps Script sandbox constraints, image resolution, and workarounds."
 pageCss: limitations
 sitemapPriority: 0.5
 ---
   <main>
   <div class="page-hero limitations-hero">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <h1 class="reveal">Known Limitations</h1>
-    <p class="reveal">Transparency matters. Here's what the Google platform doesn't let us do — and what we do instead.</p>
+    <h1>Known Limitations</h1>
+    <p>Transparency matters. Here's what the Google platform doesn't let us do — and what we do instead.</p>
   </div>
 
-  <div class="limitations-content reveal-stagger">
+  <div class="limitations-content">
     <p class="limitations-intro">{{ site.title }} runs entirely inside Google Docs™ using Apps Script. While this keeps your data private and requires no external server, it also means we inherit every limitation of the Google Apps Script sandbox and the Docs API. Below are the ones you're most likely to notice.</p>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon warn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
@@ -36,7 +34,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon warn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
@@ -53,7 +51,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       </div>
@@ -70,7 +68,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       </div>
@@ -87,7 +85,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       </div>
@@ -104,7 +102,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       </div>
@@ -121,7 +119,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon warn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
@@ -145,10 +143,10 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <h2 class="solved-heading" id="solved">Solved Challenges</h2>
-    <p class="limitations-intro">Some browser and platform restrictions looked like deal-breakers — until we found a way around them. These are challenges we've fully solved while keeping everything client-side.</p>
+    <h2 class="solved-heading reveal" id="solved">Solved Challenges</h2>
+    <p class="limitations-intro reveal">Some browser and platform restrictions looked like deal-breakers — until we found a way around them. These are challenges we've fully solved while keeping everything client-side.</p>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon solved">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       </div>
@@ -173,10 +171,10 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <h2 class="workarounds-heading" id="workarounds">Workarounds</h2>
-    <p class="limitations-intro">Some limitations can be worked around using a combination of native Google Docs™ features and the add-on's tools.</p>
+    <h2 class="workarounds-heading reveal" id="workarounds">Workarounds</h2>
+    <p class="limitations-intro reveal">Some limitations can be worked around using a combination of native Google Docs™ features and the add-on's tools.</p>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
       </div>
@@ -198,7 +196,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitation-card">
+    <div class="limitation-card reveal">
       <div class="limitation-icon info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
       </div>
@@ -221,7 +219,7 @@ sitemapPriority: 0.5
       </div>
     </div>
 
-    <div class="limitations-footer">
+    <div class="limitations-footer reveal">
       <p>Have questions about any of these? <a href="/support">Reach out on the support page</a> or <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs/issues" target="_blank" rel="noopener">open an issue on GitHub</a>.</p>
     </div>
   </div>

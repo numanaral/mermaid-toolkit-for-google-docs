@@ -1,3 +1,7 @@
+html {
+  scroll-padding-top: 5rem;
+}
+
 /* ============================================================
    SHARED: BUTTONS
    ============================================================ */
@@ -95,6 +99,49 @@
 /* ============================================================
    SHARED: PAGE HERO
    ============================================================ */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 15px) scale(0.95);
+  }
+}
+
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.2;
+  animation: float 15s ease-in-out infinite;
+}
+.bg-orb-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--teal);
+  top: -5%;
+  left: -10%;
+}
+.bg-orb-2 {
+  width: 500px;
+  height: 500px;
+  background: var(--accent2);
+  top: 15%;
+  right: -10%;
+  animation-delay: -5s;
+}
 
 .page-hero {
   padding: 8rem 2rem 3rem;

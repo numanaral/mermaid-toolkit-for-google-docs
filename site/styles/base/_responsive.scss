@@ -1,10 +1,6 @@
-@media (max-width: 768px) {
-  .nav-links,
-  .nav-cta {
+@media (max-width: 900px) {
+  .nav-links {
     display: none;
-  }
-  .nav-toggle {
-    display: block;
   }
   .nav-links.open {
     display: flex;
@@ -17,8 +13,35 @@
     padding: 1rem 2rem;
     gap: 0.8rem;
     border-bottom: 1px solid var(--border-faint);
+    z-index: 100;
+  }
+  .nav-toggle {
+    display: block;
+    order: 2;
+  }
+  .nav-cta {
+    order: 1;
+    margin-left: auto;
+    margin-right: 0.75rem;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.75rem;
   }
   .page-hero h1 {
     font-size: 1.8rem;
+  }
+  .pending-banner {
+    margin-top: 0;
+  }
+  .diagram-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .diagram-card img {
+    aspect-ratio: 1/1;
+  }
+}
+
+@media (max-width: 480px) {
+  .diagram-cards {
+    grid-template-columns: 1fr;
   }
 }

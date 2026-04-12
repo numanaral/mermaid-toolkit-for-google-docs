@@ -1,14 +1,14 @@
 @use "base/variables";
 @use "base/shared";
-@use "base/responsive";
 @use "layout/nav";
 @use "layout/footer";
 @use "components/pending";
+@use "base/responsive";
 
 .legal {
   max-width: 800px;
   margin: 0 auto;
-  padding: 8rem 2rem 5rem;
+  padding: 0 2rem 5rem;
 }
 .legal h1 {
   font-size: 2.2rem;
@@ -27,10 +27,36 @@
   margin-bottom: 0.75rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border-faintest);
+  position: relative;
 }
 .legal h2:first-of-type {
   border-top: none;
   padding-top: 0;
+}
+.legal h2 .anchor-link {
+  position: absolute;
+  left: -1.4em;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  text-decoration: none;
+  font-size: 0.85em;
+}
+.legal h2 .anchor-link svg {
+  width: 0.85em;
+  height: 0.85em;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.legal h2:hover .anchor-link {
+  opacity: 0.6;
+}
+.legal h2 .anchor-link:hover {
+  opacity: 1 !important;
 }
 .legal p {
   font-size: 0.92rem;
@@ -75,6 +101,6 @@
 
 @media (max-width: 768px) {
   .legal {
-    padding-top: 6rem;
+    padding: 0 1.5rem 4rem;
   }
 }

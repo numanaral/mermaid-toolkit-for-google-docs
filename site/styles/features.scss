@@ -1,14 +1,14 @@
 @use "base/variables";
 @use "base/shared";
 @use "base/animations";
-@use "base/responsive";
 @use "layout/nav";
 @use "layout/footer";
 @use "components/pending";
 @use "components/gif-player";
+@use "base/responsive";
 
 .features-detail {
-  padding: 2rem 2rem 5rem;
+  padding: 2rem 2rem 0rem;
 }
 .features-inner {
   max-width: 1000px;
@@ -42,20 +42,30 @@
   margin-bottom: 0.75rem;
   position: relative;
 }
-.anchor-hash {
+.anchor-link {
   position: absolute;
-  left: -1.2em;
+  left: -1.4em;
   color: var(--accent);
   text-decoration: none;
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-.feature-text h2:hover .anchor-hash {
+.feature-text h2:hover .anchor-link {
   opacity: 0.6;
 }
-.anchor-hash:hover {
+.anchor-link:hover {
   opacity: 1 !important;
   text-decoration: none;
+}
+.anchor-link svg {
+  width: 0.85em;
+  height: 0.85em;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .feature-text p {
   font-size: 0.92rem;
@@ -181,13 +191,20 @@
 }
 
 .features-privacy {
-  padding: 4rem 2rem;
-  background: var(--surface);
+  padding: 0 2rem 5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border-faint);
+  padding-top: 3rem;
 }
 .features-privacy-inner {
   max-width: 700px;
   margin: 0 auto;
   text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border-accent-dim);
+  border-radius: 20px;
+  padding: 3rem;
 }
 .features-privacy-inner h2 {
   font-size: 1.5rem;

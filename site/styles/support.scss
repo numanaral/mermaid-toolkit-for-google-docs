@@ -1,11 +1,11 @@
 @use "base/variables";
 @use "base/shared";
 @use "base/animations";
-@use "base/responsive";
 @use "layout/nav";
 @use "layout/footer";
 @use "layout/hero";
 @use "components/pending";
+@use "base/responsive";
 
 .support-grid {
   display: grid;
@@ -98,72 +98,13 @@
   background: var(--form-bg);
 }
 
-.faq-section {
-  max-width: 800px;
-  margin: 0 auto;
+.support-hero ~ .faq-section {
   padding: 0 2rem 5rem;
 }
-.faq-section h2 {
+.support-hero ~ .faq-section h2 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-}
-.faq-section details {
-  border-radius: 12px;
-  margin-bottom: 0.75rem;
-  transition: border-color 0.3s;
-}
-.faq-section details:hover {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-}
-.faq-section details[open] {
-  border-color: var(--accent);
-}
-.faq-section details summary {
-  padding: 1rem 1.5rem;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  transition: color 0.2s;
-}
-.faq-section details summary::-webkit-details-marker {
-  display: none;
-}
-.faq-section details summary::before {
-  content: "+";
-  font-family: "Space Mono", monospace;
-  font-size: 1rem;
-  color: var(--accent);
-  flex-shrink: 0;
-  width: 1.2rem;
-  text-align: center;
-}
-.faq-section details[open] summary::before {
-  content: "\2212";
-}
-.faq-section details[open] summary {
-  color: var(--accent);
-}
-.faq-section details div,
-.faq-section details p,
-.faq-section details ul,
-.faq-section details ol {
-  padding: 0 1.5rem 1rem 3rem;
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  line-height: 1.6;
-}
-.faq-section details ul,
-.faq-section details ol {
-  padding-left: 4.5rem;
-}
-.faq-section details li {
-  margin-bottom: 0.3rem;
 }
 
 @media (max-width: 768px) {

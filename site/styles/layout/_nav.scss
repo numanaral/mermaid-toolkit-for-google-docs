@@ -80,9 +80,34 @@ nav {
   border: none;
   color: var(--text);
   cursor: pointer;
-  padding: 0.4rem;
+  padding: 0.5rem;
+  width: 36px;
+  height: 36px;
+  position: relative;
+  flex-shrink: 0;
 }
-.nav-toggle svg {
-  width: 22px;
-  height: 22px;
+.nav-toggle-bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.nav-toggle-bar:nth-child(1) { top: 10px; }
+.nav-toggle-bar:nth-child(2) { top: 17px; }
+.nav-toggle-bar:nth-child(3) { top: 24px; }
+.nav-toggle.open .nav-toggle-bar:nth-child(1) {
+  top: 17px;
+  transform: translateX(-50%) rotate(45deg);
+}
+.nav-toggle.open .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.open .nav-toggle-bar:nth-child(3) {
+  top: 17px;
+  transform: translateX(-50%) rotate(-45deg);
 }

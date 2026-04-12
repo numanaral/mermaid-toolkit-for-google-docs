@@ -1,11 +1,11 @@
 @use "base/variables";
 @use "base/shared";
 @use "base/animations";
-@use "base/responsive";
 @use "layout/nav";
 @use "layout/footer";
 @use "layout/hero";
 @use "components/pending";
+@use "base/responsive";
 
 .gallery-grid {
   max-width: 1100px;

@@ -4,7 +4,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
   const links = document.querySelector<HTMLElement>(".nav-links");
   if (toggle && links) {
-    toggle.addEventListener("click", () => links.classList.toggle("open"));
+    const closeMenu = () => {
+      links.classList.remove("open");
+      toggle.classList.remove("open");
+    };
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      links.classList.toggle("open");
+      toggle.classList.toggle("open");
+    });
+    links
+      .querySelectorAll("a")
+      .forEach((a) => a.addEventListener("click", closeMenu));
+    document.addEventListener("click", (e) => {
+      if (
+        links.classList.contains("open") &&
+        !links.contains(e.target as Node) &&
+        !toggle.contains(e.target as Node)
+      ) {
+        closeMenu();
+      }
+    });
   }
 
   const howTabs = document.querySelectorAll<HTMLButtonElement>(".how-tab");
@@ -119,36 +139,43 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll(".gallery-item")
     .forEach((el) => el.classList.add("reveal"));
 
-  const gifModal = document.createElement("div");
-  gifModal.className = "gif-modal-overlay";
-  gifModal.innerHTML = `<img src="" alt="">
-    <div class="gif-modal-controls">
-      <button class="gif-modal-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
-      <button class="gif-modal-close" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>`;
-  document.body.appendChild(gifModal);
+  const hasGifs = document.querySelectorAll(".gif-player").length > 0;
 
-  const modalImg = gifModal.querySelector<HTMLImageElement>("img")!;
-  const modalReset =
-    gifModal.querySelector<HTMLButtonElement>(".gif-modal-reset")!;
-  const modalClose =
-    gifModal.querySelector<HTMLButtonElement>(".gif-modal-close")!;
+  let gifModal: HTMLDivElement | null = null;
+  let modalImg: HTMLImageElement | null = null;
 
-  const closeGifModal = () => gifModal.classList.remove("visible");
+  if (hasGifs) {
+    gifModal = document.createElement("div");
+    gifModal.className = "gif-modal-overlay";
+    gifModal.innerHTML = `<img src="" alt="">
+      <div class="gif-modal-controls">
+        <button class="gif-modal-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+        <button class="gif-modal-close" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>`;
+    document.body.appendChild(gifModal);
 
-  modalClose.addEventListener("click", closeGifModal);
-  gifModal.addEventListener("click", (e) => {
-    if (e.target === gifModal) closeGifModal();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && gifModal.classList.contains("visible"))
-      closeGifModal();
-  });
-  modalReset.addEventListener("click", () => {
-    const s = modalImg.src;
-    modalImg.src = "";
-    modalImg.src = s;
-  });
+    modalImg = gifModal.querySelector<HTMLImageElement>("img")!;
+    const modalReset =
+      gifModal.querySelector<HTMLButtonElement>(".gif-modal-reset")!;
+    const modalClose =
+      gifModal.querySelector<HTMLButtonElement>(".gif-modal-close")!;
+
+    const closeGifModal = () => gifModal!.classList.remove("visible");
+
+    modalClose.addEventListener("click", closeGifModal);
+    gifModal.addEventListener("click", (e) => {
+      if (e.target === gifModal) closeGifModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && gifModal!.classList.contains("visible"))
+        closeGifModal();
+    });
+    modalReset.addEventListener("click", () => {
+      const s = modalImg!.src;
+      modalImg!.src = "";
+      modalImg!.src = s;
+    });
+  }
 
   document.querySelectorAll<HTMLElement>(".gif-player").forEach((player) => {
     const img = player.querySelector<HTMLImageElement>("img");
@@ -179,12 +206,14 @@ document.addEventListener("DOMContentLoaded", () => {
         img.src = src;
       });
     }
-    if (fsBtn) {
+    if (fsBtn && gifModal && modalImg) {
+      const gm = gifModal;
+      const mi = modalImg;
       fsBtn.addEventListener("click", () => {
-        modalImg.src = "";
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
-        gifModal.classList.add("visible");
+        mi.src = "";
+        mi.src = img.src;
+        mi.alt = img.alt;
+        gm.classList.add("visible");
       });
     }
   });
@@ -204,4 +233,25 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     reveals.forEach((el) => revealObserver.observe(el));
   }
+
+  const linkSvg =
+    '<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>';
+  document.querySelectorAll(".legal h2, .feature-text h2").forEach((h2) => {
+    const id =
+      h2.id ||
+      (h2.textContent || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+    if (!id) return;
+    h2.id = id;
+    if (h2.querySelector(".anchor-link")) return;
+    const a = document.createElement("a");
+    a.href = `#${id}`;
+    a.className = "anchor-link";
+    a.setAttribute("aria-label", `Link to ${h2.textContent}`);
+    a.innerHTML = linkSvg;
+    h2.prepend(a);
+  });
 });

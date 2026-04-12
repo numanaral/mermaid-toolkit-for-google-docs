@@ -1,7 +1,6 @@
 @use "base/variables";
 @use "base/shared";
 @use "base/animations";
-@use "base/responsive";
 @use "layout/nav";
 @use "layout/footer";
 @use "layout/hero";
@@ -12,6 +11,25 @@
 @use "components/diagrams";
 @use "components/pending";
 @use "components/gif-player";
+@use "base/responsive";
+
+main > section:nth-child(even) {
+  background: var(--surface);
+}
+
+.home-faq {
+  padding: 5rem 2rem;
+}
+.home-faq-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.home-faq h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
 
 @media (max-width: 768px) {
   .hero h1 {
