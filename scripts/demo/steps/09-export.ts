@@ -1,15 +1,21 @@
 import type { StepContext } from "../helpers";
 import {
   sleep,
-  openMenuItem, enterDialog, closeDialog, cleanBetween,
+  openMenuItem,
+  enterDialog,
+  closeDialog,
+  cleanBetween,
 } from "../helpers";
 
-export const step07Export = async (ctx: StepContext): Promise<void> => {
+export const step09Export = async (ctx: StepContext): Promise<void> => {
   const { page, shot } = ctx;
-  console.log("\n[07] Export as Markdown");
+  console.log("\n[09] Export as Markdown");
   await openMenuItem(page, "Export as Markdown");
   const d = await enterDialog(page, (f) =>
-    f.evaluate(() => { const btn = document.getElementById("copy-btn"); return btn && !(btn as HTMLButtonElement).disabled; }),
+    f.evaluate(() => {
+      const btn = document.getElementById("copy-btn");
+      return btn && !(btn as HTMLButtonElement).disabled;
+    }),
   );
   if (d) {
     const { iframe, iGlide, iClick } = d;

@@ -124,7 +124,7 @@ const main = (): void => {
     fs.readFileSync(tsFile, "utf8"),
   );
   const trimOffsets = loadTrimOffsets();
-  const gifDir = path.resolve("temp/demo/gifs");
+  const gifDir = path.resolve("site/assets/gifs");
   fs.mkdirSync(gifDir, { recursive: true });
 
   console.log(
@@ -133,17 +133,10 @@ const main = (): void => {
 
   for (const ts of timestamps) {
     const stepLabel = String(ts.step).padStart(2, "0");
-    const cleanName = ts.name
-      .replace(/^step\d+/, "")
-      .replace(/([A-Z])/g, "-$1")
-      .toLowerCase()
-      .replace(/^-/, "");
-    const gifPath = path.join(
-      gifDir,
-      `${stepLabel}-${cleanName || "step"}.gif`,
-    );
-
     const trim = trimOffsets[String(ts.step)] ?? DEFAULT_TRIM;
+    const gifName = trim.name || ts.name;
+    const gifPath = path.join(gifDir, `${gifName}.gif`);
+
     const actualStartMs = ts.startMs + trim.trimStartMs;
     const actualEndMs = ts.endMs - trim.trimEndMs;
     const durationMs = Math.max(0, actualEndMs - actualStartMs);
@@ -153,7 +146,7 @@ const main = (): void => {
       msToSec(actualStartMs),
       msToSec(durationMs),
       gifPath,
-      `[${stepLabel}] ${trim.name || ts.name}`,
+      `[${stepLabel}] ${gifName}`,
     );
   }
 

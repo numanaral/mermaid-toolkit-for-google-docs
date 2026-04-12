@@ -1,13 +1,17 @@
 import type { StepContext } from "../helpers";
 import {
-  sleep, poll,
-  openMenuItem, enterDialog, closeDialog, cleanBetween,
+  sleep,
+  poll,
+  openMenuItem,
+  enterDialog,
+  closeDialog,
+  cleanBetween,
   BROKEN_MARKDOWN,
 } from "../helpers";
 
-export const step08FixMarkdown = async (ctx: StepContext): Promise<void> => {
+export const step10FixMarkdown = async (ctx: StepContext): Promise<void> => {
   const { page, shot } = ctx;
-  console.log('\n[08] Fix Native "Copy as Markdown"');
+  console.log('\n[10] Fix Native "Copy as Markdown"');
   await openMenuItem(page, 'Fix Native "Copy as Markdown"');
   const d = await enterDialog(page, (f) => f.locator("#input").isVisible());
   if (d) {
@@ -20,7 +24,15 @@ export const step08FixMarkdown = async (ctx: StepContext): Promise<void> => {
 
     console.log("   Pasting broken markdown...");
     await iframe.locator("#input").fill(BROKEN_MARKDOWN);
-    await poll(() => iframe.locator("text=Fixed").count().then((c) => c > 0).catch(() => false), 10000);
+    await poll(
+      () =>
+        iframe
+          .locator("text=Fixed")
+          .count()
+          .then((c) => c > 0)
+          .catch(() => false),
+      10000,
+    );
     await sleep(800);
 
     const fixedTab = iframe.locator('button.tab:has-text("Fixed")');

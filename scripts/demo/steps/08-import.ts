@@ -58,9 +58,9 @@ const typeMarkdown = async (
   }
 };
 
-export const step06Import = async (ctx: StepContext): Promise<void> => {
+export const step08Import = async (ctx: StepContext): Promise<void> => {
   const { page, shot } = ctx;
-  console.log("\n[06] Import from Markdown");
+  console.log("\n[08] Import from Markdown");
   await openMenuItem(page, "Import from Markdown");
   const d = await enterDialog(page, (f) => f.locator("#source").isVisible());
   if (d) {

@@ -67,7 +67,22 @@ const main = (): void => {
   );
 
   const sizeMB = (fs.statSync(outFile).size / (1024 * 1024)).toFixed(1);
-  console.log(`\nDone! Site video saved to ${outFile} (${sizeMB} MB)`);
+  console.log(`\nSite video saved to ${outFile} (${sizeMB} MB)`);
+
+  const POSTER_OFFSET_SEC = 1.4;
+  const posterSec = (step1.startMs / 1000 + POSTER_OFFSET_SEC).toFixed(3);
+  const posterFile = path.join(SITE_ASSETS, "demo-poster.png");
+
+  console.log(
+    `\nExtracting poster frame at ${posterSec}s (step 01 + ${POSTER_OFFSET_SEC}s)...`,
+  );
+  execSync(
+    `ffmpeg -y -ss ${posterSec} -i "${videoFile}" -frames:v 1 -q:v 2 "${posterFile}"`,
+    { stdio: "inherit" },
+  );
+
+  const posterKB = (fs.statSync(posterFile).size / 1024).toFixed(0);
+  console.log(`Poster saved to ${posterFile} (${posterKB} KB)`);
 };
 
 main();

@@ -47,7 +47,7 @@ export const parseStepRange = (args: string[]): StepRange => {
       /^--steps=\d{1,2}(-\d{1,2})?$/.test(arg),
   );
   const raw = rawArg?.startsWith("--steps=") ? rawArg.slice(8) : rawArg;
-  if (!raw) return { start: 0, end: 11 };
+  if (!raw) return { start: 0, end: 13 };
   const [startRaw, endRaw = startRaw] = raw.split("-");
   const s = Number(startRaw);
   const e = Number(endRaw);
@@ -55,7 +55,7 @@ export const parseStepRange = (args: string[]): StepRange => {
     !Number.isInteger(s) ||
     !Number.isInteger(e) ||
     s < 0 ||
-    e > 11 ||
+    e > 13 ||
     s > e
   ) {
     throw new Error(`Invalid step range: ${raw}`);

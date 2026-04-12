@@ -1,12 +1,15 @@
 import type { StepContext } from "../helpers";
 import {
   sleep,
-  openMenuItem, enterDialog, closeDialog, cleanBetween,
+  openMenuItem,
+  enterDialog,
+  closeDialog,
+  cleanBetween,
 } from "../helpers";
 
-export const step09QuickGuide = async (ctx: StepContext): Promise<void> => {
+export const step11QuickGuide = async (ctx: StepContext): Promise<void> => {
   const { page, shot } = ctx;
-  console.log("\n[09] Quick Guide");
+  console.log("\n[11] Quick Guide");
   await openMenuItem(page, "Quick Guide");
   const d = await enterDialog(page, (f) =>
     f.evaluate(() => document.body && document.body.innerText.length > 50),

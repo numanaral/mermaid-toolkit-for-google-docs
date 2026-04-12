@@ -8,9 +8,11 @@ import {
   cleanBetween,
 } from "../helpers";
 
-export const step04DiagramsToCode = async (ctx: StepContext): Promise<void> => {
+export const step06DiagramToCodeForAll = async (
+  ctx: StepContext,
+): Promise<void> => {
   const { page, shot } = ctx;
-  console.log("\n[04] Convert All Diagrams to Code");
+  console.log("\n[06] Convert All Diagrams to Code");
   await openMenuItem(page, "Convert All Diagrams to Code");
   const d = await enterDialog(page, (f) =>
     f.evaluate(() => {

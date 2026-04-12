@@ -26,7 +26,10 @@
     "demo:split": "tsx scripts/demo/split-clips.ts",
     "demo:gif": "tsx scripts/demo/to-gif.ts",
     "demo:site-video": "tsx scripts/demo/site-video.ts",
-    "demo:demo-gif": "tsx scripts/demo/demo-gif.ts"
+    "demo:demo-gif": "tsx scripts/demo/demo-gif.ts",
+    "demo:code-to-diagram-for-one": "tsx scripts/demo/record-convert-selected.ts",
+    "demo:diagram-to-code-for-one": "tsx scripts/demo/record-diagram-to-code-selected.ts",
+    "test:selection-fix": "tsx scripts/demo/test-selection-fix.ts"
   },
   "repository": {
     "type": "git",

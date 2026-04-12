@@ -86,17 +86,10 @@ const main = (): void => {
 
   for (const ts of timestamps) {
     const stepLabel = String(ts.step).padStart(2, "0");
-    const cleanName = ts.name
-      .replace(/^step\d+/, "")
-      .replace(/([A-Z])/g, "-$1")
-      .toLowerCase()
-      .replace(/^-/, "");
-    const outFile = path.join(
-      outDir,
-      `${stepLabel}-${cleanName || "step"}.webm`,
-    );
-
     const trim = trimOffsets[String(ts.step)] ?? DEFAULT_TRIM;
+    const clipName = trim.name || ts.name;
+    const outFile = path.join(outDir, `${clipName}.webm`);
+
     const actualStart = ts.startMs + trim.trimStartMs;
     const actualEnd = ts.endMs - trim.trimEndMs;
     const durationMs = Math.max(0, actualEnd - actualStart);
@@ -105,7 +98,7 @@ const main = (): void => {
     const duration = msToTimecode(durationMs);
 
     console.log(
-      `  [${stepLabel}] ${ts.name}: ${start} (${(durationMs / 1000).toFixed(1)}s) [trim +${trim.trimStartMs}ms / -${trim.trimEndMs}ms]`,
+      `  [${stepLabel}] ${clipName}: ${start} (${(durationMs / 1000).toFixed(1)}s) [trim +${trim.trimStartMs}ms / -${trim.trimEndMs}ms]`,
     );
 
     execSync(

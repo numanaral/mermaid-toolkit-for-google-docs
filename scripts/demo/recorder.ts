@@ -3,9 +3,9 @@
  * with smooth cursor movement and real interactions inside each dialog.
  *
  * Usage:
- *   tsx scripts/demo/recorder.ts          # full run (steps 0-11)
+ *   tsx scripts/demo/recorder.ts          # full run (steps 0-13)
  *   tsx scripts/demo/recorder.ts 0-2      # steps 0 through 2
- *   tsx scripts/demo/recorder.ts 8-11     # steps 8 through 11
+ *   tsx scripts/demo/recorder.ts 8-13     # steps 8 through 13
  */
 import { chromium } from "playwright";
 import fs from "fs";
@@ -29,39 +29,45 @@ import { step00Reset } from "./steps/00-reset";
 import { step01Insert } from "./steps/01-insert";
 import { step02EditSelected } from "./steps/02-edit-selected";
 import { step03EditAll } from "./steps/03-edit-all";
-import { step04DiagramsToCode } from "./steps/04-diagrams-to-code";
-import { step05CodeToDiagrams } from "./steps/05-code-to-diagrams";
-import { step06Import } from "./steps/06-import";
-import { step07Export } from "./steps/07-export";
-import { step08FixMarkdown } from "./steps/08-fix-markdown";
-import { step09QuickGuide } from "./steps/09-quick-guide";
-import { step10DevTools } from "./steps/10-dev-tools";
-import { step11About } from "./steps/11-about";
+import { step04DiagramToCodeForOne } from "./steps/04-diagram-to-code-for-one";
+import { step05CodeToDiagramForOne } from "./steps/05-code-to-diagram-for-one";
+import { step06DiagramToCodeForAll } from "./steps/06-diagram-to-code-for-all";
+import { step07CodeToDiagramForAll } from "./steps/07-code-to-diagram-for-all";
+import { step08Import } from "./steps/08-import";
+import { step09Export } from "./steps/09-export";
+import { step10FixMarkdown } from "./steps/10-fix-markdown";
+import { step11QuickGuide } from "./steps/11-quick-guide";
+import { step12DevTools } from "./steps/12-dev-tools";
+import { step13About } from "./steps/13-about";
 
 const steps = [
   step00Reset,
   step01Insert,
   step02EditSelected,
   step03EditAll,
-  step04DiagramsToCode,
-  step05CodeToDiagrams,
-  step06Import,
-  step07Export,
-  step08FixMarkdown,
-  step09QuickGuide,
-  step10DevTools,
-  step11About,
+  step04DiagramToCodeForOne,
+  step05CodeToDiagramForOne,
+  step06DiagramToCodeForAll,
+  step07CodeToDiagramForAll,
+  step08Import,
+  step09Export,
+  step10FixMarkdown,
+  step11QuickGuide,
+  step12DevTools,
+  step13About,
 ];
+
+const TOTAL_STEPS = steps.length - 1;
 
 const main = async (): Promise<void> => {
   const stepRange = parseStepRange(process.argv.slice(2));
-  const isBatch = stepRange.start !== 0 || stepRange.end !== 11;
+  const isBatch = stepRange.start !== 0 || stepRange.end !== TOTAL_STEPS;
   const rangeLabel = `${String(stepRange.start).padStart(2, "0")}-${String(stepRange.end).padStart(2, "0")}`;
   const runTag = nextRunTag(`demo-${rangeLabel}`);
 
   console.log("\n═══ Full Mermaid Toolkit Demo ═══\n");
   console.log(`Run tag: ${runTag}`);
-  console.log(`Steps: ${rangeLabel}`);
+  console.log(`Steps: ${rangeLabel} (total ${TOTAL_STEPS + 1})`);
   fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
 
   const timestampsPath = path.join(

@@ -1,22 +1,25 @@
 import type { StepContext } from "../helpers";
-import {
-  sleep,
-  openMenuItem, enterDialog, closeFrameDialog,
-} from "../helpers";
+import { sleep, openMenuItem, enterDialog, closeFrameDialog } from "../helpers";
 
-export const step10DevTools = async (ctx: StepContext): Promise<void> => {
+export const step12DevTools = async (ctx: StepContext): Promise<void> => {
   const { page, shot } = ctx;
-  console.log("\n[10] Dev Tools");
+  console.log("\n[12] Dev Tools");
 
   await openMenuItem(page, "Dev Tools");
   const d = await enterDialog(page, (f) =>
-    f.locator("#btn-inspector").count().then((c) => c > 0),
+    f
+      .locator("#btn-inspector")
+      .count()
+      .then((c) => c > 0),
   );
   if (d) {
     const browseDevToolsCards = async (
       frameCtx: typeof d,
       shotLabel: string,
-    ): Promise<{ inspectorBtn: ReturnType<typeof d.iframe.locator>; docInfoBtn: ReturnType<typeof d.iframe.locator> }> => {
+    ): Promise<{
+      inspectorBtn: ReturnType<typeof d.iframe.locator>;
+      docInfoBtn: ReturnType<typeof d.iframe.locator>;
+    }> => {
       const { iframe: toolsFrame } = frameCtx;
       await sleep(1100);
       const inspectorBtn = toolsFrame.locator("#btn-inspector");
@@ -25,15 +28,25 @@ export const step10DevTools = async (ctx: StepContext): Promise<void> => {
       return { inspectorBtn, docInfoBtn };
     };
 
-    const firstBrowse = await browseDevToolsCards(d, "26-devtools-cards-inspector");
+    const firstBrowse = await browseDevToolsCards(
+      d,
+      "26-devtools-cards-inspector",
+    );
     console.log("   Clicking Inspector...");
     await d.iClick(firstBrowse.inspectorBtn);
 
     const inspCtx = await enterDialog(page, (f) =>
-      f.evaluate(() => { const tc = document.getElementById("tc-docapp"); return tc && tc.innerHTML.length > 50; }),
+      f.evaluate(() => {
+        const tc = document.getElementById("tc-docapp");
+        return tc && tc.innerHTML.length > 50;
+      }),
     );
     if (inspCtx) {
-      const { iframe: inspFrame, iGlide: inspGlide, iClick: inspClick } = inspCtx;
+      const {
+        iframe: inspFrame,
+        iGlide: inspGlide,
+        iClick: inspClick,
+      } = inspCtx;
       console.log("   Inspector opened");
       await sleep(600);
 
@@ -42,7 +55,11 @@ export const step10DevTools = async (ctx: StepContext): Promise<void> => {
       if (ftBox) {
         await inspGlide(ftBox.x + ftBox.width / 2, ftBox.y + 60, 14);
         await sleep(400);
-        await inspGlide(ftBox.x + ftBox.width / 2, ftBox.y + ftBox.height * 0.4, 16);
+        await inspGlide(
+          ftBox.x + ftBox.width / 2,
+          ftBox.y + ftBox.height * 0.4,
+          16,
+        );
         await sleep(400);
       }
 
@@ -72,15 +89,25 @@ export const step10DevTools = async (ctx: StepContext): Promise<void> => {
     console.log("   Re-opening Dev Tools for Document Info...");
     await openMenuItem(page, "Dev Tools");
     const docInfoDialog = await enterDialog(page, (f) =>
-      f.locator("#btn-doc-info").count().then((c) => c > 0),
+      f
+        .locator("#btn-doc-info")
+        .count()
+        .then((c) => c > 0),
     );
-    if (!docInfoDialog) throw new Error("Could not reopen Dev Tools for Document Info.");
-    const secondBrowse = await browseDevToolsCards(docInfoDialog, "28-devtools-cards-docinfo");
+    if (!docInfoDialog)
+      throw new Error("Could not reopen Dev Tools for Document Info.");
+    const secondBrowse = await browseDevToolsCards(
+      docInfoDialog,
+      "28-devtools-cards-docinfo",
+    );
     console.log("   Clicking Document Info...");
     await docInfoDialog.iClick(secondBrowse.docInfoBtn);
 
     const diCtx = await enterDialog(page, (f) =>
-      f.evaluate(() => { const t = document.getElementById("info-table"); return t && t.innerHTML.length > 50; }),
+      f.evaluate(() => {
+        const t = document.getElementById("info-table");
+        return t && t.innerHTML.length > 50;
+      }),
     );
     if (diCtx) {
       const { iframe: diFrame, iGlide: diGlide, iClick: diClick } = diCtx;
