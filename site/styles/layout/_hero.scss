@@ -4,6 +4,7 @@
 
 .hero {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,7 +12,19 @@
   position: relative;
   padding: 7rem 2rem 3rem;
   text-align: center;
-  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: auto;
+    padding: 6rem 1.5rem 2.5rem;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
 }
 .hero-divider {
   border: none;
