@@ -22,7 +22,7 @@
     "keyword": "sequenceDiagram",
     "docsUrl": "https://mermaid.js.org/syntax/sequenceDiagram.html",
     "code": "sequenceDiagram\n    Alice->>Bob: Hello Bob!\n    Bob-->>Alice: Hi Alice!\n    Alice->>Bob: How are you?\n    Bob-->>Alice: Great!",
-    "hasCard": true
+    "hasCard": false
   },
   {
     "name": "Class Diagram",
@@ -71,7 +71,7 @@
     "keyword": "pie",
     "docsUrl": "https://mermaid.js.org/syntax/pie.html",
     "code": "pie title Favorite Languages\n    \"JavaScript\" : 35\n    \"Python\" : 30\n    \"TypeScript\" : 20\n    \"Go\" : 15",
-    "hasCard": false
+    "hasCard": true
   },
   {
     "name": "Mindmap",
