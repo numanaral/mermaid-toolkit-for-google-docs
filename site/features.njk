@@ -6,16 +6,16 @@ pageDescription: "Render Mermaid diagrams directly in Google Docs™. Edit in pl
 pageCss: features
 sitemapPriority: 0.9
 ---
-{% set gifMap = {
-  "editor": "/assets/gifs/editor.gif",
-  "edit-all": "/assets/gifs/edit-all.gif",
-  "edit-selected": "/assets/gifs/edit-selected.gif",
-  "code-to-diagram-for-all": "/assets/gifs/code-to-diagram-for-all.gif",
-  "code-to-diagram-for-one": "/assets/gifs/code-to-diagram-for-one.gif",
-  "diagram-to-code-for-all": "/assets/gifs/diagram-to-code-for-all.gif",
-  "diagram-to-code-for-one": "/assets/gifs/diagram-to-code-for-one.gif",
-  "import-markdown": "/assets/gifs/import-markdown.gif",
-  "export-markdown": "/assets/gifs/export-markdown.gif"
+{% set clipMap = {
+  "editor": "/assets/clips/editor.webm",
+  "edit-all": "/assets/clips/edit-all.webm",
+  "edit-selected": "/assets/clips/edit-selected.webm",
+  "code-to-diagram-for-all": "/assets/clips/code-to-diagram-for-all.webm",
+  "code-to-diagram-for-one": "/assets/clips/code-to-diagram-for-one.webm",
+  "diagram-to-code-for-all": "/assets/clips/diagram-to-code-for-all.webm",
+  "diagram-to-code-for-one": "/assets/clips/diagram-to-code-for-one.webm",
+  "import-markdown": "/assets/clips/import-markdown.webm",
+  "export-markdown": "/assets/clips/export-markdown.webm"
 } %}
   <main>
   <section class="page-hero">
@@ -36,12 +36,12 @@ sitemapPriority: 0.9
           <p class="feature-menu"><strong>{{ feat.menu }}</strong>{% if feat.menuAlt %}<br><strong>{{ feat.menuAlt }}</strong>{% endif %}</p>
         </div>
         <div class="feature-media">
-          {% if gifMap[feat.id] %}
-          <div class="gif-player">
-            <img src="{{ gifMap[feat.id] }}" alt="{{ feat.title }}" loading="lazy">
-            <div class="gif-controls">
-              <button class="gif-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
-              <button class="gif-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+          {% if clipMap[feat.id] %}
+          <div class="video-player">
+            <video src="{{ clipMap[feat.id] }}" autoplay loop muted playsinline></video>
+            <div class="video-controls">
+              <button class="video-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+              <button class="video-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
             </div>
           </div>
           {% endif %}
@@ -100,11 +100,11 @@ sitemapPriority: 0.9
         </div>
 
         <div class="feature-media">
-          <div class="gif-player">
-            <img src="/assets/gifs/fix-markdown.gif" alt="Fix Native Copy as Markdown" loading="lazy">
-            <div class="gif-controls">
-              <button class="gif-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
-              <button class="gif-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+          <div class="video-player">
+            <video src="/assets/clips/fix-markdown.webm" autoplay loop muted playsinline></video>
+            <div class="video-controls">
+              <button class="video-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+              <button class="video-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
             </div>
           </div>
         </div>

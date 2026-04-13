@@ -43,16 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const panel = document.getElementById(`how-panel-${target}`);
         if (panel) {
           panel.classList.add("active");
-          const gifPlayer = panel.querySelector(".gif-player");
-          if (gifPlayer) {
-            gifPlayer.classList.remove("gif-slide-in");
-            void (gifPlayer as HTMLElement).offsetWidth;
-            gifPlayer.classList.add("gif-slide-in");
-            const img = gifPlayer.querySelector<HTMLImageElement>("img");
-            if (img) {
-              const src = img.src;
-              img.src = "";
-              img.src = src;
+          const videoPlayer = panel.querySelector(".video-player");
+          if (videoPlayer) {
+            videoPlayer.classList.remove("video-slide-in");
+            void (videoPlayer as HTMLElement).offsetWidth;
+            videoPlayer.classList.add("video-slide-in");
+            const vid = videoPlayer.querySelector<HTMLVideoElement>("video");
+            if (vid) {
+              vid.currentTime = 0;
+              vid.play().catch(() => {});
             }
           }
         }
@@ -139,81 +138,110 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll(".gallery-item")
     .forEach((el) => el.classList.add("reveal"));
 
-  const hasGifs = document.querySelectorAll(".gif-player").length > 0;
+  const hasVideos = document.querySelectorAll(".video-player").length > 0;
 
-  let gifModal: HTMLDivElement | null = null;
-  let modalImg: HTMLImageElement | null = null;
+  let videoModal: HTMLDivElement | null = null;
+  let modalVideo: HTMLVideoElement | null = null;
 
-  if (hasGifs) {
-    gifModal = document.createElement("div");
-    gifModal.className = "gif-modal-overlay";
-    gifModal.innerHTML = `<img src="" alt="">
-      <div class="gif-modal-controls">
-        <button class="gif-modal-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
-        <button class="gif-modal-close" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  if (hasVideos) {
+    videoModal = document.createElement("div");
+    videoModal.className = "video-modal-overlay";
+    videoModal.innerHTML = `<video autoplay loop muted playsinline></video>
+      <div class="video-modal-controls">
+        <button class="video-modal-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+        <button class="video-modal-close" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>`;
-    document.body.appendChild(gifModal);
+    document.body.appendChild(videoModal);
 
-    modalImg = gifModal.querySelector<HTMLImageElement>("img")!;
+    modalVideo = videoModal.querySelector<HTMLVideoElement>("video")!;
     const modalReset =
-      gifModal.querySelector<HTMLButtonElement>(".gif-modal-reset")!;
+      videoModal.querySelector<HTMLButtonElement>(".video-modal-reset")!;
     const modalClose =
-      gifModal.querySelector<HTMLButtonElement>(".gif-modal-close")!;
+      videoModal.querySelector<HTMLButtonElement>(".video-modal-close")!;
 
-    const closeGifModal = () => gifModal!.classList.remove("visible");
+    const closeVideoModal = () => {
+      videoModal!.classList.remove("visible");
+      modalVideo!.pause();
+      modalVideo!.removeAttribute("src");
+      modalVideo!.load();
+    };
 
-    modalClose.addEventListener("click", closeGifModal);
-    gifModal.addEventListener("click", (e) => {
-      if (e.target === gifModal) closeGifModal();
+    modalClose.addEventListener("click", closeVideoModal);
+    videoModal.addEventListener("click", (e) => {
+      if (e.target === videoModal) closeVideoModal();
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && gifModal!.classList.contains("visible"))
-        closeGifModal();
+      if (e.key === "Escape" && videoModal!.classList.contains("visible"))
+        closeVideoModal();
     });
     modalReset.addEventListener("click", () => {
-      const s = modalImg!.src;
-      modalImg!.src = "";
-      modalImg!.src = s;
+      modalVideo!.currentTime = 0;
+      modalVideo!.play().catch(() => {});
     });
   }
 
-  document.querySelectorAll<HTMLElement>(".gif-player").forEach((player) => {
-    const img = player.querySelector<HTMLImageElement>("img");
-    if (!img) return;
+  const videoAutoplayObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const vid = (
+          entry.target as HTMLElement
+        ).querySelector<HTMLVideoElement>("video");
+        if (!vid) return;
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      });
+    },
+    { threshold: 0.25 },
+  );
+
+  document.querySelectorAll<HTMLElement>(".video-player").forEach((player) => {
+    const vid = player.querySelector<HTMLVideoElement>("video");
+    if (!vid) return;
 
     const skeleton = document.createElement("div");
-    skeleton.className = "gif-skeleton";
-    if (!img.complete) {
-      img.setAttribute("data-loading", "true");
-      player.insertBefore(skeleton, img);
-      img.addEventListener(
-        "load",
+    skeleton.className = "video-skeleton";
+    if (vid.readyState < 2) {
+      vid.setAttribute("data-loading", "true");
+      player.insertBefore(skeleton, vid);
+      vid.addEventListener(
+        "loadeddata",
         () => {
-          img.removeAttribute("data-loading");
+          vid.removeAttribute("data-loading");
           skeleton.remove();
         },
         { once: true },
       );
     }
 
-    const resetBtn = player.querySelector<HTMLButtonElement>(".gif-reset");
-    const fsBtn = player.querySelector<HTMLButtonElement>(".gif-fullscreen");
+    videoAutoplayObserver.observe(player);
+
+    const resetBtn = player.querySelector<HTMLButtonElement>(".video-reset");
+    const fsBtn = player.querySelector<HTMLButtonElement>(".video-fullscreen");
 
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
-        const src = img.src;
-        img.src = "";
-        img.src = src;
+        vid.currentTime = 0;
+        vid.play().catch(() => {});
       });
     }
-    if (fsBtn && gifModal && modalImg) {
-      const gm = gifModal;
-      const mi = modalImg;
+    if (fsBtn && videoModal && modalVideo) {
+      const vm = videoModal;
+      const mv = modalVideo;
+      const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
       fsBtn.addEventListener("click", () => {
-        mi.src = "";
-        mi.src = img.src;
-        mi.alt = img.alt;
-        gm.classList.add("visible");
+        if (isMobile() && vid.requestFullscreen) {
+          vid.currentTime = 0;
+          vid.play().catch(() => {});
+          vid.requestFullscreen().catch(() => {});
+        } else {
+          mv.src = vid.src;
+          mv.currentTime = 0;
+          mv.play().catch(() => {});
+          vm.classList.add("visible");
+        }
       });
     }
   });

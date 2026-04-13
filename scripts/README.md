@@ -39,6 +39,7 @@ End-to-end pipeline for recording, processing, and publishing demo assets.
 | `demo/steps/` | Individual step scripts (`00-reset.ts` through `13-about.ts`) — each demonstrates one add-on feature |
 | `demo/split-clips.ts` | Splits the full recording into per-step `.webm` clips using timestamps |
 | `demo/to-gif.ts` | Converts per-step clips to optimized GIFs (palette-based, scaled to 720px) |
+| `demo/to-webm.ts` | Generates optimized VP9 WebM clips for the site (scaled to 720px) |
 | `demo/demo-gif.ts` | Generates a single combined demo GIF from the full recording, skipping the reset step |
 | `demo/site-video.ts` | Cuts the demo video (skip reset) and copies it to `site/assets/demo/demo.webm` |
 | `demo/analyze-clips.ts` | Diagnostic tool for identifying timing drift between timestamps and actual video |
@@ -49,10 +50,11 @@ End-to-end pipeline for recording, processing, and publishing demo assets.
 ```bash
 yarn demo:record       # Record full demo
 yarn demo:gif          # Generate per-step GIFs
+yarn demo:webm         # Generate per-step WebM clips for site
 yarn demo:demo-gif     # Generate combined demo GIF
 yarn demo:site-video   # Cut site video
 ```
 
-All demo output goes to `temp/demo/` (gitignored). Site assets are written to `site/assets/demo/` (video, GIF).
+All demo output goes to `temp/demo/` (gitignored). Site assets are written to `site/assets/demo/` (video), `site/assets/clips/` (WebM), and `site/assets/gifs/` (GIF for README/GitHub).
 
 See `demo/PLAYWRIGHT-GUIDE.md` for detailed Playwright setup and troubleshooting.

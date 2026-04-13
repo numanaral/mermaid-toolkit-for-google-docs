@@ -1,22 +1,24 @@
-.gif-player {
+.video-player {
   position: relative;
   overflow: hidden;
 }
-.gif-player img {
+.video-player video {
   display: block;
+  width: 100%;
+  border-radius: 12px;
 }
-.gif-player img[data-loading="true"] {
+.video-player video[data-loading="true"] {
   opacity: 0;
   position: absolute;
 }
-.gif-skeleton {
+.video-skeleton {
   background: var(--surface2, #1a2222);
   border-radius: 12px;
   width: 100%;
   aspect-ratio: 16 / 10;
-  animation: gifPulse 1.5s ease-in-out infinite;
+  animation: videoPulse 1.5s ease-in-out infinite;
 }
-@keyframes gifPulse {
+@keyframes videoPulse {
   0%,
   100% {
     opacity: 0.4;
@@ -25,14 +27,14 @@
     opacity: 0.7;
   }
 }
-.gif-controls {
+.video-controls {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   display: flex;
   gap: 0.3rem;
 }
-.gif-controls button {
+.video-controls button {
   width: 28px;
   height: 28px;
   border: none;
@@ -46,19 +48,19 @@
   padding: 4px;
   transition: background 0.15s ease;
 }
-.gif-controls button:hover {
+.video-controls button:hover {
   background: rgba(0, 0, 0, 0.8);
 }
-.gif-controls svg {
+.video-controls svg {
   width: 14px;
   height: 14px;
 }
 
-.gif-slide-in,
-.how-panel.active .gif-player {
-  animation: gifSlideIn 0.35s ease both;
+.video-slide-in,
+.how-panel.active .video-player {
+  animation: videoSlideIn 0.35s ease both;
 }
-@keyframes gifSlideIn {
+@keyframes videoSlideIn {
   from {
     opacity: 0;
     transform: translateX(-24px);
@@ -69,7 +71,7 @@
   }
 }
 
-.gif-modal-overlay {
+.video-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -82,17 +84,17 @@
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
-.gif-modal-overlay.visible {
+.video-modal-overlay.visible {
   opacity: 1;
   pointer-events: auto;
 }
-.gif-modal-overlay img {
-  max-width: 100%;
-  max-height: 100%;
+.video-modal-overlay video {
+  width: 80vw;
+  max-height: 80vh;
   object-fit: contain;
   border-radius: 8px;
 }
-.gif-modal-controls {
+.video-modal-controls {
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
@@ -100,10 +102,10 @@
   gap: 0.5rem;
   z-index: 10000;
 }
-.gif-modal-overlay.visible .gif-modal-controls {
+.video-modal-overlay.visible .video-modal-controls {
   display: flex;
 }
-.gif-modal-controls button {
+.video-modal-controls button {
   width: 40px;
   height: 40px;
   border: none;
@@ -118,10 +120,10 @@
   transition: background 0.15s ease;
   backdrop-filter: blur(8px);
 }
-.gif-modal-controls button:hover {
+.video-modal-controls button:hover {
   background: rgba(255, 255, 255, 0.25);
 }
-.gif-modal-controls svg {
+.video-modal-controls svg {
   width: 20px;
   height: 20px;
 }

@@ -121,6 +121,7 @@ yarn gas:push
 │       ├── steps/         # Individual demo step scripts (00-reset … 13-about)
 │       ├── split-clips.ts # Split full recording into per-step clips
 │       ├── to-gif.ts      # Convert clips to optimized GIFs
+│       ├── to-webm.ts     # Generate optimized WebM clips for site
 │       ├── demo-gif.ts    # Generate combined demo GIF (skip reset)
 │       ├── site-video.ts  # Cut and copy demo video to site assets
 │       ├── analyze-clips.ts # Diagnose clip timing drift
@@ -146,6 +147,7 @@ yarn gas:push
 | `yarn demo:record` | Record a full-feature Playwright demo |
 | `yarn demo:split` | Split recording into per-step clips |
 | `yarn demo:gif` | Convert clips to optimized GIFs |
+| `yarn demo:webm` | Generate optimized WebM clips for site |
 | `yarn demo:demo-gif` | Generate combined demo GIF (skip reset) |
 | `yarn demo:site-video` | Cut demo video for the marketing site |
 | `yarn demo:analyze` | Diagnose clip timing drift |
