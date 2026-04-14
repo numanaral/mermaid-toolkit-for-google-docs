@@ -38,7 +38,7 @@ sitemapPriority: 0.9
         <div class="feature-media">
           {% if clipMap[feat.id] %}
           <div class="video-player">
-            <video src="{{ clipMap[feat.id] }}" autoplay loop muted playsinline></video>
+            <video src="{{ clipMap[feat.id] }}" loop muted playsinline preload="none"></video>
             <div class="video-controls">
               <button class="video-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
               <button class="video-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
@@ -101,7 +101,7 @@ sitemapPriority: 0.9
 
         <div class="feature-media">
           <div class="video-player">
-            <video src="/assets/clips/fix-markdown.webm" autoplay loop muted playsinline></video>
+            <video src="/assets/clips/fix-markdown.webm" loop muted playsinline preload="none"></video>
             <div class="video-controls">
               <button class="video-reset" title="Replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
               <button class="video-fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
