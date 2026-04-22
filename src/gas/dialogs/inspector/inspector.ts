@@ -5,21 +5,8 @@ interface InspChildInfo {
   glyph: string;
   nest: number;
   text: string;
-  font: string;
-}
-
-interface InspApiBlock {
-  idx: number;
-  type: string;
   listId: string;
-  nestLevel: number;
   indent: string;
-  text: string;
-  glyphType: string;
-  glyphSymbol: string;
-  strikethrough: boolean;
-  bulletRaw: string;
-  textStyleRaw: string;
 }
 
 declare const inspectorData: {
@@ -27,7 +14,6 @@ declare const inspectorData: {
   tabId: string;
   isFirstTab: boolean;
   children: InspChildInfo[];
-  apiBlocks: InspApiBlock[];
 };
 
 (() => {
@@ -45,28 +31,31 @@ declare const inspectorData: {
   document.getElementById("stat-tab")!.textContent =
     "Tab: " + (inspectorData.isFirstTab ? "#1 (primary)" : inspectorData.tabId);
 
-  const tabs = document.querySelectorAll<HTMLElement>(".tab");
-  const panes = document.querySelectorAll<HTMLElement>(".tab-content");
-  for (let ti = 0; ti < tabs.length; ti++) {
-    ((i: number) => {
-      tabs[i].onclick = () => {
-        for (let j = 0; j < tabs.length; j++) {
-          tabs[j].classList.remove("active");
-          panes[j].classList.remove("active");
-        }
-        tabs[i].classList.add("active");
-        panes[i].classList.add("active");
-      };
-    })(ti);
-  }
+  const columns: Array<{ key: keyof InspChildInfo; label: string }> = [
+    { key: "idx", label: "#" },
+    { key: "type", label: "Type" },
+    { key: "heading", label: "Heading" },
+    { key: "glyph", label: "Glyph" },
+    { key: "listId", label: "List" },
+    { key: "nest", label: "Nest" },
+    { key: "indent", label: "Indent (start/first)" },
+    { key: "text", label: "Text" },
+  ];
 
-  const copyParts: Record<string, string[]> = { docapp: [], docsapi: [] };
+  const copyRows: string[] = [];
+  copyRows.push("| " + columns.map((c) => c.label).join(" | ") + " |");
+  copyRows.push("| " + columns.map(() => "---").join(" | ") + " |");
 
-  let h =
-    "<table><tr><th>#</th><th>Type</th><th>Heading</th><th>Glyph</th><th>Nest</th><th>Font</th><th>Text</th></tr>";
-  copyParts.docapp.push("# DocumentApp Children");
-  copyParts.docapp.push("idx|type|heading|glyph|nest|font|text");
-  copyParts.docapp.push("---|----|----|-----|----|----|----");
+  let h = "<table><tr>";
+  for (const col of columns) h += "<th>" + col.label + "</th>";
+  h += "</tr>";
+
+  const cellFor = (c: InspChildInfo, key: keyof InspChildInfo): string => {
+    if (key === "idx") return String(c.idx);
+    if (key === "nest") return c.nest >= 0 ? String(c.nest) : "";
+    if (key === "text") return trunc(c.text, 200);
+    return String(c[key] ?? "");
+  };
 
   for (const c of inspectorData.children) {
     const cls =
@@ -75,133 +64,35 @@ declare const inspectorData: {
         : c.heading && c.heading !== "NORMAL"
           ? "heading"
           : "";
-    h +=
-      '<tr class="' +
-      cls +
-      '"><td>' +
-      c.idx +
-      "</td><td>" +
-      c.type +
-      "</td><td>" +
-      esc(c.heading) +
-      "</td><td>" +
-      esc(c.glyph) +
-      "</td><td>" +
-      (c.nest >= 0 ? c.nest : "") +
-      "</td><td>" +
-      esc(c.font) +
-      '</td><td class="mono">' +
-      esc(trunc(c.text, 200)) +
-      "</td></tr>";
-    copyParts.docapp.push(
-      c.idx +
-        "|" +
-        c.type +
-        "|" +
-        c.heading +
-        "|" +
-        c.glyph +
-        "|" +
-        (c.nest >= 0 ? c.nest : "") +
-        "|" +
-        c.font +
-        "|" +
-        c.text.replace(/\n/g, "\\n"),
-    );
+    h += '<tr class="' + cls + '">';
+    const row: string[] = [];
+    for (const col of columns) {
+      const raw = cellFor(c, col.key);
+      const tdClass = col.key === "text" ? ' class="mono"' : "";
+      h += "<td" + tdClass + ">" + esc(raw) + "</td>";
+      // Pipes inside markdown tables must be escaped so the row parses cleanly.
+      const cell =
+        col.key === "text"
+          ? raw.replace(/\|/g, "\\|").replace(/\n/g, "\\n")
+          : raw;
+      row.push(cell);
+    }
+    h += "</tr>";
+    copyRows.push("| " + row.join(" | ") + " |");
   }
   h += "</table>";
   document.getElementById("tc-docapp")!.innerHTML = h;
 
-  let h2 =
-    "<table><tr><th>#</th><th>Type</th><th>ListId</th><th>Nest</th><th>Indent</th><th>GlyphType</th><th>GlyphSym</th><th>Strike</th><th>Bullet (raw)</th><th>TextStyle (raw)</th><th>Text</th></tr>";
-  copyParts.docsapi.push("# Docs API Blocks");
-  copyParts.docsapi.push(
-    "idx|type|listId|nest|indent|glyphType|glyphSym|strike|bulletRaw|textStyleRaw|text",
-  );
-  copyParts.docsapi.push(
-    "---|----|----|----|----|---------|--------|------|---------|------------|----",
-  );
-
-  for (const b of inspectorData.apiBlocks) {
-    const cls2 =
-      b.type.indexOf("SECTION") >= 0
-        ? "section"
-        : b.type.indexOf("TABLE") >= 0
-          ? "table-row"
-          : b.glyphType === "GLYPH_TYPE_UNSPECIFIED"
-            ? "cb"
-            : b.type.indexOf("HEADING") >= 0
-              ? "heading"
-              : "";
-    h2 +=
-      '<tr class="' +
-      cls2 +
-      '"><td>' +
-      b.idx +
-      "</td><td>" +
-      esc(b.type) +
-      '</td><td class="mono">' +
-      esc(b.listId) +
-      "</td><td>" +
-      (b.nestLevel >= 0 ? b.nestLevel : "") +
-      "</td><td>" +
-      esc(b.indent) +
-      "</td><td>" +
-      esc(b.glyphType) +
-      "</td><td>" +
-      esc(b.glyphSymbol) +
-      "</td><td>" +
-      (b.strikethrough ? "YES" : "") +
-      '</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">' +
-      esc(b.bulletRaw || "") +
-      '</td><td class="mono" style="max-width:200px;overflow:auto;font-size:10px">' +
-      esc(b.textStyleRaw || "") +
-      '</td><td class="mono">' +
-      esc(trunc(b.text, 200)) +
-      "</td></tr>";
-    copyParts.docsapi.push(
-      b.idx +
-        "|" +
-        b.type +
-        "|" +
-        b.listId +
-        "|" +
-        (b.nestLevel >= 0 ? b.nestLevel : "") +
-        "|" +
-        b.indent +
-        "|" +
-        b.glyphType +
-        "|" +
-        b.glyphSymbol +
-        "|" +
-        (b.strikethrough ? "YES" : "") +
-        " |" +
-        (b.bulletRaw || "") +
-        "|" +
-        (b.textStyleRaw || "") +
-        "|" +
-        b.text.replace(/\n/g, "\\n"),
-    );
-  }
-  h2 += "</table>";
-  document.getElementById("tc-docsapi")!.innerHTML = h2;
-
   const copyBtn = document.getElementById("copy-btn") as HTMLButtonElement;
+  const defaultLabel = copyBtn.textContent ?? "Copy as Markdown";
   copyBtn.addEventListener("click", () => {
-    let active = "docapp";
-    for (let k = 0; k < tabs.length; k++) {
-      if (tabs[k].classList.contains("active")) {
-        active = tabs[k].getAttribute("data-tab") ?? "docapp";
-        break;
-      }
-    }
-    const text = copyParts[active].join("\n");
+    const text = copyRows.join("\n");
 
     const onSuccess = (): void => {
       copyBtn.textContent = "Copied!";
       copyBtn.classList.add("copied");
       setTimeout(() => {
-        copyBtn.textContent = "Copy Active Tab";
+        copyBtn.textContent = defaultLabel;
         copyBtn.classList.remove("copied");
       }, 1500);
     };

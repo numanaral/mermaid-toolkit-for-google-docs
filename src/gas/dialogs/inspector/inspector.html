@@ -10,15 +10,10 @@
     <span class="stat" id="stat-children"></span>
     <span class="stat" id="stat-tab"></span>
     <span class="toolbar-spacer"></span>
-    <button class="btn btn-primary" id="copy-btn">Copy Active Tab</button>
+    <button class="btn btn-primary" id="copy-btn">Copy as Markdown</button>
   </div>
-  <div class="tabs">
-    <div class="tab active" data-tab="docapp">DocumentApp Children</div>
-    <div class="tab" data-tab="docsapi">Docs API Blocks</div>
-  </div>
-  <div class="tab-area">
-    <div class="tab-content active" id="tc-docapp"></div>
-    <div class="tab-content" id="tc-docsapi"></div>
+  <div class="inspector-body">
+    <div id="tc-docapp"></div>
   </div>
 
   <script>var inspectorData = <?!= data ?>;</script>
