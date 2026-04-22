@@ -313,11 +313,9 @@ pre.source-block {
   background: var(--surface);
   padding: 10px 16px;
   min-height: 220px;
-
-  .img-wrap {
-    display: block;
-    text-align: center;
-  }
+  // Centre via text-align so .img-wrap stays inline-block and .fullscreen-btn
+  // anchors to the image corner, not the panel corner.
+  text-align: center;
 
   img {
     max-width: 100%;

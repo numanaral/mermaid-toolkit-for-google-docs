@@ -182,6 +182,12 @@ const assembleDialogs = (assets: DialogAssets[]): void => {
     .readFileSync(path.join(SRC, "shared/templates/footer.html"), "utf8")
     .trim();
   const version = getPackageVersion();
+  // Matches the slug the site's changelog data file produces for each release
+  // so About can deep-link straight to the current version's section.
+  const versionAnchor = version
+    .toLowerCase()
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
 
   const dialogsDir = path.join(SRC, "dialogs");
   for (const { name, css, js } of assets) {
@@ -202,7 +208,8 @@ const assembleDialogs = (assets: DialogAssets[]): void => {
     const safeJs = js.replace(/<\//g, "<\\/").replace(/<!--/g, "<\\!--");
     html = html.replace("/* BUILD:INLINE_JS */", () => safeJs);
     html = html.replace("<!-- BUILD:FOOTER -->", () => footerHtml);
-    html = html.replace("<!-- BUILD:VERSION -->", () => version);
+    html = html.replace(/<!-- BUILD:VERSION-ANCHOR -->/g, versionAnchor);
+    html = html.replace(/<!-- BUILD:VERSION -->/g, version);
 
     fs.writeFileSync(path.join(DIST, `${gasName}.html`), html);
     console.log(`    ${name}.html -> ${gasName}.html`);

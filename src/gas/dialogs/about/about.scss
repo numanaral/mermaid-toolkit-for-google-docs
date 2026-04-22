@@ -42,10 +42,30 @@ body {
   }
 
   .version {
+    display: inline-block;
     font-size: 11px;
     color: var(--brand-teal);
     font-weight: 500;
-    margin-top: 2px;
+    text-decoration: none;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--brand-teal);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+
+    &:hover::before {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
   }
 }
 
