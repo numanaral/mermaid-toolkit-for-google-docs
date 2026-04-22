@@ -1,6 +1,6 @@
 # Privacy Policy — Mermaid Toolkit for Google Docs™
 
-**Last updated:** March 8, 2026
+**Last updated:** April 22, 2026 — see the [changelog](https://mermaid.numanaral.dev/changelog/?utm_source=github&utm_medium=privacy_md&utm_campaign=mermaid_toolkit#v1-1-0) for the most recent scope change.
 
 ## Overview
 
@@ -32,10 +32,10 @@ This add-on requests the following Google OAuth scopes:
 
 | Scope | Why It's Needed |
 |---|---|
-| `https://www.googleapis.com/auth/documents` | Read Mermaid code snippets from the document, insert rendered diagrams, and create native checkboxes via the Docs API |
+| `https://www.googleapis.com/auth/documents.currentonly` | Read Mermaid code snippets, insert rendered diagrams, and import/export Markdown in the currently open document |
 | `https://www.googleapis.com/auth/script.container.ui` | Display dialog windows (editor, preview, import/export) within Google Docs™ |
 
-These are the minimum scopes required for the add-on to function. The `documents` scope is required because the add-on uses the Docs Advanced Service (REST API) for features like native checkbox creation, which is not available through the more restrictive `documents.currentonly` scope.
+These are the narrowest scopes Google offers for a Google Docs™ add-on. `documents.currentonly` limits access to **only** the document the user currently has open — it cannot read, modify, or enumerate any other files in your Google Drive™, and it has no continuous or offline access.
 
 ## Third-Party Services
 

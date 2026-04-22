@@ -154,8 +154,8 @@ This add-on **does not collect, store, or transmit any data**. All diagram rende
 
 The add-on requests only two OAuth scopes:
 
-- `documents` — to read code snippets, insert diagrams, and create native checkboxes via the Docs API
-- `script.container.ui` — to display dialog windows
+- `documents.currentonly` — read Mermaid code blocks, insert rendered diagrams, and import/export Markdown in the currently open Google Doc™ only. It cannot read, modify, or enumerate any other files in your Google Drive™ and has no offline access.
+- `script.container.ui` — display dialog windows within Google Docs™
 
 Read the full [Privacy Policy](https://mermaid.numanaral.dev/privacy?utm_source=github&utm_medium=readme&utm_campaign=mermaid_toolkit).
 
@@ -195,6 +195,10 @@ The site uses [Eleventy](https://www.11ty.dev/) for templating, [Sass](https://s
 The GAS add-on uses a custom TypeScript build pipeline that compiles server code, dialog SCSS/TS, and assembles self-contained HTML files for Apps Script.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full setup guide, including how to test with your own Google account.
+
+## Changelog
+
+Release notes live in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
