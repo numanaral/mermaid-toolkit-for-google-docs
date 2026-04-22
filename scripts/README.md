@@ -8,7 +8,7 @@ Build tooling and automation for the Mermaid Toolkit project.
 |---|---|
 | `build-gas.ts` | GAS build pipeline — compiles server TypeScript, dialog SCSS/TS, and assembles self-contained HTML files for Apps Script |
 | `dev-gas.ts` | File watcher that rebuilds GAS output on source changes |
-| `push.ts` | Runs verify + build + `clasp push` in sequence |
+| `push.ts` | Runs verify + build + `clasp push` in sequence. Automatically uses `clasp push -f` when the source has changed since the last push (so manifest edits don't hang on an interactive prompt). Pass `--force`/`-f` to force regardless of cached state |
 | `preview-gas.ts` | Serves built GAS HTML dialogs locally for browser inspection |
 | `build.sh` | Shell wrapper for site + GAS builds |
 | `dev.sh` | Shell wrapper for concurrent site + GAS dev servers |

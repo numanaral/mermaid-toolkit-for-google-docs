@@ -11,6 +11,7 @@ interface PushCache {
   sourceHash: string;
   verified: boolean;
   built: boolean;
+  pushedHash?: string;
 }
 
 const readCache = (): PushCache | null => {
@@ -46,11 +47,19 @@ const run = (cmd: string): void => {
   execSync(cmd, { stdio: "inherit" });
 };
 
+const parseFlags = (): { force: boolean } => {
+  const argv = process.argv.slice(2);
+  const force = argv.includes("--force") || argv.includes("-f");
+  return { force };
+};
+
 const main = (): void => {
   const t0 = Date.now();
+  const { force: forceFlag } = parseFlags();
   const sourceHash = hashDirectory(GAS_SRC);
   const cache = readCache();
   const isCurrent = cache?.sourceHash === sourceHash;
+  const hasNewChanges = cache?.pushedHash !== sourceHash;
 
   console.log(`[push] Source hash: ${sourceHash}`);
 
@@ -59,7 +68,12 @@ const main = (): void => {
   } else {
     console.log("[push] Verify: running...\n");
     run("tsx scripts/verify.ts");
-    writeCache({ sourceHash, verified: true, built: false });
+    writeCache({
+      sourceHash,
+      verified: true,
+      built: false,
+      pushedHash: cache?.pushedHash,
+    });
     console.log("");
   }
 
@@ -70,12 +84,31 @@ const main = (): void => {
   } else {
     console.log("[push] Build: running...\n");
     run("tsx scripts/build-gas.ts");
-    writeCache({ sourceHash, verified: true, built: true });
+    writeCache({
+      sourceHash,
+      verified: true,
+      built: true,
+      pushedHash: cache?.pushedHash,
+    });
     console.log("");
   }
 
-  console.log("[push] Pushing to Apps Script...\n");
-  run("clasp push");
+  // Force the push whenever the manifest / source changed since the last push
+  // clasp otherwise prompts interactively for manifest changes and silently
+  // skips the push in non-TTY shells.
+  const shouldForce = forceFlag || hasNewChanges;
+
+  console.log(
+    `[push] Pushing to Apps Script...${shouldForce ? " (force)" : ""}\n`,
+  );
+  run(`clasp push${shouldForce ? " -f" : ""}`);
+
+  writeCache({
+    sourceHash,
+    verified: true,
+    built: true,
+    pushedHash: sourceHash,
+  });
 
   const elapsed = ((Date.now() - t0) / 1000).toFixed(2);
   console.log(`\n[push] Done in ${elapsed}s`);

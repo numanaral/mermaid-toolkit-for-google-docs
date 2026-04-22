@@ -69,13 +69,19 @@ const main = (): void => {
   const sizeMB = (fs.statSync(outFile).size / (1024 * 1024)).toFixed(1);
   console.log(`\nSite video saved to ${outFile} (${sizeMB} MB)`);
 
-  const POSTER_OFFSET_SEC = 1.4;
+  // Aim for the moment inside step 01 where the Radar template chip is
+  // highlighted, the radar chart preview is rendered in the Mermaid Editor,
+  // and the "storage saved" Drive banner has already dismissed. In the current
+  // step 01 flow that happens after the template chip iteration finishes and
+  // before the custom flowchart typing loop begins. Tweak here if step 01's
+  // timing changes (e.g. SLEEP or CLICK delays in 01-insert.ts).
+  const POSTER_OFFSET_SEC = 14.1;
   const posterSec = (step1.startMs / 1000 + POSTER_OFFSET_SEC).toFixed(3);
   const posterPng = path.join(SITE_ASSETS, "demo-poster.png");
   const posterWebp = path.join(SITE_ASSETS, "demo-poster.webp");
 
   console.log(
-    `\nExtracting poster frame at ${posterSec}s (step 01 + ${POSTER_OFFSET_SEC}s)...`,
+    `\nExtracting poster frame at ${posterSec}s (step 01 + ${POSTER_OFFSET_SEC}s, Radar template preview)...`,
   );
   execSync(
     `ffmpeg -y -ss ${posterSec} -i "${videoFile}" -frames:v 1 -q:v 2 "${posterPng}"`,

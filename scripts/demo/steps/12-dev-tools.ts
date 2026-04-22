@@ -50,35 +50,22 @@ export const step12DevTools = async (ctx: StepContext): Promise<void> => {
       console.log("   Inspector opened");
       await sleep(600);
 
-      const firstTab = inspFrame.locator("#tc-docapp");
-      const ftBox = await firstTab.boundingBox().catch(() => null);
-      if (ftBox) {
-        await inspGlide(ftBox.x + ftBox.width / 2, ftBox.y + 60, 14);
+      const bodyPane = inspFrame.locator("#tc-docapp");
+      const bpBox = await bodyPane.boundingBox().catch(() => null);
+      if (bpBox) {
+        await inspGlide(bpBox.x + bpBox.width / 2, bpBox.y + 60, 14);
         await sleep(400);
         await inspGlide(
-          ftBox.x + ftBox.width / 2,
-          ftBox.y + ftBox.height * 0.4,
+          bpBox.x + bpBox.width / 2,
+          bpBox.y + bpBox.height * 0.4,
           16,
         );
         await sleep(400);
       }
 
-      console.log("   Switching to Docs API tab...");
-      const docsApiTab = inspFrame.locator('.tab[data-tab="docsapi"]');
-      if (await docsApiTab.isVisible().catch(() => false)) {
-        await inspClick(docsApiTab, 14);
-        await sleep(1000);
-        const secondTab = inspFrame.locator("#tc-docsapi");
-        const stBox = await secondTab.boundingBox().catch(() => null);
-        if (stBox) {
-          await inspGlide(stBox.x + stBox.width / 2, stBox.y + 60, 14);
-          await sleep(400);
-        }
-      }
-
       const copyBtn = inspFrame.locator("#copy-btn");
       if (await copyBtn.isVisible().catch(() => false)) {
-        console.log("   Clicking Copy Active Tab...");
+        console.log("   Clicking Copy as Markdown...");
         await inspClick(copyBtn, 16);
         await sleep(500);
       }

@@ -752,12 +752,12 @@ pie title Feature Usage
     "Fix Markdown" : 10
 \`\`\`
 
-### Checkboxes
+### Checklist
 
-- [ ] Unchecked checkboxes import correctly
-  - [ ] Including nested ones
-- [x] Checked checkboxes import as unchecked (API limitation)
-  - [x] Nested checked items are also affected
+- [ ] Unchecked item imports as a bullet with a literal [ ] marker
+  - [ ] Nested unchecked item
+- [x] Checked item imports as a bullet with a literal [x] marker
+  - [x] Nested checked item
 
 ### Architecture
 

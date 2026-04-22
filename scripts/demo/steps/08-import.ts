@@ -103,11 +103,40 @@ export const step08Import = async (ctx: StepContext): Promise<void> => {
     const pvArea = iframe.locator("#preview-area");
     const pvBox = await pvArea.boundingBox().catch(() => null);
     if (pvBox) {
-      console.log("   Viewing preview...");
+      console.log("   Scrolling preview...");
       await iGlide(pvBox.x + pvBox.width / 2, pvBox.y + 80, 14);
-      await sleep(600);
-      await iGlide(pvBox.x + pvBox.width / 2, pvBox.y + pvBox.height - 40, 20);
       await sleep(400);
+      // Walk the preview's scrollTop so the viewer sees what the doc will
+      // actually look like after import — including the plain-text checkboxes
+      // and the table near the bottom — before Replace is clicked.
+      const maxScroll = await iframe.evaluate((sel) => {
+        const el = document.querySelector(sel) as HTMLElement | null;
+        return el ? el.scrollHeight - el.clientHeight : 0;
+      }, "#preview-area");
+      if (maxScroll > 40) {
+        const steps = 5;
+        for (let i = 1; i <= steps; i++) {
+          const target = Math.round((maxScroll * i) / steps);
+          await iframe.evaluate(
+            ([sel, top]) => {
+              const el = document.querySelector(
+                sel as string,
+              ) as HTMLElement | null;
+              if (el) el.scrollTo({ top: top as number, behavior: "smooth" });
+            },
+            ["#preview-area", target] as const,
+          );
+          await sleep(700);
+        }
+        // Return to the top so Replace-button click feels natural.
+        await iframe.evaluate((sel) => {
+          const el = document.querySelector(sel) as HTMLElement | null;
+          if (el) el.scrollTo({ top: 0, behavior: "smooth" });
+        }, "#preview-area");
+        await sleep(600);
+      }
+      await iGlide(pvBox.x + pvBox.width / 2, pvBox.y + pvBox.height - 40, 20);
+      await sleep(300);
     }
 
     console.log("   Replacing document...");
