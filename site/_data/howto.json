@@ -92,7 +92,7 @@
     "steps": [
       {
         "title": "Import from Markdown",
-        "desc": "Extensions → Mermaid Toolkit → Import from Markdown. Paste raw markdown with Mermaid blocks — the add-on renders diagrams, creates headings, lists, tables, and native checkboxes."
+        "desc": "Extensions → Mermaid Toolkit → Import from Markdown. Paste raw markdown with Mermaid blocks — the add-on renders diagrams and creates headings, lists, tables, and plain-text [ ] / [x] checklists that round-trip back to markdown."
       },
       {
         "title": "Export as Markdown",

@@ -9,7 +9,7 @@ sitemapPriority: 0.3
   <main>
   <section class="page-hero">
     <h1>Privacy Policy</h1>
-    <p>Last updated: March 8, 2026</p>
+    <p>Last updated: April 22, 2026 — see the <a href="/changelog/#v1-1-0" title="OAuth scopes narrowed in v1.1.0">changelog</a> for the most recent scope change.</p>
   </section>
   <div class="legal">
 
@@ -41,8 +41,8 @@ sitemapPriority: 0.3
       <thead><tr><th>Scope</th><th>Why It's Needed</th></tr></thead>
       <tbody>
         <tr>
-          <td><code>documents</code></td>
-          <td>Read Mermaid code blocks, insert rendered diagrams, export document content as Markdown, and create native checkboxes during Markdown import</td>
+          <td><a href="/changelog/#v1-1-0" title="Narrowed from `documents` in v1.1.0"><code>documents.currentonly</code></a></td>
+          <td>Read Mermaid code blocks, insert rendered diagrams, and import/export Markdown in the currently open document</td>
         </tr>
         <tr>
           <td><code>script.container.ui</code></td>
@@ -50,13 +50,7 @@ sitemapPriority: 0.3
         </tr>
       </tbody>
     </table>
-    <p>These are the minimum scopes required for the add-on to function. A narrower <code>documents.currentonly</code> scope exists, but it does not support the <a href="https://developers.google.com/docs/api" target="_blank" rel="noopener">Docs Advanced Service</a> (REST API), which this add-on relies on for:</p>
-    <ul>
-      <li><strong>Markdown export</strong> — reading structured document content (lists, headings, text styles) to produce accurate Markdown</li>
-      <li><strong>Checkbox import</strong> — creating native Google Docs™ checkboxes when importing Markdown task lists</li>
-      <li><strong>Batch operations</strong> — converting between code blocks and diagrams across the entire document</li>
-    </ul>
-    <p>Despite using the broader scope, the add-on <strong>only ever accesses the currently open document</strong> — it never reads, modifies, or enumerates any other files in your Google Drive™.</p>
+    <p>These are the narrowest scopes Google offers for a Google Docs™ add-on. <code>documents.currentonly</code> limits access to <strong>only</strong> the document the user currently has open — it cannot read, modify, or enumerate any other files in your Google Drive™, and it has no continuous or offline access.</p>
 
     <h2>Third-Party Services</h2>
     <p>This add-on loads the following open-source libraries from <strong>jsDelivr</strong> (<code>cdn.jsdelivr.net</code>), a public open-source CDN:</p>

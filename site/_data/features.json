@@ -115,7 +115,7 @@
     "showInShowcase": false,
     "showcaseImg": null,
     "showcaseLabel": "Import Markdown",
-    "longDesc": "Paste raw markdown into the import dialog. The add-on parses it, renders any Mermaid code blocks as diagrams, and inserts the formatted content into your Google Doc™ — including headings, lists, tables, inline code, and native checkboxes.",
+    "longDesc": "Paste raw markdown into the import dialog. The add-on parses it, renders any Mermaid code blocks as diagrams, and inserts the formatted content into your Google Doc™ — including headings, lists, tables, inline code, and plain-text [ ] / [x] checklists that round-trip back to markdown.",
     "menuAlt": null,
     "showOnFeaturesPage": true
   },
