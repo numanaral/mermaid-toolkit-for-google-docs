@@ -4,10 +4,6 @@
 import { MERMAID_ALT_TITLE } from "./constants";
 import { decodeMermaidSource } from "./doc-utils";
 
-interface CheckboxInfo {
-  nestingDepth: number;
-}
-
 const textToMarkdown = (text: GoogleAppsScript.Document.Text): string => {
   const raw = text.getText();
   if (!raw) return "";
@@ -72,134 +68,25 @@ const headingLevel = (
   }
 };
 
-const buildCheckboxMap = (
-  docId: string,
-  tabId: string,
-): Map<string, CheckboxInfo> => {
-  const map = new Map<string, CheckboxInfo>();
-  if (typeof Docs === "undefined" || !Docs?.Documents) return map;
+// Checklist items are stored as plain text with a "[ ] " / "[x] " prefix and
+// the extra emoji variants below are tolerated for legacy docs and copy-pasted
+// content from other tools.
+const UNCHECKED_PREFIXES = ["[ ] ", "☐ ", "⬜ "];
+const CHECKED_PREFIXES = ["[x] ", "[X] ", "☑ ", "✅ ", "✓ "];
 
-  try {
-    const bodyFields =
-      "body.content(paragraph(bullet(nestingLevel,listId),paragraphStyle(indentStart,indentFirstLine),elements(textRun(content))))";
-    const listsFields = "lists";
-
-    interface DocsBlock {
-      paragraph?: {
-        bullet?: { nestingLevel?: number; listId?: string };
-        paragraphStyle?: {
-          indentStart?: { magnitude?: number };
-          indentFirstLine?: { magnitude?: number };
-        };
-        elements?: { textRun?: { content?: string } }[];
-      };
-      sectionBreak?: object;
-    }
-    interface DocsList {
-      [listId: string]: {
-        listProperties?: {
-          nestingLevels?: {
-            glyphSymbol?: string;
-            glyphType?: string;
-          }[];
-        };
-      };
-    }
-
-    let content: DocsBlock[] | undefined;
-    let lists: DocsList | undefined;
-
-    if (!tabId) {
-      const raw = Docs.Documents.get(docId, {
-        fields: bodyFields + "," + listsFields,
-      });
-      content = raw?.body?.content as DocsBlock[] | undefined;
-      lists = (raw as unknown as { lists?: DocsList })?.lists;
-    } else {
-      const tabFields =
-        "tabs(tabProperties/tabId,documentTab/" +
-        bodyFields +
-        ",documentTab/" +
-        listsFields +
-        ")";
-      const raw = Docs.Documents.get(docId, {
-        includeTabsContent: true,
-        fields: tabFields,
-      }) as unknown as {
-        tabs?: {
-          documentTab?: {
-            body?: { content?: DocsBlock[] };
-            lists?: DocsList;
-          };
-          tabProperties?: { tabId?: string };
-        }[];
-      };
-      if (raw.tabs) {
-        for (const tab of raw.tabs) {
-          if (tab.tabProperties?.tabId === tabId) {
-            content = tab.documentTab?.body?.content;
-            lists = tab.documentTab?.lists;
-            break;
-          }
-        }
-      }
-    }
-
-    if (!content) return map;
-
-    const checkboxListIds = new Set<string>();
-    if (lists) {
-      for (const [listId, listDef] of Object.entries(lists)) {
-        const levels = listDef.listProperties?.nestingLevels;
-        if (levels && levels.length > 0) {
-          const l0 = levels[0];
-          if (
-            l0.glyphSymbol === "☐" ||
-            l0.glyphSymbol === "☑" ||
-            (l0.glyphType === "GLYPH_TYPE_UNSPECIFIED" && !l0.glyphSymbol)
-          ) {
-            checkboxListIds.add(listId);
-          }
-        }
-      }
-    }
-
-    if (checkboxListIds.size === 0) return map;
-
-    for (const block of content) {
-      if (!block.paragraph?.bullet) continue;
-      const bullet = block.paragraph.bullet;
-      if (!bullet.listId || !checkboxListIds.has(bullet.listId)) continue;
-
-      const plainText = (block.paragraph.elements ?? [])
-        .map((e) => e.textRun?.content ?? "")
-        .join("")
-        .replace(/\n$/, "");
-
-      if (!plainText) continue;
-
-      const ifl =
-        block.paragraph.paragraphStyle?.indentFirstLine?.magnitude ?? 18;
-      const nestingDepth = ifl <= 18 ? 0 : Math.round((ifl - 18) / 36);
-
-      map.set(plainText, { nestingDepth });
-    }
-  } catch {
-    // Docs API unavailable; fall back to unchecked checkboxes
+const matchPrefix = (
+  md: string,
+  prefixes: string[],
+): { length: number } | null => {
+  for (const prefix of prefixes) {
+    if (md.startsWith(prefix)) return { length: prefix.length };
   }
-
-  return map;
+  return null;
 };
 
 export const exportDocAsMarkdown = (
   body: GoogleAppsScript.Document.Body,
-  docId?: string,
-  tabId?: string,
 ): string => {
-  const checkboxMap = docId
-    ? buildCheckboxMap(docId, tabId ?? "")
-    : new Map<string, CheckboxInfo>();
-
   const n = body.getNumChildren();
   const lines: string[] = [];
   let prevWasListItem = false;
@@ -267,15 +154,28 @@ export const exportDocAsMarkdown = (
         lines.push("");
         lines.push("#".repeat(level) + " " + md);
         lines.push("");
-      } else if (checkboxMap.has(para.editAsText().getText())) {
-        const cbInfo = checkboxMap.get(para.editAsText().getText())!;
-        const indent = "  ".repeat(cbInfo.nestingDepth);
-        lines.push(`${indent}* [ ] ${md}`);
-        prevWasListItem = true;
       } else if (md.trim() === "") {
         lines.push("");
       } else {
-        lines.push(md);
+        // A paragraph that was imported as a blockquote was indented 36pt via
+        // setIndentStart (see import-md.ts). Use that as the signal to emit
+        // `> …` markdown so blockquotes round-trip without relying on a
+        // dedicated DocumentApp paragraph style (which doesn't exist).
+        let indentStart: number | null = null;
+        try {
+          indentStart = para.getIndentStart();
+        } catch {
+          indentStart = null;
+        }
+        if (indentStart !== null && indentStart >= 36) {
+          lines.push("");
+          for (const line of md.split("\n")) {
+            lines.push("> " + line);
+          }
+          lines.push("");
+        } else {
+          lines.push(md);
+        }
       }
       prevWasListItem = false;
       continue;
@@ -283,7 +183,6 @@ export const exportDocAsMarkdown = (
 
     if (type === DocumentApp.ElementType.LIST_ITEM) {
       const li = child.asListItem();
-      const plainText = li.editAsText().getText();
       const md = textToMarkdown(li.editAsText());
       const glyph = li.getGlyphType();
       const nestLevel = li.getNestingLevel();
@@ -306,16 +205,13 @@ export const exportDocAsMarkdown = (
       prevListId = listId;
       prevNestLevel = nestLevel;
 
-      const cbInfo = checkboxMap.get(plainText);
-      if (cbInfo) {
-        const cbIndent = "  ".repeat(cbInfo.nestingDepth);
-        lines.push(`${cbIndent}* [ ] ${md}`);
-      } else if (md.startsWith("✓ ")) {
-        lines.push(`${indent}* [x] ${md.substring(2)}`);
-      } else if (md.startsWith("☐ ")) {
-        lines.push(`${indent}* [ ] ${md.substring(2)}`);
-      } else if (md.startsWith("☑ ")) {
-        lines.push(`${indent}* [x] ${md.substring(2)}`);
+      const unchecked = matchPrefix(md, UNCHECKED_PREFIXES);
+      const checked = unchecked ? null : matchPrefix(md, CHECKED_PREFIXES);
+
+      if (unchecked) {
+        lines.push(`${indent}* [ ] ${md.substring(unchecked.length)}`);
+      } else if (checked) {
+        lines.push(`${indent}* [x] ${md.substring(checked.length)}`);
       } else if (isOrdered) {
         orderedCounters[nestLevel] = (orderedCounters[nestLevel] || 0) + 1;
         lines.push(indent + orderedCounters[nestLevel] + ". " + md);

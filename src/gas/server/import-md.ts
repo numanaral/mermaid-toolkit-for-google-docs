@@ -1,6 +1,6 @@
 import { appendCodeBlock, encodeMermaidSource } from "./doc-utils";
 import { MERMAID_ALT_TITLE } from "./constants";
-import { getActiveBody, getTabContent } from "./tab-utils";
+import { getActiveBody } from "./tab-utils";
 
 interface Seg {
   t: string;
@@ -18,7 +18,15 @@ interface ImportListItem {
 }
 
 interface ImportElement {
-  type: "heading" | "paragraph" | "code" | "image" | "list" | "table" | "hr";
+  type:
+    | "heading"
+    | "paragraph"
+    | "code"
+    | "image"
+    | "list"
+    | "table"
+    | "hr"
+    | "blockquote";
   content: Seg[];
   level?: number;
   base64?: string;
@@ -61,39 +69,12 @@ const applySegments = (
   }
 };
 
-const pendingChecklists: { contentIdx: number; depth: number }[] = [];
-let pendingTabId = "";
-let pendingIsFirstTab = true;
-
-const hasAnyChecklist = (items: ImportListItem[]): boolean => {
-  for (const item of items) {
-    if (item.checked !== undefined) return true;
-    if (item.children && hasAnyChecklist(item.children)) return true;
-  }
-  return false;
-};
-
-const appendChecklistAsParagraphs = (
-  body: GoogleAppsScript.Document.Body,
-  items: ImportListItem[],
-  depth: number,
-): void => {
-  for (const item of items) {
-    const para = body.appendParagraph("");
-    applySegments(para.editAsText(), item.text);
-    if (depth > 0) {
-      para.setIndentStart(36 * depth);
-      para.setIndentFirstLine(36 * depth);
-    }
-    if (item.checked !== undefined) {
-      const idx = body.getChildIndex(para);
-      pendingChecklists.push({ contentIdx: idx + 1, depth });
-    }
-    if (item.children && item.children.length > 0) {
-      appendChecklistAsParagraphs(body, item.children, depth + 1);
-    }
-  }
-};
+// Prepends a plain-text [ ] / [x] marker to a checklist item so the checkbox
+// state round-trips through export without requiring the Docs Advanced Service.
+const withCheckboxPrefix = (segs: Seg[], checked: boolean): Seg[] => [
+  { t: checked ? "[x] " : "[ ] " },
+  ...segs,
+];
 
 const appendListItems = (
   body: GoogleAppsScript.Document.Body,
@@ -118,7 +99,11 @@ const appendListItems = (
       anchorItem = li;
     }
 
-    applySegments(li.editAsText(), item.text);
+    const segs =
+      item.checked === undefined
+        ? item.text
+        : withCheckboxPrefix(item.text, item.checked);
+    applySegments(li.editAsText(), segs);
 
     if (item.children && item.children.length > 0) {
       anchorItem = appendListItems(
@@ -134,86 +119,22 @@ const appendListItems = (
   return anchorItem!;
 };
 
-const applyChecklists = (): void => {
-  if (pendingChecklists.length === 0) return;
+// Block types that benefit from a blank paragraph separator from an adjacent
+// non-text block (list ↔ table, table ↔ paragraph, image ↔ list, etc.) so the
+// result matches how Google Docs™' own markdown paste visually spaces things.
+// Consecutive paragraphs already look fine without a spacer.
+const isHeavyBlock = (type: ImportElement["type"]): boolean =>
+  type === "list" ||
+  type === "table" ||
+  type === "image" ||
+  type === "code" ||
+  type === "blockquote" ||
+  type === "hr";
 
-  if (typeof Docs === "undefined" || !Docs?.Documents) {
-    pendingChecklists.length = 0;
-    return;
-  }
-
-  const doc = DocumentApp.getActiveDocument();
-  const docId = doc.getId();
-
-  doc.saveAndClose();
-
-  const content = getTabContent(docId, pendingTabId, pendingIsFirstTab);
-  if (!content) {
-    pendingChecklists.length = 0;
-    return;
-  }
-
-  const checkboxRequests: object[] = [];
-  const indentRequests: object[] = [];
-  const tabRange = pendingTabId ? { tabId: pendingTabId } : {};
-
-  for (const item of pendingChecklists) {
-    const block = content[item.contentIdx];
-    if (!block || !block.paragraph || block.startIndex == null) continue;
-    const range = {
-      startIndex: block.startIndex,
-      endIndex: block.endIndex,
-      ...tabRange,
-    };
-    checkboxRequests.push({
-      createParagraphBullets: {
-        bulletPreset: "BULLET_CHECKBOX",
-        range,
-      },
-    });
-    if (item.depth > 0) {
-      const indent = 36 * item.depth;
-      indentRequests.push({
-        updateParagraphStyle: {
-          paragraphStyle: {
-            indentStart: { magnitude: indent, unit: "PT" },
-            indentFirstLine: { magnitude: indent, unit: "PT" },
-          },
-          fields: "indentStart,indentFirstLine",
-          range,
-        },
-      });
-    }
-  }
-
-  if (checkboxRequests.length > 0) {
-    try {
-      Docs.Documents.batchUpdate(
-        {
-          requests: checkboxRequests,
-        } as GoogleAppsScript.Docs.Schema.BatchUpdateDocumentRequest,
-        docId,
-      );
-    } catch {
-      // checkbox API call failed; non-fatal
-    }
-  }
-
-  if (indentRequests.length > 0) {
-    try {
-      Docs.Documents.batchUpdate(
-        {
-          requests: indentRequests,
-        } as GoogleAppsScript.Docs.Schema.BatchUpdateDocumentRequest,
-        docId,
-      );
-    } catch {
-      // indent API call failed; non-fatal
-    }
-  }
-
-  pendingChecklists.length = 0;
-};
+const needsSpacerBetween = (
+  prev: ImportElement["type"],
+  next: ImportElement["type"],
+): boolean => isHeavyBlock(prev) || isHeavyBlock(next);
 
 const appendElements = (
   body: GoogleAppsScript.Document.Body,
@@ -229,7 +150,13 @@ const appendElements = (
       6: DocumentApp.ParagraphHeading.HEADING6,
     };
 
+  let prevType: ImportElement["type"] | null = null;
+
   for (const el of elements) {
+    if (prevType && needsSpacerBetween(prevType, el.type)) {
+      body.appendParagraph("");
+    }
+
     switch (el.type) {
       case "heading": {
         const para = body.appendParagraph("");
@@ -243,6 +170,28 @@ const appendElements = (
       case "paragraph": {
         const para = body.appendParagraph("");
         applySegments(para.editAsText(), el.content);
+        break;
+      }
+
+      case "blockquote": {
+        const para = body.appendParagraph("");
+        applySegments(para.editAsText(), el.content);
+        // DocumentApp has no native "Quote" paragraph style, so we lean on
+        // indent + italic + muted colour to signal "this is a quotation" in a
+        // way that visually matches the preview's left-border treatment.
+        para.setIndentStart(36);
+        para.setIndentFirstLine(36);
+        const t = para.editAsText();
+        const raw = t.getText();
+        // Apply formatting to the actual character range only. Calling the
+        // argumentless setItalic(true) / setForegroundColor(...) would set the
+        // paragraph's default text style, which Google Docs™ then inherits
+        // into the next appended block (turning the whole following table
+        // italic + grey — see the regression with the Features table).
+        if (raw.length > 0) {
+          t.setItalic(0, raw.length - 1, true);
+          t.setForegroundColor(0, raw.length - 1, "#5f6368");
+        }
         break;
       }
 
@@ -270,11 +219,7 @@ const appendElements = (
 
       case "list": {
         if (el.items && el.items.length > 0) {
-          if (hasAnyChecklist(el.items)) {
-            appendChecklistAsParagraphs(body, el.items, 0);
-          } else {
-            appendListItems(body, el.items, 0, el.ordered ?? false, null);
-          }
+          appendListItems(body, el.items, 0, el.ordered ?? false, null);
         }
         break;
       }
@@ -306,6 +251,8 @@ const appendElements = (
         break;
       }
     }
+
+    prevType = el.type;
   }
 };
 
@@ -319,13 +266,9 @@ export const importMarkdownAtCursor = (
     throw new Error("Invalid import payload. Please try again.");
   }
   const doc = DocumentApp.getActiveDocument();
-  const { body, tabId, isFirstTab } = getActiveBody(doc);
+  const { body } = getActiveBody(doc);
 
-  pendingChecklists.length = 0;
-  pendingTabId = tabId;
-  pendingIsFirstTab = isFirstTab;
   appendElements(body, elements);
-  applyChecklists();
   return { success: true };
 };
 
@@ -339,26 +282,16 @@ export const importMarkdownReplace = (
     throw new Error("Invalid import payload. Please try again.");
   }
   const doc = DocumentApp.getActiveDocument();
-  const { body, tabId, isFirstTab } = getActiveBody(doc);
+  const { body } = getActiveBody(doc);
 
   const oldCount = body.getNumChildren();
 
-  pendingChecklists.length = 0;
-  pendingTabId = tabId;
-  pendingIsFirstTab = isFirstTab;
   appendElements(body, elements);
 
-  let removed = 0;
   for (let n = 0; n < oldCount; n++) {
     if (body.getNumChildren() <= 1) break;
     body.removeChild(body.getChild(0));
-    removed++;
   }
 
-  for (const item of pendingChecklists) {
-    item.contentIdx -= removed;
-  }
-
-  applyChecklists();
   return { success: true };
 };

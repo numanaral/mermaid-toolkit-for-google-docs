@@ -9,7 +9,7 @@ import {
 import { findMermaidSnippets } from "./snippets";
 import { findMermaidImages, findMermaidImageIn } from "./images";
 import { exportDocAsMarkdown } from "./export-md";
-import { getActiveBody, getTabContent } from "./tab-utils";
+import { getActiveBody } from "./tab-utils";
 
 // --- Dialog helpers ---
 
@@ -362,9 +362,7 @@ export const replaceImageWithCodeBlock = (
   const body = doc.getBody();
   const table = insertFencedCode(body, imageIdx, source);
   body.removeChild(body.getChild(imageIdx + 1));
-  doc.setCursor(
-    doc.newPosition(table.getRow(0).getCell(0).editAsText(), 0),
-  );
+  doc.setCursor(doc.newPosition(table.getRow(0).getCell(0).editAsText(), 0));
   return { success: true };
 };
 
@@ -481,14 +479,6 @@ export const openImportMarkdown = (): void => {
   DocumentApp.getUi().showModalDialog(html, "Import from Markdown");
 };
 
-export const isActiveTabFirst = (): boolean => {
-  try {
-    return DocumentApp.getActiveDocument().getActiveTab().getIndex() === 0;
-  } catch {
-    return true;
-  }
-};
-
 export { importMarkdownAtCursor, importMarkdownReplace } from "./import-md";
 
 export const openExportMarkdown = (): void => {
@@ -500,8 +490,8 @@ export const openExportMarkdown = (): void => {
 
 export const getExportMarkdown = (): string => {
   const doc = DocumentApp.getActiveDocument();
-  const { body, tabId, isFirstTab } = getActiveBody(doc);
-  return exportDocAsMarkdown(body, doc.getId(), isFirstTab ? "" : tabId);
+  const { body } = getActiveBody(doc);
+  return exportDocAsMarkdown(body);
 };
 
 export const openFixMarkdown = (): void => {
@@ -559,7 +549,6 @@ export const openDocumentInfo = (): void => {
 
 export const debugDocStructure = (): void => {
   const doc = DocumentApp.getActiveDocument();
-  const docId = doc.getId();
   const { body, tabId, isFirstTab } = getActiveBody(doc);
   const n = body.getNumChildren();
 
@@ -570,9 +559,35 @@ export const debugDocStructure = (): void => {
     glyph: string;
     nest: number;
     text: string;
-    font: string;
+    listId: string;
+    indent: string;
   }
   const children: ChildInfo[] = [];
+
+  // Collapse opaque list IDs to short stable labels (L1, L2, ...) so readers
+  // can see which list items share a parent list at a glance without having
+  // to parse the raw IDs.
+  const listIdMap = new Map<string, string>();
+  const shortListId = (raw: string): string => {
+    if (!raw) return "";
+    const existing = listIdMap.get(raw);
+    if (existing) return existing;
+    const label = `L${listIdMap.size + 1}`;
+    listIdMap.set(raw, label);
+    return label;
+  };
+
+  const ptOrEmpty = (v: number | null | undefined): string =>
+    typeof v === "number" && !Number.isNaN(v) ? v.toFixed(0) : "";
+
+  const probeAttr = <T>(fn: () => T | null | undefined): T | null => {
+    try {
+      const v = fn();
+      return v === undefined ? null : v;
+    } catch {
+      return null;
+    }
+  };
 
   for (let i = 0; i < n; i++) {
     const child = body.getChild(i);
@@ -581,7 +596,8 @@ export const debugDocStructure = (): void => {
     let heading = "";
     let glyph = "";
     let nest = -1;
-    let font = "";
+    let listId = "";
+    let indent = "";
 
     try {
       if (type === "TABLE") {
@@ -599,20 +615,23 @@ export const debugDocStructure = (): void => {
         text = li.editAsText().getText();
         glyph = String(li.getGlyphType());
         nest = li.getNestingLevel();
-        try {
-          font = li.editAsText().getFontFamily(0) ?? "";
-        } catch {
-          /* */
-        }
+        listId = shortListId(probeAttr(() => li.getListId()) ?? "");
+        const start = probeAttr(() => li.getIndentStart());
+        const first = probeAttr(() => li.getIndentFirstLine());
+        indent =
+          start !== null || first !== null
+            ? `${ptOrEmpty(start)}/${ptOrEmpty(first)}`
+            : "";
       } else if (type === "PARAGRAPH") {
         const para = child.asParagraph();
         text = para.editAsText().getText();
         heading = String(para.getHeading());
-        try {
-          font = para.editAsText().getFontFamily(0) ?? "";
-        } catch {
-          /* */
-        }
+        const start = probeAttr(() => para.getIndentStart());
+        const first = probeAttr(() => para.getIndentFirstLine());
+        indent =
+          start !== null || first !== null
+            ? `${ptOrEmpty(start)}/${ptOrEmpty(first)}`
+            : "";
       } else {
         text = (child as GoogleAppsScript.Document.Text).editAsText().getText();
       }
@@ -620,187 +639,16 @@ export const debugDocStructure = (): void => {
       text = "(unable to read)";
     }
 
-    children.push({ idx: i, type, heading, glyph, nest, text, font });
-  }
-
-  interface ApiBlock {
-    idx: number;
-    type: string;
-    listId: string;
-    nestLevel: number;
-    indent: string;
-    text: string;
-    glyphType: string;
-    glyphSymbol: string;
-    strikethrough: boolean;
-    bulletRaw: string;
-    textStyleRaw: string;
-  }
-  const apiBlocks: ApiBlock[] = [];
-
-  if (typeof Docs !== "undefined" && Docs?.Documents) {
-    try {
-      const fields =
-        "body.content(startIndex,endIndex,sectionBreak,table,paragraph(bullet,paragraphStyle,elements(textRun(content,textStyle)))),lists";
-
-      let raw: GoogleAppsScript.Docs.Schema.Document;
-      if (!tabId || isFirstTab) {
-        raw = Docs.Documents.get(docId, { fields });
-      } else {
-        raw = Docs.Documents.get(docId, {
-          includeTabsContent: true,
-          fields: "tabs(tabProperties/tabId,documentTab/" + fields + ")",
-        });
-        const tabs = (
-          raw as unknown as {
-            tabs?: {
-              tabProperties?: { tabId?: string };
-              documentTab?: GoogleAppsScript.Docs.Schema.Document;
-            }[];
-          }
-        ).tabs;
-        if (tabs) {
-          for (const tab of tabs) {
-            if (tab.tabProperties?.tabId === tabId) {
-              raw = tab.documentTab as GoogleAppsScript.Docs.Schema.Document;
-              break;
-            }
-          }
-        }
-      }
-
-      const content = raw?.body?.content ?? [];
-      const lists =
-        (raw as unknown as { lists?: Record<string, unknown> })?.lists ?? {};
-      const listGlyphs: Record<
-        string,
-        { glyphType: string; glyphSymbol: string }
-      > = {};
-      for (const [listId, listDef] of Object.entries(lists) as [
-        string,
-        {
-          listProperties?: {
-            nestingLevels?: { glyphType?: string; glyphSymbol?: string }[];
-          };
-        },
-      ][]) {
-        const l0 = listDef?.listProperties?.nestingLevels?.[0];
-        listGlyphs[listId] = {
-          glyphType: l0?.glyphType ?? "",
-          glyphSymbol: l0?.glyphSymbol ?? "",
-        };
-      }
-
-      for (let i = 0; i < content.length; i++) {
-        const block = content[i] as Record<string, unknown>;
-        let type = "UNKNOWN";
-        let listId = "";
-        let nestLevel = -1;
-        let indent = "";
-        let text = "";
-        let glyphType = "";
-        let glyphSymbol = "";
-        let strikethrough = false;
-
-        let bulletRaw = "";
-        let textStyleRaw = "";
-
-        if (block.sectionBreak) {
-          type = "SECTION_BREAK";
-        } else if (block.table) {
-          type = "TABLE";
-          text = "(table)";
-        } else if (block.paragraph) {
-          type = "PARAGRAPH";
-          const para = block.paragraph as Record<string, unknown>;
-          const bullet = para.bullet as
-            | { nestingLevel?: number; listId?: string }
-            | undefined;
-          const ps = para.paragraphStyle as
-            | {
-                namedStyleType?: string;
-                indentStart?: { magnitude?: number };
-                indentFirstLine?: { magnitude?: number };
-              }
-            | undefined;
-          const elements = (para.elements ?? []) as {
-            textRun?: {
-              content?: string;
-              textStyle?: Record<string, unknown>;
-            };
-          }[];
-
-          text = elements
-            .map((e) => e.textRun?.content ?? "")
-            .join("")
-            .replace(/\n$/, "");
-
-          if (bullet) {
-            type = "PARAGRAPH+BULLET";
-            listId =
-              ((bullet as Record<string, unknown>).listId as string) ?? "";
-            nestLevel = bullet.nestingLevel ?? 0;
-            bulletRaw = JSON.stringify(bullet);
-            if (listId && listGlyphs[listId]) {
-              glyphType = listGlyphs[listId].glyphType;
-              glyphSymbol = listGlyphs[listId].glyphSymbol;
-            }
-          }
-          if (ps?.namedStyleType && ps.namedStyleType !== "NORMAL_TEXT") {
-            type += " [" + ps.namedStyleType + "]";
-          }
-          const iS = ps?.indentStart?.magnitude;
-          const iF = ps?.indentFirstLine?.magnitude;
-          if (iS || iF) indent = "s:" + (iS ?? 0) + " f:" + (iF ?? 0);
-
-          const allStyles = elements
-            .map((e) => e.textRun?.textStyle)
-            .filter(Boolean);
-          if (allStyles.length > 0) {
-            textStyleRaw = JSON.stringify(allStyles);
-          }
-
-          strikethrough =
-            elements.length > 0 &&
-            elements.every(
-              (e) =>
-                (
-                  e.textRun?.textStyle as
-                    | { strikethrough?: boolean }
-                    | undefined
-                )?.strikethrough === true,
-            );
-        }
-
-        apiBlocks.push({
-          idx: i,
-          type,
-          listId: listId ? listId.substring(0, 20) : "",
-          nestLevel,
-          indent,
-          text,
-          glyphType,
-          glyphSymbol,
-          strikethrough,
-          bulletRaw,
-          textStyleRaw,
-        });
-      }
-    } catch (e) {
-      apiBlocks.push({
-        idx: -1,
-        type: "ERROR: " + e,
-        listId: "",
-        nestLevel: -1,
-        indent: "",
-        text: "",
-        glyphType: "",
-        glyphSymbol: "",
-        strikethrough: false,
-        bulletRaw: "",
-        textStyleRaw: "",
-      });
-    }
+    children.push({
+      idx: i,
+      type,
+      heading,
+      glyph,
+      nest,
+      text,
+      listId,
+      indent,
+    });
   }
 
   const data = {
@@ -808,7 +656,6 @@ export const debugDocStructure = (): void => {
     tabId,
     isFirstTab,
     children,
-    apiBlocks,
   };
 
   const template = HtmlService.createTemplateFromFile("Inspector");

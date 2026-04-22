@@ -3,18 +3,9 @@
   "runtimeVersion": "V8",
   "exceptionLogging": "STACKDRIVER",
   "oauthScopes": [
-    "https://www.googleapis.com/auth/documents",
+    "https://www.googleapis.com/auth/documents.currentonly",
     "https://www.googleapis.com/auth/script.container.ui"
   ],
-  "dependencies": {
-    "enabledAdvancedServices": [
-      {
-        "userSymbol": "Docs",
-        "version": "v1",
-        "serviceId": "docs"
-      }
-    ]
-  },
   "addOns": {
     "common": {
       "name": "Mermaid Toolkit",
