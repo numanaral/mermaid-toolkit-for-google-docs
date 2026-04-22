@@ -167,10 +167,11 @@ textarea {
 
   blockquote {
     margin: 8px 0;
-    padding: 8px 16px;
-    border-left: 3px solid var(--brand-teal);
-    background: rgba(0, 0, 0, 0.02);
-    color: var(--outline);
+    padding-left: 36px;
+    border-left: none;
+    background: transparent;
+    color: #5f6368;
+    font-style: italic;
   }
 
   code {

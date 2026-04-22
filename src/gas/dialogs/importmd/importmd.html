@@ -26,12 +26,9 @@
     </div>
   </div>
 
-  <div id="checkbox-notice" class="notice notice-warn" style="display:none">
-    <strong>Note:</strong> Due to a Google API limitation, checkboxes are inserted unchecked. Checked items (<code>[x]</code>) cannot be auto-checked programmatically.
-    <a href="https://mermaid.numanaral.dev/limitations?utm_source=addon&amp;utm_medium=importmd&amp;utm_campaign=mermaid_toolkit#workarounds" target="_blank" rel="noopener">See workarounds</a>
-  </div>
-  <div id="tab-notice" class="notice notice-info" style="display:none">
-    <strong>Heads up:</strong> Inserting checklists on a non-primary tab may take a few extra seconds due to a Google API limitation.
+  <div id="checkbox-notice" class="notice notice-info" style="display:none">
+    <strong>Heads up:</strong> The Apps Script API can't create native Google Docs&#8482; checkbox glyphs, so <code>- [ ]</code> / <code>- [x]</code> items are inserted as ordinary bullet list items whose text begins with a literal <code>[ ]</code> or <code>[x]</code> marker.
+    <a href="https://mermaid.numanaral.dev/limitations?utm_source=addon&amp;utm_medium=importmd&amp;utm_campaign=mermaid_toolkit#plain-text-checkboxes" target="_blank" rel="noopener">See details</a>
   </div>
   <div id="status"><span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>Loading libraries...</div>
 

@@ -61,7 +61,15 @@ interface Seg {
 }
 
 interface ImportElement {
-  type: "heading" | "paragraph" | "code" | "image" | "list" | "table" | "hr";
+  type:
+    | "heading"
+    | "paragraph"
+    | "code"
+    | "image"
+    | "list"
+    | "table"
+    | "hr"
+    | "blockquote";
   content: Seg[];
   level?: number;
   base64?: string;
@@ -83,10 +91,8 @@ const statusEl = document.getElementById("status")!;
 const insertBtn = document.getElementById("insert-btn") as HTMLButtonElement;
 const replaceBtn = document.getElementById("replace-btn") as HTMLButtonElement;
 const checkboxNotice = document.getElementById("checkbox-notice")!;
-const tabNotice = document.getElementById("tab-notice")!;
 
 let mermaidReady = false;
-let isFirstTab: boolean | null = null;
 let renderTimer: ReturnType<typeof setTimeout> | null = null;
 let parsedTokens: Token[] = [];
 let mermaidImages: Map<number, string> = new Map();
@@ -172,9 +178,19 @@ const renderInlineTokens = (tokens: Token[]): string => {
   return html;
 };
 
+// Renders a list token but swaps marked's GFM checkbox `<input>` elements for
+// literal `[ ]` / `[x] ` text so the preview matches exactly what the import
+// will place in the document. Post-processing marked's output is safer than
+// pre-processing the markdown source: marked@17 emits a single, predictable
+// shape for task items so the regex stays trivial and isn't trying to
+// reimplement the parser.
 const renderListHtml = (list: Token): string => {
-  const raw = list.raw.replace(/^(\s*(?:[-*+]|\d+\.)\s+)\[x\]/gim, "$1[ ]");
-  return marked.parse(raw);
+  return marked
+    .parse(list.raw)
+    .replace(/<li[^>]*>\s*<input\s+([^>]*)>\s*/g, (match, attrs: string) => {
+      if (!/type="checkbox"/.test(attrs)) return match;
+      return `<li>${/\bchecked\b/.test(attrs) ? "[x] " : "[ ] "}`;
+    });
 };
 
 const renderTokenToHtml = (token: Token, idx: number): string => {
@@ -333,14 +349,18 @@ const tokenToPayload = (token: Token, idx: number): ImportElement | null => {
     }
     case "blockquote": {
       const segs: Seg[] = [];
-      for (const child of token.tokens ?? []) {
+      const children = token.tokens ?? [];
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
         if (child.type === "paragraph") {
+          if (i > 0) segs.push({ t: "\n" });
           segs.push(...inlineToSegments(child.tokens ?? []));
-        } else {
-          segs.push({ t: child.raw });
+        } else if (child.type !== "space") {
+          if (i > 0) segs.push({ t: "\n" });
+          segs.push({ t: child.raw.trim() });
         }
       }
-      return { type: "paragraph", content: [{ t: "> " }, ...segs] };
+      return { type: "blockquote", content: segs };
     }
     case "hr":
       return { type: "hr", content: [] };
@@ -354,6 +374,8 @@ const tokenToPayload = (token: Token, idx: number): ImportElement | null => {
   }
 };
 
+const TASK_ITEM_RE = /^\s*(?:[-*+]|\d+\.)\s+\[[ xX]\]\s/m;
+
 const renderPreview = async (): Promise<void> => {
   const md = sourceEl.value;
   if (!md.trim()) {
@@ -362,7 +384,6 @@ const renderPreview = async (): Promise<void> => {
     insertBtn.disabled = true;
     replaceBtn.disabled = true;
     checkboxNotice.style.display = "none";
-    tabNotice.style.display = "none";
     statusEl.textContent = "Ready.";
     return;
   }
@@ -378,11 +399,7 @@ const renderPreview = async (): Promise<void> => {
   parsedTokens = marked.lexer(md);
   mermaidImages = new Map();
 
-  const hasCheckedItems = md.includes("[x]") || md.includes("[X]");
-  const hasAnyChecklist = /- \[[ xX]\]/.test(md);
-  checkboxNotice.style.display = hasCheckedItems ? "" : "none";
-  tabNotice.style.display =
-    hasAnyChecklist && isFirstTab === false ? "" : "none";
+  checkboxNotice.style.display = TASK_ITEM_RE.test(md) ? "" : "none";
 
   const htmlParts: string[] = [];
 
@@ -536,12 +553,6 @@ pasteBtn.addEventListener("click", async () => {
 
 (async () => {
   try {
-    google.script.run
-      .withSuccessHandler((first: boolean) => {
-        isFirstTab = first;
-      })
-      .isActiveTabFirst();
-
     await loadScript(MARKED_CDN_URL);
     await loadScript(MERMAID_CDN_URL);
 
