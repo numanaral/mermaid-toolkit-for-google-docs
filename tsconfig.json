@@ -14,6 +14,7 @@
   },
   "include": [
     "site/scripts/**/*.ts",
+    "site/_data/**/*.ts",
     "scripts/**/*.ts",
     "eslint.config.ts"
   ],

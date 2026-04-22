@@ -58,6 +58,25 @@
 .legal h2 .anchor-link:hover {
   opacity: 1 !important;
 }
+.legal h3 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+.legal .changelog-entry {
+  margin-bottom: 1.5rem;
+}
+.legal .changelog-date {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: -0.25rem;
+  margin-bottom: 1rem;
+}
+.legal .changelog-date time {
+  font-variant-numeric: tabular-nums;
+}
 .legal p {
   font-size: 0.92rem;
   color: var(--text-dim);
