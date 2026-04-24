@@ -3,12 +3,22 @@
 @use "layout/nav";
 @use "layout/footer";
 @use "components/pending";
+@use "components/pretty-link";
 @use "base/responsive";
 
 .legal {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 2rem 5rem;
+}
+
+// Prose inside `.legal` is rendered from markdown (e.g.
+// `/changelog/` parses CHANGELOG.md), so we can't tag each
+// anchor by hand — apply the pretty-link treatment to all
+// descendant prose anchors. `.anchor-link` is the chain icon
+// injected into h2s by shared JS and must stay plain.
+.legal a:not(.anchor-link) {
+  @include pretty-link.pretty-link;
 }
 .legal h1 {
   font-size: 2.2rem;

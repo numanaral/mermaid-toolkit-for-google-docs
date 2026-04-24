@@ -28,7 +28,7 @@ sitemapPriority: 0.5
         </div>
         <p>Checklist items (<code>- [ ]</code> / <code>- [x]</code>) are imported as ordinary bullet list items whose text starts with a literal <code>[ ]</code> or <code>[x]</code> marker instead of being converted to Google Docs™ native checkbox glyphs.</p>
         <div class="limitation-detail">
-          <strong>Why:</strong> The <code>DocumentApp</code> API available to Apps Script add-ons has no method for creating native Google Docs™ checkbox glyphs — no <code>createChecklist()</code>, no <code>GlyphType.CHECKBOX</code>. The only path to native checkboxes is a REST call (<code>Docs.Documents.batchUpdate</code> with <code>BULLET_CHECKBOX</code>) that this add-on no longer uses as it requires the broader <code>documents</code> OAuth scope. The plain-text representation gives a checkbox-like UX using the primitives <code>DocumentApp</code> actually exposes. See the <a href="/changelog/#v1-1-0" title="Introduced in v1.1.0">v1.1.0 changelog entry</a> for the full rationale.
+          <strong>Why:</strong> The <code>DocumentApp</code> API available to Apps Script add-ons has no method for creating native Google Docs™ checkbox glyphs — no <code>createChecklist()</code>, no <code>GlyphType.CHECKBOX</code>. The only path to native checkboxes is a REST call (<code>Docs.Documents.batchUpdate</code> with <code>BULLET_CHECKBOX</code>) that this add-on no longer uses as it requires the broader <code>documents</code> OAuth scope. The plain-text representation gives a checkbox-like UX using the primitives <code>DocumentApp</code> actually exposes. See the <a href="/changelog/#v1-1-0" class="pretty-link" title="Introduced in v1.1.0">v1.1.0 changelog entry</a> for the full rationale.
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@ sitemapPriority: 0.5
         </div>
         <p>When importing markdown with fenced code blocks, the add-on inserts them as single-cell tables with a monospace font and light background — a visual approximation, not a true code block.</p>
         <div class="limitation-detail">
-          <strong>Why:</strong> <code>DocumentApp</code> has no method for creating Google Docs™ <a href="https://workspaceupdates.googleblog.com/2022/12/format-display-code-google-docs.html" target="_blank" rel="noopener">native Code Blocks</a> (the <strong>Insert → Building blocks → Code blocks</strong> element), and that feature is only available on some paid Workspace plans and not personal accounts. A single-cell table is the closest way to get a similar visual result.
+          <strong>Why:</strong> <code>DocumentApp</code> has no method for creating Google Docs™ <a href="https://workspaceupdates.googleblog.com/2022/12/format-display-code-google-docs.html" class="pretty-link" target="_blank" rel="noopener">native Code Blocks</a> (the <strong>Insert → Building blocks → Code blocks</strong> element), and that feature is only available on some paid Workspace plans and not personal accounts. A single-cell table is the closest way to get a similar visual result.
         </div>
       </div>
     </div>
@@ -132,7 +132,7 @@ sitemapPriority: 0.5
           <li>Run <strong>Convert All Code to Diagrams</strong> to render any mermaid code blocks as diagrams</li>
         </ol>
         <div class="limitation-detail">
-          <strong>Trade-offs:</strong> Native paste doesn't apply our inline code styling, table header highlighting, or automatic diagram rendering, and fenced code blocks only land as native Code Blocks on plans that support that feature — personal accounts and starter-tier Workspace plans get plain paragraphs instead. "Paste as Markdown" itself is <a href="https://support.google.com/docs/answer/12014036" target="_blank" rel="noopener">available on all Google Docs™ accounts</a>, including personal ones.
+          <strong>Trade-offs:</strong> Native paste doesn't apply our inline code styling, table header highlighting, or automatic diagram rendering, and fenced code blocks only land as native Code Blocks on plans that support that feature — personal accounts and starter-tier Workspace plans get plain paragraphs instead. "Paste as Markdown" itself is <a href="https://support.google.com/docs/answer/12014036" class="pretty-link" target="_blank" rel="noopener">available on all Google Docs™ accounts</a>, including personal ones.
         </div>
       </div>
     </div>
@@ -155,13 +155,13 @@ sitemapPriority: 0.5
           <li>If the Mermaid code is mangled, paste it into our <strong>Fix Native "Copy as Markdown"</strong> tool to repair it</li>
         </ol>
         <div class="limitation-detail">
-          <strong>Why the add-on's exporter doesn't do this:</strong> The <code>DocumentApp</code> API exposes paragraphs and list items but not the checked/unchecked state of native checkbox glyphs. Google's native Copy-as-Markdown reads the underlying data model directly, so it can preserve that state. The trade-off is that its Mermaid syntax output is often mangled — the Fix tool handles that part. "Copy as Markdown" is <a href="https://support.google.com/docs/answer/12014036" target="_blank" rel="noopener">available on all Google Docs™ accounts</a>, including personal ones.
+          <strong>Why the add-on's exporter doesn't do this:</strong> The <code>DocumentApp</code> API exposes paragraphs and list items but not the checked/unchecked state of native checkbox glyphs. Google's native Copy-as-Markdown reads the underlying data model directly, so it can preserve that state. The trade-off is that its Mermaid syntax output is often mangled — the Fix tool handles that part. "Copy as Markdown" is <a href="https://support.google.com/docs/answer/12014036" class="pretty-link" target="_blank" rel="noopener">available on all Google Docs™ accounts</a>, including personal ones.
         </div>
       </div>
     </div>
 
     <div class="limitations-footer reveal">
-      <p>Have questions about any of these? <a href="/support">Reach out on the support page</a> or <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs/issues" target="_blank" rel="noopener">open an issue on GitHub</a>.</p>
+      <p>Have questions about any of these? <a href="/support" class="pretty-link">Reach out on the support page</a> or <a href="https://github.com/numanaral/mermaid-toolkit-for-google-docs/issues" class="pretty-link" target="_blank" rel="noopener">open an issue on GitHub</a>.</p>
     </div>
   </div>
   </main>

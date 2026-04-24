@@ -164,16 +164,6 @@
     font-size: 0.9rem;
     color: var(--text-dim);
   }
-
-  a {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-
-    &:hover {
-      color: var(--accent-hover);
-    }
-  }
 }
 
 .workarounds-heading,
