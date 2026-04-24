@@ -4,7 +4,7 @@
   <style>/* BUILD:INLINE_CSS */</style>
 </head>
 <body>
-  <script>(function(){var t=document.createElement('div');t.tabIndex=0;t.style.cssText='position:fixed;opacity:0;width:0;height:0;overflow:hidden';t.setAttribute('aria-hidden','true');document.body.insertBefore(t,document.body.firstChild);function f(){t.focus({preventScroll:true})}var d=[0,50,100,150,200,300,500,800,1200];for(var i=0;i<d.length;i++)setTimeout(f,d[i]);setTimeout(function(){t.tabIndex=-1},1500)})();</script>
+  <!-- BUILD:FOCUS_TRAP -->
   <div class="toolbar">
     <div class="toolbar-spacer"></div>
     <button class="btn btn-filled-secondary" id="replace-btn" disabled>Replace Document</button>
@@ -26,9 +26,12 @@
     </div>
   </div>
 
-  <div id="checkbox-notice" class="notice notice-info" style="display:none">
-    <strong>Heads up:</strong> The Apps Script API can't create native Google Docs&#8482; checkbox glyphs, so <code>- [ ]</code> / <code>- [x]</code> items are inserted as ordinary bullet list items whose text begins with a literal <code>[ ]</code> or <code>[x]</code> marker.
-    <a href="https://mermaid.numanaral.dev/limitations?utm_source=addon&amp;utm_medium=importmd&amp;utm_campaign=mermaid_toolkit#plain-text-checkboxes" target="_blank" rel="noopener">See details</a>
+  <div id="import-notice" class="notice notice-info" style="display:none">
+    <strong>Heads up:</strong> Some Google Docs&#8482; constructs aren't natively insertable through the Apps Script API:
+    <ul class="notice-list">
+      <li data-notice="checkbox" style="display:none">Checkboxes aren't supported, so <code>- [ ]</code> / <code>- [x]</code> items render as bullet lines with literal <code>[ ]</code> / <code>[x]</code> text. <a href="https://mermaid.numanaral.dev/limitations?utm_source=addon&amp;utm_medium=importmd&amp;utm_campaign=mermaid_toolkit#plain-text-checkboxes" target="_blank" rel="noopener">See details</a></li>
+      <li data-notice="codeblock" style="display:none">Native code blocks are paid-tier only and not exposed to the API, so non-<code>mermaid</code> fenced blocks render as styled single-cell tables. <a href="https://mermaid.numanaral.dev/limitations?utm_source=addon&amp;utm_medium=importmd&amp;utm_campaign=mermaid_toolkit#code-blocks-inserted-as-tables" target="_blank" rel="noopener">See details</a></li>
+    </ul>
   </div>
   <div id="status"><span class="spinner-inline" style="border-color:rgba(0,0,0,0.15);border-top-color:var(--text-muted)"></span>Loading libraries...</div>
 

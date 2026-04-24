@@ -181,6 +181,9 @@ const assembleDialogs = (assets: DialogAssets[]): void => {
   const footerHtml = fs
     .readFileSync(path.join(SRC, "shared/templates/footer.html"), "utf8")
     .trim();
+  const focusTrapHtml = fs
+    .readFileSync(path.join(SRC, "shared/templates/focus-trap.html"), "utf8")
+    .trim();
   const version = getPackageVersion();
   // Matches the slug the site's changelog data file produces for each release
   // so About can deep-link straight to the current version's section.
@@ -208,6 +211,7 @@ const assembleDialogs = (assets: DialogAssets[]): void => {
     const safeJs = js.replace(/<\//g, "<\\/").replace(/<!--/g, "<\\!--");
     html = html.replace("/* BUILD:INLINE_JS */", () => safeJs);
     html = html.replace("<!-- BUILD:FOOTER -->", () => footerHtml);
+    html = html.replace("<!-- BUILD:FOCUS_TRAP -->", () => focusTrapHtml);
     html = html.replace(/<!-- BUILD:VERSION-ANCHOR -->/g, versionAnchor);
     html = html.replace(/<!-- BUILD:VERSION -->/g, version);
 
