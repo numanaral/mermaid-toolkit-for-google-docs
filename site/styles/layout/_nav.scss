@@ -95,11 +95,19 @@ nav {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  transition: transform 0.25s ease, opacity 0.2s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
 }
-.nav-toggle-bar:nth-child(1) { top: 10px; }
-.nav-toggle-bar:nth-child(2) { top: 17px; }
-.nav-toggle-bar:nth-child(3) { top: 24px; }
+.nav-toggle-bar:nth-child(1) {
+  top: 10px;
+}
+.nav-toggle-bar:nth-child(2) {
+  top: 17px;
+}
+.nav-toggle-bar:nth-child(3) {
+  top: 24px;
+}
 .nav-toggle.open .nav-toggle-bar:nth-child(1) {
   top: 17px;
   transform: translateX(-50%) rotate(45deg);

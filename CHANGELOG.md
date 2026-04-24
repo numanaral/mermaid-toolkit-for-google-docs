@@ -14,22 +14,31 @@ The Google Apps Script `DocumentApp` API — the API available to Google Workspa
 
 v1.0.0 bridged this gap by enabling the Advanced Service, which in turn required the broader `documents` OAuth scope. That scope gives an application continuous, offline access to every Google Docs™ file the user owns — far more than this add-on ever needed.
 
-Google's OAuth verification team declined to approve the `documents` scope for this add-on (correctly, given the minimum-scope policy). v1.1.0 removes the Advanced Service dependency entirely and replaces native checkboxes with a plain-text `[ ] ` / `[x] ` representation inside ordinary bullet list items. The scope narrows from `documents` to `documents.currentonly`, which limits the add-on to the currently open document and removes all offline access.
+Google's OAuth verification team declined to approve the `documents` scope for this add-on. `documents` grants continuous, offline access to every Google Docs™ file the user owns, and this add-on genuinely doesn't need that breadth — it only operates on the document the user has open and only while a dialog is live. We ended up requesting the broad scope as a package deal: the Docs Advanced Service (our only supported path to native checkbox creation and batched document edits) requires it, and _we_ required the Advanced Service. Under Google's minimum-scope policy, "an API I depend on requires this scope" isn't, on its own, sufficient justification — the burden is on the app to find a narrower path, even if that means giving up functionality.
+
+v1.1.0 gives up that functionality. It removes the Advanced Service dependency entirely and replaces native checkboxes (and code blocks) with a plain-text `[ ] ` / `[x] ` representation inside ordinary bullet list items. The scope narrows from `documents` to `documents.currentonly`, which limits the add-on to the currently open document and removes all offline access.
 
 ### Changed
 
 - **OAuth scope:** `documents` → `documents.currentonly`. The add-on can no longer reach any file other than the one you have open, and has no continuous or offline access. Although this removes some functionality, it's the only way to get approval.
 - **Removed Docs Advanced Service dependency.** Import and export now run entirely through `DocumentApp`. No `Docs.Documents.get`, no `Docs.Documents.batchUpdate`.
-- **Checklists use plain-text `[ ] ` / `[x] ` markers.** Markdown checklist items (`- [ ]`, `- [x]`) are imported as ordinary bullet list items whose text begins with a literal `[ ] ` or `[x] ` prefix. Export reads the prefix back into standard markdown so state round-trips.
-- **Checkbox state round-trips losslessly.** A task imported as `- [x] Done` exports as `- [x] Done`. The previous release had to export every task as unchecked because the Docs REST API never exposed the checked state.
+- **Checklists use plain-text `[ ] ` / `[x] ` markers.** Markdown checklist items (`- [ ]`, `- [x]`) are imported as ordinary bullet list items whose text begins with a literal `[ ] ` or `[x] ` prefix.
+- **Blockquotes render as indented italic paragraphs.** Markdown `> …` lines use `DocumentApp`'s paragraph indent + italic formatting instead of a literal `> ` prefix, matching how Google Docs™ renders blockquotes visually. Export still emits standard `> ` markdown.
+- **Spacer paragraphs between heavy blocks.** Consecutive lists, tables, and blockquotes are now separated by a blank paragraph on import, avoiding the "clumped" rendering the previous release produced.
+- **Import dialog notices unified.** Checkbox and code-block advisories are now a single notice that shows only the bullets that apply to the current markdown, instead of stacking two separate blocks.
 
 ### Added
 
 - **Changelog page.** A new `/changelog/` page on the site renders this file directly at build time, and links from the navigation and footer.
+- **About dialog deep-links the version to the changelog.** Clicking the version number in the About dialog opens the current release's entry on the site.
+
+### Fixed
+
+- **Dialogs no longer steal focus from your input.** The opening focus-hammer that beats Google Docs' focus-steal now disables itself as soon as you click or type anywhere, so focus stays in the textarea / field you moved to.
 
 ### Removed
 
-- **Docs API Blocks debug tab** in the Dev Tools → Inspect Document inspector. The tab relied on `Docs.Documents.get` and cannot function under the narrower scope. The inspector keeps the `DocumentApp`-based view and adds new columns (listId, nesting level, indent) to partially cover the loss.
+- **Docs API Blocks debug tab** in the Dev Tools → Inspect Document inspector. The tab relied on `Docs.Documents.get` and cannot function under the narrower scope. The inspector keeps the `DocumentApp`-based view with `List`, `Nest`, `Indent`, and `Text` columns.
 - **Non-primary tab latency warning** in the Import from Markdown dialog. The 5–6 second latency it warned about came from the REST API round-trip and no longer exists.
 
 ## [v1.0.0] — 2026-04-21
