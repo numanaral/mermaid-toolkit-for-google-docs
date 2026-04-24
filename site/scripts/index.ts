@@ -264,22 +264,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const linkSvg =
     '<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>';
-  document.querySelectorAll(".legal h2, .feature-text h2").forEach((h2) => {
+  // Any h2 inside <main> gets an auto-injected anchor link. The h2's
+  // existing children are moved into an inline-block `.h2-inner` span
+  // so the anchor icon can be positioned relative to the *text* width
+  // (not the h2's full-width container), keeping it snugly left of
+  // the heading text regardless of section centering/padding.
+  document.querySelectorAll("main h2").forEach((h2) => {
+    const text = (h2.textContent || "").trim();
     const id =
       h2.id ||
-      (h2.textContent || "")
-        .trim()
+      text
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
-    if (!id) return;
+    if (!id || !text) return;
     h2.id = id;
     if (h2.querySelector(".anchor-link")) return;
+
+    const inner = document.createElement("span");
+    inner.className = "h2-inner";
+    while (h2.firstChild) inner.appendChild(h2.firstChild);
+
     const a = document.createElement("a");
     a.href = `#${id}`;
     a.className = "anchor-link";
-    a.setAttribute("aria-label", `Link to ${h2.textContent}`);
+    a.setAttribute("aria-label", `Link to ${text}`);
     a.innerHTML = linkSvg;
-    h2.prepend(a);
+    inner.prepend(a);
+
+    h2.appendChild(inner);
   });
 });

@@ -13,14 +13,9 @@ sitemapPriority: 0.4
   </section>
   <div class="legal">
     {% for release in changelog.versions %}
-    <article class="changelog-entry" id="{{ release.id }}">
-      <h2>
-        <a href="#{{ release.id }}" class="anchor-link" aria-label="Link to {{ release.version }}">#</a>
-        {{ release.version }}{% if release.tagline %} — {{ release.tagline }}{% endif %}
-      </h2>
-      {% if release.date %}<p class="changelog-date"><time datetime="{{ release.date }}">{{ release.date }}</time></p>{% endif %}
-      {{ release.html | safe }}
-    </article>
+    <h2 id="{{ release.id }}">{{ release.version }}{% if release.tagline %} — {{ release.tagline }}{% endif %}</h2>
+    {% if release.date %}<p class="changelog-date"><time datetime="{{ release.date }}">{{ release.date }}</time></p>{% endif %}
+    {{ release.html | safe }}
     {% endfor %}
   </div>
 </main>

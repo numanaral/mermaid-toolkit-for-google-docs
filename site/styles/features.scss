@@ -40,32 +40,6 @@
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
-  position: relative;
-}
-.anchor-link {
-  position: absolute;
-  left: -1.4em;
-  color: var(--accent);
-  text-decoration: none;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-.feature-text h2:hover .anchor-link {
-  opacity: 0.6;
-}
-.anchor-link:hover {
-  opacity: 1 !important;
-  text-decoration: none;
-}
-.anchor-link svg {
-  width: 0.85em;
-  height: 0.85em;
-  vertical-align: middle;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 .feature-text p {
   font-size: 0.92rem;
