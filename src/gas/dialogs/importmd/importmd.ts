@@ -90,7 +90,25 @@ const previewEl = document.getElementById("preview-area")!;
 const statusEl = document.getElementById("status")!;
 const insertBtn = document.getElementById("insert-btn") as HTMLButtonElement;
 const replaceBtn = document.getElementById("replace-btn") as HTMLButtonElement;
-const checkboxNotice = document.getElementById("checkbox-notice")!;
+const importNotice = document.getElementById("import-notice")!;
+const checkboxNoticeItem = importNotice.querySelector<HTMLElement>(
+  '[data-notice="checkbox"]',
+)!;
+const codeblockNoticeItem = importNotice.querySelector<HTMLElement>(
+  '[data-notice="codeblock"]',
+)!;
+let lastNoticeKey = "";
+const updateImportNotice = (
+  hasCheckbox: boolean,
+  hasCodeblock: boolean,
+): void => {
+  const key = (hasCheckbox ? "c" : "") + (hasCodeblock ? "b" : "");
+  if (key === lastNoticeKey) return;
+  lastNoticeKey = key;
+  importNotice.style.display = key ? "" : "none";
+  checkboxNoticeItem.style.display = hasCheckbox ? "" : "none";
+  codeblockNoticeItem.style.display = hasCodeblock ? "" : "none";
+};
 
 let mermaidReady = false;
 let renderTimer: ReturnType<typeof setTimeout> | null = null;
@@ -376,6 +394,21 @@ const tokenToPayload = (token: Token, idx: number): ImportElement | null => {
 
 const TASK_ITEM_RE = /^\s*(?:[-*+]|\d+\.)\s+\[[ xX]\]\s/m;
 
+const hasNonMermaidCodeBlock = (tokens: Token[] | undefined): boolean => {
+  if (!tokens) return false;
+  for (const t of tokens) {
+    if (t.type === "code" && t.lang !== "mermaid") return true;
+    if (t.tokens && hasNonMermaidCodeBlock(t.tokens)) return true;
+    if (t.items) {
+      for (const item of t.items) {
+        if (hasNonMermaidCodeBlock(item.tokens as Token[] | undefined))
+          return true;
+      }
+    }
+  }
+  return false;
+};
+
 const renderPreview = async (): Promise<void> => {
   const md = sourceEl.value;
   if (!md.trim()) {
@@ -383,7 +416,12 @@ const renderPreview = async (): Promise<void> => {
       '<div class="placeholder">Paste markdown to see a preview.</div>';
     insertBtn.disabled = true;
     replaceBtn.disabled = true;
-    checkboxNotice.style.display = "none";
+    // scheduleRender flips the buttons into the loading/spinner state
+    // on every keystroke; clear it here so deleting all text doesn't
+    // leave the buttons stuck pending forever.
+    setBtnLoading(insertBtn, false);
+    setBtnLoading(replaceBtn, false);
+    updateImportNotice(false, false);
     statusEl.textContent = "Ready.";
     return;
   }
@@ -399,7 +437,13 @@ const renderPreview = async (): Promise<void> => {
   parsedTokens = marked.lexer(md);
   mermaidImages = new Map();
 
-  checkboxNotice.style.display = TASK_ITEM_RE.test(md) ? "" : "none";
+  // Non-mermaid fenced code blocks get rendered server-side as single-cell
+  // tables (see import-md.ts → appendCodeBlock). Walk the full token tree
+  // so code blocks nested inside list items and blockquotes are still caught.
+  updateImportNotice(
+    TASK_ITEM_RE.test(md),
+    hasNonMermaidCodeBlock(parsedTokens),
+  );
 
   const htmlParts: string[] = [];
 
