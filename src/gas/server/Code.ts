@@ -2,7 +2,7 @@
  * GAS menu + menu handler entrypoints, and re-exports for dialog RPC (google.script.run).
  * Build bundles this file into Code.gs (see scripts/build-gas.ts). Logic lives in sibling modules.
  */
-import { tryGetSelectedMermaidImage } from "./images";
+import { bakeAllFenceSources, tryGetSelectedMermaidImage } from "./images";
 import {
   tryGetMermaidSnippetForConvert,
   tryGetMermaidSnippetForPreview,
@@ -26,6 +26,7 @@ export function onOpen(): void {
     .addSeparator()
     .addItem("Convert All Code to Diagrams", "scanAndRender")
     .addItem("Convert Selected Code to Diagram", "convertSelectedCodeToDiagram")
+    .addItem("Register Diagram Sources", "registerDiagramSources")
     .addSeparator()
     .addItem("Convert All Diagrams to Code", "extractMermaidFromImages")
     .addItem("Convert Selected Diagram to Code", "convertSelectedImageToCode")
@@ -57,6 +58,38 @@ export function convertSelectedCodeToDiagram(): void {
   const snippet = tryGetMermaidSnippetForConvert();
   if (!snippet) return;
   openConvertDialog(snippet.definition, snippet.startIdx, snippet.endIdx);
+}
+
+/**
+ * Adopt diagrams that were authored by another tool.
+ *
+ * Tools that drive Google Docs over the REST APIs (gws, gog) can write
+ * paragraphs but cannot write an InlineImage's alt text, so they leave the
+ * Mermaid source in a ```mermaid fence beside the rendered image. This walks
+ * the document, moves each such source into the image alt text, and drops the
+ * fence, after which the diagram behaves like one this add-on inserted.
+ */
+export function registerDiagramSources(): void {
+  const { baked } = bakeAllFenceSources();
+  const ui = DocumentApp.getUi();
+
+  if (baked === 0) {
+    ui.alert(
+      "No markdown-fenced diagrams found.\n\n" +
+        "A diagram is registered when a ```mermaid block sits immediately " +
+        "before or after an image.",
+    );
+    return;
+  }
+
+  ui.alert(
+    "Registered " +
+      baked +
+      (baked === 1 ? " diagram." : " diagrams.") +
+      "\n\nThe Mermaid source now lives in the image alt text and the markdown " +
+      "fence is gone. Edit All Mermaid Diagrams, Convert Diagram to Code and " +
+      "Export as Markdown all work on it now.",
+  );
 }
 
 export function editSelectedMermaidImage(): void {

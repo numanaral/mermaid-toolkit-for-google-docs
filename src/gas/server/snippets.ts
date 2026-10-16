@@ -1,11 +1,32 @@
 import type { MermaidSnippet } from "./types";
 import {
-  getParaText,
-  isMermaidFirstLine,
+  readFenceBlockAt,
   tryExtractFencedMermaid,
   tryExtractMermaidFromBlock,
 } from "./doc-utils";
 import { timeServer } from "./server-perf";
+
+/** True when a body child is, or contains, an inline image. */
+const hasInlineImage = (child: GoogleAppsScript.Document.Element): boolean => {
+  if (child.getType() === DocumentApp.ElementType.INLINE_IMAGE) return true;
+  if (child.getType() !== DocumentApp.ElementType.PARAGRAPH) return false;
+
+  const para = child.asParagraph();
+  for (let j = 0; j < para.getNumChildren(); j++) {
+    if (para.getChild(j).getType() === DocumentApp.ElementType.INLINE_IMAGE) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const hasInlineImageAt = (
+  body: GoogleAppsScript.Document.Body,
+  index: number,
+): boolean => {
+  if (index < 0 || index >= body.getNumChildren()) return false;
+  return hasInlineImage(body.getChild(index));
+};
 
 export const findMermaidSnippets = (): MermaidSnippet[] => {
   const body = DocumentApp.getActiveDocument().getBody();
@@ -48,43 +69,28 @@ export const findMermaidSnippets = (): MermaidSnippet[] => {
 
     if (type !== DocumentApp.ElementType.PARAGRAPH) continue;
 
-    const text = getParaText(child);
-    const trimmed = text.trim();
+    // Paragraph-only fenced block: one paragraph for the opening fence, one per
+    // source line, then a closing ``` paragraph.
+    const fenced = readFenceBlockAt(body, i);
+    if (fenced) {
+      // A fence beside an image is that image's source carrier, not a snippet to
+      // render. "Register Diagram Sources" adopts it; rendering it here would
+      // produce a second image next to the one it belongs to.
+      if (
+        hasInlineImageAt(body, i - 1) ||
+        hasInlineImageAt(body, fenced.endIdx + 1)
+      ) {
+        i = fenced.endIdx;
+        continue;
+      }
 
-    const singleDef = tryExtractFencedMermaid(trimmed);
-    if (singleDef) {
-      results.push({ definition: singleDef, startIdx: i, endIdx: i });
+      results.push({
+        definition: fenced.definition,
+        startIdx: i,
+        endIdx: fenced.endIdx,
+      });
+      i = fenced.endIdx;
       continue;
-    }
-
-    if (trimmed === "```mermaid" || trimmed.startsWith("```mermaid\n")) {
-      const lines = [trimmed.replace(/^```mermaid\n?/, "")];
-      let endIdx = i;
-      let found = false;
-
-      for (let j = i + 1; j < n; j++) {
-        const jChild = body.getChild(j);
-        if (jChild.getType() !== DocumentApp.ElementType.PARAGRAPH) break;
-
-        const jText = getParaText(jChild).trim();
-        if (jText === "```") {
-          endIdx = j;
-          found = true;
-          break;
-        }
-        lines.push(jText);
-      }
-
-      if (!found) continue;
-
-      const definition = lines.join("\n").trim();
-      if (!definition) continue;
-
-      const firstLine = definition.split("\n")[0];
-      if (isMermaidFirstLine(firstLine)) {
-        results.push({ definition, startIdx: i, endIdx });
-        i = endIdx;
-      }
     }
   }
 

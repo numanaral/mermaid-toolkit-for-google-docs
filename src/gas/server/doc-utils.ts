@@ -54,6 +54,71 @@ export const tryExtractFencedMermaid = (text: string): string | null => {
   return definition;
 };
 
+export const MERMAID_FENCE_OPEN = "```mermaid";
+
+/**
+ * Read a fenced Mermaid block that starts at body child `startIdx`.
+ *
+ * Two shapes are accepted, which are the two shapes GitLab Flavored Markdown
+ * and this add-on's own markdown import produce:
+ *
+ *   1. a single paragraph holding the whole ```mermaid … ``` block, and
+ *   2. an opening ```mermaid paragraph followed by one paragraph per source
+ *      line, terminated by a paragraph holding just ```.
+ *
+ * The paragraph form matters for interoperability: the Google Docs and Drive
+ * APIs can insert text but cannot write an InlineImage's alt text, so a fence
+ * is the only way an external tool can hand a definition to this add-on.
+ */
+export const readFenceBlockAt = (
+  body: GoogleAppsScript.Document.Body,
+  startIdx: number,
+): { definition: string; endIdx: number } | null => {
+  const first = body.getChild(startIdx);
+  if (first.getType() !== DocumentApp.ElementType.PARAGRAPH) return null;
+
+  const trimmed = getParaText(first).trim();
+
+  const single = tryExtractFencedMermaid(trimmed);
+  if (single) return { definition: single, endIdx: startIdx };
+
+  if (
+    trimmed !== MERMAID_FENCE_OPEN &&
+    !trimmed.startsWith(MERMAID_FENCE_OPEN + "\n")
+  ) {
+    return null;
+  }
+
+  const lines = [trimmed.replace(/^```mermaid\n?/, "")];
+  const n = body.getNumChildren();
+  let endIdx = -1;
+
+  for (let j = startIdx + 1; j < n; j++) {
+    const child = body.getChild(j);
+    if (child.getType() !== DocumentApp.ElementType.PARAGRAPH) break;
+
+    // Keep the line verbatim apart from its paragraph terminator: indentation is
+    // significant to some diagram types (treeView-beta, nested subgraphs) and
+    // the source should survive the round trip unchanged.
+    const text = getParaText(child).replace(/\n$/, "");
+    if (text.trim() === "```") {
+      endIdx = j;
+      break;
+    }
+    lines.push(text);
+  }
+
+  if (endIdx === -1) return null;
+
+  const definition = lines.join("\n").trim();
+  if (!definition) return null;
+
+  const firstLine = definition.split("\n")[0];
+  if (!isMermaidFirstLine(firstLine)) return null;
+
+  return { definition, endIdx };
+};
+
 /**
  * Read the text of a block-level element robustly. Native Google Docs code
  * blocks ("Insert → Building blocks → Code block") are surfaced by the

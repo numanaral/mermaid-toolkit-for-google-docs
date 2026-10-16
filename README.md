@@ -31,6 +31,7 @@
 - **Insert Mermaid Diagram** — Side-by-side editor with real-time preview, syntax highlighting, and starter templates
 - **Convert All Code to Diagrams** — Scans your entire document for Mermaid code blocks and renders them all as high-quality diagrams without leaving docs
 - **Convert Selected Code to Diagram** — Render a single selected code block without scanning the whole document
+- **Register Diagram Sources** — Adopt images whose Mermaid source sits in a neighbouring markdown fence (how `gws`/`gog`-authored docs arrive), moving the source into the image alt text
 - **Edit Selected Mermaid Diagram** — Click any diagram and edit its source in place
 - **Edit All Mermaid Diagrams** — Browse every diagram in your document, expand any card to edit its source inline with a live preview, and save changes in place
 - **Convert Diagram to Code** — Extract the original Mermaid source from any diagram inserted by this add-on (single or bulk)
@@ -91,6 +92,36 @@
 4. Pick a template from the dropdown to get started quickly
 5. Click **Insert into Document** when you're happy with the result
 
+### Register diagrams authored by other tools
+
+A diagram does not have to be rendered by this add-on. Any tool that can write
+paragraphs to a Google Doc™ can contribute one: render the image elsewhere, place
+it in the document, and put the source in a `mermaid` fence immediately after
+the image.
+
+````markdown
+```mermaid
+graph TD
+  A-->B;
+```
+````
+
+Then run **Extensions → Mermaid Toolkit → Register Diagram Sources**. Each image
+paired with a fence has its source moved into the image alt text and the fence
+removed. From that moment it behaves exactly like a diagram this add-on inserted:
+**Edit All Mermaid Diagrams**, **Convert Diagram to Code** and **Export as
+Markdown** all work on it.
+
+> **Why a fence?** The Google Docs™ and Drive™ REST APIs can insert paragraphs
+> and inline images, but they cannot write an image's alt title or description,
+> which is where this add-on normally keeps the source. A markdown fence is the
+> only carrier such a tool can leave behind. It is also the syntax that GitLab
+> Flavored Markdown, GitHub, Obsidian and most markdown renderers use for the
+> same purpose, so a document authored this way stays portable.
+
+Editing a single diagram (**Edit Selected Mermaid Diagram**, **Convert Selected
+Diagram to Code**) registers it at the same time.
+
 ### Fix native "Copy as Markdown"
 
 1. Go to **Extensions → Mermaid Toolkit → Fix Native "Copy as Markdown"**
@@ -100,6 +131,7 @@
 ### Other menu options
 
 - **Convert Selected Code to Diagram** — Select text and render just that as a diagram
+- **Register Diagram Sources** — Adopt images paired with a `mermaid` fence, writing the source into their alt text
 - **Edit Selected Mermaid Diagram** — Click a diagram and edit its source
 - **Edit All Mermaid Diagrams** — Browse and edit every diagram in your document with inline live preview
 - **Convert Selected Diagram to Code** — Extract Mermaid source from a single diagram
